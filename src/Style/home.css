@@ -1,0 +1,17 @@
+.extra-space-home{
+    margin-top: 65px; 
+} 
+
+.set-image img{
+    width: 100vw;
+    height: 70vh;
+    cursor: pointer;
+    margin:0;
+}
+
+@media screen and (max-width:450px) {
+    .set-image img{
+    height: 30vh;
+    }
+}
+

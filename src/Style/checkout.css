@@ -1,0 +1,113 @@
+.row-checkout {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  /* margin: 0 -16px; */
+}
+
+.col-25 {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+}
+
+.col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+}
+
+.col-75 {
+  -ms-flex: 75%; /* IE10 */
+  flex: 75%;
+}
+
+.col-25,
+.col-50,
+.col-75 {
+  padding: 0 16px;
+}
+
+.container-checkout {
+  background-color: #f2f2f2;
+  padding: 5px 20px 15px 20px;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+}
+
+.row-checkout input[type=text] {
+  width: 100%;
+  /*margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px; */
+   height: 45px;
+    /* float: right; */
+    /* width: 500px; */
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid rgb(0, 0, 0);
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+    margin: 10px;
+}
+
+label {
+  margin-bottom: 7px;
+  display: block;
+}
+
+.icon-container {
+  margin-bottom: 14px;
+  padding: 7px 0;
+  font-size: 24px;
+}
+
+.pd{
+    padding-left: 10px;
+}
+
+
+.btn {
+    font-size: 1.3rem;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+    background-color: rgba(154, 150, 150, 0.527);
+}
+
+.btn:hover {
+    background-color: black;
+    color: white;
+}
+
+span.price {
+  float: right;
+  color: grey;
+}
+
+.container-checkout-cart{
+    background-color: #f2f2f2;
+  padding: 5px 20px 15px 20px;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+}
+
+.container-checkout-cart p{
+    padding: 3px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (and change the direction - make the "cart" column go on top) */
+@media (max-width: 800px) {
+  .row-checkout {
+    flex-direction: column-reverse;
+  }
+  .col-25 {
+    margin-bottom: 20px;
+  }
+}

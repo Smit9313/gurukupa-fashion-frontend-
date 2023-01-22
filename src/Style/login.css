@@ -1,0 +1,13 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+    /* font-family: ; */
+}
+
+.extra-space{
+    height: 130px;
+}
+
+.footer-f h4{
+    margin-top: 30px;
+}
