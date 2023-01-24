@@ -14,6 +14,7 @@ import CartProducts from "./routes/CartProducts";
 import Error from "./routes/Error";
 import Admin from "./admin panel/Admin";
 import Checkout from "./routes/Checkout";
+import Profile from "./routes/Profile";
 
 
 function App() {
@@ -34,8 +35,9 @@ function App() {
         <Route path="/register" component={Register} />
         <Route path="/single-product" component={SingleProduct} />
         <Route path="/cart-products" component={CartProducts} />
-        <Route path="/checkout" component={Checkout}/>
+        <Route path="/checkout" component={Checkout} />
         <Route path="/admin" component={Admin} />
+        <Route path="/profile" component={Profile} />
         <Route path="/*" component={Error} />
       </Switch>
     </div>

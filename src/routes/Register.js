@@ -1,18 +1,20 @@
-import React,{useState, useEffect} from 'react';
-import Navbar from '../components/navbar/Navbar';
-import '../Style/register.css';
-import Footer from './Footer.js';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import Navbar from "../components/navbar/Navbar";
+import "../Style/register.css";
+import Footer from "./Footer.js";
+import axios from "axios";
 
 function Register() {
+  const redirectHome = useHistory();
 
-  const [uname,setUname] = useState("");
-  const [unameError,setUnameError] = useState("");
+  const [uname, setUname] = useState("");
+  const [unameError, setUnameError] = useState("");
   const [nameFlag, setNameFlag] = useState(false);
 
-  const [email,setEmail] = useState("");
-  const [emailError,setEmailError] = useState("");
-  const [emailFlag,setEmailFlag] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [emailFlag, setEmailFlag] = useState(false);
 
   const [pass, setPass] = useState("");
   const [passError, setPassError] = useState("");
@@ -22,18 +24,11 @@ function Register() {
   const [passConError, setPassConError] = useState("");
   const [passConFlag, setPassConFlag] = useState(false);
 
-  const [data, setData] = useState();
+  const [error, setError] = useState("");
 
+  let history = useHistory();
 
-  useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/myview")
-      .then((response) => setData(response.data))
-      // .then(data => setData(data))
-      .catch((error) => console.log(error));
-  }, []);
-
-  const validateRegister = async event =>{
+  const validateRegister = (event) => {
     event.preventDefault();
 
     //****** Username *******/
@@ -120,43 +115,110 @@ function Register() {
       setPassConError("password and confirm password must be same.");
     }
 
-    if (!passConNull && !minPassConLength && !maxPassConLength && pass === passCon) {
+    if (
+      !passConNull &&
+      !minPassConLength &&
+      !maxPassConLength &&
+      pass === passCon
+    ) {
       setPassConFlag(true);
     }
+  };
 
-    data.map((item) => {
-      if (item.email === email) {
-        setEmailFlag(false);
-        setEmailError("Email is already registered...");
-      }
-    }); 
-};
+  if (
+    nameFlag === true &&
+    emailFlag === true &&
+    passFlag === true &&
+    passConFlag === true
+  ) {
+    //  Register Api
 
-  
+    // try {
+    // const response = axios.post('http://127.0.0.1:8000/mongo_auth/signup/', {
+    //       "name": uname,
+    //       "email":email,
+    //       "password":passCon,
+    //   });
+    //    if (response.ok) {
+    //      sessionStorage.setItem("token",response.json().data.token);
+    //    } else {
+    //      // handle error
+    //      console.log("error....");
+    //      console.log(response);
+    //    }
 
+    // axios
+    //   .post("http://127.0.0.1:8000/mongo_auth/signup/", {
+    //     name: uname,
+    //     email: email,
+    //     password: passCon,
+    //   })
+    //   .then((response) => {
+    //     sessionStorage.setItem("email", JSON.stringify(response.data.data));
+    //     // console.log(response.data.data["email"]);
 
+    //     history.push("/home");
+    //   })
+    //   .catch((error) => console.log(error));
 
-   if (
-     nameFlag === true &&
-     emailFlag === true &&
-     passFlag === true &&
-     passConFlag === true
-   ) {
-   axios
-     .post("http://127.0.0.1:8000/myview", {
-       id:Math.random(),
-       name: uname,
-       email: email,
-       passwoed: passCon,
-     })
-     .then((response) => {
-       console.log(response);
-     });
-   }
+    axios.post("http://127.0.0.1:8000/mongo_auth/signup/", {
+      name: uname,
+      email: email,
+      password: passCon,
+    })
+      .then((response) => {
+        // console.log(response.data.data["email"]);
+        console.log("response ",response.status);
+        if (response.status == 200) {
+          axios
+            .post("http://127.0.0.1:8000/mongo_auth/login/", {
+              // name: uname,
+              email: email,
+              password: passCon,
+            })
+            .then((response) => {
+              sessionStorage.setItem(
+                "token",
+                JSON.stringify(response.data.data["token"])
+              );
+              console.log(response);
+
+              history.push("/home");
+            });
+        }
+        history.push("/home");
+      })
+      .catch((error) => console.log(error));
+    //can i declare res like that?yes
+    // console.log(res);
+    // if (res.status == 200) {
+    //   axios
+    //     .post("http://127.0.0.1:8000/mongo_auth/login/", {
+    //       // name: uname,
+    //       email: email,
+    //       password: passCon,
+    //     })
+    //     .then((response) => {
+    //       sessionStorage.setItem(
+    //         "token",
+    //         JSON.stringify(response.data.data["token"])
+    //       );
+    //       console.log(response);
+          
+    //       history.push("/home");
+    //     });
+    // }
+    // .catch((error) => console.log(error));   skipping error handling for now
+
+    // console.log(demo.demo['email']);
+    // } catch (error) {
+    // setError(error.response.data.non_field_errors[0]);
+    // }
+  }
   return (
     <>
       <Navbar />
-      <div className="extra"></div>
+      {/* <div className="extra"></div> */}
       <div className="container1">
         <div className="title">Registration</div>
         <div className="content">
@@ -199,7 +261,7 @@ function Register() {
                 {!passConFlag && <p>{passConError}</p>}
               </div>
             </div>
-            <button type='submit'>Register</button>
+            <button type="submit">Register</button>
           </form>
         </div>
       </div>

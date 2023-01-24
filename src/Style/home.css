@@ -9,6 +9,12 @@
     margin:0;
 }
 
+.slider{
+    z-index: 0;
+    position: relative;
+    margin-top: 65px;
+}
+
 @media screen and (max-width:450px) {
     .set-image img{
     height: 30vh;

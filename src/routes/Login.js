@@ -61,15 +61,7 @@ function Login() {
     }
   };
 
-  useEffect(()=>{
-    axios
-      .get("http://127.0.0.1:8000/myview")
-      .then((response) => setData(response.data))
-      // .then(data => setData(data))
-      .catch((error) => console.log(error));
-  },[]);
-
-  // if(data){
+  // if(data){nai avtu??
   //   // data.map((item,index)={
       
   //   //   return ;
@@ -77,20 +69,26 @@ function Login() {
   // }
 
   if (emailFlag === true && passFlag === true) {
-    data.map((item)=>{
-        if(item.email === email && item.passwoed === pass){
-          console.log("yeahh..");
-        }
-        else{
-          console.log("not valid...");
-        }
-    })
+    axios
+      .post("http://127.0.0.1:8000/mongo_auth/login/", {
+        // name: uname,
+        email: email,
+        password: pass,
+      })
+      .then((response) => {
+        console.log(response);
+        sessionStorage.setItem(
+          "token",
+          JSON.stringify(response.data.data["token"])
+        );
+      });
   }
+
 
   return (
     <>
       <Navbar />
-      <div className="extra-space"></div>
+      {/* <div className="extra-space"></div> */}
       {/* {
         data.map((item, index)=>{
           return <div key={index}>{item.title}

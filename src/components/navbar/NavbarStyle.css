@@ -10,7 +10,7 @@
     top: 0;
     left: 50%;
     transform: translate(-50%);
-    z-index: 9999;
+    z-index: 100;
     opacity: 1;
     background-color: rgb(255, 255, 255);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -51,12 +51,13 @@
     /* color:#222; */
     font-size: 1rem;
     font-weight: 500;
-    /* padding: 0.7rem 1rem; */
+    padding-bottom: 15px;
     margin: 0 10px 0 10px;
     white-space: nowrap;
     /* transition: 0.5s; */
     position: relative;
     color: #000;
+    margin-bottom: 20px;
 }
 
 .nav-links:hover{
@@ -111,6 +112,18 @@
     display: none;
 }
 
+.fa-angle-right:before{
+    display: none;
+}
+
+.fa-angle-down:before{
+    display: none;
+}
+    .mb-category{
+        display: none;
+    }
+
+
 /* .cart-img{
     /* border: 2px solid black; */
     /* border-top: 3.5px solid black;
@@ -120,14 +133,15 @@
 } */
 
 .active-link{
-    border-bottom: 3.5px solid black;
+    border-bottom: 4px solid black;
 }
 
 
 @media screen and (max-width: 850px) {
     .NavBarItems{
-        z-index: 99;
+        z-index: 100;
         position: fixed;
+        border: 2px solid black;
     } 
     .nav-menu{
         display: flex;
@@ -135,23 +149,34 @@
         justify-content: flex-start;
         /* justify-content: center; */
         background-color: rgb(255, 255, 255);
-        width: 100%;
+        /* width: 100%; */
+        /* width: 40px; */
         height: auto;
         position: absolute;
         top: 0;
         left: -110%;
         opacity: 1;
         align-items: stretch;
-        padding: 80px 0 30px 0;
+        padding: 70px 100px 15px 30px;
         margin: 0; 
         transition: 0.3s ease-in-out;
         /* border-radius: 13px; */
+        /* left: 10px; */
+        border: 2px solid black;
      }   
      .nav-menu.active-mb{
         left: 0;
         opacity: 1;
-        z-index: -1;
+        z-index: 11;
         transition: 0.3s ease-in-out;
+
+     }
+     .nav-menu.active-mb li{
+        display: flex;
+     }
+     .nav-menu.active-mb li i{
+        padding: 4px;
+        padding-left: 20px;
      }
      .nav-links{
         display:block;
@@ -160,9 +185,10 @@
         margin: 0;
         font-size: 1rem;
         /* padding: 0.5rem 0; */
-        justify-content: center;
-        align-items: center;
-        text-align: center;
+        /* justify-content: center; */
+        /* align-items: center; */
+        /* text-align: center; */
+        padding-bottom: 5px;
      }  
      .nav-links:hover{
         /* background: rgb(154, 175, 186); */
@@ -189,12 +215,76 @@
     .active-link{
         /* border-bottom: 3.5px solid black; */
         /* background: rgba(162, 162, 162, 0.611); */
-        border-: ;
+        border-bottom: 2px solid black;
     }
     /* fa-bars:before{
         font-size: 300px;
     } */
     .menu-icons i{
         font-size: 29px;
+    }
+    .fa-angle-right:before{
+    display: block;
+    /* padding-left: 40px; */
+    }
+    .fa-angle-down:before{
+    display: block;
+    }
+
+}
+
+/* Category Container*/
+
+.category-container{
+    margin-left: 600px;
+    /* margin-top: 65px; */
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 550px;
+    /* height: 100px; */
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    z-index: 101;
+    position: fixed;
+    background-color: #fff;
+    transition: 0.3s ease-in-out;
+}
+
+.sub-category-container
+{
+    display: flex;
+    flex-direction:row;
+    padding-bottom: 10px;
+    /* height: 200px; */
+}
+
+.category-1{
+    margin-right: 30px;
+    margin-left: 20px;
+}
+
+.category-1 a{
+    text-decoration: none;
+    color: black;
+}
+
+@media screen and (max-width: 850px) {
+    .mb-category{
+        display: block;
+        transition: 0.3s ease-in-out;
+    }
+    .mb-category-2{
+        margin: 10px;
+    }
+    .mb-category-2 a{
+        text-decoration: none;
+        color: black;
+    }
+        .mb-category-3 a{
+        text-decoration: none;
+        color: black;
+    }
+    .category-container{
+        display: none;
     }
 }

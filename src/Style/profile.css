@@ -1,0 +1,129 @@
+.profile-container{
+    height: 100vh;
+    width: 100wh;
+    /* background-color: rgb(158, 158, 158); */
+    margin-top: 65px;
+    display: flex;
+    flex-direction: row;
+}
+.profile-sub-1{
+    width: 500px;
+    background-color: rgb(255, 255, 255);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding:50px 100px 0 100px;
+    
+}
+
+.profile-cat{
+    background-color: rgb(255, 255, 255);
+    margin: 10px;
+    /* border-radius: 10px; */
+    font-size: 1.1rem;
+    align-items: center;
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;  
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.profile-sub-2{
+    background-color: rgb(255, 255, 255);
+    height: 100vh;
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    border-left: 1px solid black;
+}
+
+.down-pf{
+    height: 40px;
+}
+
+.profile-sub-3{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-evenly; */
+    margin-bottom: 20px;
+}
+
+.profile-sub-3 h4{
+    /* margin-left: -100px; */
+    width: 100px;
+    margin-right: 50px;
+    height: 45px;
+}
+
+.profile-sub-3 input{
+    /* height: 45px; */
+    width: 60%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid rgb(0, 0, 0);
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.profile-sub-3 button{
+    font-size: 1.3rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 30%;
+}
+
+.profile-sub-3 button:hover{
+    background-color: black;
+    color: white;
+}
+
+.profile-sub-4{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-evenly; */
+    margin-bottom: 20px;
+}
+
+.profile-sub-4 h4{
+    /* margin-left: -100px; */
+    width: 200px;
+    margin-right: 50px;
+    height: 45px;
+}
+
+.profile-sub-4 input{
+    /* height: 45px; */
+    width: 60%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid rgb(0, 0, 0);
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.profile-sub-4 button{
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 30%;
+}
+
+.profile-sub-4 button:hover{
+    background-color: black;
+    color: white;
+}
+

@@ -8,13 +8,15 @@
     background-position: center;
     position: relative;
     text-align: center;
+    
 }
 
 .hero-contact {
     /* background-image: url("../assets/clark-street-mercantile-qnKhZJPKFD8-unsplash.jpg"); */
     background-color: rgb(216, 245, 250);
-    height: 40vh;
+    height: 30vh;
     /* width: 100%; */
+    margin-top: 65px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -24,13 +26,14 @@
 
 .hero-about{
     background-color: rgb(216, 245, 250);
-    height: 35vh;
+    height: 30vh;
     /* width: 100%; */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     position: relative;
     text-align: center;
+    margin-top: 65px;
 }
 
 .hero-shop {

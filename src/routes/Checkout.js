@@ -7,7 +7,7 @@ function Checkout() {
   return (
     <>
     <Navbar/>
-      <div style={{ margin: "130px" }}></div>
+      <div style={{ margin: "65px" }}></div>
       <div className="row-checkout">
         <div className="col-75">
           <div className="container-checkout">

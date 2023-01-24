@@ -16,6 +16,7 @@
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
     margin: auto;
+    margin-top: 65px;
     text-align: center;
 
 }
@@ -171,6 +172,7 @@ form button:hover{
         margin-bottom: 120px; */
         margin: auto;
         width: 90%;
+        margin-top: 65px;
     }
 
     form .user-details .input-box {

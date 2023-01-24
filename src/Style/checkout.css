@@ -4,6 +4,8 @@
   -ms-flex-wrap: wrap; /* IE10 */
   flex-wrap: wrap;
   /* margin: 0 -16px; */
+  margin-top: 65px;
+  padding: 0;
 }
 
 .col-25 {
