@@ -1,6 +1,6 @@
 import React,{useState, useeffect, useEffect} from 'react';
 import "../Style/login.css";
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import Footer from './Footer';
 import Navbar from "../components/navbar/Navbar";
 import axios from 'axios';
@@ -14,7 +14,11 @@ function Login() {
   const [passError, setPassError] = useState("");
   const [passFlag, setPassFlag] = useState(false);
 
-  const [data, setData] =useState(""); 
+
+  const [error, setError] = useState("");
+  const [errorFlag, setErrorFlag] = useState(false);
+
+  const history = useHistory();
 
   const validateRegister = (event) =>{
     event.preventDefault();
@@ -69,21 +73,30 @@ function Login() {
   // }
 
   if (emailFlag === true && passFlag === true) {
-    axios
-      .post("http://127.0.0.1:8000/mongo_auth/login/", {
-        // name: uname,
-        email: email,
-        password: pass,
-      })
-      .then((response) => {
-        console.log(response);
-        sessionStorage.setItem(
-          "token",
-          JSON.stringify(response.data.data["token"])
-        );
+      axios
+        .post("http://127.0.0.1:8000/mongo_auth/login/", {
+          // name: uname,
+          email: email,
+          password: pass,
+        })
+        .then((response) => {
+          // console.log("response ", response.status);
+          if (response.status === 200) {
+          }
+          sessionStorage.setItem(
+            "token",
+            JSON.stringify(response.data.data["token"])
+          );
+          // console.log(response);
+
+          history.push("/home");
+        })
+        .catch((error) =>{
+          // console.log(error);
+          setErrorFlag(true);
+          setEmailFlag(false)
       });
   }
-
 
   return (
     <>
@@ -108,6 +121,7 @@ function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 {!emailFlag && <p>{emailError}</p>}
+                {errorFlag && <p>User not found</p>}
               </div>
               <div className="input-box">
                 <span className="details">Password</span>
@@ -119,7 +133,7 @@ function Login() {
                 {!passFlag && <p>{passError}</p>}
               </div>
             </div>
-            <button type='submit'>Login</button>
+            <button type="submit">Login</button>
             <div className="footer-f">
               <h4>
                 Don't have an account ?{" "}

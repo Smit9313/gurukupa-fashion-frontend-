@@ -15,12 +15,14 @@ function Profile() {
     const [changepassword, setChangePassword] = useState(false);
     const [forgotpassword, setForgotPassword] = useState(false);
     const [orderdetails,setOrderDetails] = useState(false);
+    const [arrow, setArrow] = useState(true);
 
     const handleProfile = () =>{
         setAddress(false);
         setChangePassword(false);
         setForgotPassword(false);
         setOrderDetails(false);
+        setArrow(!arrow);
         setProfile(true);
     }
 
@@ -29,6 +31,7 @@ function Profile() {
         setChangePassword(false);
         setForgotPassword(false);
         setOrderDetails(false);
+        setArrow(!arrow);
         setAddress(true);
     };
 
@@ -37,6 +40,7 @@ function Profile() {
         setAddress(false);
         setForgotPassword(false);
         setOrderDetails(false);
+        setArrow(!arrow);
         setChangePassword(true);
     };
 
@@ -45,6 +49,7 @@ function Profile() {
         setAddress(false);
         setChangePassword(false);
         setOrderDetails(false);
+        setArrow(!arrow);
         setForgotPassword(true);
     };
 
@@ -53,13 +58,46 @@ function Profile() {
         setAddress(false);
         setChangePassword(false);
         setForgotPassword(false);
+        setArrow(!arrow);
         setOrderDetails(true);
     }
+
+    const handleArrow = () => {
+      setArrow(!arrow);
+    };
 
   return (
     <>
       <Navbar />
       <div className="profile-container">
+        <div className="profile-mb-1">
+          <div className="profile-cat-main-mb" onClick={handleProfile}>
+            <center>Profile Overview</center>
+            <i
+              className={arrow ? "fas fa-angle-right" : "fas fa-angle-down"}
+              onClick={handleArrow}></i>
+          </div>
+          {!arrow && (
+            <>
+              <div className="profile-cat-mb" onClick={handleProfile}>
+                <center>Profile</center>
+              </div>
+              <div className="profile-cat-mb" onClick={handleAddress}>
+                <center>Addresses</center>
+              </div>
+              <div className="profile-cat-mb" onClick={handleChangepassword}>
+                <center>Change PassWord</center>
+              </div>
+              <div className="profile-cat-mb" onClick={handleForgotpassword}>
+                <center>Forgot Password</center>
+              </div>
+              <div className="profile-cat-mb" onClick={handleOrderdetails}>
+                <center>Order Details</center>
+              </div>
+            </>
+          )}
+        </div>
+
         <div className="profile-sub-1">
           <div className="profile-cat" onClick={handleProfile}>
             <center>Profile</center>

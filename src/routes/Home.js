@@ -24,8 +24,8 @@ function Home() {
     arrows:false,
   };
 
-  let userName = localStorage.getItem("_id");
-  console.log(userName)
+  // let userName = localStorage.getItem("token");
+  // console.log(userName)
 
   return (
     <>

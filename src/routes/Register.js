@@ -6,7 +6,6 @@ import Footer from "./Footer.js";
 import axios from "axios";
 
 function Register() {
-  const redirectHome = useHistory();
 
   const [uname, setUname] = useState("");
   const [unameError, setUnameError] = useState("");
@@ -25,6 +24,7 @@ function Register() {
   const [passConFlag, setPassConFlag] = useState(false);
 
   const [error, setError] = useState("");
+  const [errorFlag, setErrorFlag] = useState(false);
 
   let history = useHistory();
 
@@ -123,6 +123,7 @@ function Register() {
     ) {
       setPassConFlag(true);
     }
+      // console.log(error);
   };
 
   if (
@@ -133,34 +134,6 @@ function Register() {
   ) {
     //  Register Api
 
-    // try {
-    // const response = axios.post('http://127.0.0.1:8000/mongo_auth/signup/', {
-    //       "name": uname,
-    //       "email":email,
-    //       "password":passCon,
-    //   });
-    //    if (response.ok) {
-    //      sessionStorage.setItem("token",response.json().data.token);
-    //    } else {
-    //      // handle error
-    //      console.log("error....");
-    //      console.log(response);
-    //    }
-
-    // axios
-    //   .post("http://127.0.0.1:8000/mongo_auth/signup/", {
-    //     name: uname,
-    //     email: email,
-    //     password: passCon,
-    //   })
-    //   .then((response) => {
-    //     sessionStorage.setItem("email", JSON.stringify(response.data.data));
-    //     // console.log(response.data.data["email"]);
-
-    //     history.push("/home");
-    //   })
-    //   .catch((error) => console.log(error));
-
     axios.post("http://127.0.0.1:8000/mongo_auth/signup/", {
       name: uname,
       email: email,
@@ -168,8 +141,8 @@ function Register() {
     })
       .then((response) => {
         // console.log(response.data.data["email"]);
-        console.log("response ",response.status);
-        if (response.status == 200) {
+        // console.log("response ",response.status);
+        if (response.status === 200) {
           axios
             .post("http://127.0.0.1:8000/mongo_auth/login/", {
               // name: uname,
@@ -177,44 +150,30 @@ function Register() {
               password: passCon,
             })
             .then((response) => {
-              sessionStorage.setItem(
-                "token",
-                JSON.stringify(response.data.data["token"])
-              );
-              console.log(response);
+              // console.log("response ", response.status);
+              if (response.status === 200){}
+                sessionStorage.setItem(
+                  "token",
+                  JSON.stringify(response.data.data["token"])
+                );
+              // console.log(response);
 
               history.push("/home");
-            });
+            }).catch((error)=> 
+            // console.log(error)
+            pass
+            );
         }
-        history.push("/home");
       })
-      .catch((error) => console.log(error));
-    //can i declare res like that?yes
-    // console.log(res);
-    // if (res.status == 200) {
-    //   axios
-    //     .post("http://127.0.0.1:8000/mongo_auth/login/", {
-    //       // name: uname,
-    //       email: email,
-    //       password: passCon,
-    //     })
-    //     .then((response) => {
-    //       sessionStorage.setItem(
-    //         "token",
-    //         JSON.stringify(response.data.data["token"])
-    //       );
-    //       console.log(response);
-          
-    //       history.push("/home");
-    //     });
-    // }
-    // .catch((error) => console.log(error));   skipping error handling for now
-
-    // console.log(demo.demo['email']);
-    // } catch (error) {
-    // setError(error.response.data.non_field_errors[0]);
-    // }
+      .catch((error) => {setError(error.response.data.data["error_msg"])
+        setErrorFlag(true)
+        console.log(error.response.data.data["error_msg"])
+        setEmailFlag(false)
+    });
+      // console.log(error);
   }
+
+
   return (
     <>
       <Navbar />
@@ -241,6 +200,7 @@ function Register() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 {!emailFlag && <p>{emailError}</p>}
+                {errorFlag && <p>{error}</p>}
               </div>
               <div className="input-box">
                 <span className="details">Password</span>

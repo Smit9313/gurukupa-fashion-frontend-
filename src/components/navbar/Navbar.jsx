@@ -1,14 +1,21 @@
 import React,{useState} from 'react';
 import MenuItems from './ManuData';
-import {NavLink,Link} from 'react-router-dom';
+import {NavLink,Link, useHistory} from 'react-router-dom';
 import './NavbarStyle.css';
-import Category from '../Category';
+// import Category from '../Category';
 
 
 function Navbar() {
     const [icon, setIcon] = useState(false);
     const [arrow, setArrow] = useState(true);
+    const [arrowMan, setArrowMan] = useState(true);    
+    const [arrowWoman, setArrowWoman] = useState(true);
+    const [arrowKid, setArrowKid] = useState(true);
+
     const [isHovering, setIsHovering] = useState(false);
+    const [token, setToken] = useState(sessionStorage.getItem("token"));
+
+    const history = useHistory();
 
     const handleClick = () =>{
         setIcon(!icon);
@@ -26,7 +33,24 @@ function Navbar() {
       setArrow(!arrow);
      }
 
+     const handleArrowMan = () => {
+      setArrowMan(!arrowMan);
+     }
 
+     const handleArrowWoman = () => {
+       setArrowWoman(!arrowWoman);
+     };
+
+      const handleArrowKid = () => {
+        setArrowKid(!arrowKid);
+      };
+
+     const handleClickLogout = () => {
+      sessionStorage.removeItem("token");
+      setToken(null);
+     }
+
+    //  console.log(token);
 
   return (
     <>
@@ -62,73 +86,108 @@ function Navbar() {
               onMouseOut={handleMouseOut}>
               <div className="mb-category-1">
                 <div className="mb-category-2">
-                  <h3>Man</h3>
+                  <div className="cat-man">
+                    <h4>Man</h4>
+                    <i
+                      className={
+                        arrowMan ? "fas fa-angle-right" : "fas fa-angle-down"
+                      }
+                      onClick={handleArrowMan}></i>
+                  </div>
                   <hr />
-                  <NavLink to="">T-Shirt</NavLink>
-                  <br />
-                  <NavLink to="">Jeans</NavLink>
-                  <br />
-                  <NavLink to="">Casual Shirt </NavLink>
-                  <br />
-                  <NavLink to="">Formal Shirt</NavLink>
-                  <br />
-                  <NavLink to="">Shorts</NavLink>
-                  <br />
-                  <NavLink to="">Casual Trouser</NavLink>
-                  <br />
-                  <NavLink to="">Kurta</NavLink>
+                  {!arrowMan && (
+                    <div className="man-cat-items">
+                      <NavLink to="">T-Shirt</NavLink>
+                      {/* <br /> */}
+                      <NavLink to="">Jeans</NavLink>
+                      {/* <br /> */}
+                      <NavLink to="">Casual Shirt </NavLink>
+                      {/* <br /> */}
+                      <NavLink to="">Formal Shirt</NavLink>
+                      {/* <br /> */}
+                      <NavLink to="">Shorts</NavLink>
+                      {/* <br /> */}
+                      <NavLink to="">Casual Trouser</NavLink>
+                      {/* <br /> */}
+                      <NavLink to="">Kurta</NavLink>
+                    </div>
+                  )}
                 </div>
 
                 <div className="">
                   <div className="mb-category-2">
-                    <h3>Woman</h3>
+                    <div className="cat-woman">
+                      <h4>Woman</h4>
+                      <i
+                        className={
+                          arrowWoman
+                            ? "fas fa-angle-right"
+                            : "fas fa-angle-down"
+                        }
+                        onClick={handleArrowWoman}></i>
+                    </div>
                     <hr />
-                    <NavLink to="">Dress</NavLink>
-                    <br />
-                    <NavLink to="">Tops</NavLink> <br />
-                    <NavLink to="">T-Shirts</NavLink> <br />
-                    <NavLink to="">Jeans</NavLink> <br />
-                    <NavLink to="">Kurtas & Suits</NavLink>
+                    {!arrowWoman && (
+                      <div className="man-cat-items">
+                        <NavLink to="">Dress</NavLink>
+                        {/* <br /> */}
+                        <NavLink to="">Tops</NavLink>
+                        {/* <br /> */}
+                        <NavLink to="">T-Shirts</NavLink>
+                        {/* <br /> */}
+                        <NavLink to="">Jeans</NavLink>
+                        {/* <br /> */}
+                        <NavLink to="">Kurtas & Suits</NavLink>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 <div>
-                  <div className="">
-                    <center>
-                      <h3>Kid</h3>
-                    </center>
+                  <div className="set-kid">
+                    <div className="cat-kid">
+                      <center>
+                        <h4>Kids</h4>
+                      </center>
+                      <i
+                        className={
+                          arrowKid ? "fas fa-angle-right" : "fas fa-angle-down"
+                        }
+                        onClick={handleArrowKid}></i>
+                      {/* <hr /> */}
+                    </div>
                     <hr />
                   </div>
-                  <div className="">
-                    <div className="mb-category-3">
-                      <h4>Boy</h4>
-                      <hr />
-                      <NavLink to="">T-Shirts</NavLink>
-                      <br />
-                      <NavLink to="">Shirts</NavLink>
-                      <br />
-                      <NavLink to="">Shorts</NavLink>
-                      <br />
-                      <NavLink to="">Jeans</NavLink>
-                      <br />
-                      <NavLink to="">Trousers</NavLink>
-                      <hr/>
-                     
+                  {!arrowKid && (
+                    <div className="">
+                      <div className="mb-category-3">
+                        <h5>Boy</h5>
+                        <hr />
+                        <NavLink to="">T-Shirts</NavLink>
+                        {/* <br /> */}
+                        <NavLink to="">Shirts</NavLink>
+                        {/* <br /> */}
+                        <NavLink to="">Shorts</NavLink>
+                        {/* <br /> */}
+                        <NavLink to="">Jeans</NavLink>
+                        {/* <br /> */}
+                        <NavLink to="">Trousers</NavLink>
+                        <hr />
+                      </div>
+                      <div className="mb-category-3">
+                        <h5>Girl</h5>
+                        <hr />
+                        <NavLink to="">Dresses</NavLink>
+                        {/* <br /> */}
+                        <NavLink to="">Tops</NavLink>
+                        {/* <br /> */}
+                        <NavLink to="">T-Shirt</NavLink>
+                        {/* <br/> */}
+                        <NavLink to="">Jeans & Trousers</NavLink>
+                        {/* <br /> */}
+                      </div>
                     </div>
-                    <div className="mb-category-3">
-                      <h4>Girl</h4>
-                      <hr />
-                      <NavLink to="">Dresses</NavLink>
-                      <br />
-                      <NavLink to="">Tops</NavLink>
-                      <br />
-                      <NavLink to="">
-                        Jeans &<br />
-                        Trousers
-                      </NavLink>
-                      <br />
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -151,24 +210,62 @@ function Navbar() {
               CONTACT
             </NavLink>
           </li>
-          <li>
+
+          {token === null && (
+            <>
+              <li>
+                <NavLink
+                  to="/register"
+                  className="nav-links"
+                  activeClassName="active-link"
+                  onClick={handleClick}>
+                  SIGN-UP
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/login"
+                  className="nav-links"
+                  activeClassName="active-link"
+                  onClick={handleClick}>
+                  LOGIN
+                </NavLink>
+              </li>
+            </>
+          )}
+
+          {token !== null && (
+            <>
+              <li>
+                <NavLink
+                  to="/Profile"
+                  className="nav-links"
+                  activeClassName="active-link"
+                  onClick={handleClick}>
+                  PROFILE
+                </NavLink>
+              </li>
+
+              <li>
+                <a
+                  // to="/register"
+                  className="nav-links"
+                  // activeClassName="active-link"
+                  onClick={handleClickLogout}>
+                  LOG-OUT
+                </a>
+              </li>
+            </>
+          )}
+          {/* <li>
             <NavLink
-              to="/register"
+              to="/profile"
               className="nav-links"
               activeClassName="active-link"
               onClick={handleClick}>
-              SIGN-UP
+              PROFILE
             </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/login"
-              className="nav-links"
-              activeClassName="active-link"
-              onClick={handleClick}>
-              LOGIN
-            </NavLink>
-          </li>
+          </li> */}
         </ul>
         <Link to="/cart-products">
           <img

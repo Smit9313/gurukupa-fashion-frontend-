@@ -44,8 +44,9 @@
 #product1 .pro-container{
     display: flex;
     /* justify-content: space-between; */
-    padding-top: 20px;
+    /* padding-top: 20px; */
     flex-wrap: wrap;
+
 }
 
 .cart:hover{
@@ -131,6 +132,7 @@
 @media screen and (max-width: 800px){
     .section-p1{
         padding: 20px;
+        padding-top: 0;
         /* justify-content: center;
         justify-items: center; */
     }
@@ -169,4 +171,85 @@
         margin-bottom: 50px;
         width: 94%;
     }
+}
+
+
+/*** pagination ***/
+
+.paginationBttns {
+  width: 100%;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  /* padding: 10px; */
+  /* margin: 20px; */
+  margin-bottom: 20px;
+}
+
+.paginationBttns a {
+  padding: 10px;
+  margin: 8px;
+  /* border-radius: 5px; */
+  border: 1px solid #000000;
+  background-color: white;
+  color: #000000;
+  cursor: pointer;
+}
+
+.paginationBttns a:hover {
+  color: white;
+  background-color: #000000;
+}
+
+.paginationActive a {
+  color: white;
+  background-color: #000000;
+}
+
+.paginationDisabled a {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
+
+
+@media screen and (max-width:450px) {
+.paginationBttns {
+  width: 100%;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  /* justify-content: center; */
+  /* padding: 10px; */
+  /* margin: 20px; */
+  /* margin: 10px; */
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.paginationBttns a {
+  /* padding: 10px; */
+  margin: 2px;
+  /* border-radius: 5px; */
+  border: 1px solid #000000;
+  background-color: white;
+  color: #000000;
+  cursor: pointer;
+  
+}
+
+.paginationBttns a:hover {
+  color: white;
+  background-color: #000000;
+}
+
+.paginationActive a {
+  color: white;
+  background-color: #000000;
+}
+
+.paginationDisabled a {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
 }

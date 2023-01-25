@@ -4,10 +4,13 @@ import './header.css';
 function Header({ itemCount }) {
   return (
     <>
-    <br/>
+    {/* <br/>
           <br />
           <br/>
-          <br />
+          <br /> */}
+          {/* <div style={{height:"65px"}}>
+
+          </div> */}
       <header className="containerh">
           <h1>Shopping Cart</h1>
 
