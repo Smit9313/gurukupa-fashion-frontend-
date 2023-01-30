@@ -4,6 +4,8 @@ import {Link, useHistory} from 'react-router-dom';
 import Footer from './Footer';
 import Navbar from "../components/navbar/Navbar";
 import axios from 'axios';
+import { Dna } from "react-loader-spinner";
+
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -74,7 +76,7 @@ function Login() {
 
   if (emailFlag === true && passFlag === true) {
       axios
-        .post("http://127.0.0.1:8000/mongo_auth/login/", {
+        .post("http://127.0.0.1:8000/login/", {
           // name: uname,
           email: email,
           password: pass,
@@ -82,12 +84,13 @@ function Login() {
         .then((response) => {
           // console.log("response ", response.status);
           if (response.status === 200) {
+            sessionStorage.setItem(
+              "token",
+              JSON.stringify(response.data.data["token"])
+            );
           }
-          sessionStorage.setItem(
-            "token",
-            JSON.stringify(response.data.data["token"])
-          );
-          // console.log(response);
+          
+          // console.log(response.data.data["token" k]);
 
           history.push("/home");
         })
@@ -146,6 +149,14 @@ function Login() {
         </div>
       </div>
       <div className="extra-space"></div>
+      <Dna
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="dna-loading"
+        wrapperStyle={{}}
+        wrapperClass="dna-wrapper"
+      />
       <Footer />
     </>
   );

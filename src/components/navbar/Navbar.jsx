@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import MenuItems from './ManuData';
+// import MenuItems from './ManuData';
 import {NavLink,Link, useHistory} from 'react-router-dom';
 import './NavbarStyle.css';
 // import Category from '../Category';
@@ -19,6 +19,11 @@ function Navbar() {
 
     const handleClick = () =>{
         setIcon(!icon);
+    }
+
+    const handleProfileClick= () =>{
+      setIcon(!icon);
+      setToken(sessionStorage.getItem("token"));
     }
 
      const handleMouseOver = () => {
@@ -47,6 +52,7 @@ function Navbar() {
 
      const handleClickLogout = () => {
       sessionStorage.removeItem("token");
+      history.push("/home");
       setToken(null);
      }
 
@@ -211,6 +217,16 @@ function Navbar() {
             </NavLink>
           </li>
 
+          <li>
+            <NavLink
+              to="/admin"
+              className="nav-links"
+              activeClassName="active-link"
+              >
+              admin
+            </NavLink>
+          </li>
+
           {token === null && (
             <>
               <li>
@@ -238,10 +254,10 @@ function Navbar() {
             <>
               <li>
                 <NavLink
-                  to="/Profile"
+                  to="/profile"
                   className="nav-links"
                   activeClassName="active-link"
-                  onClick={handleClick}>
+                  onClick={handleProfileClick}>
                   PROFILE
                 </NavLink>
               </li>
@@ -249,6 +265,7 @@ function Navbar() {
               <li>
                 <a
                   // to="/register"
+                  href="/"
                   className="nav-links"
                   // activeClassName="active-link"
                   onClick={handleClickLogout}>

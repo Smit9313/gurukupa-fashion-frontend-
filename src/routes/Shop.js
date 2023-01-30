@@ -1,4 +1,5 @@
 import React,{useState} from 'react';
+// import { Outlet } from 'react-router-dom';
 // import Start from '../components/Start';
 import Footer from "../routes/Footer";
 import FeaturedProduct from '../components/FeaturedProduct';
@@ -93,6 +94,7 @@ function Shop() {
         })}
       />
       <Footer />
+      {/* <Outlet /> */}
     </>
   );
 }

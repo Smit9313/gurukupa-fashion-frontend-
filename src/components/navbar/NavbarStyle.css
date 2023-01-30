@@ -265,7 +265,7 @@
 
 .category-container{
     margin-left: 600px;
-    /* margin-top: 65px; */
+    top: 65px;
     margin-bottom: 10px;
     padding-top: 5px;
     padding-bottom: 5px;

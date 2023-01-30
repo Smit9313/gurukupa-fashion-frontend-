@@ -53,8 +53,10 @@ function SingleProduct() {
             <option>Small</option>
             <option>Large</option>
           </select>
-          <input type="number" defaultValue='1' min='1' max='50' />
-          <button className='normal'>Add to cart</button>
+          <input type="number" defaultValue='1' min='1' max='10' />
+          <button type="submit" className='normal' onClick={()=>{
+            console.log("Hello");
+          }}>Add to cart</button>
           <h4>Product details</h4>
           <span>Lorem ipsum dolor sit amet, consectetur adipiscing
                 elit, sed do eiusmod tempor incididunt ut labore 

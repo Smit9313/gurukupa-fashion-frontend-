@@ -17,6 +17,9 @@ function Profile() {
     const [orderdetails,setOrderDetails] = useState(false);
     const [arrow, setArrow] = useState(true);
 
+    const [user, setUser] = useState(sessionStorage.getItem("token"));
+    
+
     const handleProfile = () =>{
         setAddress(false);
         setChangePassword(false);
@@ -66,64 +69,74 @@ function Profile() {
       setArrow(!arrow);
     };
 
+
   return (
     <>
       <Navbar />
-      <div className="profile-container">
-        <div className="profile-mb-1">
-          <div className="profile-cat-main-mb" onClick={handleProfile}>
-            <center>Profile Overview</center>
-            <i
-              className={arrow ? "fas fa-angle-right" : "fas fa-angle-down"}
-              onClick={handleArrow}></i>
+      {user !== null && (
+        <div className="profile-container">
+          <div className="profile-mb-1">
+            <div className="profile-cat-main-mb" onClick={handleProfile}>
+              <center>Profile Overview</center>
+              <i
+                className={arrow ? "fas fa-angle-right" : "fas fa-angle-down"}
+                onClick={handleArrow}></i>
+            </div>
+            {!arrow && (
+              <>
+                <div className="profile-cat-mb" onClick={handleProfile}>
+                  <center>Profile</center>
+                </div>
+                <div className="profile-cat-mb" onClick={handleAddress}>
+                  <center>Addresses</center>
+                </div>
+                <div className="profile-cat-mb" onClick={handleChangepassword}>
+                  <center>Change PassWord</center>
+                </div>
+                <div className="profile-cat-mb" onClick={handleForgotpassword}>
+                  <center>Forgot Password</center>
+                </div>
+                <div className="profile-cat-mb" onClick={handleOrderdetails}>
+                  <center>Order Details</center>
+                </div>
+              </>
+            )}
           </div>
-          {!arrow && (
-            <>
-              <div className="profile-cat-mb" onClick={handleProfile}>
-                <center>Profile</center>
-              </div>
-              <div className="profile-cat-mb" onClick={handleAddress}>
-                <center>Addresses</center>
-              </div>
-              <div className="profile-cat-mb" onClick={handleChangepassword}>
-                <center>Change PassWord</center>
-              </div>
-              <div className="profile-cat-mb" onClick={handleForgotpassword}>
-                <center>Forgot Password</center>
-              </div>
-              <div className="profile-cat-mb" onClick={handleOrderdetails}>
-                <center>Order Details</center>
-              </div>
-            </>
-          )}
+
+          <div className="profile-sub-1">
+            <div className="profile-cat" onClick={handleProfile}>
+              <center>Profile</center>
+            </div>
+            <div className="profile-cat" onClick={handleAddress}>
+              <center>Addresses</center>
+            </div>
+            <div className="profile-cat" onClick={handleChangepassword}>
+              <center>Change PassWord</center>
+            </div>
+            <div className="profile-cat" onClick={handleForgotpassword}>
+              <center>Forgot Password</center>
+            </div>
+            <div className="profile-cat" onClick={handleOrderdetails}>
+              <center>Order Details</center>
+            </div>
+          </div>
+
+          {/* Profile */}
+
+          {profile && <ProfileDetails />}
+          {address && <AddAddress />}
+          {changepassword && <ChangePassword />}
+          {forgotpassword && <ForgotPassword />}
+          {orderdetails && <OrderDetails />}
         </div>
+      )}
 
-        <div className="profile-sub-1">
-          <div className="profile-cat" onClick={handleProfile}>
-            <center>Profile</center>
-          </div>
-          <div className="profile-cat" onClick={handleAddress}>
-            <center>Addresses</center>
-          </div>
-          <div className="profile-cat" onClick={handleChangepassword}>
-            <center>Change PassWord</center>
-          </div>
-          <div className="profile-cat" onClick={handleForgotpassword}>
-            <center>Forgot Password</center>
-          </div>
-          <div className="profile-cat" onClick={handleOrderdetails}>
-            <center>Order Details</center>
-          </div>
+      {user == null && (
+        <div className='error-profile'>
+          <h1>404 not found...</h1>
         </div>
+      )}
 
-        {/* Profile */}
-
-        {profile && <ProfileDetails />}
-        {address && <AddAddress />}
-        {changepassword && <ChangePassword />}
-        {forgotpassword && <ForgotPassword />}
-        {orderdetails && <OrderDetails />}
-      </div>
       <Footer />
     </>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Footer from './Footer.js';
 import '../Style/home.css';
 // import FeaturedProduct from '../components/FeaturedProduct.js';
@@ -13,6 +13,8 @@ import Category from '../components/Category';
 
 function Home() {
 
+  const [user ,setUser] = useState(sessionStorage.getItem("token"));
+
   const settings = {
     dots: true,
     infinite: true,
@@ -24,8 +26,8 @@ function Home() {
     arrows:false,
   };
 
-  // let userName = localStorage.getItem("token");
-  // console.log(userName)
+  // console.log(user);
+
 
   return (
     <>

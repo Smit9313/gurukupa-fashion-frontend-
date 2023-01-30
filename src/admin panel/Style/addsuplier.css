@@ -1,0 +1,50 @@
+.add-suplier{
+    margin: 30px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.add-suplier-sub1{
+    margin-right: 50px;
+    width: 400px;
+    padding: 20px;
+}
+
+.add-suplier-sub1 .box p{
+    padding-bottom: 10px;
+}
+
+.add-suplier-sub1 .box{
+    margin: 10px;
+    margin-top: 20px;
+}
+
+.suplier-button{
+    margin: 10px;
+    margin-top: 30px;
+    width: 250px;
+}
+
+@media screen and (max-width:450px) {
+    .add-suplier{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    /* box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; */
+}
+
+.add-suplier-sub1{
+    margin-right: 0;
+    width: auto;
+}
+
+.add-suplier-sub1 .box p{
+    padding-bottom: 10px;
+}
+
+.add-suplier-sub1 .box{
+    margin: 10px;
+    margin-top: 10px;
+}
+}
