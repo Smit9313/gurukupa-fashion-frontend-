@@ -1,6 +1,6 @@
 import "./App.css";
-import React,{useState} from "react";
-import Navbar from "./components/navbar/Navbar";
+import React,{useState, useEffect } from "react";
+// import Navbar from "./components/navbar/Navbar";
 import Home from "./routes/Home";
 import Shop from "./routes/Shop";
 import Contact from "./routes/Contact";
@@ -15,12 +15,33 @@ import Error from "./routes/Error";
 import Admin from "./admin panel/Admin";
 import Checkout from "./routes/Checkout";
 import Profile from "./routes/Profile";
-import Order from "./admin panel/routes/Order";
+import ForgotPassword from "./routes/ForgotPassword";
+import ChangePassword from "./routes/ChangePassword";
+import jwtDecode from "jwt-decode";
+
 
 
 function App() {
 
-  // const [user, setUser] = useState(sessionStorage.getItem("token"));
+  const [user, setUser] = useState(sessionStorage.getItem("token"));
+  const [role, setRole] = useState("");
+
+
+  
+  useEffect(() => {
+
+     if (sessionStorage.getItem("token") !== null) {
+       const decoded = jwtDecode(user);
+       setRole(decoded["id"]["role"]);
+     }
+
+  }, [role])
+
+  
+
+
+
+
 
   return (
     <div className="App">
@@ -40,13 +61,24 @@ function App() {
         <Route exact path="/single-product" component={SingleProduct} />
         <Route exact path="/cart-products" component={CartProducts} />
         <Route exact path="/checkout" component={Checkout} />
+        <Route exact path="/forgotpassword" component={ForgotPassword} />
+        <Route exact path="/resetpassword" component={ChangePassword} />
+        {user && role === "admin" && (
+          <>
+            <Switch>
+              <Route path="/admin" component={Admin} />
+              <Route path="/profile" component={Profile} />
+              <Route path="/*" component={Error} />
+            </Switch>
+          </>
+        )}
+        {user && role === "customer" && (
+          <>
+            <Route path="/profile" component={Profile} />
+            <Route path="/*" component={Error} />
+          </>
+        )}
 
-        <Route path="/admin" component={Admin}/>
-          {/* <Route path="/order" component={Order} />
-        </Route> */}
-
-        <Route path="/profile" component={Profile} />
-        <Route path="/*" component={Error} />
         {/* <Route path="/*" component={Error} /> */}
       </Switch>
     </div>

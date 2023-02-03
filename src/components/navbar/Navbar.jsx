@@ -1,7 +1,8 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 // import MenuItems from './ManuData';
 import {NavLink,Link, useHistory} from 'react-router-dom';
 import './NavbarStyle.css';
+import jwtDecode from "jwt-decode";
 // import Category from '../Category';
 
 
@@ -14,6 +15,7 @@ function Navbar() {
 
     const [isHovering, setIsHovering] = useState(false);
     const [token, setToken] = useState(sessionStorage.getItem("token"));
+    const [role, setRole] = useState("");
 
     const history = useHistory();
 
@@ -57,6 +59,13 @@ function Navbar() {
      }
 
     //  console.log(token);
+
+     useEffect(() => {
+       if (sessionStorage.getItem("token") !== null) {
+         const decoded = jwtDecode(token);
+         setRole(decoded["id"]["role"]);
+       }
+     }, [role]);
 
   return (
     <>
@@ -217,16 +226,6 @@ function Navbar() {
             </NavLink>
           </li>
 
-          <li>
-            <NavLink
-              to="/admin"
-              className="nav-links"
-              activeClassName="active-link"
-              >
-              admin
-            </NavLink>
-          </li>
-
           {token === null && (
             <>
               <li>
@@ -250,7 +249,7 @@ function Navbar() {
             </>
           )}
 
-          {token !== null && (
+          {token !== null && role === "admin" && (
             <>
               <li>
                 <NavLink
@@ -262,6 +261,40 @@ function Navbar() {
                 </NavLink>
               </li>
 
+              <li>
+                <NavLink
+                  to="/admin"
+                  className="nav-links"
+                  activeClassName="active-link">
+                  DASHBOARD
+                </NavLink>
+              </li>
+
+              <li>
+                <a
+                  // to="/register"
+                  href="/"
+                  className="nav-links"
+                  // activeClassName="active-link"
+                  onClick={handleClickLogout}>
+                  LOG-OUT
+                </a>
+              </li>
+            </>
+          )}
+
+          {token !== null && role === "customer" && (
+            <>
+              <li>
+                <NavLink
+                  to="/profile"
+                  className="nav-links"
+                  activeClassName="active-link"
+                  onClick={handleProfileClick}>
+                  PROFILE
+                </NavLink>
+              </li>
+            
               <li>
                 <a
                   // to="/register"

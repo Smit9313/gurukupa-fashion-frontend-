@@ -29,7 +29,7 @@
 
 .nav-menu{
     display: grid;
-    grid-template-columns: repeat(6,auto);
+    grid-template-columns: repeat(7,auto);
     grid-gap: 10px;
     list-style: none;
     align-items: center;
@@ -101,7 +101,7 @@
     font-weight: 600;
     border:none;
     cursor: pointer;
-    transition: 0.2s ease-in-out;
+    /* transition: 0.2s ease-in-out; */
 }
 
 .NavBarItems button:hover{

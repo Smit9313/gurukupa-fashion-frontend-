@@ -1,6 +1,6 @@
 import React from 'react';
 import Sidebar from './components/Sidebar';
-import { Switch, Route, useRouteMatch} from "react-router-dom";
+import { Switch, Route, useRouteMatch ,Redirect} from "react-router-dom";
 import Home from './routes/Home';
 
 function Admin() {
@@ -13,10 +13,10 @@ function Admin() {
 
       <Switch>
         <Route exact path={path}>
-          <h3>Please select a topic.</h3>
+          <Redirect to="admin/dashboard" />
         </Route>
         <Route path={`${path}/:id`}>
-          <Home path={path}/>
+          <Home path={path} />
         </Route>
       </Switch>
     </>

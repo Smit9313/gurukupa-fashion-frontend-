@@ -34,6 +34,10 @@
     margin: 10px;
 }
 
+.form-container p{
+    color: red;
+}
+
 /* .form-container input:focus,
 .form-container input:valid{
     border-color: #000000;

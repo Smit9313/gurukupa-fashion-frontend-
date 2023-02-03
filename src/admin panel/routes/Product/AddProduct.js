@@ -40,6 +40,7 @@ function AddProduct() {
       setDivsImg(divsImg.filter((div)=> div !== index));
     }
 
+      
   return (
     <>
       <Header name="Add Product" path="admin / addProduct" />
@@ -144,9 +145,13 @@ function AddProduct() {
             </div>
             {divsImg.map((div) => (
               <div key={div} className="add-qty">
-                <TextField label="price" size="small" />
-                <div className="space-b"></div>
-                <TextField label="price" size="small" />
+                {/* <TextField label="price" size="small" /> */}
+                <Button variant="contained" component="label">
+                  Upload
+                  <input accept="image/*" multiple type="file" />
+                </Button>
+                {/* <div className="space-b"></div> */}
+                {/* <TextField label="price" size="small" /> */}
                 <i
                   className="bx bx-minus icon add-icon"
                   onClick={() => handleProductImgM(div)}></i>

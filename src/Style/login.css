@@ -4,10 +4,14 @@
     /* font-family: ; */
 }
 
-.extra-space{
+.extra-space-login{
     height: 100px;
 }
 
-.footer-f h4{
+.footer-f{
     margin-top: 30px;
+}
+
+.footer-f p{
+    margin-bottom: 5px;
 }

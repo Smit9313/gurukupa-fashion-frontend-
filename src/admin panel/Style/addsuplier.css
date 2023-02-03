@@ -1,5 +1,6 @@
 .add-suplier{
     margin: 30px;
+    margin-bottom: 70px;
     display: flex;
     flex-direction: row;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
@@ -13,6 +14,11 @@
 
 .add-suplier-sub1 .box p{
     padding-bottom: 10px;
+}
+
+.add-suplier-sub1 .box .error-color{
+    color: red;
+    font-size: 0.8rem;
 }
 
 .add-suplier-sub1 .box{

@@ -106,12 +106,14 @@ function AddPurchase() {
               <MenuItem value={30}>z</MenuItem>
             </Select>
           </div>
-          <div className="box">
+          <div className="box box-qty">
             <p>Enter product quantity:</p>
-            <i
-              className="bx bx-plus icon add-icon"
-              onClick={handleProductQty}></i>
-            Add
+            <div className="add-qty-btn">
+              <i
+                className="bx bx-plus icon add-icon"
+                onClick={handleProductQty}></i>
+              <p>Add</p>
+            </div>
             {divs.map((div) => (
               <div key={div} className="add-qty">
                 <TextField
@@ -119,6 +121,7 @@ function AddPurchase() {
                   size="small"
                   onChange={(e) => console.log(e.target.value)}
                 />
+                <div className="space-b"></div>
                 <TextField
                   label="Qty"
                   size="small"

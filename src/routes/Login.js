@@ -1,13 +1,16 @@
-import React,{useState, useeffect, useEffect} from 'react';
+import React, { useState, useEffect} from "react";
 import "../Style/login.css";
 import {Link, useHistory} from 'react-router-dom';
 import Footer from './Footer';
 import Navbar from "../components/navbar/Navbar";
 import axios from 'axios';
-import { Dna } from "react-loader-spinner";
 
 
 function Login() {
+
+
+  const [role, setRole] = useState('');
+
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [emailFlag, setEmailFlag] = useState(false);
@@ -20,7 +23,15 @@ function Login() {
   const [error, setError] = useState("");
   const [errorFlag, setErrorFlag] = useState(false);
 
+
+
   const history = useHistory();
+
+          // useEffect(() => {
+          //   sessionStorage.setItem("role", role);
+          //   console.log(role)
+          // }, [role]);
+
 
   const validateRegister = (event) =>{
     event.preventDefault();
@@ -65,46 +76,50 @@ function Login() {
     if (!passNull && !minPassLength && !maxPassLength) {
       setPassFlag(true);
     }
+
   };
 
-  // if(data){nai avtu??
-  //   // data.map((item,index)={
-      
-  //   //   return ;
-  //   // });
-  // }
-
   if (emailFlag === true && passFlag === true) {
-      axios
-        .post("http://127.0.0.1:8000/login/", {
-          // name: uname,
-          email: email,
-          password: pass,
-        })
-        .then((response) => {
-          // console.log("response ", response.status);
-          if (response.status === 200) {
-            sessionStorage.setItem(
-              "token",
-              JSON.stringify(response.data.data["token"])
-            );
-          }
-          
-          // console.log(response.data.data["token" k]);
+    axios
+      .post("http://127.0.0.1:8000/login/", {
+        // name: uname,
+        email: email,
+        password: pass,
+      })
+      .then((response) => {
+        if (response.data.message === "User not found.") {
+          setError("User not found.");
+          setErrorFlag(true);
+        } else if (response.data.message === "Success!") {
+          sessionStorage.setItem(
+            "token",
+            JSON.stringify(response.data.data["token"])
+          );
 
           history.push("/home");
-        })
-        .catch((error) =>{
-          // console.log(error);
-          setErrorFlag(true);
-          setEmailFlag(false)
+          window.location.reload(true);
+        } else if (response.data.message === "Incorrect password!") {
+          setPassError("Incorrect password!");
+          setPassFlag(false);
+        } else {
+        }
+      })
+      .catch((error) => {
+
+        setErrorFlag(true);
+        setEmailFlag(false);
       });
   }
+
+
+
+  
+
 
   return (
     <>
       <Navbar />
-      {/* <div className="extra-space"></div> */}
+      <div className="extra-space-login"></div>
       {/* {
         data.map((item, index)=>{
           return <div key={index}>{item.title}
@@ -124,7 +139,8 @@ function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 {!emailFlag && <p>{emailError}</p>}
-                {errorFlag && <p>User not found</p>}
+                {errorFlag && <p>{error}</p>}
+
               </div>
               <div className="input-box">
                 <span className="details">Password</span>
@@ -138,25 +154,31 @@ function Login() {
             </div>
             <button type="submit">Login</button>
             <div className="footer-f">
-              <h4>
+              <p>
                 Don't have an account ?{" "}
                 <Link className="" to="./register">
                   Register Now
                 </Link>
-              </h4>
+              </p>
+              <p>
+                Forgotten your password?{" "}
+                <Link className="" to="./forgotpassword">
+                  Click here
+                </Link>
+              </p> 
             </div>
           </form>
         </div>
       </div>
-      <div className="extra-space"></div>
-      <Dna
+      <div className="extra-space-login"></div>
+      {/* <Dna
         visible={true}
         height="80"
         width="80"
         ariaLabel="dna-loading"
         wrapperStyle={{}}
         wrapperClass="dna-wrapper"
-      />
+      /> */}
       <Footer />
     </>
   );

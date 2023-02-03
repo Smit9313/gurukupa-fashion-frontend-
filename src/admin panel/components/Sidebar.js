@@ -11,11 +11,13 @@ function Sidebar({url}) {
   const [product, setProduct] = useState(true);
   const [order, setOrder] = useState(true);
   const [discount, setDiscount] = useState(true);
+  const [lock, setLock] = useState(false);
   // const [urlPath, setUrlPath] =useState(url);
 
   const handleSidebar = () => {
     setSidebar(!sidebar);
   };
+
   function removeTrailingSlash(str) {
     return str.replace(/\/+$/, "");
   }
@@ -77,7 +79,10 @@ function Sidebar({url}) {
 
   return (
     <>
-      <nav className={sidebar ? "sidebar close" : "sidebar open"}>
+      <nav
+        className={
+          lock ? "sidebar open" : sidebar ? "sidebar close" : "sidebar open"
+        }>
         <header>
           <div className="image-text">
             <span className="image">
@@ -94,6 +99,9 @@ function Sidebar({url}) {
                 height="40px"
                 width="130px"
               />
+              <i
+                className={lock ? "bx bx-lock-alt lock-icon" : "bx bx-lock-alt"}
+                onClick={() => setLock(!lock)}></i>
             </div>
           </div>
 
@@ -132,24 +140,28 @@ function Sidebar({url}) {
               {!supplier && (
                 <>
                   <hr />
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink
                       to={`/admin/manageSupplier`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
-                        {"->"}Manage Suplier
+                        {"->"}Manage Supplier
                       </span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
                   <hr />
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink
                       to={`/admin/addSupplier`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text">{"->"}Add Suplier</span>
+                      <span className="text nav-text">{"->"}Add Supplier</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -172,7 +184,9 @@ function Sidebar({url}) {
 
               {!purchase && (
                 <>
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to={`/admin/managePurchase`}>
                       <span className="text nav-text-sub">
                         {"->"}Manage Purchase
@@ -181,7 +195,9 @@ function Sidebar({url}) {
                     </NavLink>
                   </li>
                   <hr />
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to={`/admin/addPurchase`}>
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text">{"->"}Add Purchase</span>
@@ -207,7 +223,9 @@ function Sidebar({url}) {
 
               {!category && (
                 <>
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to={`/admin/manageCategory`}>
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
@@ -217,7 +235,9 @@ function Sidebar({url}) {
                     </NavLink>
                   </li>
                   <hr />
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to={`/admin/addCategory`}>
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
@@ -245,7 +265,9 @@ function Sidebar({url}) {
 
               {!product && (
                 <>
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to={`/admin/manageProduct`}>
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
@@ -255,7 +277,9 @@ function Sidebar({url}) {
                     </NavLink>
                   </li>
                   <hr />
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to={`/admin/addProduct`}>
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
@@ -283,7 +307,9 @@ function Sidebar({url}) {
 
               {!order && (
                 <>
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to="/">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">{"->"}All Order</span>
@@ -291,7 +317,9 @@ function Sidebar({url}) {
                     </NavLink>
                   </li>
                   <hr />
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to="/">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
@@ -301,7 +329,9 @@ function Sidebar({url}) {
                     </NavLink>
                   </li>
                   <hr />
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to="/">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
@@ -311,7 +341,9 @@ function Sidebar({url}) {
                     </NavLink>
                   </li>
                   <hr />
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to="/">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
@@ -339,7 +371,9 @@ function Sidebar({url}) {
 
               {!discount && (
                 <>
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to={`/admin/manageDiscount`}>
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
@@ -349,7 +383,9 @@ function Sidebar({url}) {
                     </NavLink>
                   </li>
                   <hr />
-                  <li className="nav-link-sub">
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
                     <NavLink to={`/admin/addDiscount`}>
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">

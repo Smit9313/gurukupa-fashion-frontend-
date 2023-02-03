@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import '../Style/singleproduct.css';
-import Start from "../components/Start";
+// import Start from "../components/Start";
 import Footer from "./Footer";
 import Navbar from '../components/navbar/Navbar'
 // import img from '../assets/cloths/1.jpg';

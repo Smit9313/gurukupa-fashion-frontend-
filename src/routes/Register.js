@@ -31,11 +31,11 @@ function Register() {
   const validateRegister = (event) => {
     event.preventDefault();
 
-    //****** Username *******/
+    /******** Username *******/
 
     let nameNull = uname.trim() === "";
     let nameNotNull = uname.trim() !== "";
-    let minNameLength = uname.trim().length < 2;
+    let minNameLength = uname.trim().length < 6;
     let maxNameLength = uname.trim().length > 10;
 
     if (nameNull) {
@@ -134,42 +134,48 @@ function Register() {
   ) {
     //  Register Api
 
-    axios.post("http://127.0.0.1:8000/mongo_auth/signup/", {
-      name: uname,
-      email: email,
-      password: passCon,
-    })
+    axios
+      .post("http://127.0.0.1:8000/signup/", {
+        name: uname,
+        email: email,
+        password: passCon,
+        role: "customer",
+      })
       .then((response) => {
         // console.log(response.data.data["email"]);
         // console.log("response ",response.status);
         if (response.status === 200) {
           axios
-            .post("http://127.0.0.1:8000/mongo_auth/login/", {
+            .post("http://127.0.0.1:8000/login/", {
               // name: uname,
               email: email,
               password: passCon,
             })
             .then((response) => {
               // console.log("response ", response.status);
-              if (response.status === 200){}
-                sessionStorage.setItem(
-                  "token",
-                  JSON.stringify(response.data.data["token"])
-                );
+              if (response.status === 200) {
+              }
+              sessionStorage.setItem(
+                "token",
+                JSON.stringify(response.data.data["token"])
+              );
               // console.log(response);
 
               history.push("/home");
-            }).catch((error)=> 
-            // console.log(error)
-            pass
+            })
+            .catch(
+              (error) =>
+                // console.log(error)
+                pass
             );
         }
       })
-      .catch((error) => {setError(error.response.data.data["error_msg"])
-        setErrorFlag(true)
-        console.log(error.response.data.data["error_msg"])
-        setEmailFlag(false)
-    });
+      .catch((error) => {
+        setError(error.response.data.data["error_msg"]);
+        setErrorFlag(true);
+        console.log(error.response.data.data["error_msg"]);
+        setEmailFlag(false);
+      });
       // console.log(error);
   }
 

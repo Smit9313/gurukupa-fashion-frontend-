@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 // import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -10,6 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import '../../Style/managesuplier.css';
 import Header from '../../components/Header';
+import axios from 'axios';
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -64,6 +65,8 @@ function ManageSuplier() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+  const [supplier, setSupplier] = useState("");
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -72,6 +75,25 @@ function ManageSuplier() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect(() => {
+     const token = sessionStorage.getItem("token");
+     const headers = { Authorization: `Bearer ${token}` };
+     try {
+       axios
+         .get("http://127.0.0.1:8000/admin-supplier/", { headers })
+         .then((response) => {
+           setSupplier(response.data.data);
+         })
+         .catch((error) => {
+           console.log(error);
+         });
+     } catch (err) {
+
+     }
+  }, [])
+  
+
 
   return (
     <>
