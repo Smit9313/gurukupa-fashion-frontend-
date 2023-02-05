@@ -4,6 +4,7 @@ import '../Style/featuredproduct.css';
 import { Link } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 import ScrollToTop from './ScrollToTop';
+// import axios from 'axios';
 // import AOS from "aos";
 
 function FeaturedProduct({items,title,des}) {
@@ -11,40 +12,42 @@ function FeaturedProduct({items,title,des}) {
     // const [searchTerm, setsearchTerm] = useState("");
     // const [productItems, setProductItems] = useState(items);
     const [pageNumber, setPageNumber] = useState(0);
+    
 
-    const usersPerPage = 5;
+    const usersPerPage = 20;
     const pagesVisited = pageNumber * usersPerPage;
+
+    // console.log(items);
 
     const displayUsers = items
       .slice(pagesVisited, pagesVisited + usersPerPage)
       .map((item,index) => {
         return (
-          
-            // <div className="pro-container">
-            <div className="pro" key={index}>
-              <Link to="/single-product">
-                <img src={item.url} alt="" />
-              </Link>
-              {/* <img src='../assets/products/rock-staar-2XcbGfYShfk-unsplash.jpg' alt='jksjk'/> */}
-              {/* </div> */}
-              <div className="des">
-                <span>{item.title}</span>
-                <h5>{item.des}</h5>
-                <div className="star">
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                </div>
-                <h4>{item.price}</h4>
+          // <div className="pro-container">
+          <div className="pro" key={index}>
+            <Link to={`/single-product/${item._id}`}>
+              <img src={item.prod_image} alt="" />
+            </Link>
+            {/* <img src='../assets/products/rock-staar-2XcbGfYShfk-unsplash.jpg' alt='jksjk'/> */}
+            {/* </div> */}
+            <div className="des">
+              <h5>{item.prod_name}</h5>
+              <span>{item.prod_desc}</span>
+              <div className="star">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
               </div>
-              <Link to="/cart-products">
-                <img className="cart" src="logo/shopping-cart.png" alt="" />
-              </Link>
+              <h4>{item.prod_price} ₹</h4>
             </div>
-            // </div>
-         
+            <Link to="/cart-products">
+              {/* <img className="cart" src="logo/shopping-cart.png" alt="" /> */}
+              <i class="bx bxs-cart-add cart" hight="80px"></i>
+            </Link>
+          </div>
+          // </div>
         );
     });
 
@@ -62,6 +65,8 @@ function FeaturedProduct({items,title,des}) {
       const changePage = ({ selected }) => {
         setPageNumber(selected);
       };
+
+    
 
 
   return (

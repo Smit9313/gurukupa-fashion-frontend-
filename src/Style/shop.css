@@ -1,6 +1,7 @@
 .shop-filter{
     display: flex;
     justify-content: center;
+    /* width: 100%; */
     margin: 20px;
     padding: 10px;
 }
@@ -8,8 +9,11 @@
 .shop-filter button{
     font-size: 0.9rem;
     padding: 10px;
+    width: 150px;
     justify-content: space-between;
     margin: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
     text-decoration: none;
     font-weight: 700;
     background-color: #fff;
@@ -21,6 +25,23 @@
     /* border: 3px solid black; */
     /* font-weight: 900; */
     background-color: #dcdcdc;
+}
+
+.sub1-category-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.kids-sub-category{
+    display: flex;
+    flex-direction: row;
+}
+
+.sub1-category-container a{
+    text-decoration: none;
+    color: black;
+    margin-left: 10px;
+    padding: 4px;
 }
 
 input[type="range"]{
@@ -154,4 +175,70 @@ input[type="range"]::-webkit-slider-thumb{
     .filter-product .price-range{
         justify-content: space-between;
     }
+}
+
+.dropdown-category{
+    width: 300px;
+    border: 2px solid black;
+}
+
+.url-path{
+    margin-left: 70px;
+    margin-top: 30px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgb(118, 118, 118);
+}
+
+@media screen and (max-width:500px) {
+    .shop-filter{
+    display: flex;
+    justify-content: center;
+    /* width: 100%; */
+    margin-top: 10px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.shop-filter button{
+    font-size: 0.9rem;
+    padding: 10px;
+    width: 74px;
+    justify-content: space-between;
+    /* margin: 5px; */
+    /* margin: 2px; */
+    margin-left: 4px;
+    margin-right: 4px;
+    /* margin-left: 5px; */
+    /* margin-right: 5px; */
+    text-decoration: none;
+    font-weight: 700;
+    background-color: #fff;
+    /* border-radius: 7px; */
+    cursor: pointer;
+}
+
+.shop-filter button:hover{
+    /* border: 3px solid black; */
+    /* font-weight: 900; */
+    background-color: #dcdcdc;
+}
+
+.sub1-category-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.kids-sub-category{
+    display: flex;
+    flex-direction: row;
+}
+
+.sub1-category-container a{
+    text-decoration: none;
+    color: black;
+    margin-left: 10px;
+    padding: 4px;
+}
+
 }

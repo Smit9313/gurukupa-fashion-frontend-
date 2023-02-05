@@ -31,8 +31,8 @@ function AddPurchase() {
           setDivs(divs.filter((div) => div !== index));
         };
 
-      console.log(supplier);
-      console.log(value);
+      // console.log(supplier);
+      // console.log(value);
   return (
     <>
       <Header name="Add Purchase" path="admin / addPurchase" />

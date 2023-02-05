@@ -23,7 +23,7 @@ import jwtDecode from "jwt-decode";
 
 function App() {
 
-  const [user, setUser] = useState(sessionStorage.getItem("token"));
+  const user = sessionStorage.getItem("token");
   const [role, setRole] = useState("");
 
 
@@ -35,7 +35,7 @@ function App() {
        setRole(decoded["id"]["role"]);
      }
 
-  }, [role])
+  }, [role,user])
 
   
 
@@ -51,14 +51,19 @@ function App() {
           <Redirect to="/home" />
         </Route>
         <Route exact path="/home" component={Home} />
-        <Route exact path="/shop" component={Shop} />
+        <Route exact path="/shop">
+          <Redirect to="/shop/all" />
+        </Route>
+        <Route exact path="/shop/:id" component={Shop} />
+        <Route exact path="/shop/:cat/:subcat" component={Shop} />
+        <Route exact path="/shop/:kid/:kidcat/:kidsubcat" component={Shop} />
+        <Route exact path="/single-product/:product_id" component={SingleProduct} />
         <Route exact path="/about" component={About} />
         <Route exact path="/contact" component={Contact} />
         <Route exact path="/signup" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/footer" component={Footer} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/single-product" component={SingleProduct} />
         <Route exact path="/cart-products" component={CartProducts} />
         <Route exact path="/checkout" component={Checkout} />
         <Route exact path="/forgotpassword" component={ForgotPassword} />
@@ -74,12 +79,14 @@ function App() {
         )}
         {user && role === "customer" && (
           <>
-            <Route path="/profile" component={Profile} />
-            <Route path="/*" component={Error} />
+            <Switch>
+              <Route path="/profile" component={Profile} />
+              <Route path="/*" component={Error} />
+            </Switch>
           </>
         )}
 
-        {/* <Route path="/*" component={Error} /> */}
+        <Route path="/*" component={Error} />
       </Switch>
     </div>
   );

@@ -1,46 +1,175 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Header from '../../components/Header';
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Footer from "../../components/Footer";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import '../../Style/addproduct.css'
+import '../../Style/addproduct.css';
+import axios from 'axios';
+import { Form, Select } from 'antd';
+import Switch from "@mui/material/Switch";
+import { Upload , message} from 'antd';
+import qs from "qs";
+// import 'antd/dist/antd.css';
+
 
 function AddProduct() {
-
   const width = true;
+  const [cat_typeflag, setCat_typeFlag] = useState(false);
+  const [catid, setCatid] = useState("");
+  const [cat_data, setCat_Data] = useState();
+  const [sub_data , setSub_Data] = useState();
+  const [images, setImages] = useState([]);
+//  const [message, setMessage] = useState("");
+// const [formData,setFromData] = useState(new FormData())
 
-   const [supplier, setSupplier] = React.useState("");
-   const [value, setValue] = React.useState(null);
-    const [divs, setDivs] = useState([1]);
-    const [divsImg, setDivsImg] = useState([1]);
+  const [name, setName] = useState(""); 
+  const [subcatid, setSubCatid] = useState("");
+  const [active,setActive] = useState(true);
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
 
-   const handleChange = (event) => {
-     setSupplier(event.target.value);
+
+   const toast_message = (message) => {
+     if (message === "Success") {
+       return toast.success("Category added", {
+         position: "top-center",
+         autoClose: 3000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+       });
+     } else if (message === "warning") {
+       return toast.warn("Somthing wrong!", {
+         position: "top-center",
+         autoClose: 3000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+       });
+     } else {
+     }
    };
 
-   const handleProductImg = ()=>{
-         setDivsImg([...divsImg, divsImg.length + 1]);
+
+
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      axios
+        .get(
+          "http://127.0.0.1:8000/admin-category-type/",
+          //  qs.stringify({ cat_type: cat_type, active: cat_status }),
+          { headers }
+        )
+        .then((response) => {
+          //  console.log(response.data.data);
+          setCat_Data(
+            response.data.data.map(({ cat_type, _id }) => ({
+              label: cat_type,
+              value: _id,
+            }))
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {}
+  }, [cat_typeflag]);
+
+
+
+
+  const handleChange = ({ fileList }) => setImages(fileList);
+    // const formData = new FormData();
+
+  // images.forEach((file) => {
+  //   formData.append("images", file.originFileObj);
+  // });
+
+   const props = {
+     multiple: true,
+     onChange: handleChange,
+     beforeUpload: (file) => {
+       const isJpgOrPng =
+         file.type === "image/jpeg" ||
+         file.type === "image/png" ||
+         file.type === "image/jpg";
+       if (!isJpgOrPng) {
+         message.error("You can only upload JPG/PNG file!");
+       }
+       const isLt2M = file.size / 1024 / 1024 < 2;
+       if (!isLt2M) {
+         message.error("Image must be smaller than 2MB!");
+       }
+       return !isJpgOrPng && !isLt2M;
+     },
+   };
+  //  console.log(images)
+
+
+   const handleProduct = async (e)=>{
+       e.preventDefault();
+    // console.log(images[0].originFileObj);
+       const formData = new FormData();
+       images.map(async (file,index) => {
+         formData.append(index, file.originFileObj, file?.name);
+         console.log(file.originFileObj)
+         console.log()
+       });
+      
+       if(name !== "" && subcatid !== "" && description !== "" && price!== ""){
+        const token = sessionStorage.getItem("token");
+        // const headers = { Authorization: `Bearer ${token}`,
+                          // Content-Type: 'multipart/form-data',
+                                // };
+          
+        formData.append("prod_name",name);
+        formData.append("cat_id",subcatid);
+        formData.append("active",active);
+        formData.append("prod_desc",description);
+        formData.append("prod_price",price);
+
+                    
+        try {
+          axios
+            .post(
+              "http://127.0.0.1:8000/admin-product/",
+              // qs.stringify({
+                // prod_name: name,
+                // cat_id: subcatid,
+                // active: active,
+                // prod_desc: description,
+                // prod_image: images[0].originFileObj,
+                formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": `multipart/form-data`,
+                },
+              })
+            .then((response) => {
+              // console.log(response.data.message)
+              console.log(response);
+              console.log("valid");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } catch (err) {}
+        
+      }
    }
 
-    const handleProductQty = () => {
-        setDivs([...divs, divs.length + 1]);
-    };
 
-    const handleProductQtyM = (index) =>{
-        setDivs(divs.filter((div) => div !== index));
-    }
-
-    const handleProductImgM = (index)=>{
-      setDivsImg(divsImg.filter((div)=> div !== index));
-    }
-
-      
   return (
     <>
       <Header name="Add Product" path="admin / addProduct" />
@@ -48,65 +177,123 @@ function AddProduct() {
         <div className="add-suplier-sub1">
           <div className="box">
             <p>Enter product name:</p>
-            {/* <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={supplier}
-              label="Select Supplier"
+            <TextField
+              label="name"
+              onChange={(e) => setName(e.target.value)}
               size="small"
-              onChange={handleChange}
-              fullWidth={true}>
-              <MenuItem value={10}>x</MenuItem>
-              <MenuItem value={20}>y</MenuItem>
-              <MenuItem value={30}>z</MenuItem>
-            </Select> */}
-            <TextField label="name" size="small" fullWidth={width} />
+              fullWidth={width}
+            />
+          </div>
+
+          <div className="box">
+            <p>Select category-type</p>
+            <Select
+              showSearch
+              style={{ width: 332 }}
+              placeholder="Search to Select"
+              // value={}
+              onChange={(value1)=>{
+                console.log(value1)
+                const token = sessionStorage.getItem("token");
+                const headers = { Authorization: `Bearer ${token}` };
+                
+                try {
+                    axios
+                      .get(
+                          `http://127.0.0.1:8000/admin-cat-type-to-category/${value1}/`,
+                            //  qs.stringify({ cat_type: cat_type, active: cat_status }),
+                          { headers }
+                      )
+                      .then((response) => {
+
+                        console.log(response.data.data.Category);
+                         setSub_Data(
+                           response.data.data.Category.map(({ cat_title, cat_id }) => ({
+                             "label": cat_title,
+                             "value": cat_id,
+                           }))
+                         );
+                        
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      });
+                  } catch (err) {}
+
+                            }}
+              size="mediam"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "").includes(input)
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.label ?? "").toLowerCase())
+              }
+              options={cat_data}
+            />
           </div>
 
           <div className="box">
             <p>Select category</p>
-            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="select"
-                value={value}
-                onChange={(newValue) => {
-                  setValue(newValue);
-                }}
-                renderInput={(params) => <TextField size="small" {...params} />}
-              />
-            </LocalizationProvider> */}
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={supplier}
-              label="Select Supplier"
-              size="small"
-              onChange={handleChange}
-              fullWidth={true}>
-              <MenuItem value={10}>x</MenuItem>
-              <MenuItem value={20}>y</MenuItem>
-              <MenuItem value={30}>z</MenuItem>
-            </Select>
+              showSearch
+              style={{ width: 332 }}
+              placeholder="Select category"
+              value={subcatid}
+              onChange={(value) =>setSubCatid(value)}
+              size="mediam"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "").includes(input)
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.label ?? "").toLowerCase())
+              }
+              options={sub_data}
+            />
           </div>
 
           <div className="box">
             <p>Enter status:</p>
-            <TextField label="amount" size="small" fullWidth={width} />
+            <Switch
+              defaultChecked
+              // checked={true}
+              onChange={(e) => {
+                console.log(e.target.checked)
+                setActive(e.target.checked)}}
+            />
           </div>
 
           <div className="box">
             <p>Enter product description:</p>
-            <TextField label="description" size="small" fullWidth={width} />
+            <TextField
+              label="description"
+              onChange={(e) => setDescription(e.target.value)}
+              size="small"
+              fullWidth={width}
+            />
           </div>
 
           <div className="box">
             <p>Enter price:</p>
-            <TextField label="price" size="small" fullWidth={width} />
+            <TextField
+              label="price"
+              type="number"
+              onChange={(e) => setPrice(e.target.value)}
+              size="small"
+              fullWidth={width}
+            />
           </div>
 
           <div className="suplier-button">
             <Button
               variant="contained"
+              type="submit"
+              onClick={handleProduct}
               endIcon={<SendIcon />}
               fullWidth={width}>
               Add
@@ -116,73 +303,18 @@ function AddProduct() {
 
         <div className="add-suplier-sub1">
           <div className="box box-qty">
-            <p>Enter product quantity:</p>
-            <div className="add-qty-btn">
-              <i
-                className="bx bx-plus icon add-icon"
-                onClick={handleProductQty}></i>
-              <p>Add</p>
-            </div>
-            {divs.map((div) => (
-              <div key={div} className="add-qty">
-                <TextField label="size" size="small" />
-                <div className="space-b"></div>
-                <TextField label="Qty" size="small" />
-                <i
-                  className="bx bx-minus icon add-icon"
-                  onClick={() => handleProductQtyM(div)}></i>
-              </div>
-            ))}
-          </div>
-
-          <div className="box box-qty">
             <p>select Product image:</p>
-            <div className="add-qty-btn">
-              <i
-                className="bx bx-plus icon add-icon"
-                onClick={handleProductImg}></i>
-              <p>Add</p>
-            </div>
-            {divsImg.map((div) => (
-              <div key={div} className="add-qty">
-                {/* <TextField label="price" size="small" /> */}
-                <Button variant="contained" component="label">
-                  Upload
-                  <input accept="image/*" multiple type="file" />
-                </Button>
-                {/* <div className="space-b"></div> */}
-                {/* <TextField label="price" size="small" /> */}
-                <i
-                  className="bx bx-minus icon add-icon"
-                  onClick={() => handleProductImgM(div)}></i>
-              </div>
-            ))}
+            <Upload.Dragger
+              {...props}
+              fileList={images}
+              multiple
+              accept=".jpg,.png,.jpeg"
+              listType="picture">
+              Drag file here OR
+              <br />
+              <Button>upload</Button>
+            </Upload.Dragger>
           </div>
-
-          {/* <div className="box">
-            <p>Enter Area Street:</p>
-            <TextField label="area street" size="small" fullWidth={width} />
-          </div>
-
-          <div className="box">
-            <p>Enter Landmark:</p>
-            <TextField label="landmark" size="small" fullWidth={width} />
-          </div>
-
-          <div className="box">
-            <p>Enter City:</p>
-            <TextField label="city" size="small" fullWidth={width} />
-          </div>
-
-          <div className="box">
-            <p>Enter State:</p>
-            <TextField label="state" size="small" fullWidth={width} />
-          </div>
-
-          <div className="box">
-            <p>Enter Pincode:</p>
-            <TextField label="pincode" size="small" fullWidth={width} />
-          </div> */}
         </div>
       </div>
 

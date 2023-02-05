@@ -1,10 +1,14 @@
 .category-container{
-    margin-left: 600px;
+    /* margin-left: 600px; */
+    margin-left: 450px;
+    /* margin-right: 100px; */
     /* margin-top: 65px; */
+    justify-content: center;
     margin-bottom: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-    width: 550px;
+    width: 650px;
+    opacity: 1.0;
     /* height: 20px; */
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }

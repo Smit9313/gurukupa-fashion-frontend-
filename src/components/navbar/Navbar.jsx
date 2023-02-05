@@ -65,7 +65,7 @@ function Navbar() {
          const decoded = jwtDecode(token);
          setRole(decoded["id"]["role"]);
        }
-     }, [role]);
+     }, [role, token]);
 
   return (
     <>
@@ -84,8 +84,8 @@ function Navbar() {
           </li>
           <li onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
             <NavLink
-              to="/shop"
-              className="nav-links"
+              to="/shop/all"
+              className="nav-links sun-nav"
               activeClassName="active-link"
               onClick={handleClick}>
               SHOP
@@ -102,7 +102,9 @@ function Navbar() {
               <div className="mb-category-1">
                 <div className="mb-category-2">
                   <div className="cat-man">
-                    <h4>Man</h4>
+                    <NavLink to="/shop/Men">
+                      <h4>Men</h4>
+                    </NavLink>
                     <i
                       className={
                         arrowMan ? "fas fa-angle-right" : "fas fa-angle-down"
@@ -120,8 +122,6 @@ function Navbar() {
                       {/* <br /> */}
                       <NavLink to="">Formal Shirt</NavLink>
                       {/* <br /> */}
-                      <NavLink to="">Shorts</NavLink>
-                      {/* <br /> */}
                       <NavLink to="">Casual Trouser</NavLink>
                       {/* <br /> */}
                       <NavLink to="">Kurta</NavLink>
@@ -132,7 +132,10 @@ function Navbar() {
                 <div className="">
                   <div className="mb-category-2">
                     <div className="cat-woman">
-                      <h4>Woman</h4>
+                      <NavLink to="/shop/Women">
+                        <h4>Women</h4>
+                      </NavLink>
+
                       <i
                         className={
                           arrowWoman
@@ -144,25 +147,28 @@ function Navbar() {
                     <hr />
                     {!arrowWoman && (
                       <div className="man-cat-items">
-                        <NavLink to="">Dress</NavLink>
-                        {/* <br /> */}
-                        <NavLink to="">Tops</NavLink>
-                        {/* <br /> */}
-                        <NavLink to="">T-Shirts</NavLink>
-                        {/* <br /> */}
-                        <NavLink to="">Jeans</NavLink>
-                        {/* <br /> */}
-                        <NavLink to="">Kurtas & Suits</NavLink>
+                        <NavLink to="/shop/Women/Tops">Tops</NavLink>
+                        <NavLink to="/shop/Women/T-Shirts">T-shirts</NavLink>
+                        <NavLink to="/shop/Women/LehengaCholi">
+                          Lehenga & Choli
+                        </NavLink>
+                        <NavLink to="/shop/Women/Kurtas&Suits">
+                          Kurtas & Suits
+                        </NavLink>
+                        <NavLink to="/shop/Women/Jeans">Jeans</NavLink>
+                        <NavLink to="/shop/Women/Dresses">Dresses</NavLink>
                       </div>
                     )}
                   </div>
                 </div>
 
                 <div>
-                  <div className="set-kid">
+                  <div className="set-kid mb-category-2">
                     <div className="cat-kid">
                       <center>
-                        <h4>Kids</h4>
+                        <NavLink to="/shop/Kids">
+                          <h4>Kids</h4>
+                        </NavLink>
                       </center>
                       <i
                         className={
@@ -176,30 +182,23 @@ function Navbar() {
                   {!arrowKid && (
                     <div className="">
                       <div className="mb-category-3">
-                        <h5>Boy</h5>
-                        <hr />
-                        <NavLink to="">T-Shirts</NavLink>
-                        {/* <br /> */}
-                        <NavLink to="">Shirts</NavLink>
-                        {/* <br /> */}
-                        <NavLink to="">Shorts</NavLink>
-                        {/* <br /> */}
-                        <NavLink to="">Jeans</NavLink>
-                        {/* <br /> */}
-                        <NavLink to="">Trousers</NavLink>
-                        <hr />
+                        <NavLink to="/shop/Kids/Boy">
+                          <h5>Boy</h5>
+                        </NavLink>
+                        <NavLink to="/shop/Kids/Boy/Trousers">Trousers</NavLink>
+                        <NavLink to="/shop/Kids/Boy/T-Shirts">T-Shirts</NavLink>
+                        <NavLink to="/shop/Kids/Boy/Shorts">Shorts</NavLink>
+                        <NavLink to="/shop/Kids/Boy/Jeans">Jeans</NavLink>
+                        <NavLink to="/shop/Kids/Boy/Shirts">Shirts</NavLink>
                       </div>
                       <div className="mb-category-3">
-                        <h5>Girl</h5>
-                        <hr />
+                        <NavLink to="/shop/Kids/Girl">
+                          <h5>Girl</h5>
+                        </NavLink>
                         <NavLink to="">Dresses</NavLink>
-                        {/* <br /> */}
                         <NavLink to="">Tops</NavLink>
-                        {/* <br /> */}
                         <NavLink to="">T-Shirt</NavLink>
-                        {/* <br/> */}
                         <NavLink to="">Jeans & Trousers</NavLink>
-                        {/* <br /> */}
                       </div>
                     </div>
                   )}
@@ -294,7 +293,7 @@ function Navbar() {
                   PROFILE
                 </NavLink>
               </li>
-            
+
               <li>
                 <a
                   // to="/register"
@@ -348,69 +347,88 @@ function Navbar() {
           onMouseOut={handleMouseOut}>
           <div className="sub-category-container">
             <div className="category-1">
-              <h3>Man</h3>
+              <NavLink to="/shop/Men">
+                <h3>Men</h3>
+              </NavLink>
               <hr />
-              <NavLink to="">T-Shirt</NavLink>
+              <NavLink to="/shop/Men/T-Shirts">T-Shirt</NavLink>
               <br />
-              <NavLink to="">Jeans</NavLink>
+              <NavLink to="/shop/Men/Jeans">Jeans</NavLink>
               <br />
-              <NavLink to="">Casual Shirt </NavLink>
+              <NavLink to="/shop/Men/CasualShirts">Casual Shirt </NavLink>
               <br />
-              <NavLink to="">Formal Shirt</NavLink>
+              <NavLink to="/shop/Men/FormalShirts">Formal Shirt</NavLink>
               <br />
-              <NavLink to="">Shorts</NavLink>
+              <NavLink to="/shop/Men/CasualTrousers">Casual-Trouser</NavLink>
               <br />
-              <NavLink to="">Casual Trouser</NavLink>
-              <br />
-              <NavLink to="">Kurta</NavLink>
+              <NavLink to="/shop/Men/Kurta">Kurta</NavLink>
             </div>
 
             <div className="category-1">
               <div>
-                <h3>Woman</h3>
+                <NavLink to="/shop/Women">
+                  <h3>Women</h3>
+                </NavLink>
                 <hr />
-                <NavLink to="">Dress</NavLink>
+                <NavLink to="/shop/Women/Tops">Tops</NavLink>
                 <br />
-                <NavLink to="">Tops</NavLink> <br />
-                <NavLink to="">T-Shirts</NavLink> <br />
-                <NavLink to="">Jeans</NavLink> <br />
-                <NavLink to="">Kurtas & Suits</NavLink>
+                <NavLink to="/shop/Women/T-Shirts">T-shirts</NavLink>
+                <br />
+                <NavLink to="/shop/Women/LehengaCholi">
+                  Lehenga & Choli
+                </NavLink>{" "}
+                <br />
+                <NavLink to="/shop/Women/Kurtas&Suits">
+                  Kurtas & Suits
+                </NavLink>{" "}
+                <br />
+                <NavLink to="/shop/Women/Jeans">Jeans</NavLink>
+                <br />
+                <NavLink to="/shop/Women/Dresses">Dresses</NavLink>
               </div>
             </div>
 
             <div>
               <div className="category-1">
                 <center>
-                  <h3>Kid</h3>
+                  <NavLink to="/shop/Kids">
+                    <h3>Kid</h3>
+                  </NavLink>
                 </center>
                 <hr />
               </div>
               <div className="sub-category-container">
                 <div className="category-1">
-                  <h4>Boy</h4>
+                  <NavLink to="/shop/Kids/Boy">
+                    <h4>Boy</h4>
+                  </NavLink>
                   <hr />
-                  <NavLink to="">T-Shirts</NavLink>
+                  <NavLink to="/shop/Kids/Boy/Trousers">Trousers</NavLink>
                   <br />
-                  <NavLink to="">Shirts</NavLink>
+                  <NavLink to="/shop/Kids/Boy/T-Shirts">T-Shirts</NavLink>
                   <br />
-                  <NavLink to="">Shorts</NavLink>
+                  <NavLink to="/shop/Kids/Boy/Shorts">Shorts</NavLink>
                   <br />
-                  <NavLink to="">Jeans</NavLink>
+                  <NavLink to="/shop/Kids/Boy/Jeans">Jeans</NavLink>
                   <br />
-                  <NavLink to="">Trousers</NavLink>
+                  <NavLink to="/shop/Kids/Boy/Shirts">Shirts</NavLink>
                   <br />
                 </div>
                 <div className="category-1">
-                  <h4>Girl</h4>
-                  <hr />
-                  <NavLink to="">Dresses</NavLink>
-                  <br />
-                  <NavLink to="">Tops</NavLink>
-                  <br />
-                  <NavLink to="">
-                    Jeans &<br />
-                    Trousers
+                  <NavLink to="/shop/Kids/Girl">
+                    <h4>Girl</h4>
                   </NavLink>
+                  <hr />
+                  <NavLink to="/shop/Kids/Girl/Dresses">Dresses</NavLink>
+                  <br />
+                  <NavLink to="/shop/Kids/Girl/T-shirt">T-shirt</NavLink>
+                  <br />
+                  <NavLink to="/shop/Kids/Girl/Jeans-Trousers-Capris">
+                    Jeans, Trousers & Capris
+                  </NavLink>
+                  <br />
+                  <NavLink to="/shop/Kids/Girl/Kurta-Sets">Kurta Sets</NavLink>
+                  <NavLink to="/shop/Kids/Girl/Tops">Tops</NavLink>
                   <br />
                 </div>
               </div>

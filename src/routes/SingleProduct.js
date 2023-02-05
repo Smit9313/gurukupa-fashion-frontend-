@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import '../Style/singleproduct.css';
+import { useParams } from 'react-router-dom';
 // import Start from "../components/Start";
 import Footer from "./Footer";
 import Navbar from '../components/navbar/Navbar'
@@ -11,6 +12,16 @@ function SingleProduct() {
 
   // const [val,setVal] = useState(1);
   const [url,setUrl] = useState('cloths/1.jpg'); 
+  let { product_id } = useParams();
+  console.log(product_id)
+
+  // useEffect(() => {
+
+
+
+  // }, [])
+  
+
 
 
   return (
