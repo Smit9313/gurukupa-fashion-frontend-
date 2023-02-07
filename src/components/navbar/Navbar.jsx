@@ -102,7 +102,7 @@ function Navbar() {
               <div className="mb-category-1">
                 <div className="mb-category-2">
                   <div className="cat-man">
-                    <NavLink to="/shop/Men">
+                    <NavLink to="/shop/Men" onClick={handleClick}>
                       <h4>Men</h4>
                     </NavLink>
                     <i
@@ -114,17 +114,30 @@ function Navbar() {
                   <hr />
                   {!arrowMan && (
                     <div className="man-cat-items">
-                      <NavLink to="">T-Shirt</NavLink>
-                      {/* <br /> */}
-                      <NavLink to="">Jeans</NavLink>
-                      {/* <br /> */}
-                      <NavLink to="">Casual Shirt </NavLink>
-                      {/* <br /> */}
-                      <NavLink to="">Formal Shirt</NavLink>
-                      {/* <br /> */}
-                      <NavLink to="">Casual Trouser</NavLink>
-                      {/* <br /> */}
-                      <NavLink to="">Kurta</NavLink>
+                      <NavLink to="/shop/Men/T-Shirts" onClick={handleClick}>
+                        T-Shirt
+                      </NavLink>
+                      <NavLink to="/shop/Men/Jeans" onClick={handleClick}>
+                        Jeans
+                      </NavLink>
+                      <NavLink
+                        to="/shop/Men/CasualShirts"
+                        onClick={handleClick}>
+                        Casual Shirt{" "}
+                      </NavLink>
+                      <NavLink
+                        to="/shop/Men/FormalShirts"
+                        onClick={handleClick}>
+                        Formal Shirt
+                      </NavLink>
+                      <NavLink
+                        to="/shop/Men/CasualTrousers"
+                        onClick={handleClick}>
+                        Casual Trouser
+                      </NavLink>
+                      <NavLink to="/shop/Men/Kurta" onClick={handleClick}>
+                        Kurta
+                      </NavLink>
                     </div>
                   )}
                 </div>
@@ -132,7 +145,7 @@ function Navbar() {
                 <div className="">
                   <div className="mb-category-2">
                     <div className="cat-woman">
-                      <NavLink to="/shop/Women">
+                      <NavLink to="/shop/Women" onClick={handleClick}>
                         <h4>Women</h4>
                       </NavLink>
 
@@ -147,16 +160,30 @@ function Navbar() {
                     <hr />
                     {!arrowWoman && (
                       <div className="man-cat-items">
-                        <NavLink to="/shop/Women/Tops">Tops</NavLink>
-                        <NavLink to="/shop/Women/T-Shirts">T-shirts</NavLink>
-                        <NavLink to="/shop/Women/LehengaCholi">
+                        <NavLink to="/shop/Women/Tops" onClick={handleClick}>
+                          Tops
+                        </NavLink>
+                        <NavLink
+                          to="/shop/Women/T-Shirts"
+                          onClick={handleClick}>
+                          T-shirts
+                        </NavLink>
+                        <NavLink
+                          to="/shop/Women/LehengaCholi"
+                          onClick={handleClick}>
                           Lehenga & Choli
                         </NavLink>
-                        <NavLink to="/shop/Women/Kurtas&Suits">
+                        <NavLink
+                          to="/shop/Women/Kurtas&Suits"
+                          onClick={handleClick}>
                           Kurtas & Suits
                         </NavLink>
-                        <NavLink to="/shop/Women/Jeans">Jeans</NavLink>
-                        <NavLink to="/shop/Women/Dresses">Dresses</NavLink>
+                        <NavLink to="/shop/Women/Jeans" onClick={handleClick}>
+                          Jeans
+                        </NavLink>
+                        <NavLink to="/shop/Women/Dresses" onClick={handleClick}>
+                          Dresses
+                        </NavLink>
                       </div>
                     )}
                   </div>
@@ -166,7 +193,7 @@ function Navbar() {
                   <div className="set-kid mb-category-2">
                     <div className="cat-kid">
                       <center>
-                        <NavLink to="/shop/Kids">
+                        <NavLink to="/shop/Kids" onClick={handleClick}>
                           <h4>Kids</h4>
                         </NavLink>
                       </center>
@@ -182,23 +209,59 @@ function Navbar() {
                   {!arrowKid && (
                     <div className="">
                       <div className="mb-category-3">
-                        <NavLink to="/shop/Kids/Boy">
+                        <NavLink to="/shop/Kids/Boy" onClick={handleClick}>
                           <h5>Boy</h5>
                         </NavLink>
-                        <NavLink to="/shop/Kids/Boy/Trousers">Trousers</NavLink>
-                        <NavLink to="/shop/Kids/Boy/T-Shirts">T-Shirts</NavLink>
-                        <NavLink to="/shop/Kids/Boy/Shorts">Shorts</NavLink>
-                        <NavLink to="/shop/Kids/Boy/Jeans">Jeans</NavLink>
-                        <NavLink to="/shop/Kids/Boy/Shirts">Shirts</NavLink>
+                        <NavLink
+                          to="/shop/Kids/Boy/Trousers"
+                          onClick={handleClick}>
+                          Trousers
+                        </NavLink>
+                        <NavLink
+                          to="/shop/Kids/Boy/T-Shirts"
+                          onClick={handleClick}>
+                          T-Shirts
+                        </NavLink>
+                        <NavLink
+                          to="/shop/Kids/Boy/Shorts"
+                          onClick={handleClick}>
+                          Shorts
+                        </NavLink>
+                        <NavLink
+                          to="/shop/Kids/Boy/Jeans"
+                          onClick={handleClick}>
+                          Jeans
+                        </NavLink>
+                        <NavLink
+                          to="/shop/Kids/Boy/Shirts"
+                          onClick={handleClick}>
+                          Shirts
+                        </NavLink>
                       </div>
                       <div className="mb-category-3">
                         <NavLink to="/shop/Kids/Girl">
                           <h5>Girl</h5>
                         </NavLink>
-                        <NavLink to="">Dresses</NavLink>
-                        <NavLink to="">Tops</NavLink>
-                        <NavLink to="">T-Shirt</NavLink>
-                        <NavLink to="">Jeans & Trousers</NavLink>
+                        <NavLink
+                          to="/shop/Kids/Girl/Dresses"
+                          onClick={handleClick}>
+                          Dresses
+                        </NavLink>
+                        <NavLink
+                          to="/shop/Kids/Girl/T-shirt"
+                          onClick={handleClick}>
+                          T-shirt
+                        </NavLink>
+                        <NavLink
+                          to="/shop/Kids/Girl/Jeans-Trousers-Capris"
+                          onClick={handleClick}>
+                          Jeans-Trousers-Capris
+                        </NavLink>
+                        <NavLink
+                          to="/shop/Kids/Girl/Kurta-Sets"
+                          onClick={handleClick}>
+                          Kurta-Sets
+                        </NavLink>
                       </div>
                     </div>
                   )}
@@ -206,7 +269,7 @@ function Navbar() {
               </div>
             </div>
           )}
-          <li>
+          {/* <li>
             <NavLink
               to="/about"
               className="nav-links"
@@ -214,7 +277,7 @@ function Navbar() {
               onClick={handleClick}>
               ABOUT
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink
               to="/contact"

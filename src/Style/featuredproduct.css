@@ -99,7 +99,7 @@
 }
 
 #product1 .pro .des span{
-    color: #606063;
+    /* color: #606063; */
     font-size: 12px;
     max-width: 250px;
     /* overflow: hidden; */
@@ -114,7 +114,8 @@
     font-size: 14px;
 }
 
-#product1 .pro .des i{
+
+#product1 .pro .des .star Rate{
     font-size: 12px;
     color: rgb(243,181,25);
 }

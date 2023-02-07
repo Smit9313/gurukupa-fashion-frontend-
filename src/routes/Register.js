@@ -43,10 +43,10 @@ function Register() {
       setUnameError("Name Should not blank.");
     }
 
-    if ((minNameLength || maxNameLength) && nameNotNull) {
-      setNameFlag(false);
-      setUnameError("Username length must be 6 to 10");
-    }
+    // if ((minNameLength || maxNameLength) && nameNotNull) {
+    //   setNameFlag(false);
+    //   setUnameError("Username length must be 6 to 10");
+    // }
 
     if (!nameNull && !minNameLength && !maxNameLength) {
       setNameFlag(true);
@@ -115,14 +115,7 @@ function Register() {
       setPassConError("password and confirm password must be same.");
     }
 
-    if (
-      !passConNull &&
-      !minPassConLength &&
-      !maxPassConLength &&
-      pass === passCon
-    ) {
-      setPassConFlag(true);
-    }
+   
       // console.log(error);
   };
 

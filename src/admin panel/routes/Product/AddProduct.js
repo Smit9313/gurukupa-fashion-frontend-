@@ -9,7 +9,8 @@ import axios from 'axios';
 import { Form, Select } from 'antd';
 import Switch from "@mui/material/Switch";
 import { Upload , message} from 'antd';
-import qs from "qs";
+// import qs from "qs";
+import { ToastContainer, toast } from "react-toastify";
 // import 'antd/dist/antd.css';
 
 
@@ -125,48 +126,70 @@ function AddProduct() {
          console.log(file.originFileObj)
          console.log()
        });
-      
-       if(name !== "" && subcatid !== "" && description !== "" && price!== ""){
-        const token = sessionStorage.getItem("token");
-        // const headers = { Authorization: `Bearer ${token}`,
-                          // Content-Type: 'multipart/form-data',
-                                // };
-          
-        formData.append("prod_name",name);
-        formData.append("cat_id",subcatid);
-        formData.append("active",active);
-        formData.append("prod_desc",description);
-        formData.append("prod_price",price);
 
-                    
-        try {
-          axios
-            .post(
-              "http://127.0.0.1:8000/admin-product/",
-              // qs.stringify({
-                // prod_name: name,
-                // cat_id: subcatid,
-                // active: active,
-                // prod_desc: description,
-                // prod_image: images[0].originFileObj,
-                formData,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "Content-Type": `multipart/form-data`,
-                },
-              })
-            .then((response) => {
-              // console.log(response.data.message)
-              console.log(response);
-              console.log("valid");
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        } catch (err) {}
-        
-      }
+       if (name === "" || subcatid === "" 
+            || description === "" || price === "" || 
+              images === []){
+          toast_message("warning"); 
+       }
+
+
+         if (
+           name !== "" &&
+           subcatid !== "" &&
+           description !== "" &&
+           price !== ""
+         ) {
+           const token = sessionStorage.getItem("token");
+           // const headers = { Authorization: `Bearer ${token}`,
+           // Content-Type: 'multipart/form-data',
+           // };
+
+           formData.append("prod_name", name);
+           formData.append("cat_id", subcatid);
+           formData.append("active", active);
+           formData.append("prod_desc", description);
+           formData.append("prod_price", price);
+
+           try {
+             axios
+               .post(
+                 "http://127.0.0.1:8000/admin-product/",
+                 // qs.stringify({
+                 // prod_name: name,
+                 // cat_id: subcatid,
+                 // active: active,
+                 // prod_desc: description,
+                 // prod_image: images[0].originFileObj,
+                 formData,
+                 {
+                   headers: {
+                     Authorization: `Bearer ${token}`,
+                     "Content-Type": `multipart/form-data`,
+                   },
+                 }
+               )
+               .then((response) => {
+                 console.log(response.data.message);
+                 if(response.data.message === "Success!"){
+                    toast_message("Success");
+                    setName("")
+                    setImages([]);
+                    setActive(true);
+                    setDescription("");
+                    setPrice("");
+                 }else{
+                  toast_message("warning");
+                 }
+
+                 
+                 
+               })
+               .catch((error) => {
+                 console.log(error);
+               });
+           } catch (err) {}
+         }
    }
 
 
@@ -179,6 +202,7 @@ function AddProduct() {
             <p>Enter product name:</p>
             <TextField
               label="name"
+              value={name}
               onChange={(e) => setName(e.target.value)}
               size="small"
               fullWidth={width}
@@ -192,35 +216,34 @@ function AddProduct() {
               style={{ width: 332 }}
               placeholder="Search to Select"
               // value={}
-              onChange={(value1)=>{
-                console.log(value1)
+              onChange={(value1) => {
+                console.log(value1);
                 const token = sessionStorage.getItem("token");
                 const headers = { Authorization: `Bearer ${token}` };
-                
+
                 try {
-                    axios
-                      .get(
-                          `http://127.0.0.1:8000/admin-cat-type-to-category/${value1}/`,
-                            //  qs.stringify({ cat_type: cat_type, active: cat_status }),
-                          { headers }
-                      )
-                      .then((response) => {
-
-                        console.log(response.data.data.Category);
-                         setSub_Data(
-                           response.data.data.Category.map(({ cat_title, cat_id }) => ({
-                             "label": cat_title,
-                             "value": cat_id,
-                           }))
-                         );
-                        
-                      })
-                      .catch((error) => {
-                        console.log(error);
-                      });
-                  } catch (err) {}
-
-                            }}
+                  axios
+                    .get(
+                      `http://127.0.0.1:8000/admin-cat-type-to-category/${value1}/`,
+                      //  qs.stringify({ cat_type: cat_type, active: cat_status }),
+                      { headers }
+                    )
+                    .then((response) => {
+                      console.log(response.data.data.Category);
+                      setSub_Data(
+                        response.data.data.Category.map(
+                          ({ cat_title, cat_id }) => ({
+                            label: cat_title,
+                            value: cat_id,
+                          })
+                        )
+                      );
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                } catch (err) {}
+              }}
               size="mediam"
               optionFilterProp="children"
               filterOption={(input, option) =>
@@ -242,7 +265,7 @@ function AddProduct() {
               style={{ width: 332 }}
               placeholder="Select category"
               value={subcatid}
-              onChange={(value) =>setSubCatid(value)}
+              onChange={(value) => setSubCatid(value)}
               size="mediam"
               optionFilterProp="children"
               filterOption={(input, option) =>
@@ -263,8 +286,9 @@ function AddProduct() {
               defaultChecked
               // checked={true}
               onChange={(e) => {
-                console.log(e.target.checked)
-                setActive(e.target.checked)}}
+                console.log(e.target.checked);
+                setActive(e.target.checked);
+              }}
             />
           </div>
 
@@ -272,6 +296,7 @@ function AddProduct() {
             <p>Enter product description:</p>
             <TextField
               label="description"
+              value={description}
               onChange={(e) => setDescription(e.target.value)}
               size="small"
               fullWidth={width}
@@ -282,6 +307,7 @@ function AddProduct() {
             <p>Enter price:</p>
             <TextField
               label="price"
+              value={price}
               type="number"
               onChange={(e) => setPrice(e.target.value)}
               size="small"
@@ -317,7 +343,18 @@ function AddProduct() {
           </div>
         </div>
       </div>
-
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Footer />
     </>
   );

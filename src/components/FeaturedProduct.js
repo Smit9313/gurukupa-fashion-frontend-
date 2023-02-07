@@ -4,8 +4,7 @@ import '../Style/featuredproduct.css';
 import { Link } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 import ScrollToTop from './ScrollToTop';
-// import axios from 'axios';
-// import AOS from "aos";
+import { Rate } from "antd";
 
 function FeaturedProduct({items,title,des}) {
 
@@ -34,11 +33,12 @@ function FeaturedProduct({items,title,des}) {
               <h5>{item.prod_name}</h5>
               <span>{item.prod_desc}</span>
               <div className="star">
+                {/* <i className="fas fa-star"></i>
                 <i className="fas fa-star"></i>
                 <i className="fas fa-star"></i>
                 <i className="fas fa-star"></i>
-                <i className="fas fa-star"></i>
-                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i> */}
+                <Rate allowHalf defaultValue={2.5} />
               </div>
               <h4>{item.prod_price} ₹</h4>
             </div>

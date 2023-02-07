@@ -40,7 +40,7 @@ function Shop() {
         .get("http://127.0.0.1:8000/customer-product/", { headers })
         .then((response) => {
           setData(response.data.data);      
-          console.log(response.data.data);    
+          // console.log(response.data.data);    
         })
         .catch((error) => {
           console.log(error);
@@ -479,7 +479,7 @@ function Shop() {
     <>
       <Navbar />
       <div className="extra-space-home"></div>
-      <div className="shop-filter">
+      {/* <div className="shop-filter">
         <div>
           <button onClick={allItemHandler}>All</button>
         </div>
@@ -550,7 +550,7 @@ function Shop() {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
 
       <div className="filters">
         <div className="filter-product">

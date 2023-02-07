@@ -1,9 +1,10 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import '../Style/singleproduct.css';
 import { useParams } from 'react-router-dom';
 // import Start from "../components/Start";
 import Footer from "./Footer";
 import Navbar from '../components/navbar/Navbar'
+import axios from 'axios';
 // import img from '../assets/cloths/1.jpg';
 
 
@@ -13,77 +14,105 @@ function SingleProduct() {
   // const [val,setVal] = useState(1);
   const [url,setUrl] = useState('cloths/1.jpg'); 
   let { product_id } = useParams();
-  console.log(product_id)
 
-  // useEffect(() => {
+  const [data, setData] = useState("");
+
+  // console.log(product_id)
+
+  useEffect(() => {
+    try {
+      axios
+        .get(`http://127.0.0.1:8000/customer-product/${product_id}`)
+        .then((response) => {
+          // console.log(response.data.data.prod_image[0])
+          setData(response.data.data)    
+          setUrl(response.data.data.prod_image[0]);      
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {}
 
 
-
-  // }, [])
+  }, [product_id])
   
+
 
 
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       {/* <Start cName="hero-singleproduct"/> */}
+      {data !== "" && (
+        <section id="prodetails" className="section-p1">
+          <div className="single-pro-image">
+            <img src={url} width="100%" id="MainImg" alt="" />
 
-      <section id='prodetails' className='section-p1'>
-        <div className='single-pro-image'>
-          <img src={url} width='100%' id='MainImg' alt=''/>
+            <div className="small-img-group">
+              <div className="small-img-col">
+                <img
+                  src={data.prod_image[0]}
+                  width="100%"
+                  className="small-img"
+                  alt=""
+                  onClick={() => setUrl(data.prod_image[0])}
+                />
+              </div>
 
-          <div className='small-img-group'>
-            <div className='small-img-col'>
-              <img src='cloths/1.jpg' width='100%' className='small-img' alt='' onClick={() => setUrl("cloths/1.jpg")} />
-            </div>
+              <div className="small-img-col">
+                <img
+                  src={data.prod_image[1]}
+                  className="small-img"
+                  alt=""
+                  onClick={() => setUrl(data.prod_image[1])}
+                />
+              </div>
 
-            <div className='small-img-col'>
-              <img src='cloths/2.jpg' className='small-img' alt='' onClick={() => setUrl("cloths/2.jpg")} />
-            </div>
+              <div className="small-img-col">
+                <img
+                  src={data.prod_image[2]}
+                  width="100%"
+                  className="small-img"
+                  alt=""
+                  onClick={() => setUrl(data.prod_image[2])}
+                />
+              </div>
 
-            <div className='small-img-col'>
-              <img src='cloths/3.jpg' width='100%' className='small-img' alt='' onClick={() => setUrl("cloths/3.jpg")} />
-            </div>
-
-            <div className='small-img-col'>
+              {/* <div className='small-img-col'>
               <img src='cloths/4.jpg' width='100%' className='small-img' alt='' onClick={() => setUrl("cloths/4.jpg")} />
+            </div> */}
             </div>
           </div>
 
-        </div>
-
-        <div className='single-pro-details'>
-          <h4>Home / T-Shirt</h4>
-          <h3>Men's Fashion T-Shirt</h3>
-          <h2>999</h2>
-          <select>
-            <option>Select size</option>
-            <option>XL</option>
-            <option>XXL</option>
-            <option>Small</option>
-            <option>Large</option>
-          </select>
-          <input type="number" defaultValue='1' min='1' max='10' />
-          <button type="submit" className='normal' onClick={()=>{
-            console.log("Hello");
-          }}>Add to cart</button>
-          <h4>Product details</h4>
-          <span>Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit, sed do eiusmod tempor incididunt ut labore 
-                et dolore magna aliqua. Ut enim ad minim veniam, 
-                quis nostrud exercitation ullamco laboris nisi ut 
-                aliquip ex ea commodo consequat. Duis aute irure 
-                dolor in reprehenderit in voluptate velit esse 
-                cillum dolore eu fugiat nulla pariatur. Excepteur 
-                sint occaecat cupidatat non proident, sunt in culpa 
-                qui officia deserunt mollit anim id est laborum.
-          </span>
-        </div>
-      </section>
-      <Footer/>
+          <div className="single-pro-details">
+            {/* <h4>Home / T-Shirt</h4> */}
+            <h3>{data.prod_name}</h3>
+            <h2>{data.prod_price} ₹</h2>
+            <select>
+              <option>Select size</option>
+              <option>XL</option>
+              <option>XXL</option>
+              <option>Small</option>
+              <option>Large</option>
+            </select>
+            <input type="number" defaultValue="1" min="1" max="10" />
+            <button
+              type="submit"
+              className="normal"
+              onClick={() => {
+                console.log("Hello");
+              }}>
+              Add to cart
+            </button>
+            <h4>Product details</h4>
+            <span>{data.prod_desc}</span>
+          </div>
+        </section>
+      )}
+      <Footer />
     </>
-  )
+  );
 }
 
 export default SingleProduct

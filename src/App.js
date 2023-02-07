@@ -58,7 +58,7 @@ function App() {
         <Route exact path="/shop/:cat/:subcat" component={Shop} />
         <Route exact path="/shop/:kid/:kidcat/:kidsubcat" component={Shop} />
         <Route exact path="/single-product/:product_id" component={SingleProduct} />
-        <Route exact path="/about" component={About} />
+        {/* <Route exact path="/about" component={About} /> */}
         <Route exact path="/contact" component={Contact} />
         <Route exact path="/signup" component={Home} />
         <Route exact path="/login" component={Login} />
@@ -67,7 +67,7 @@ function App() {
         <Route exact path="/cart-products" component={CartProducts} />
         <Route exact path="/checkout" component={Checkout} />
         <Route exact path="/forgotpassword" component={ForgotPassword} />
-        <Route exact path="/resetpassword" component={ChangePassword} />
+        <Route exact path="/resetpassword/:key" component={ChangePassword} />
         {user && role === "admin" && (
           <>
             <Switch>

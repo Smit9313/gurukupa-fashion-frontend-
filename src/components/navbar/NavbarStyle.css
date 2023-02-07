@@ -13,7 +13,7 @@
     z-index: 101;
     opacity: 1;
     background-color: rgb(255, 255, 255);
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
     }
 
 /* .navabar-logo{
@@ -147,7 +147,7 @@
     .NavBarItems{
         z-index: 100;
         position: fixed;
-        border: 2px solid black;
+        /* border: 2px solid black; */
     } 
     .nav-menu{
         display: flex;
@@ -165,10 +165,11 @@
         align-items: stretch;
         /* padding: 70px 100px 15px 30px; */
         margin: 0; 
-        transition: 0.3s ease-in-out;
+        transition: 0.4s ease-in-out;
         /* border-radius: 13px; */
         /* left: 10px; */
-        border: 2px solid black;
+        /* border: 2px solid black; */
+        border-right: 0.1px solid black;
      }   
      .nav-menu.active-mb{
         left: 0;
@@ -176,13 +177,11 @@
         z-index: 11;
         transition: 0.3s ease-in-out;
         margin-top: 65px;
-        width: 50%;
-        /* box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; */
-        /* box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset; */
-        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-        transition-duration: 0.3s;  
+        width: 60%;
+        transition-duration: 0.2s;  
         transition-delay: 0.1s;
-        height: 92.3vh;
+        /* height: 92.3vh; */
+        height: 93vh;
      }
      .nav-menu.active-mb li{
         display: flex;
@@ -248,7 +247,7 @@
         /* justify-content: space-between; 
     } */
     .menu-icons i{
-        font-size: 29px;
+    font-size: 29px;
         /* margin-left: 10px; */
         padding: 10px;
     }
@@ -275,14 +274,12 @@
     padding-top: 5px;
     padding-bottom: 5px;
     width: 550px;
-    /* height: 100px; */
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
     z-index: 101;
     /* position: fixed; */
     /* position: absolute; */
     position: fixed;
     /* position: relative; */
-    background-color: #fff;
+    background-color: #ffffff;
     transition: 0.3s ease-in-out;
     /* right: 150; */
     /* margin-top: 65px; */
@@ -294,6 +291,7 @@
     flex-direction:row;
     padding-bottom: 10px;
     /* height: 200px; */
+    /* box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px; */
 }
 
 .category-1{

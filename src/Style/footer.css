@@ -1,7 +1,7 @@
 .footer{
     padding: 4rem 6rem;
-    background:#000;
-    color:#fff
+    background:#5e5e5e14;
+    color:#000000
 }
 
 .top{
@@ -13,7 +13,7 @@
 }
 
 .top i{
-    color: #fff;
+    color: #000000;
     font-size: 2rem;
     margin-left: 1rem;
 }
@@ -42,9 +42,9 @@
 
 .bottom a{
     text-decoration: none;
-    color: #fafafa;
+    color: #000000;
     padding-bottom: 0.4rem;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 @media screen and (max-width: 850px){

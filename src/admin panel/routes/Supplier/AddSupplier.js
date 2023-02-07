@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import SendIcon from "@mui/icons-material/Send";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
+import qs from "qs";
 import "react-toastify/dist/ReactToastify.css";
 
 function AddSuplier() {
@@ -191,6 +192,7 @@ function AddSuplier() {
          axios
            .post(
              "http://127.0.0.1:8000/admin-supplier/",
+             qs.stringify(
              {
                name: name,
                mobile_no: mobile,
@@ -201,7 +203,7 @@ function AddSuplier() {
                city: city,
                state: state,
                pincode: pincode,
-             },
+             }),
              { headers }
            )
            .then((response) => {

@@ -15,7 +15,7 @@
     justify-content: center;
     align-items: flex-start;
     /* text-align: center; */
-    /* background-image: url("cloths/1.jpg"); */
+    background-image: url("https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/4028489%202.jpg?alt=media&token=c487b498-7328-4b52-93c6-50eb1a6cc3a2");
     background-color: rgb(133, 133, 133);
     min-width: 650px;
     height: 50vh;
@@ -93,4 +93,7 @@
         padding: 20px 30px;
         width: auto;
     }
+    /* #sm-banner .banner-box{
+        width: 400px;
+    } */
 }
