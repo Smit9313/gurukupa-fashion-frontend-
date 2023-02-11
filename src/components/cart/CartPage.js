@@ -1,15 +1,45 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import Header from './Header';
 import ProductsData from './Products';
 import PromoCode from './PromoCode';
 import ProductList from './ProductList';
 import Summary from './Summary';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 function CartPage() {
     const CLONE_PRODUCTS = JSON.parse(JSON.stringify(ProductsData));
     const [products, setProducts] = React.useState(CLONE_PRODUCTS);
     const [promoCode, setPromoCode] = React.useState("");
     const [discountPercent, setDiscountPercent] = React.useState(0);
+    const history = useHistory();
+
+
+
+     useEffect(() => {
+       const token = sessionStorage.getItem("token");
+       const headers = { Authorization: `Bearer ${token}` };
+       try {
+         axios
+           .get(
+             "http://127.0.0.1:8000/cart/",
+             { headers }
+           )
+           .then((response) => {
+        
+                console.log(response.data)
+
+           })
+           .catch((error) => {
+             console.log(error);
+           });
+       } catch (err) {}
+     }, []);
+
+
+
+
+
 
     const itemCount = products.reduce((quantity, product) => {
         return quantity + +product.quantity;
@@ -34,6 +64,21 @@ function CartPage() {
         setProducts(cloneProducts);
     };
 
+    const onAddQty = (index) => {
+        const cloneProducts = [...products];
+        cloneProducts[index].quantity = parseInt(cloneProducts[index].quantity) + 1;
+        setProducts(cloneProducts);
+    }
+
+    const onRemoveQty = (index) =>{
+        const cloneProducts = [...products];
+        if (cloneProducts[index].quantity > 1){
+            cloneProducts[index].quantity =
+            parseInt(cloneProducts[index].quantity) - 1;
+        }
+        setProducts(cloneProducts);
+    }
+
     const onRemoveProduct = (i) => {
         const filteredProduct = products.filter((product, index) => {
             return index !== i;
@@ -53,10 +98,10 @@ function CartPage() {
                 return;
             }
         }
-
         alert("Sorry, the Promotional code you entered is not valid!");
     };
     const TAX = 5;
+
   return (
       <div>
           <Header itemCount={itemCount} />
@@ -67,6 +112,8 @@ function CartPage() {
                       products={products}
                       onChangeProductQuantity={onChangeProductQuantity}
                       onRemoveProduct={onRemoveProduct}
+                      onAddQty={onAddQty}
+                      onRemoveQty={onRemoveQty}
                   />
 
                   <Summary
@@ -80,7 +127,10 @@ function CartPage() {
           ) : (
               <div className="empty-product">
                   <h3>There are no products in your cart.</h3>
-                  <button onClick={() => setProducts(ProductsData)}>Shopping now</button>
+                  <button onClick={() => {
+                    setProducts(ProductsData)
+                    history.push('/shop');
+                    }}>Shopping now</button>
               </div>
           )}
       </div>

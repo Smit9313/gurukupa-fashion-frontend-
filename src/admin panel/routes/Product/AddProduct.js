@@ -244,7 +244,7 @@ function AddProduct() {
                     });
                 } catch (err) {}
               }}
-              size="mediam"
+              size="medium"
               optionFilterProp="children"
               filterOption={(input, option) =>
                 (option?.label ?? "").includes(input)
@@ -330,6 +330,7 @@ function AddProduct() {
         <div className="add-suplier-sub1">
           <div className="box box-qty">
             <p>select Product image:</p>
+            <br/>
             <Upload.Dragger
               {...props}
               fileList={images}

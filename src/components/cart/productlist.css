@@ -21,12 +21,14 @@
     float: left;
 }
 
+
+
 .col.left {
     width: 70%;
     display: flex;
 }
 
-.name a{
+.name_cart a{
     text-decoration: none;
     color: black;
 }
@@ -67,17 +69,24 @@
     height: 60px;
 }
 
+.quantity{
+    display: flex;
+
+}
+
 .quantity>input {
     display: inline-block;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    margin-left: 10px;
     position: relative;
-    left: calc(50% - 30px);
+    /* left: calc(50% - 30px); */
     background: #fff;
     border: 2px solid #ddd;
     color: #7f7f7f;
     text-align: center;
-    font: 600 1.5rem Helvetica, Arial, sans-serif;
+    font: 600 1.3rem Helvetica, Arial, sans-serif;
 }
 
 .quantity>input:hover,
@@ -98,12 +107,21 @@
     fill: #000000;
 }
 
+.remove-icon{
+    height: 50px;
+    width: 40px;
+    padding: 10px;
+    font-size: 25px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
 @media screen and (max-width:850px){
     .thumbnail img{
         height: 150px;
         width:110px
     }
-    .name a {
+    .name_cart a {
         text-decoration: none;
         color: black;
     }
@@ -113,7 +131,7 @@
         width: auto;
         top: 30px;
     }
-    .name a {
+    .name_cart a {
         font-size: 1rem;
     }
     .quantity,
@@ -128,4 +146,67 @@
         .detail .description {
             display: none;
         }
+
+    .close{
+        height: 40px;
+        width: 40px;
+    }
+
+    .quantity>input {
+        height: 40px;
+        width: 40px; 
+        margin: 0;
+        margin-top: 5px;
+        margin-bottom: 5px;       
+    }
+    .quantity{
+        /* display: flex; */
+        flex-direction: column;
+    }
+    .button-133{
+        padding: 0;
+        width: 40px;
+    }
+    .remove-icon{
+    height: 4px;
+    padding: 7px;
+}
+
+}
+
+
+
+/* CSS */
+.button-133 {
+  background-color: #fff;
+  border: 1px solid #d5d9d9;
+  border-radius: 3px;
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  box-sizing: border-box;
+  color: #0f111195;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Amazon Ember",sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 29px;
+  padding: 0 10px 0 11px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: 40px;
+}
+
+.button-133:hover {
+  background-color: #f7fafa;
+}
+
+.button-133:focus {
+  border-color: #008296;
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  outline: 0;
 }

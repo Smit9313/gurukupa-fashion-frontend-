@@ -12,6 +12,28 @@
     padding: 20px;
 }
 
+.add-suplier-sub2{
+    margin-right: 50px;
+    width: 450px;
+    padding: 20px;
+}
+
+.product-details{
+    margin-top: 20px;
+    background-color: rgba(208, 208, 208, 0.429);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.product-details .box{
+    margin-top: 10px;
+}
+
+.product-details .box-qty{
+    margin-top: 12px;
+}
+
+
 .add-suplier-sub1 .box p{
     padding-bottom: 10px;
 }
@@ -24,6 +46,11 @@
 .add-suplier-sub1 .box{
     margin: 10px;
     margin-top: 20px;
+}
+
+.add-suplier-sub1 .box-qty{
+    display: flex;
+    justify-content: space-between;
 }
 
 .suplier-button{
@@ -53,4 +80,11 @@
     margin: 10px;
     margin-top: 10px;
 }
+    .add-suplier-sub2{
+    margin-right: 20px;
+    width: 395px;
+    padding: 20px;
+}
+
+
 }

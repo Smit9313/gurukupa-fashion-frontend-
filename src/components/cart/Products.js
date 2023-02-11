@@ -5,7 +5,7 @@ const Products = [
         name: "PRODUCT ITEM NUMBER 1",
         description: "Description for product item number 1",
         price: 5.99,
-        quantity: 2
+        quantity: 10
     },
     {
         image: "cloths/2.jpg",

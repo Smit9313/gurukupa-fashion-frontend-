@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 import ScrollToTop from './ScrollToTop';
 import { Rate } from "antd";
+import "./custom.less";
 
 function FeaturedProduct({items,title,des}) {
 
@@ -44,7 +45,7 @@ function FeaturedProduct({items,title,des}) {
             </div>
             <Link to="/cart-products">
               {/* <img className="cart" src="logo/shopping-cart.png" alt="" /> */}
-              <i class="bx bxs-cart-add cart" hight="80px"></i>
+              <i className="bx bxs-cart-add cart" hight="80px"></i>
             </Link>
           </div>
           // </div>
