@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import './summary.css';
 
 function Summary({
@@ -9,29 +10,19 @@ function Summary({
     checkPromoCode
 }) {
 
-    const total = subTotal - discount + tax;
+    const history = useHistory();
+    const total = subTotal
 
   return (
     <section className="container">
-      <div className="promotion">
+      {/* <div className="promotion">
         <label htmlFor="promo-code">Have A Promo Code?</label>
         <input type="text" onChange={onEnterPromoCode} />
         <button type="button" onClick={checkPromoCode} />
-      </div>
+      </div> */}
 
       <div className="summary">
         <ul>
-          <li>
-            Subtotal <span>{parseFloat(subTotal).toFixed(2)}</span>
-          </li>
-          {discount > 0 && (
-            <li>
-              Discount <span>{discount}</span>
-            </li>
-          )}
-          <li>
-            Tax <span>{tax}</span>
-          </li>
           <li className="total">
             Total <span>{parseFloat(total).toFixed(2)}</span>
           </li>
@@ -39,8 +30,9 @@ function Summary({
       </div>
 
       <div className="checkout">
-        <button type="button">Check Out</button>
+        <button type="button" onClick={()=>history.push('/checkout')}>Check Out</button>
       </div>
+      
     </section>
   );
 }

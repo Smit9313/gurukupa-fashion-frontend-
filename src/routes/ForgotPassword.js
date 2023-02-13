@@ -2,7 +2,6 @@ import React,{useState} from 'react';
 import Navbar from "../components/navbar/Navbar";
 import Footer from './Footer';
 import { useHistory } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -77,6 +76,8 @@ function ForgotPassword() {
              email: email,
            })
            .then((response) => {
+
+            console.log(response)
 
             if (response.data.message === "User doesn't exist."){
               setEmailError("User doesn't exist.");

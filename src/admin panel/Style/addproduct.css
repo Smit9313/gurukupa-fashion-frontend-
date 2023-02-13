@@ -26,3 +26,8 @@
 .add-qty-btn{
     display: flex;
 }
+
+.ds-flex{
+    display: flex;
+    flex-direction: column;
+}

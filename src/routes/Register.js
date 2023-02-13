@@ -114,11 +114,13 @@ function Register() {
       setPassConFlag(false);
       setPassConError("password and confirm password must be same.");
     }
-
-   
-      // console.log(error);
-  };
-
+    if (!passConNull && pass === passCon){
+      setPassConFlag(true)
+    }
+      console.log("fshh");
+    };
+    
+    console.log(nameFlag, emailFlag,passFlag,passConFlag)
   if (
     nameFlag === true &&
     emailFlag === true &&
@@ -126,6 +128,7 @@ function Register() {
     passConFlag === true
   ) {
     //  Register Api
+    console.log("vdsjvjh")
 
     axios
       .post("http://127.0.0.1:8000/signup/", {

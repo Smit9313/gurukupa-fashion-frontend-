@@ -37,12 +37,6 @@ function App() {
 
   }, [role,user])
 
-  
-
-
-
-
-
   return (
     <div className="App">
       {/* <Navbar /> */}
@@ -57,7 +51,11 @@ function App() {
         <Route exact path="/shop/:id" component={Shop} />
         <Route exact path="/shop/:cat/:subcat" component={Shop} />
         <Route exact path="/shop/:kid/:kidcat/:kidsubcat" component={Shop} />
-        <Route exact path="/single-product/:product_id" component={SingleProduct} />
+        <Route
+          exact
+          path="/single-product/:product_id"
+          component={SingleProduct}
+        />
         {/* <Route exact path="/about" component={About} /> */}
         <Route exact path="/contact" component={Contact} />
         <Route exact path="/signup" component={Home} />
@@ -65,13 +63,14 @@ function App() {
         <Route exact path="/footer" component={Footer} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/cart-products" component={CartProducts} />
-        <Route exact path="/checkout" component={Checkout} />
+
         <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/resetpassword/:key" component={ChangePassword} />
         {user && role === "admin" && (
           <>
             <Switch>
               <Route path="/admin" component={Admin} />
+              <Route exact path="/checkout" component={Checkout} />
               <Route path="/profile" component={Profile} />
               <Route path="/*" component={Error} />
             </Switch>
@@ -81,10 +80,12 @@ function App() {
           <>
             <Switch>
               <Route path="/profile" component={Profile} />
+              <Route exact path="/checkout" component={Checkout} />
               <Route path="/*" component={Error} />
             </Switch>
           </>
         )}
+        
 
         <Route path="/*" component={Error} />
       </Switch>

@@ -7,7 +7,7 @@ import Navbar from "../components/navbar/Navbar";
 function CartProducts() {
   return (
     <>
-    <Navbar/>
+    {/* <Navbar/> */}
     <div className='main-container'>
         <CartPage/>
     </div>

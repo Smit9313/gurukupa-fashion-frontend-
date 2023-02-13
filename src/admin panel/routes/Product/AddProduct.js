@@ -328,7 +328,7 @@ function AddProduct() {
         </div>
 
         <div className="add-suplier-sub1">
-          <div className="box box-qty">
+          <div className="box box-qty ds-flex">
             <p>select Product image:</p>
             <br/>
             <Upload.Dragger
