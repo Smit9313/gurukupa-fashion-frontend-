@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
 import "../Style/checkout.css";
-import { Link } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import Error from "./Error";
 import { isEmpty } from "lodash";
-import { Button, Drawer, Radio, Space, ConfigProvider } from "antd";
+import { Drawer, Radio, Space, ConfigProvider } from "antd";
 import { Select } from "antd";
 import qs from "qs";
-import { Toaster, toast } from "react-hot-toast";
-import { useCallback } from "react";
+import { Toaster, toast } from "react-hot-toast"
 import useRazorpay from "react-razorpay";
+import { useHistory } from "react-router-dom";
 
 function Checkout() {
-
-   const Razorpay = useRazorpay();
+  const history = useHistory();
+  const Razorpay = useRazorpay();
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [pincode, setPincode] = useState("");
   const [pincodeError, setPincodeError] = useState(false);
   const [products, setProducts] = useState(undefined);
+  const [mobile, setMobile] = useState();
+  const [mobileFlag, setMobileFlag] = useState(false);
   const token = sessionStorage.getItem("token");
 
   const [userData, setUserData] = useState();
@@ -41,6 +42,7 @@ function Checkout() {
   const [pincode1, setPincode1] = useState("");
   const [state1, setState1] = useState("");
   const [city1, setCity1] = useState("");
+  const [navchange, setNavChange] = useState(false);
 
   const [updateDrop, setUpdateDrop] = useState(false);
   const [discountData, setDiscountData] = useState("");
@@ -99,7 +101,7 @@ function Checkout() {
       axios
         .get("http://127.0.0.1:8000/checkout-user-info/", { headers })
         .then((response) => {
-          console.log(response.data.data["Ship-add"]);
+          // console.log(response.data.data["Ship-add"]);
           setUserData(response.data.data);
           if (response.data.data["Ship-add"].length === 0) {
             setDefaultAddress("");
@@ -135,7 +137,7 @@ function Checkout() {
         .then((response) => {
           if (response.data.message === "Success!") {
             setProducts(response.data.data);
-            console.log(response.data);
+            // console.log(response.data);
           } else if (
             response.data.message === "Token corrupted." ||
             response.data.message === "Cart is empty." ||
@@ -149,7 +151,7 @@ function Checkout() {
           console.log(error);
         });
     } catch (err) {}
-  }, []);
+  }, [navchange]);
 
   let total = 0;
 
@@ -250,35 +252,137 @@ function Checkout() {
     }
   };
 
-
-  const handlePayment = useCallback((e) => {
+  const handlePayment = (e) => {
     e.preventDefault();
 
-    var options = {
-      key: "rzp_test_Cl1G7wgRpRqdBD",
-      currency: "INR",
-      name: "Gurukrupa Fashion",
-      description: "Test Transaction",
-      image: "",
-      order_id: "order_LG3VFEZ9jTlJ9F",
-      amount: "1000000",
-      prefill: {
-        name: "Piyush Garg",
-        email: "youremail@example.com",
-        contact: "9313635069",
-      },
-      theme: {
-        color: "#000",
-      },
-    };
-    const rzpay = new Razorpay(options);
-    rzpay.open();
-  }, [Razorpay]);
+    if (!isEmpty(mobile) && mobile.toString().length === 10 && addData._id !== "") {
+      setMobileFlag(false);
+      const token = sessionStorage.getItem("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
 
+      let discountAmount = 0;
+      if (!isNaN(discountData.applied_disc)) {
+        discountAmount = parseInt(discountData.applied_disc);
+      } else {
+        discountAmount = 0;
+      }
+
+      try {
+        axios
+          .post(
+            "http://127.0.0.1:8000/customer-order/",
+            {
+              add_id: addData._id,
+              "Order-details": products.map((val, index) => ({
+                prod_id: val.prod_id,
+                prod_qty: {
+                  [val.size]: val.qty,
+                },
+              })),
+              disc_id: discountData._id,
+              total_amount: total,
+              discounted_amount: discountAmount,
+            },
+            {
+              headers,
+            }
+          )
+          .then((response) => {
+            if (response.data.message === "Success!") {
+              var options = {
+                key: "rzp_test_Cl1G7wgRpRqdBD",
+                currency: "INR",
+                name: "Gurukrupa Fashion",
+                description: "Test Transaction",
+                image:
+                  "https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/site_images%2Fgurukrupa.png?alt=media&token=f6246337-bbac-46a9-b2bf-1abaac2de541",
+                order_id: response.data.data.razorpay_order_id,
+                amount: parseInt(response.data.data.order_amount),
+                prefill: {
+                  name: response.data.data.name,
+                  email: userData.email,
+                  contact: response.data.data.mobile_no,
+                },
+                handler: async function (response1) {
+                   console.log(response1);
+                  // response1.push({"order_id":response.data.data.order_id})
+                  response1.order_id = response.data.data.order_id;
+                 
+                  try {
+                   await axios
+                      .post(
+                        "http://127.0.0.1:8000/verify-order/",
+                        {response1},
+                        {
+                          headers,
+                        }
+                      )
+                      .then((dt) => {
+                        if (dt.data.message === "Success!"){
+                          toast.success("Payment successfully!", {
+                            duration: 4000,
+                          });
+                          setNavChange(!navchange)
+
+                          history.push('/profile')
+                        }
+                        console.log(dt)
+                      });
+                  } catch (error) {
+                    console.log(error);
+                  }
+                },
+                theme: {
+                  color: "#000",
+                },
+              };
+              const rzpay = new Razorpay(options);
+              rzpay.on("payment.failed", function (response2) {
+                  console.log(response2)
+                  response2.error.metadata.ord_id = response.data.data.order_id;
+                  let dataError = response2.error.metadata;
+                  try {
+                    axios
+                      .post(
+                        "http://127.0.0.1:8000/verify-order/",
+                        { dataError},
+                        {
+                          headers,
+                        }
+                      )
+                      .then((dt1) => {
+                        if (dt1.data.message === "Order failed.") {
+                          toast.error("Payment failed!");
+                          // rzpay.close();
+                          rzpay.onClose();
+                        }
+                      });
+                  } catch (error) {
+                    console.log(error);
+                  }
+
+              });
+              rzpay.open();
+
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err) {
+        console.log("Error");
+      }
+    } else {
+      setMobileFlag(true);
+    }
+  };
 
   return (
     <>
-      <Navbar />
+      <Navbar navrender={navchange} />
 
       {!isEmpty(token) && !isEmpty(userData) ? (
         <>
@@ -308,12 +412,14 @@ function Checkout() {
                         label="mobile no"
                         type="number"
                         size="small"
-                        // value={mobile}
-                        // onChange={(e) => setMobile(e.target.value)}
+                        value={mobile}
+                        onChange={(e) => setMobile(e.target.value)}
                         fullWidth={true}
                         // inputProps={{ readOnly: true }}
                       />
-                      {/* {flag2 && <p className="error-color">{mobileError}</p>} */}
+                      {mobileFlag && (
+                        <p className="error-color">Enter valid number</p>
+                      )}
                     </div>
 
                     <div className="box">
@@ -353,6 +459,9 @@ function Checkout() {
                             </button>
                           </ConfigProvider>
                         </div>
+                        {/* {addData.add_id !== "" && (
+                          <p className="error-color">Enter valid number</p>
+                        )} */}
                       </div>
 
                       <div className="box">
@@ -387,7 +496,7 @@ function Checkout() {
                               )
                           }
                           options={userData["Ship-add"].map((val, index) => ({
-                            label: "[" + index.toString() + "]" + " Address",
+                            label: "[" + index.toString() + "] Address",
                             value: val._id,
                           }))}
                         />
@@ -455,9 +564,9 @@ function Checkout() {
                         inputProps={{ readOnly: true }}
                         // onChange={(e) => setPincode(e.target.value)}
                       />
-                      {pincodeError && (
+                      {/* {pincodeError && (
                         <p className="error-color">Enter valid pincode.</p>
-                      )}
+                      )} */}
                     </div>
 
                     <div className="box">
@@ -555,7 +664,9 @@ function Checkout() {
                 </div>
                 <form>
                   <div className="continue-btn">
-                    <button className="checkout-btn" onClick={handlePayment}>Continue</button>
+                    <button className="checkout-btn" onClick={handlePayment}>
+                      Continue
+                    </button>
                   </div>
                 </form>
               </div>
