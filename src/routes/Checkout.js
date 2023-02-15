@@ -291,6 +291,7 @@ function Checkout() {
             }
           )
           .then((response) => {
+            console.log(response)
             if (response.data.message === "Success!") {
               var options = {
                 key: "rzp_test_Cl1G7wgRpRqdBD",
@@ -384,7 +385,7 @@ function Checkout() {
     <>
       <Navbar navrender={navchange} />
 
-      {!isEmpty(token) && !isEmpty(userData) ? (
+      {!isEmpty(token) && !isEmpty(userData) && !isEmpty(products) ? (
         <>
           <div style={{ margin: "65px" }}></div>
           <div className="row-checkout">
