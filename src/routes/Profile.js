@@ -14,6 +14,7 @@ import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import qs from "qs";
 import { Toaster, toast } from "react-hot-toast";
+import { message, Popconfirm } from "antd";
 
 function Profile() {
   const [userData, setUserData] = useState();
@@ -45,24 +46,67 @@ function Profile() {
   const [passConFlag, setPassConFlag] = useState(false);
 
   const [updateDrop, setUpdateDrop] = useState(false);
+  const [updateButton, setUpdateButton] = useState(false);
+
+  const [addressId, setAddressId] = useState();
+  const [updateAddress, setUpdateAddress] = useState(false);
 
   const handleChange = (index) => (event, isExpanded) => {
     setExpanded(isExpanded ? index : false);
+  };
+
+  const confirm = (addid) => {
+    // console.log(e);
+    const token = sessionStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+
+    try {
+      axios
+        .delete(`http://127.0.0.1:8000/customer-address/${addid}`, { headers })
+        .then((response) => {
+          // console.log(response);
+          if (response.data.message === "Success!") {
+            setUpdateDrop(!updateDrop);
+            message.success("deleted successfully!");
+          }else{
+             toast.error("something wrong!", {
+               duration: 3000,
+             });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log("Error");
+    }
+  };
+  const cancel = (e) => {
+    // console.log(e);
+    // message.error("Click on No");
   };
 
   const showDrawer = (e) => {
     e.preventDefault();
     setDwidth("30%");
     setOpen(true);
+    setUpdateButton(false);
   };
   const showDrawer1 = (e) => {
     e.preventDefault();
     setDwidth("100%");
     setOpen(true);
+    setUpdateButton(false);
   };
 
   const onClose = () => {
     setOpen(false);
+    setHouseNo("");
+    setArea("");
+    // setAddtype("");
+    setPincode("");
+    setState("");
+    setCity("");
   };
 
   useEffect(() => {
@@ -113,7 +157,7 @@ function Profile() {
           console.log(error);
         });
     } catch (err) {}
-  }, [updateDrop]);
+  }, [updateDrop, updateAddress]);
 
   const handleChangePassword = (e) => {
     e.preventDefault();
@@ -207,39 +251,40 @@ function Profile() {
     }
   };
 
-   useEffect(() => {
-     const fetchData = async () => {
-       const result = await axios.get(
-         `https://api.postalpincode.in/pincode/${pincode}`
-       );
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get(
+        `https://api.postalpincode.in/pincode/${pincode}`
+      );
 
-       if (pincode.length === 6) {
-         if (
-           result.data[0].Message !== "No records found" &&
-           result.data[0].Message !== "The requested resource is not found"
-         ) {
-           setCity(result.data[0].PostOffice[0].District);
-           setState(result.data[0].PostOffice[0].State);
-           setPincodeError(false);
-         }
-       } else {
-         setPincodeError(true);
-         setState("");
-         setCity("");
-       }
+      if (!isEmpty(pincode)) {
+        if (pincode.length === 6) {
+          if (
+            result.data[0].Message !== "No records found" &&
+            result.data[0].Message !== "The requested resource is not found"
+          ) {
+            setCity(result.data[0].PostOffice[0].District);
+            setState(result.data[0].PostOffice[0].State);
+            setPincodeError(false);
+          }
+        } else {
+          setPincodeError(true);
+          setState("");
+          setCity("");
+        }
+      }
 
-       if (pincode.length === 0) {
-         setPincodeError(false);
-       }
-     };
+      if (pincode.length === 0) {
+        setPincodeError(false);
+      }
+    };
 
-     fetchData();
-   }, [pincode]);
-
+    fetchData();
+  }, [pincode]);
 
   const handleNewAddress = (e) => {
     e.preventDefault();
-  
+
     // console.log(houseno,area,addtype,pincode,state,city)
     if (
       houseno !== "" &&
@@ -305,21 +350,113 @@ function Profile() {
     }
   };
 
-  const handleDelete = (addid)=>{
+  const handleDelete = (addid) => {
     // e.preventDefault();
+  };
+
+  const handleEditAddress = (
+    addid,
+    house_no2,
+    area_street2,
+    add_type2,
+    pincode2,
+    state2,
+    city2
+  ) => {
+    setDwidth("30%");
+    setOpen(true);
+    setUpdateButton(true);
+    setAddressId(addid);
+    setHouseNo(house_no2);
+    setArea(area_street2);
+    setAddtype(add_type2);
+    setPincode(pincode2);
+    setState(state2);
+    setCity(city2);
+  };
+
+  const handleEditAddress1 = (
+    addid,
+    house_no1,
+    area_street1,
+    add_type1,
+    pincode1,
+    state1,
+    city1
+  ) => {
+    setDwidth("100%");
+    setOpen(true);
+    setAddressId(addid);
+    setUpdateButton(true);
+    setHouseNo(house_no1);
+    setArea(area_street1);
+    setAddtype(add_type1);
+    setPincode(pincode1);
+    setState(state1);
+    setCity(city1);
+  };
+
+  const handleAddressUpdate = () => {
+    console.log(houseno, area, addtype, pincode, state, city);
 
     const token = sessionStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
     try {
       axios
-        .delete(
-          `http://127.0.0.1:8000/customer-address/${addid}`,
+        .patch(
+          `http://127.0.0.1:8000/customer-address/${addressId}/`,
+          qs.stringify({
+            house_no: houseno,
+            area_street: area,
+            add_type: addtype,
+            pincode: pincode,
+            state: state,
+            city: city,
+          }),
           { headers }
         )
         .then((response) => {
-          console.log(response)
-          setUpdateDrop(!updateDrop);
+          console.log(response);
+
+          if (response.data.message === "Success!") {
+            setOpen(false);
+            setHouseNo("");
+            setArea("");
+            // setAddtype("");
+            setPincode("");
+            setState("");
+            setCity("");
+
+            toast.success("Address updated!", {
+              style: {
+                border: "1px solid #000",
+                padding: "8px",
+                color: "#000",
+              },
+              position: "top-center  ",
+              duration: 1500,
+              iconTheme: {
+                primary: "#000",
+                secondary: "#FFFAEE",
+              },
+            });
+            setUpdateAddress(!updateAddress);
+          } else {
+            toast.error("Something wrong!", {
+              style: {
+                border: "1px solid #000",
+                padding: "8px",
+                color: "#000",
+              },
+              position: "top-center  ",
+              duration: 1500,
+              iconTheme: {
+                primary: "#000",
+                secondary: "#FFFAEE",
+              },
+            });
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -327,8 +464,7 @@ function Profile() {
     } catch (err) {
       console.log("Error");
     }
-
-  }
+  };
 
   return (
     <>
@@ -342,12 +478,20 @@ function Profile() {
                 <h3>User Details:</h3>
               </center>
               <div className="profile-user-details-sub">
-                <p>Name: {userData.name}</p>
-                <br />
-                <p>Email: {userData.email}</p>
-                <br />
-                <p>Mobile no: {userData.mobile_no}</p>
-                <br />
+                <div className="sub-address-data">
+                  <p>Name</p>
+                  <h5>: {userData.name}</h5>
+                </div>
+
+                <div className="sub-address-data">
+                  <p>Email</p>
+                  <h5>: {userData.email}</h5>
+                </div>
+
+                <div className="sub-address-data">
+                  <p>Mobile no</p>
+                  <h5>: {userData.mobile_no}</h5>
+                </div>
               </div>
             </div>
 
@@ -379,20 +523,94 @@ function Profile() {
                         <AccordionDetails>
                           <Typography>
                             <div className="address-div">
-                              <p>House no: {value.house_no}</p>
-                              <br />
-                              <p>Area street: {value.area_street}</p>
-                              <br />
-                              <p>Add type: {value.add_type}</p>
-                              <br />
-                              <p>Pincode: {value.pincode}</p>
-                              <br />
-                              <p>State: {value.state}</p>
-                              <br />
-                              <p>City: {value.city}</p>
-                              <br />
-                              <button className="button-444">Edit</button>
-                              <button className="button-444" onClick={()=>handleDelete(value._id)}>Delete</button>
+                              <div className="sub-address-data">
+                                <p>House no</p>
+                                <h5>: {value.house_no}</h5>
+                              </div>
+
+                              <div className="sub-address-data">
+                                <p>Area street</p>
+                                <h5>: {value.area_street}</h5>
+                              </div>
+
+                              <div className="sub-address-data">
+                                <p>Add type</p>
+                                <h5>: {value.add_type}</h5>
+                              </div>
+
+                              <div className="sub-address-data">
+                                <p>Pincode</p>
+                                <h5>: {value.pincode}</h5>
+                              </div>
+
+                              <div className="sub-address-data">
+                                <p>State</p>
+                                <h5>: {value.state}</h5>
+                              </div>
+
+                              <div className="sub-address-data">
+                                <p>City</p>
+                                <h5>: {value.city}</h5>
+                              </div>
+
+                              <button
+                                className="button-444"
+                                onClick={() =>
+                                  handleEditAddress(
+                                    value._id,
+                                    value.house_no,
+                                    value.area_street,
+                                    value.add_type,
+                                    value.pincode,
+                                    value.state,
+                                    value.city
+                                  )
+                                }>
+                                Edit
+                              </button>
+
+                              <button
+                                className="button-4444"
+                                onClick={() =>
+                                  handleEditAddress1(
+                                    value._id,
+                                    value.house_no,
+                                    value.area_street,
+                                    value.add_type,
+                                    value.pincode,
+                                    value.state,
+                                    value.city
+                                  )
+                                }>
+                                Edit
+                              </button>
+
+                              <ConfigProvider
+                                theme={{
+                                  components: {
+                                    Button: {
+                                      colorPrimary: "#000",
+                                      colorPrimaryHover: "#000",
+                                      colorPrimaryClick: "#000",
+                                    },
+                                  },
+                                }}>
+                                <Popconfirm
+                                  title="Delete the task"
+                                  description="Are you sure to delete this address?"
+                                  onConfirm={() => confirm(value._id)}
+                                  onCancel={cancel}
+                                  okText="Yes"
+                                  cancelText="No">
+                                  {/* <a href="#">Delete</a> */}
+                                  <button
+                                    className="button-4445"
+                                    // onClick={() => handleDelete(value._id)}
+                                  >
+                                    Delete
+                                  </button>
+                                </Popconfirm>
+                              </ConfigProvider>
                             </div>
                           </Typography>
                         </AccordionDetails>
@@ -414,32 +632,59 @@ function Profile() {
                         <p>Order - {index + 1}</p>
                         <div className="order-address-data">
                           <div>
-                            <p>
-                              <b>House no: </b>
-                              {value.house_no}
-                            </p>
-                            <p>
-                              <b>Area-street: </b>
-                              {value.area_street}
-                            </p>
-                            <p>
-                              <b>Add type: </b>
-                              {value.add_type}
-                            </p>
+                            <div className="sub-address-data">
+                              <p>House no</p>
+                              <h5>: {value.house_no}</h5>
+                            </div>
+
+                            <div className="sub-address-data">
+                              <p>Area-street:</p>
+                              <h5>: {value.area_street}</h5>
+                            </div>
+
+                            <div className="sub-address-data">
+                              <p>Add type</p>
+                              <h5>: {value.add_type}</h5>
+                            </div>
+
+                            <div className="sub-address-data">
+                              <p>Pincode</p>
+                              <h5>: {value.pincode}</h5>
+                            </div>
+                            <div className="sub-address-data">
+                              <p>State</p>
+                              <h5>: {value.state}</h5>
+                            </div>
+
+                            <div className="sub-address-data">
+                              <p>City</p>
+                              <h5>: {value.city}</h5>
+                            </div>
                           </div>
+
                           <div className="order-location">
-                            <p>
-                              <b>Pincode: </b>
-                              {value.pincode}
-                            </p>
-                            <p>
-                              <b>State: </b>
-                              {value.state}
-                            </p>
-                            <p>
-                              <b>City: </b>
-                              {value.city}
-                            </p>
+                            <div className="sub-address-data">
+                              <p>Order date</p>
+                              <h5>: {value.order_date.substring(0, 10)}</h5>
+                            </div>
+
+                            <div className="sub-address-data">
+                              <p>Total amount</p>
+                              <h5>: {value.total_amount}</h5>
+                            </div>
+
+                            {value.order_status === "Failed" && (
+                              <div className="sub-address-data">
+                                <p>Order status</p>
+                                <h5 className="failed">: Failed</h5>
+                              </div>
+                            )}
+                            {value.order_status === "Pending" && (
+                              <div className="sub-address-data">
+                                <p>Order status</p>
+                                <h5 className="pending">: Pending</h5>
+                              </div>
+                            )}
                           </div>
                         </div>
 
@@ -449,7 +694,11 @@ function Profile() {
                               <div key={index1} className="product-data">
                                 <div className="order-product-image">
                                   <Link to={`single-product/${prod.prod_id}`}>
-                                    <img src={prod.prod_image} height="100px" alt="" />
+                                    <img
+                                      src={prod.prod_image}
+                                      height="100px"
+                                      alt=""
+                                    />
                                   </Link>
                                 </div>
                                 <div className="order-product-data">
@@ -464,24 +713,11 @@ function Profile() {
                             </>
                           );
                         })}
-
-                        {value.order_status === "Failed" && (
-                          <div className="order-status">
-                            <b>Order status: </b>
-                            <p className="failed">Failed</p>
-                          </div>
-                        )}
                         {value.order_status === "Pending" && (
-                          <div className="order-status">
-                            <b>Order status:</b>
-                            <p className="pending">Pending</p>
-                          </div>
+                          <Link to={`/invoice/${value._id}`}>
+                            <button className="button-4445">Get invoice</button>
+                          </Link>
                         )}
-
-                        <p>
-                          <b>Total amount: </b>
-                          {value.total_amount}
-                        </p>
                       </div>
                     </>
                   );
@@ -573,9 +809,17 @@ function Profile() {
                 Cancel
               </button>
 
-              <button className="button-1311" onClick={handleNewAddress}>
-                Add
-              </button>
+              {!updateButton && (
+                <button className="button-1311" onClick={handleNewAddress}>
+                  Add
+                </button>
+              )}
+
+              {updateButton && (
+                <button className="button-1311" onClick={handleAddressUpdate}>
+                  Update
+                </button>
+              )}
             </ConfigProvider>
           </Space>
         }>

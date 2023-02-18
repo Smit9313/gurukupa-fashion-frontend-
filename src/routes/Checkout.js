@@ -102,6 +102,7 @@ function Checkout() {
         .get("http://127.0.0.1:8000/checkout-user-info/", { headers })
         .then((response) => {
           // console.log(response.data.data["Ship-add"]);
+          console.log(response)
           setUserData(response.data.data);
           if (response.data.data["Ship-add"].length === 0) {
             setDefaultAddress("");
@@ -284,7 +285,7 @@ function Checkout() {
               })),
               disc_id: discountData._id,
               total_amount: total,
-              discounted_amount: discountAmount,
+              discount: discountAmount,
             },
             {
               headers,
@@ -468,7 +469,7 @@ function Checkout() {
                       <div className="box">
                         <Select
                           showSearch
-                          style={{ width: 200 }}
+                          style={{ width: 310 }}
                           defaultValue={defaultAddress}
                           onChange={(value) =>
                             userData["Ship-add"].map((val, index) => {
@@ -497,7 +498,7 @@ function Checkout() {
                               )
                           }
                           options={userData["Ship-add"].map((val, index) => ({
-                            label: "[" + index.toString() + "] Address",
+                            label: val.Shipadd_label,
                             value: val._id,
                           }))}
                         />

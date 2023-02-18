@@ -1,15 +1,12 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../Style/login.css";
-import {Link, useHistory} from 'react-router-dom';
-import Footer from './Footer';
+import { Link, useHistory } from "react-router-dom";
+import Footer from "./Footer";
 import Navbar from "../components/navbar/Navbar";
-import axios from 'axios';
-
+import axios from "axios";
 
 function Login() {
-
-
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState("");
 
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -19,21 +16,17 @@ function Login() {
   const [passError, setPassError] = useState("");
   const [passFlag, setPassFlag] = useState(false);
 
-
   const [error, setError] = useState("");
   const [errorFlag, setErrorFlag] = useState(false);
 
-
-
   const history = useHistory();
 
-          // useEffect(() => {
-          //   sessionStorage.setItem("role", role);
-          //   console.log(role)
-          // }, [role]);
+  // useEffect(() => {
+  //   sessionStorage.setItem("role", role);
+  //   console.log(role)
+  // }, [role]);
 
-
-  const validateRegister = (event) =>{
+  const validateRegister = (event) => {
     event.preventDefault();
 
     /****** Email *******/
@@ -77,44 +70,43 @@ function Login() {
       setPassFlag(true);
     }
 
-  };
+    if (
+      !passNull &&
+      !minPassLength &&
+      !maxPassLength &&
+      !emailNull &&
+      email_pattern.test(email)
+    ) {
+      axios
+        .post("http://127.0.0.1:8000/login/", {
+          // name: uname,
+          email: email,
+          password: pass,
+        })
+        .then((response) => {
+          if (response.data.message === "User not found.") {
+            setError("User not found.");
+            setErrorFlag(true);
+          } else if (response.data.message === "Success!") {
+            sessionStorage.setItem(
+              "token",
+              JSON.stringify(response.data.data["token"])
+            );
 
-  if (emailFlag === true && passFlag === true) {
-    axios
-      .post("http://127.0.0.1:8000/login/", {
-        // name: uname,
-        email: email,
-        password: pass,
-      })
-      .then((response) => {
-        if (response.data.message === "User not found.") {
-          setError("User not found.");
+            history.push("/home");
+            window.location.reload(true);
+          } else if (response.data.message === "Incorrect password!") {
+            setPassError("Incorrect password!");
+            setPassFlag(false);
+          } else {
+          }
+        })
+        .catch((error) => {
           setErrorFlag(true);
-        } else if (response.data.message === "Success!") {
-          sessionStorage.setItem(
-            "token",
-            JSON.stringify(response.data.data["token"])
-          );
-
-          history.push("/home");
-          window.location.reload(true);
-        } else if (response.data.message === "Incorrect password!") {
-          setPassError("Incorrect password!");
-          setPassFlag(false);
-        } else {
-        }
-      })
-      .catch((error) => {
-
-        setErrorFlag(true);
-        setEmailFlag(false);
-      });
-  }
-
-
-
-  
-
+          setEmailFlag(false);
+        });
+    }
+  };
 
   return (
     <>
@@ -140,7 +132,6 @@ function Login() {
                 />
                 {!emailFlag && <p>{emailError}</p>}
                 {errorFlag && <p>{error}</p>}
-
               </div>
               <div className="input-box">
                 <span className="details">Password</span>
@@ -165,7 +156,7 @@ function Login() {
                 <Link className="" to="./forgotpassword">
                   Click here
                 </Link>
-              </p> 
+              </p>
             </div>
           </form>
         </div>

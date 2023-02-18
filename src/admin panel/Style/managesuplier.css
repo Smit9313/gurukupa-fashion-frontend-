@@ -5,12 +5,23 @@
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
+.suplier-list h4{
+    font-size: 0.9rem;
+    font-weight: 520;
+    justify-content: center;
+}
+
+
 .supplier-edit-btn{
     padding: 5px 15px 5px 15px;
     border: none;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     background-color: rgb(9, 20, 45);
     color: white;
+    cursor: pointer;
+}
+.rdt_TableHeader{
+    justify-content: center;
 }
 
 .supplier-delete-btn{
@@ -20,6 +31,11 @@
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     background-color: rgb(140, 2, 2);
     color: white;
+    cursor: ;
+}
+
+.manage-icon-color{
+    color: black;
 }
 
 .supplier-add-btn{
@@ -45,8 +61,15 @@
     outline: none;
 }
 
+.edit-supplier{
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: black;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 500px){
     .supplier-delete-btn{
-        width: 160px;
+        width: 100px;
     } 
 }

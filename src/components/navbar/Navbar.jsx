@@ -98,7 +98,12 @@ function Navbar({navrender}) {
     <>
       <UserContext.Provider value={countCart}>
         <nav className="NavBarItems">
-          <img src="/logo/gurukrupa.png" alt="" height="40px" width="130px" />
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/site_images%2Fgurukrupa.png?alt=media&token=f6246337-bbac-46a9-b2bf-1abaac2de541"
+            alt=""
+            height="40px"
+            width="130px"
+          />
 
           <ul className={icon ? "nav-menu active-mb" : "nav-menu"}>
             <li>

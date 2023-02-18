@@ -3,6 +3,11 @@ import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header'
 import axios from 'axios';
 import DataTable from "react-data-table-component";
+import { Toaster, toast } from "react-hot-toast";
+import { ConfigProvider } from "antd";
+import { message, Popconfirm } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
 function ManageDiscount() {
 
@@ -11,6 +16,7 @@ function ManageDiscount() {
    const [discount, setDiscount] = useState([]);
    const [search, setSearch] = useState("");
    const [filteredSupplier, setFilteredSupplier] = useState([]);
+   const [deleteFlag, setDeleteFlag] = useState(false);
 
    useEffect(() => {
      const token = sessionStorage.getItem("token");
@@ -26,55 +32,129 @@ function ManageDiscount() {
            console.log(error);
          });
      } catch (err) {}
-   }, []);
+   }, [deleteFlag]);
+
+   const confirm = (discid) => {
+     console.log(discid);
+
+     const token = sessionStorage.getItem("token");
+     const headers = { Authorization: `Bearer ${token}` };
+
+     try {
+       axios
+         .delete(`http://127.0.0.1:8000/product-discount/${discid}/`, {
+           headers,
+         })
+         .then((response) => {
+           console.log(response);
+           if (response.data.message === "Success!") {
+             message.success("deleted successfully!");
+             setDeleteFlag(!deleteFlag);
+           } else {
+             toast.error(response.data.message, {
+               duration: 3000,
+             });
+           }
+         })
+         .catch((error) => {
+           console.log(error);
+         });
+     } catch (err) {
+       console.log("Error");
+     }
+   };
+   const cancel = (e) => {
+     console.log(e);
+     message.error("Click on No");
+   };
 
    const columns = [
      {
-       name: "Discount percentage",
+       name: <h4>Edit</h4>,
+       cell: (row) => (
+         <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+       ),
+       //  right:true,
+       width: "100px",
+     },
+     {
+       name: <h4>Delete</h4>,
+       cell: (row) => (
+         //  <button className="supplier-delete-btn" onClick={() => alert(row._id)}>
+         //    Delete
+         //  </button>
+
+         <ConfigProvider
+           theme={{
+             components: {
+               Button: {
+                 colorPrimary: "rgb(140, 2, 2)",
+                 colorPrimaryHover: "#000",
+                 colorPrimaryClick: "#000",
+               },
+             },
+           }}>
+           <Popconfirm
+             title="Delete"
+             description="Are you sure to delete this record?"
+             onConfirm={() => confirm(row._id)}
+             onCancel={cancel}
+             okText="Yes"
+             cancelText="No">
+             {" "}
+             {/* <button className="supplier-delete-btn">Delete </button> */}
+             <FontAwesomeIcon className="edit-supplier" icon={faTrashCan} />
+           </Popconfirm>
+         </ConfigProvider>
+       ),
+       width: "100px",
+     },
+     {
+       name: <h4>Discount percentage</h4>,
        selector: (row) => row.disc_percent,
        sortable: true,
      },
      {
-       name: "Valid From:",
-       selector: (row) => row.valid_from,
+       name: <h4>Valid From:</h4>,
+       selector: (row) => row.valid_from.substring(0, 10),
        sortable: true,
      },
      {
-       name: "Valid Until:",
-       selector: (row) => row.valid_until,
+       name: <h4>Valid Until:</h4>,
+       selector: (row) => row.valid_until.substring(0, 10),
        sortable: true,
      },
      {
-       name: "Coupon Code",
+       name: <h4>Coupon Code</h4>,
        selector: (row) => row.coupon_code,
        sortable: true,
      },
      {
-       name: "Minimum Order Value",
+       name: <h4>Minimum Order Value</h4>,
        selector: (row) => row.min_ord_val,
        sortable: true,
      },
      {
-       name: "Maximum Discount Amount",
+       name: <h4>Maximum Discount Amount</h4>,
        selector: (row) => row.max_disc_amt,
        sortable: true,
      },
-     {
-       name: "Action",
-       cell: (row) => (
-         <button className="supplier-edit-btn" onClick={() => alert(row._id)}>
-           Edit
-         </button>
-       ),
-     },
-     {
-       name: "Action",
-       cell: (row) => (
-         <button className="supplier-delete-btn" onClick={() => alert(row._id)}>
-           Delete
-         </button>
-       ),
-     },
+     //  {
+     //    name: <h4>Edit</h4>,
+     //    cell: (row) => (
+     //      <button className="supplier-edit-btn" onClick={() => alert(row._id)}>
+     //        Edit
+     //      </button>
+     //    ),
+     //  },
+     //  {
+     //    name: <h4>Delete</h4>,
+     //    cell: (row) => (
+     //      <button className="supplier-delete-btn" onClick={() => alert(row._id)}>
+     //        Delete
+     //      </button>
+     //    ),
+     //  },
    ];
 
    useEffect(() => {
@@ -113,6 +193,13 @@ function ManageDiscount() {
           subHeaderAlign="left"
         />
       </div>
+      <Toaster
+        position="top-center"
+        containerStyle={{
+          top: 10,
+        }}
+        reverseOrder={true}
+      />
     </>
   );
 }

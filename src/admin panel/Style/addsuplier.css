@@ -1,90 +1,122 @@
-.add-suplier{
-    margin: 30px;
-    margin-bottom: 70px;
-    display: flex;
-    flex-direction: row;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+.add-suplier {
+  margin: 30px;
+  margin-bottom: 70px;
+  display: flex;
+  flex-direction: row;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
-.add-suplier-sub1{
-    margin-right: 50px;
-    width: 400px;
-    padding: 20px;
+.add-suplier-sub1 {
+  margin-right: 50px;
+  width: 400px;
+  padding: 20px;
 }
 
-.add-suplier-sub2{
-    margin-right: 50px;
-    width: 450px;
-    padding: 20px;
+.add-suplier-sub2 {
+  margin-right: 50px;
+  width: 450px;
+  padding: 20px;
 }
 
-.product-details{
-    margin-top: 20px;
-    background-color: rgba(208, 208, 208, 0.429);
-    padding: 20px;
-    border-radius: 10px;
+.product-details {
+  margin-top: 20px;
+  background-color: rgba(208, 208, 208, 0.429);
+  padding: 20px;
+  border-radius: 10px;
 }
 
-.product-details .box{
-    margin-top: 10px;
+.product-details .box {
+  margin-top: 10px;
 }
 
-.product-details .box-qty{
-    margin-top: 12px;
+.product-details .box-qty {
+  margin-top: 12px;
+}
+
+.add-suplier-sub1 .box p {
+  padding-bottom: 10px;
+}
+
+.add-suplier-sub1 .box .error-color {
+  color: red;
+  font-size: 0.8rem;
+}
+
+.add-suplier-sub1 .box {
+  margin: 10px;
+  margin-top: 20px;
+}
+
+.add-suplier-sub1 .box-qty {
+  display: flex;
+  justify-content: space-between;
+}
+
+.suplier-button {
+  margin: 10px;
+  margin-top: 30px;
+  width: 250px;
 }
 
 
-.add-suplier-sub1 .box p{
-    padding-bottom: 10px;
+.button-311 {
+  background-color: rgb(9, 20, 45);
+  border-radius: 4px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Farfetch Basis","Helvetica Neue",Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0;
+  max-width: none;
+  min-height: 44px;
+  min-width: 10px;
+  outline: none;
+  overflow: hidden;
+  padding: 9px 20px 8px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
 }
 
-.add-suplier-sub1 .box .error-color{
-    color: red;
-    font-size: 0.8rem;
+.button-311:hover,
+.button-311:focus {
+  opacity: .75;
 }
 
-.add-suplier-sub1 .box{
-    margin: 10px;
-    margin-top: 20px;
-}
-
-.add-suplier-sub1 .box-qty{
-    display: flex;
-    justify-content: space-between;
-}
-
-.suplier-button{
-    margin: 10px;
-    margin-top: 30px;
-    width: 250px;
-}
-
-@media screen and (max-width:450px) {
-    .add-suplier{
+@media screen and (max-width: 450px) {
+  .add-suplier {
     margin: 10px;
     display: flex;
     flex-direction: column;
     /* box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; */
-}
+  }
 
-.add-suplier-sub1{
+  .add-suplier-sub1 {
     margin-right: 0;
     width: auto;
-}
+  }
 
-.add-suplier-sub1 .box p{
+  .add-suplier-sub1 .box p {
     padding-bottom: 10px;
-}
+  }
 
-.add-suplier-sub1 .box{
+  .add-suplier-sub1 .box {
     margin: 10px;
     margin-top: 10px;
-}
-    .add-suplier-sub2{
+  }
+  .add-suplier-sub2 {
     margin-right: 20px;
     width: 395px;
     padding: 20px;
-}
-
-
+  }
 }

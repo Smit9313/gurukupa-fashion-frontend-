@@ -11,11 +11,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ToastContainer, toast } from "react-toastify";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import axios from 'axios';
+import qs from "qs";
 
 
 function AddDiscount() {
-
-
 
 
   // Discount
@@ -165,14 +164,14 @@ function AddDiscount() {
      const headers = { Authorization: `Bearer ${token}` };
      try {
        axios
-         .post("http://127.0.0.1:8000/product-discount/", {
+         .post("http://127.0.0.1:8000/product-discount/",qs.stringify( {
           "disc_percent":discount,
           "valid_from":validFrom,
           "valid_until":validUntil,
           "coupon_code":coupen,
           "min_ord_val":minValue,
           "max_disc_amt":maxValue,
-         }, { headers })
+         }), { headers })
          .then((response) => {
            if (response.data["message"] === "Success!") {
              console.log("valid");

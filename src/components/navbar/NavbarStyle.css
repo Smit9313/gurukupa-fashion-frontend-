@@ -119,15 +119,6 @@
         display: none;
     }
 
-
-/* .cart-img{
-    /* border: 2px solid black; */
-    /* border-top: 3.5px solid black;
-    border-bottom: 3.5px solid black;
-    border-left: 2px solid black;
-    border-right: 2px solid black; 
-} */
-
 .active-link{
     border-bottom: 4px solid black;
 }
@@ -278,7 +269,7 @@
     margin-bottom: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-    width: 550px;
+    /* width: 550px; */
     z-index: 101;
     /* position: fixed; */
     /* position: absolute; */
@@ -306,6 +297,16 @@
 
 .category-1 a{
     text-decoration: none;
+    color: black;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: rgb(33, 33, 33);
+}
+
+.category-1 h3{
+    color: black;
+}
+.category-1 h4{
     color: black;
 }
 

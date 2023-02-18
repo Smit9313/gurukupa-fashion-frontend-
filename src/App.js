@@ -18,6 +18,7 @@ import Profile from "./routes/Profile";
 import ForgotPassword from "./routes/ForgotPassword";
 import ChangePassword from "./routes/ChangePassword";
 import jwtDecode from "jwt-decode";
+import Invoice from "./routes/Invoice";
 
 
 
@@ -81,6 +82,7 @@ function App() {
             <Switch>
               <Route path="/profile" component={Profile} />
               <Route exact path="/checkout" component={Checkout} />
+              <Route exact path="/invoice/:order_id" component={Invoice} />
               <Route path="/*" component={Error} />
             </Switch>
           </>

@@ -6,7 +6,6 @@ import Footer from "./Footer.js";
 import axios from "axios";
 
 function Register() {
-
   const [uname, setUname] = useState("");
   const [unameError, setUnameError] = useState("");
   const [nameFlag, setNameFlag] = useState(false);
@@ -114,66 +113,67 @@ function Register() {
       setPassConFlag(false);
       setPassConError("password and confirm password must be same.");
     }
-    if (!passConNull && pass === passCon){
-      setPassConFlag(true)
+    if (!passConNull && pass === passCon) {
+      setPassConFlag(true);
     }
-      console.log("fshh");
-    };
-    
-    console.log(nameFlag, emailFlag,passFlag,passConFlag)
-  if (
-    nameFlag === true &&
-    emailFlag === true &&
-    passFlag === true &&
-    passConFlag === true
-  ) {
-    //  Register Api
-    console.log("vdsjvjh")
 
-    axios
-      .post("http://127.0.0.1:8000/signup/", {
-        name: uname,
-        email: email,
-        password: passCon,
-        role: "customer",
-      })
-      .then((response) => {
-        // console.log(response.data.data["email"]);
-        // console.log("response ",response.status);
-        if (response.status === 200) {
-          axios
-            .post("http://127.0.0.1:8000/login/", {
-              // name: uname,
-              email: email,
-              password: passCon,
-            })
-            .then((response) => {
-              // console.log("response ", response.status);
-              if (response.status === 200) {
-              }
-              sessionStorage.setItem(
-                "token",
-                JSON.stringify(response.data.data["token"])
-              );
-              // console.log(response);
+    if (
+      !nameNull &&
+      !minNameLength &&
+      !maxNameLength &&
+      !emailNull &&
+      email_pattern.test(email) &&
+      !passNull &&
+      !minPassLength &&
+      !maxPassLength &&
+      !passConNull &&
+      pass === passCon
+    ) {
+axios
+  .post("http://127.0.0.1:8000/signup/", {
+    name: uname,
+    email: email,
+    password: passCon,
+    role: "customer",
+  })
+  .then((response) => {
+    // console.log(response.data.data["email"]);
+    // console.log("response ",response.status);
+    if (response.status === 200) {
+      axios
+        .post("http://127.0.0.1:8000/login/", {
+          // name: uname,
+          email: email,
+          password: passCon,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+          }
+          sessionStorage.setItem(
+            "token",
+            JSON.stringify(response.data.data["token"])
+          );
+          history.push("/home");
+           window.location.reload(true);
+        })
+        .catch(
+          (error) =>
+            // console.log(error)
+            pass
+        );
+    }
+  })
+  .catch((error) => {
+    setError(error.response.data.data["error_msg"]);
+    setErrorFlag(true);
+    console.log(error.response.data.data["error_msg"]);
+    setEmailFlag(false);
+  });
 
-              history.push("/home");
-            })
-            .catch(
-              (error) =>
-                // console.log(error)
-                pass
-            );
-        }
-      })
-      .catch((error) => {
-        setError(error.response.data.data["error_msg"]);
-        setErrorFlag(true);
-        console.log(error.response.data.data["error_msg"]);
-        setEmailFlag(false);
-      });
-      // console.log(error);
-  }
+
+    }
+
+  };
 
 
   return (

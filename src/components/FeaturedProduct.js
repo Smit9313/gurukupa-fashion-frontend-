@@ -43,10 +43,9 @@ function FeaturedProduct({items,title,des}) {
               </div>
               <h4>{item.prod_price} ₹</h4>
             </div>
-            <Link to="/cart-products">
-              {/* <img className="cart" src="logo/shopping-cart.png" alt="" /> */}
+            {/* <Link to="/cart-products">
               <i className="bx bxs-cart-add cart" hight="80px"></i>
-            </Link>
+            </Link> */}
           </div>
           // </div>
         );
