@@ -592,7 +592,7 @@ function Shop() {
         items={product_data.filter((val) => {
           return (
             val.prod_price <= priceDisplay &&
-            val.prod_desc.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+            val.prod_name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
           );
         })}
       />

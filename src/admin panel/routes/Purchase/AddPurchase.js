@@ -11,6 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { Toaster, toast } from "react-hot-toast";
+import { isEmpty } from "lodash";
 
 function AddPurchase() {
   const [suppName, setSuppName] = useState("");
@@ -189,7 +190,6 @@ function AddPurchase() {
 
   const handleAddClick = () => {
     // console.log(date)
-
     // console.log(supId);
     // console.log(date);
     // console.log(productDetails)
@@ -217,73 +217,84 @@ function AddPurchase() {
     });
 
     productDetails.map((prod, index) => {
-      prod.purch_qty.map((pqty) => {
-        if (
-          pqty.size !== "" &&
-          pqty.qty !== "" &&
-          prod.prod_id !== "" &&
-          prod.purch_price !== "" &&
-          supId !== "" &&
-          date !== ""
-        ) {
-          const token = sessionStorage.getItem("token");
-          console.log(token);
-          const headers = {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/jsonn",
-          };
-          console.log(headers);
-          try {
-            axios
-              .post(
-                "http://127.0.0.1:8000/admin-purchase/",
-                {
-                  supp_id: supId,
-                  date: date,
-                  "Purchase-details": productDetails,
-                },
-                { headers }
-              )
-              .then((response) => {
-                //  console.log(response.data.data);
-                if (response.data.message === "Success!") {
-                  setSupId("");
-                  setSupIdFlag(false);
-                  setProductDetails([
-                    {
-                      prod_id: "",
-                      purch_qty: [
-                        {
-                          size: "",
-                          qty: "",
-                        },
-                      ],
-                      purch_price: "",
-                    },
-                  ]);
-                  setFlag(false)
-                  toast.success("Purchase added!", {
-                    duration: 3000,
-                  });
-                } else {
-                  toast.error(response.data.message, {
-                    duration: 3000,
-                  });
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          } catch (err) {}
-        } else {
-          toast.error("Fill all product details!", {
-            duration: 3000,
-          });
-          setFlag(true);
-          setError("Fill all product details!");
-        }
-      });
+       if (!isEmpty(prod.purch_qty)) {
+         prod.purch_qty.map((pqty) => {
+           if (
+             pqty.size !== "" &&
+             pqty.qty !== "" &&
+             prod.prod_id !== "" &&
+             prod.purch_price !== "" &&
+             supId !== "" &&
+             date !== ""
+           ) {
+             const token = sessionStorage.getItem("token");
+             console.log(token);
+             const headers = {
+               Authorization: `Bearer ${token}`,
+               "Content-Type": "application/jsonn",
+             };
+             console.log(headers);
+             try {
+               axios
+                 .post(
+                   "http://127.0.0.1:8000/admin-purchase/",
+                   {
+                     supp_id: supId,
+                     date: date,
+                     "Purchase-details": productDetails,
+                   },
+                   { headers }
+                 )
+                 .then((response) => {
+                   console.log(response.data);
+                   if (response.data.message === "Success!") {
+                     setSupId("");
+                     setSupIdFlag(false);
+                     setProductDetails([
+                       {
+                         prod_id: "",
+                         purch_qty: [
+                           {
+                             size: "",
+                             qty: "",
+                           },
+                         ],
+                         purch_price: "",
+                       },
+                     ]);
+                     setFlag(false);
+                     toast.success("Purchase added!", {
+                       duration: 3000,
+                     });
+                   } else {
+                     toast.error(response.data.message, {
+                       duration: 3000,
+                     });
+                   }
+                 })
+                 .catch((error) => {
+                   console.log(error);
+                 });
+             } catch (err) {}
+           } else {
+             toast.error("Fill all product details!", {
+               duration: 3000,
+             });
+             setFlag(true);
+             setError("Fill all product details!");
+           }
+         });
+       } else {
+         toast.error("Minimum 1 size and qty required!", {
+           duration: 20,
+         });
+         setFlag(true);
+         setError("Fill all product details!");
+       }
+      
     });
+
+    
 
     // if (supId !== "" && date !== "") {
     //   productDetails.map((prod, index) => {
