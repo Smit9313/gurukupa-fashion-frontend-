@@ -173,14 +173,15 @@ function AddProduct() {
       setImagesFlag(true);
       setImagesError("Minimum 3 images required!");
     }
-
     if(images.length > 3){
+       setImagesFlag(true);
+       setImagesError("Upload only 3 images");
+    }
+
+    if(images.length === 3){
       setImagesFlag(false);
       setImagesError("");
     }
-
-    
-
 
 
     if (
@@ -196,11 +197,11 @@ function AddProduct() {
     }
 
     if (
-      name === "" &&
+      name !== "" &&
       subcatid !== "" &&
       description !== "" &&
       price !== "" &&
-      images.length > 2
+      images.length === 3
     ) {
       const token = sessionStorage.getItem("token");
 

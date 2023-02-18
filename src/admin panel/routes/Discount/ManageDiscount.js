@@ -46,7 +46,7 @@ function ManageDiscount() {
            headers,
          })
          .then((response) => {
-           console.log(response);
+          //  console.log(response);
            if (response.data.message === "Success!") {
              message.success("deleted successfully!");
              setDeleteFlag(!deleteFlag);
@@ -80,10 +80,6 @@ function ManageDiscount() {
      {
        name: <h4>Delete</h4>,
        cell: (row) => (
-         //  <button className="supplier-delete-btn" onClick={() => alert(row._id)}>
-         //    Delete
-         //  </button>
-
          <ConfigProvider
            theme={{
              components: {
@@ -139,22 +135,6 @@ function ManageDiscount() {
        selector: (row) => row.max_disc_amt,
        sortable: true,
      },
-     //  {
-     //    name: <h4>Edit</h4>,
-     //    cell: (row) => (
-     //      <button className="supplier-edit-btn" onClick={() => alert(row._id)}>
-     //        Edit
-     //      </button>
-     //    ),
-     //  },
-     //  {
-     //    name: <h4>Delete</h4>,
-     //    cell: (row) => (
-     //      <button className="supplier-delete-btn" onClick={() => alert(row._id)}>
-     //        Delete
-     //      </button>
-     //    ),
-     //  },
    ];
 
    useEffect(() => {
@@ -177,7 +157,7 @@ function ManageDiscount() {
             <button
               className="supplier-add-btn"
               onClick={() => history.push("/admin/addSupplier")}>
-              Add new supplier
+              Add new discount
             </button>
           }
           subHeader

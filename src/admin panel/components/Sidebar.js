@@ -11,7 +11,7 @@ function Sidebar({url}) {
   const [product, setProduct] = useState(true);
   const [order, setOrder] = useState(true);
   const [discount, setDiscount] = useState(true);
-  const [lock, setLock] = useState(false);
+  const [lock, setLock] = useState(true);
   // const [urlPath, setUrlPath] =useState(url);
 
   const handleSidebar = () => {
@@ -187,7 +187,9 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to={`/admin/managePurchase`}>
+                    <NavLink
+                      to={`/admin/managePurchase`}
+                      activeClassName="sidebar-active">
                       <span className="text nav-text-sub">
                         {"->"}Manage Purchase
                       </span>
@@ -198,7 +200,9 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to={`/admin/addPurchase`}>
+                    <NavLink
+                      to={`/admin/addPurchase`}
+                      activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text">{"->"}Add Purchase</span>
                       {/* <hr /> */}
@@ -226,7 +230,9 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to={`/admin/manageCategory`}>
+                    <NavLink
+                      to={`/admin/manageCategory`}
+                      activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"}Manage Category
@@ -238,7 +244,9 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to={`/admin/addCategory`}>
+                    <NavLink
+                      to={`/admin/addCategory`}
+                      activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"}Add Categoty
@@ -268,7 +276,9 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to={`/admin/manageProduct`}>
+                    <NavLink
+                      to={`/admin/manageProduct`}
+                      activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"}Manage Product
@@ -279,7 +289,8 @@ function Sidebar({url}) {
                   <hr />
                   <li
                     className="nav-link-sub"
-                    onClick={() => setSidebar(!sidebar)}>
+                    onClick={() => setSidebar(!sidebar)}
+                    activeClassName="sidebar-active">
                     <NavLink to={`/admin/addProduct`}>
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
@@ -310,7 +321,7 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to="/">
+                    <NavLink to="/" activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">{"->"}All Order</span>
                       {/* <hr /> */}
@@ -320,7 +331,7 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to="/">
+                    <NavLink to="/" activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"}Pending Order
@@ -332,7 +343,7 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to="/">
+                    <NavLink to="/" activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"}Delivered Product
@@ -344,7 +355,7 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to="/">
+                    <NavLink to="/" activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"}Returned Product
@@ -374,7 +385,9 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to={`/admin/manageDiscount`}>
+                    <NavLink
+                      to={`/admin/manageDiscount`}
+                      activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"}Manage Discount
@@ -386,7 +399,9 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to={`/admin/addDiscount`}>
+                    <NavLink
+                      to={`/admin/addDiscount`}
+                      activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"} Add Discount
@@ -402,7 +417,10 @@ function Sidebar({url}) {
 
           <div className="bottom-content">
             <li className="">
-              <NavLink to="/">
+              <NavLink to="/"
+              onClick={()=>{
+                sessionStorage.removeItem("token");
+              }}>
                 <i className="bx bx-log-out icon"></i>
                 <span className="text nav-text">Logout</span>
               </NavLink>
