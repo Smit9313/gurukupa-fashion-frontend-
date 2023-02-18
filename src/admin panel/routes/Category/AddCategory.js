@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import SendIcon from "@mui/icons-material/Send";
 import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
 import axios from "axios";
 import Switch from "@mui/material/Switch";
 import qs from "qs";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Select } from "antd";
+import { Toaster, toast } from "react-hot-toast";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function AddCategory() {
@@ -56,33 +54,7 @@ function AddCategory() {
     },
   });
 
-  const toast_message = (message) => {
-    if (message === "Success") {
-      return toast.success("Category added", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else if (message === "warning") {
-      return toast.warn("Somthing wrong!", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else {
-    }
-  };
-
+ 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
@@ -117,7 +89,9 @@ function AddCategory() {
     if (cattype.trim().length === 0 || !re.test(cattype)) {
       setCat_typeFlag(false);
       setCat_typeError("Invalid category!");
-      toast_message("warning");
+      toast.error("Invalid category!", {
+        duration: 3000,
+      });
       setCat1(true);
     }
     if (cattype.trim().length !== 0 && re.test(cattype)) {
@@ -137,10 +111,11 @@ function AddCategory() {
             { headers }
           )
           .then((response) => {
-            // console.log(response.data.message)
             if (response.data.message === "Success!") {
               setCat_typeFlag(false);
-              toast_message("Success");
+              toast.success("Category-type added!", {
+                duration: 3000,
+              });
               setCat_type("");
               setCat_status(true);
               setCat1(false);
@@ -148,17 +123,23 @@ function AddCategory() {
               response.data.message === "Category-type not inserted."
             ) {
               setCat_typeFlag(false);
-              toast_message("warning");
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
               setCat_typeError("Category-type not inserted.");
             } else if (
               response.data.message === "Category-type already exists."
             ) {
               setCat_typeFlag(false);
-              toast_message("warning");
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
               setCat_typeError("Category-type already exists.");
             } else if (response.data.message === "User not admin.") {
               setCat_typeFlag(false);
-              toast_message("warning");
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
               setCat_typeError("User not admin.");
             } else {
             }
@@ -168,8 +149,6 @@ function AddCategory() {
           });
       } catch (err) {}
     }
-
-
   };
 
   
@@ -186,8 +165,6 @@ function AddCategory() {
     }
     if (catid !== "") {
       setCatIdFlag(true);
-      // console.log("id valid")
-      // setCatIdError("Select category!");
     }
 
     /******* Title *******/
@@ -211,95 +188,112 @@ function AddCategory() {
       re.test(cat_title)
     ) {
       setCat_TitleFlag(true);
-      // console.log("title valid")
+      setCat3(false)
     }
 
     /******* Description *******/
     if (
-      category_description.trim().length === 0 ||
-      category_description.trim().length > 10
+      category_description.toString().length === 0 ||
+      category_description.toString().length < 10
     ) {
       setCategotyDesFlag(false);
       setCategotyDesError("Invalid Length!");
       setCat4(true);
       // toast_message("warning");
     }
-    if (!re.test(category_description)) {
-      setCategotyDesFlag(false);
-      setCategotyDesError("Invalid description!");
-      setCat4(true);
-      //  toast_message("warning");
-    }
+    // if (!re.test(category_description)) {
+    //   setCategotyDesFlag(false);
+    //   setCategotyDesError("Invalid description!");
+    //   setCat4(true);
+    //   //  toast_message("warning");
+    // }
     if (
-      category_description.trim().length !== 0 &&
-      category_description.trim().length < 10 &&
-      re.test(category_description)
+      category_description.toString().length !== 0 &&
+      category_description.toString().length > 10 
+      // re.test(category_description)
     ) {
       setCategotyDesFlag(true);
+      setCat4(false);
       // console.log("des valid")
     }
 
     if (
       catid === "" ||
       cat_title.trim().length === 0 ||
-      cat_title.trim().length > 10 ||
       !re.test(cat_title) ||
-      category_description.trim().length === 0 ||
-      category_description.trim().length > 10 ||
-      !re.test(category_description)
+      category_description.toString().length === 0 ||
+      category_description.toString().length < 10 
+      // !re.test(category_description)
     ) {
-      toast_message("warning");
+      toast.error("Something wrong!", {
+        duration: 3000,
+      });
     }
+
+    
+    if (
+      catid !== "" &&
+      cat_title.trim().length !== 0 &&
+      re.test(cat_title) &&
+      category_description.trim().length !== 0 &&
+      category_description.trim().length > 10 
+      // re.test(category_description)
+    ) {
+      console.log("valid");
+      const token = sessionStorage.getItem("token");
+      const headers = { Authorization: `Bearer ${token}` };
+      try {
+        axios
+          .post(
+            "http://127.0.0.1:8000/admin-category/",
+            qs.stringify({
+              cat_type_id: catid,
+              active: subcatstatus,
+              cat_title: cat_title,
+              cat_desc: category_description,
+            }),
+            { headers }
+          )
+          .then((response) => {
+            // console.log(response.data);
+            if (response.data.message === "Success!") {
+              toast.success(response.data.message, {
+                duration: 3000,
+              });
+              setCat_TitleFlag(false);
+              setCategotyDesFlag(false);
+              setCatIdFlag(false);
+              setCat_Title("");
+              setCategotyDescription("");
+              setCatid("");
+              setCat2(false);
+              setCat3(false);
+              setCat4(false);
+            } else if (response.data.message === "Category not inserted.") {
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
+            } else if (response.data.message === "Category already exists.") {
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
+              console.log("hello");
+            } else if (response.data.message === "User not admin.") {
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
+            } else {
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err) {}
+    }
+
   };
 
-  if (
-    cat_titleFlag === true &&
-    category_desFlag === true &&
-    catidflag === true
-  ) {
-    console.log("valid");
-    const token = sessionStorage.getItem("token");
-    const headers = { Authorization: `Bearer ${token}` };
-    try {
-      axios
-        .post(
-          "http://127.0.0.1:8000/admin-category/",
-          qs.stringify({
-            cat_type_id: catid,
-            active: subcatstatus,
-            cat_title: cat_title,
-            cat_desc: category_description,
-          }),
-          { headers }
-        )
-        .then((response) => {
-          console.log(response.data);
-          if (response.data.message === "Success!") {
-            toast_message("Success");
-            setCat_TitleFlag(false);
-            setCategotyDesFlag(false);
-            setCatIdFlag(false);
-            setCat_Title("");
-            setCategotyDescription("");
-            setCatid("");
-            setCat2(false);
-            setCat3(false);
-            setCat4(false);
-          } else if (response.data.message === "Category not inserted.") {
-            toast_message("warning");
-          } else if (response.data.message === "Category already exists.") {
-            toast_message("warning");
-            console.log("hello");
-          } else if (response.data.message === "User not admin.") {
-            toast_message("warning");
-          } else {
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (err) {}
-  }
+  
 
   return (
     <>
@@ -413,17 +407,12 @@ function AddCategory() {
         </div>
       </ThemeProvider>
       <Footer />
-      <ToastContainer
+      <Toaster
         position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
+        containerStyle={{
+          top: 10,
+        }}
+        reverseOrder={true}
       />
     </>
   );

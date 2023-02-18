@@ -369,7 +369,10 @@ function Checkout() {
               });
               rzpay.open();
 
+            }else{
+              toast.error(response.data.message);
             }
+
           })
           .catch((error) => {
             console.log(error);
