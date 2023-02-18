@@ -506,13 +506,14 @@ function AddPurchase() {
             + Add product
           </button>
           <div className="suplier-button">
-            <Button
-              variant="contained"
-              endIcon={<SendIcon />}
-              fullWidth={width}
+            <button
+              // variant="contained"
+              // endIcon={<SendIcon />}
+              // fullWidth={width}
+              className='button-311'
               onClick={handleAddClick}>
               Add
-            </Button>
+            </button>
           </div>
         </div>
       </div>

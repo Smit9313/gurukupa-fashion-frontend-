@@ -9,9 +9,8 @@ import axios from 'axios';
 import { Form, Select } from 'antd';
 import Switch from "@mui/material/Switch";
 import { Upload , message} from 'antd';
-// import qs from "qs";
 import { ToastContainer, toast } from "react-toastify";
-// import 'antd/dist/antd.css';
+
 
 
 function AddProduct() {
@@ -21,8 +20,6 @@ function AddProduct() {
   const [cat_data, setCat_Data] = useState();
   const [sub_data , setSub_Data] = useState();
   const [images, setImages] = useState([]);
-//  const [message, setMessage] = useState("");
-// const [formData,setFromData] = useState(new FormData())
 
   const [name, setName] = useState(""); 
   const [subcatid, setSubCatid] = useState("");
@@ -316,21 +313,23 @@ function AddProduct() {
           </div>
 
           <div className="suplier-button">
-            <Button
-              variant="contained"
+            <button
+              // variant="contained"
+              className="button-311"
               type="submit"
               onClick={handleProduct}
-              endIcon={<SendIcon />}
-              fullWidth={width}>
+              // endIcon={<SendIcon />}
+              // fullWidth={width}
+            >
               Add
-            </Button>
+            </button>
           </div>
         </div>
 
         <div className="add-suplier-sub1">
           <div className="box box-qty ds-flex">
             <p>select Product image:</p>
-            <br/>
+            <br />
             <Upload.Dragger
               {...props}
               fileList={images}

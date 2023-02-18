@@ -4,6 +4,7 @@ import Navbar from "../components/navbar/Navbar";
 import "../Style/register.css";
 import Footer from "./Footer.js";
 import axios from "axios";
+import { Toaster, toast } from "react-hot-toast";
 
 function Register() {
   const [uname, setUname] = useState("");
@@ -34,8 +35,8 @@ function Register() {
 
     let nameNull = uname.trim() === "";
     let nameNotNull = uname.trim() !== "";
-    let minNameLength = uname.trim().length < 6;
-    let maxNameLength = uname.trim().length > 10;
+    // let minNameLength = uname.trim().length < 6;
+    // let maxNameLength = uname.trim().length > 10;
 
     if (nameNull) {
       setNameFlag(false);
@@ -47,7 +48,7 @@ function Register() {
     //   setUnameError("Username length must be 6 to 10");
     // }
 
-    if (!nameNull && !minNameLength && !maxNameLength) {
+    if (!nameNull) {
       setNameFlag(true);
     }
 
@@ -119,8 +120,8 @@ function Register() {
 
     if (
       !nameNull &&
-      !minNameLength &&
-      !maxNameLength &&
+      // !minNameLength &&
+      // !maxNameLength &&
       !emailNull &&
       email_pattern.test(email) &&
       !passNull &&
@@ -129,52 +130,63 @@ function Register() {
       !passConNull &&
       pass === passCon
     ) {
-axios
-  .post("http://127.0.0.1:8000/signup/", {
-    name: uname,
-    email: email,
-    password: passCon,
-    role: "customer",
-  })
-  .then((response) => {
-    // console.log(response.data.data["email"]);
-    // console.log("response ",response.status);
-    if (response.status === 200) {
+
       axios
-        .post("http://127.0.0.1:8000/login/", {
-          // name: uname,
-          email: email,
+        .post("http://127.0.0.1:8000/signup/", {
+          name: uname,
+          email: email.toLocaleLowerCase(),
           password: passCon,
+          role: "customer",
         })
         .then((response) => {
-          if (response.status === 200) {
-          }
-          sessionStorage.setItem(
-            "token",
-            JSON.stringify(response.data.data["token"])
-          );
-          history.push("/home");
-           window.location.reload(true);
+          console.log(response);
+          if (response.data.message === "Success!") {
+            axios
+              .post("http://127.0.0.1:8000/login/", {
+                // name: uname,
+                email: email.toLocaleLowerCase(),
+                password: passCon,
+              })
+              .then((response1) => {
+                if (response1.data.message === "Success!") {
+                  toast.success("Registerd successfully!", {
+                    duration: 3000,
+                  });
+                  sessionStorage.setItem(
+                    "token",
+                    JSON.stringify(response1.data.data["token"])
+                  );
+
+                  setUname("");
+                  setEmail("");
+                  setPass("");
+                  setPassCon("");
+
+                  history.push("/home");
+                  window.location.reload(true);
+                }
+              })
+              .catch(
+                (error) =>
+                  // console.log(error)
+                  pass
+              );
+          }else if(response.data.message === "User already exists."){
+            setEmailFlag(false);
+            setEmailError("User already exists.");
+             toast.error("User already exists.", {
+               duration: 3000,
+             });
+          }else{}
         })
-        .catch(
-          (error) =>
-            // console.log(error)
-            pass
-        );
+        .catch((error) => {
+          setError(error.response.data.data["error_msg"]);
+          setErrorFlag(true);
+          console.log(error.response.data.data["error_msg"]);
+          setEmailFlag(false);
+        });
     }
-  })
-  .catch((error) => {
-    setError(error.response.data.data["error_msg"]);
-    setErrorFlag(true);
-    console.log(error.response.data.data["error_msg"]);
-    setEmailFlag(false);
-  });
-
-
-    }
-
   };
-
 
   return (
     <>
@@ -229,6 +241,13 @@ axios
       </div>
       <div className="extra"></div>
       <Footer />
+      <Toaster
+        position="top-center"
+        containerStyle={{
+          top: 10,
+        }}
+        reverseOrder={true}
+      />
     </>
   );
 }

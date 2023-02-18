@@ -296,13 +296,15 @@ function AddDiscount() {
           </div>
 
           <div className="suplier-button">
-            <Button
+            <button
+              className="button-311"
               onClick={handleClick}
-              variant="contained"
-              endIcon={<SendIcon />}
-              fullWidth={width}>
+              // variant="contained"
+              // endIcon={<SendIcon />}
+              // fullWidth={width}
+            >
               Add
-            </Button>
+            </button>
           </div>
         </div>
       </div>

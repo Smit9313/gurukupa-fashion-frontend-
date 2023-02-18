@@ -15,6 +15,8 @@ import { Link } from "react-router-dom";
 import qs from "qs";
 import { Toaster, toast } from "react-hot-toast";
 import { message, Popconfirm } from "antd";
+import { Button, Modal } from "antd";
+
 
 function Profile() {
   const [userData, setUserData] = useState();
@@ -50,6 +52,18 @@ function Profile() {
 
   const [addressId, setAddressId] = useState();
   const [updateAddress, setUpdateAddress] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+   const showModal = () => {
+     setIsModalOpen(true);
+   };
+   const handleOk = () => {
+     setIsModalOpen(false);
+   };
+   const handleCancel = () => {
+     setIsModalOpen(false);
+   };
 
   const handleChange = (index) => (event, isExpanded) => {
     setExpanded(isExpanded ? index : false);
@@ -469,7 +483,20 @@ function Profile() {
   return (
     <>
       <Navbar />
+
       <div className="exp"></div>
+      <Button type="primary" onClick={showModal}>
+        Open Modal
+      </Button>
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
       {!isEmpty(userData) && (
         <>
           <div className="profile-container">

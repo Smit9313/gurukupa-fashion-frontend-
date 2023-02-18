@@ -7,6 +7,7 @@ import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import qs from "qs";
 import "react-toastify/dist/ReactToastify.css";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function AddSuplier() {
   const [state, setState] = useState("");
@@ -47,6 +48,19 @@ function AddSuplier() {
   const [valid, setValid] = useState(false);
 
   const width = true;
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        // Purple and green play nicely together.
+        main: "#09142d",
+      },
+      secondary: {
+        // This is green.A700 as hex.
+        main: "#11cb5f",
+      },
+    },
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -292,131 +306,133 @@ if (pincode === "" || pincode.toString().length !== 6) {
   return (
     <>
       <Header name="Add Suplier" path="admin / addSuplier" />
-      <form onSubmit={handleSubmit}>
-        <div className="add-suplier">
-          <div className="add-suplier-sub1">
-            <div className="box">
-              <p>Enter Suplier Name:</p>
-              <TextField
-                label="name"
-                size="small"
-                value={name}
-                fullWidth={width}
-                onChange={(e) => setName(e.target.value)}
-              />
-              {flag1 && <p className="error-color">{nameError}</p>}
+      <ThemeProvider theme={theme}>
+        <form onSubmit={handleSubmit}>
+          <div className="add-suplier">
+            <div className="add-suplier-sub1">
+              <div className="box">
+                <p>Enter Suplier Name:</p>
+                <TextField
+                  label="name"
+                  size="small"
+                  value={name}
+                  fullWidth={width}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                {flag1 && <p className="error-color">{nameError}</p>}
+              </div>
+
+              <div className="box">
+                <p>Enter Mobile No:</p>
+                <TextField
+                  label="mobile no"
+                  type="number"
+                  size="small"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                  fullWidth={width}
+                />
+                {flag2 && <p className="error-color">{mobileError}</p>}
+              </div>
+
+              <div className="box">
+                <p>Enter Email:</p>
+                <TextField
+                  label="email"
+                  size="small"
+                  value={email}
+                  fullWidth={width}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                {flag3 && <p className="error-color">{emailError}</p>}
+              </div>
             </div>
 
-            <div className="box">
-              <p>Enter Mobile No:</p>
-              <TextField
-                label="mobile no"
-                type="number"
-                size="small"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-                fullWidth={width}
-              />
-              {flag2 && <p className="error-color">{mobileError}</p>}
-            </div>
+            <div className="add-suplier-sub1">
+              <div className="box">
+                <p>Enter Shop no:</p>
+                <TextField
+                  label="shop no"
+                  size="small"
+                  value={shop}
+                  fullWidth={width}
+                  onChange={(e) => setShop(e.target.value)}
+                />
+                {flag4 && <p className="error-color">{shopError}</p>}
+              </div>
 
-            <div className="box">
-              <p>Enter Email:</p>
-              <TextField
-                label="email"
-                size="small"
-                value={email}
-                fullWidth={width}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {flag3 && <p className="error-color">{emailError}</p>}
+              <div className="box">
+                <p>Enter Area Street:</p>
+                <TextField
+                  label="area street"
+                  size="small"
+                  value={area}
+                  fullWidth={width}
+                  onChange={(e) => setArea(e.target.value)}
+                />
+                {flag5 && <p className="error-color">{areaError}</p>}
+              </div>
+
+              <div className="box">
+                <p>Enter Landmark:</p>
+                <TextField
+                  label="landmark"
+                  size="small"
+                  value={landmark}
+                  fullWidth={width}
+                  onChange={(e) => setLandmark(e.target.value)}
+                />
+                {flag6 && <p className="error-color">{landmarkError}</p>}
+              </div>
+
+              <div className="box">
+                <p>Enter Pincode:</p>
+                <TextField
+                  label="pincode"
+                  type="number"
+                  value={pincode}
+                  size="small"
+                  fullWidth={width}
+                  onChange={(e) => setPincode(e.target.value)}
+                />
+                {pincodeError && (
+                  <p className="error-color">Enter valid pincode.</p>
+                )}
+              </div>
+
+              <div className="box">
+                <p>State:</p>
+                <TextField
+                  label="state"
+                  size="small"
+                  value={state}
+                  disabled={true}
+                  fullWidth={width}
+                  inputProps={{ readOnly: true }}
+                />
+              </div>
+
+              <div className="box">
+                <p>City:</p>
+                <TextField
+                  label="city"
+                  size="small"
+                  value={city}
+                  disabled={true}
+                  fullWidth={width}
+                  inputProps={{ readOnly: true }}
+                />
+              </div>
+
+              <div className="suplier-button">
+                <button onClick={handleSubmit} className="button-311">
+                  Add
+                </button>
+              </div>
             </div>
           </div>
-
-          <div className="add-suplier-sub1">
-            <div className="box">
-              <p>Enter Shop no:</p>
-              <TextField
-                label="shop no"
-                size="small"
-                value={shop}
-                fullWidth={width}
-                onChange={(e) => setShop(e.target.value)}
-              />
-              {flag4 && <p className="error-color">{shopError}</p>}
-            </div>
-
-            <div className="box">
-              <p>Enter Area Street:</p>
-              <TextField
-                label="area street"
-                size="small"
-                value={area}
-                fullWidth={width}
-                onChange={(e) => setArea(e.target.value)}
-              />
-              {flag5 && <p className="error-color">{areaError}</p>}
-            </div>
-
-            <div className="box">
-              <p>Enter Landmark:</p>
-              <TextField
-                label="landmark"
-                size="small"
-                value={landmark}
-                fullWidth={width}
-                onChange={(e) => setLandmark(e.target.value)}
-              />
-              {flag6 && <p className="error-color">{landmarkError}</p>}
-            </div>
-
-            <div className="box">
-              <p>Enter Pincode:</p>
-              <TextField
-                label="pincode"
-                type="number"
-                value={pincode}
-                size="small"
-                fullWidth={width}
-                onChange={(e) => setPincode(e.target.value)}
-              />
-              {pincodeError && (
-                <p className="error-color">Enter valid pincode.</p>
-              )}
-            </div>
-
-            <div className="box">
-              <p>State:</p>
-              <TextField
-                label="state"
-                size="small"
-                value={state}
-                disabled={true}
-                fullWidth={width}
-                inputProps={{ readOnly: true }}
-              />
-            </div>
-
-            <div className="box">
-              <p>City:</p>
-              <TextField
-                label="city"
-                size="small"
-                value={city}
-                disabled={true}
-                fullWidth={width}
-                inputProps={{ readOnly: true }}
-              />
-            </div>
-
-            <div className="suplier-button">
-              <button onClick={handleSubmit} className="button-311">
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
+        </form>
+      </ThemeProvider>
       <Footer />
       <Toaster
         position="top-center"

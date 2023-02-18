@@ -80,7 +80,7 @@ function Login() {
       axios
         .post("http://127.0.0.1:8000/login/", {
           // name: uname,
-          email: email,
+          email: email.toLocaleLowerCase(),
           password: pass,
         })
         .then((response) => {

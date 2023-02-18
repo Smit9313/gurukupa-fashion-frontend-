@@ -36,6 +36,7 @@
     "react-hot-toast": "^2.4.0",
     "react-loader-spinner": "^5.3.4",
     "react-paginate": "^8.1.4",
+    "react-portal": "^4.2.2",
     "react-pro-sidebar": "^1.0.0",
     "react-razorpay": "^1.2.0",
     "react-responsive-carousel": "^3.2.23",
