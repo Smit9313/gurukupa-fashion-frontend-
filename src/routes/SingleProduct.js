@@ -7,6 +7,7 @@ import axios from "axios";
 import { ConfigProvider, Radio } from "antd";
 import { Toaster, toast } from "react-hot-toast";
 import { isEmpty } from "lodash";
+import { Rate } from "antd";
 
 function SingleProduct() {
   // const [val,setVal] = useState(1);
@@ -107,7 +108,6 @@ function SingleProduct() {
 
   return (
     <>
-
       <Navbar navrender={navrender} />
       {/* <Start cName="hero-singleproduct"/> */}
       {!isEmpty(data) && (
@@ -149,6 +149,8 @@ function SingleProduct() {
 
           <div className="single-pro-details">
             <h1>{data.prod_name}</h1>
+            <Rate disabled defaultValue={data.rating} />
+            <p>({data.user_count})</p>
             <h2>{data.prod_price} ₹</h2>
             <div className="size-container">
               <ConfigProvider
@@ -173,18 +175,19 @@ function SingleProduct() {
                     }
                   }}>
                   {!isEmpty(data.prod_qty) &&
-                  Object.keys(data.prod_qty).map((qty, index) => {
-                    return (
-                      <>
-                        <Radio.Button key={index} value={qty}>
-                          {qty}
-                        </Radio.Button>
-                      </>
-                    );
-                  })}
+                    Object.keys(data.prod_qty).map((qty, index) => {
+                      return (
+                        <>
+                          <Radio.Button key={index} value={qty}>
+                            {qty}
+                          </Radio.Button>
+                        </>
+                      );
+                    })}
                 </Radio.Group>
               </ConfigProvider>
-              {!isEmpty(data.prod_qty) && Object.keys(data.prod_qty).length === 0 &&
+              {!isEmpty(data.prod_qty) &&
+                Object.keys(data.prod_qty).length === 0 &&
                 data.prod_qty.constructor === Object && (
                   <p className="out-stock">
                     This item is currently out of stock
@@ -216,7 +219,6 @@ function SingleProduct() {
         }}
         reverseOrder={true}
       />
-      
     </>
   );
 }
