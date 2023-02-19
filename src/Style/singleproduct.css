@@ -5,6 +5,22 @@
     margin-right: 150px;
 }
 
+#prodetails-suggestion{
+        /* display: flex; */
+    margin-top: 100px;
+    color: #343434;
+    font-size: 20px;
+    font-weight: 400;
+    /* margin-left: 190px;  */
+    /* margin-right: 190px; */
+}
+
+#prodetails-suggestion h2{
+     font-weight: 400;
+     margin-bottom: 30px;
+}
+
+
 #prodetails .single-pro-image{
     width: 40%;
     margin-right: 5px;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory,Link } from "react-router-dom";
 import "../../Style/managesuplier.css";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
@@ -79,7 +79,9 @@ function ManageSuplier() {
     {
       name: <h4>Edit</h4>,
       cell: (row) => (
-        <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+        <Link to={`updateSupplier/${row._id}`}>
+          <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+        </Link>
       ),
       width: "100px",
       // right:true,

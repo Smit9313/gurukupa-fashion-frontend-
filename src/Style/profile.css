@@ -424,3 +424,23 @@
 }
 
 }
+
+.rate-div{
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 10px;
+  display: flex;
+}
+
+.rate-div-sub1{
+  width: 50%;
+}
+
+@media screen and (max-width:500px) {
+  .rate-div{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  display: flex;
+}
+}

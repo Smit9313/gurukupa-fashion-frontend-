@@ -62,6 +62,7 @@ function UpdateDiscount() {
   });
 
   useEffect(() => {
+    
     const token = sessionStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {

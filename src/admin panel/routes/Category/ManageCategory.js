@@ -184,15 +184,15 @@ function ManageCategory() {
           // <button className="supplier-edit-btn" onClick={() => alert(row._id)}>
           //   Edit
           // </button>
-          <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+          <Link to={`updateCategory/${row._id}`}>
+            <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+          </Link>
         ),
         // right: true,
       },
       {
         name: <h4>Delete</h4>,
         cell: (row) => (
-
-
           <ConfigProvider
             theme={{
               components: {

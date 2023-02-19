@@ -1,66 +1,48 @@
-import React,{ useState } from 'react';
-import '../Style/featuredproduct.css';
+import React, { useState } from "react";
+import "../Style/featuredproduct.css";
 import { FrownOutlined } from "@ant-design/icons";
 import { Result } from "antd";
-import {Button} from 'antd';
+import { Button } from "antd";
 // import ProductData from '../data/ProductData';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import ScrollToTop from './ScrollToTop';
+import ScrollToTop from "./ScrollToTop";
 import { Rate, ConfigProvider } from "antd";
 import "./custom.less";
-import { isEmpty } from 'lodash';
+import { isEmpty } from "lodash";
 
-function FeaturedProduct({items,title,des}) {
+function RelatedProduct({ items}) {
 
-    // const [searchTerm, setsearchTerm] = useState("");
-    // const [productItems, setProductItems] = useState(items);
-    const [pageNumber, setPageNumber] = useState(0);
-    
+  console.log(items);
 
-    const usersPerPage = 20;
-    const pagesVisited = pageNumber * usersPerPage;
-
-    // console.log(items);
-
-    const displayUsers = items
-      .slice(pagesVisited, pagesVisited + usersPerPage)
-      .map((item,index) => {
-        return (
-          <div className="pro" key={index}>
-            <Link to={`/single-product/${item._id}`}>
-              <img src={item.prod_image} alt="" />
-            </Link>
-            <div className="des">
-              <h5>{item.prod_name}</h5>
-              <span className="des-text">{item.prod_desc}</span>
-              <div className="star">
-                <Rate disabled defaultValue={item.rating} />
-                <p>({item.user_count})</p>
-              </div>
-              <h4>{item.prod_price} ₹</h4>
+  const displayUsers = items
+    .map((item, index) => {
+      return (
+        <div className="pro" key={index}>
+          <Link to={`/single-product/${item._id}`}>
+            <img src={item.prod_image} alt="" />
+          </Link>
+          <div className="des">
+            <h5>{item.prod_name}</h5>
+            <span className="des-text">{item.prod_desc}</span>
+            <div className="star">
+              <Rate disabled defaultValue={item.rating} />
+              <p>({item.user_count})</p>
             </div>
+            <h4>{item.prod_price} ₹</h4>
           </div>
-        );
+        </div>
+      );
     });
 
-    const scrollToTop = () =>{
+  const scrollToTop = () => {
     window.scrollTo({
-      top: 0, 
-      behavior: 'smooth'
+      top: 0,
+      behavior: "smooth",
       /* you can also use 'auto' behaviour
          in place of 'smooth' */
     });
-    }
-    
-      const pageCount = Math.ceil(items.length / usersPerPage);
-
-      const changePage = ({ selected }) => {
-        setPageNumber(selected);
-      };
-
-    
-
+  };
 
   return (
     <>
@@ -86,7 +68,7 @@ function FeaturedProduct({items,title,des}) {
                   colorPrimary: "#000",
                   colorPrimaryHover: "#000",
                   colorPrimaryClick: "#000",
-                  colorPrimaryActive:"#000"
+                  colorPrimaryActive: "#000",
                 },
                 Icon: {
                   colorPrimary: "#000",
@@ -94,36 +76,29 @@ function FeaturedProduct({items,title,des}) {
               },
             }}>
             <Result
-              icon={
-                <FrownOutlined style={{ color: "#000" }} />
-              }
+              icon={<FrownOutlined style={{ color: "#000" }} />}
               title="No products found!"
-              extra={<Button type="primary" onClick={()=>window.location.reload(true)}>Refresh</Button>}
+              extra={
+                <Button
+                  type="primary"
+                  onClick={() => window.location.reload(true)}>
+                  Refresh
+                </Button>
+              }
             />
           </ConfigProvider>
         </div>
       ) : (
         <section id="product1" className="section-p1">
-          <h2>{title}</h2>
-          <p>{des}</p>
+          {/* <h2>{title}</h2>
+          <p>{des}</p> */}
           <div className="pro-container">{displayUsers}</div>
         </section>
       )}
 
       <ScrollToTop />
 
-      <ReactPaginate
-        previousLabel={"Previous"}
-        nextLabel={"Next"}
-        pageCount={pageCount}
-        onPageChange={changePage}
-        containerClassName={"paginationBttns"}
-        previousLinkClassName={"previousBttn"}
-        nextLinkClassName={"nextBttn"}
-        disabledClassName={"paginationDisabled"}
-        activeClassName={"paginationActive"}
-        onClick={scrollToTop}
-      />
+
 
       {/* <div>
         <section id="product1" className="section-p1" >
@@ -174,4 +149,4 @@ function FeaturedProduct({items,title,des}) {
   );
 }
 
-export default FeaturedProduct
+export default RelatedProduct;

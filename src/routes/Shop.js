@@ -39,6 +39,7 @@ function Shop() {
       axios
         .get("http://127.0.0.1:8000/customer-product/", { headers })
         .then((response) => {
+          console.log(response.data)
           setData(response.data.data);      
           // console.log(response.data.data);    
         })
@@ -592,7 +593,8 @@ function Shop() {
         items={product_data.filter((val) => {
           return (
             val.prod_price <= priceDisplay &&
-            val.prod_name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+            (val.prod_name.toLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
+             val.prod_desc.toLowerCase().includes(searchTerm.toLocaleLowerCase()))
           );
         })}
       />

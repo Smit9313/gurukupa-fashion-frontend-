@@ -15,7 +15,8 @@ import { Link } from "react-router-dom";
 import qs from "qs";
 import { Toaster, toast } from "react-hot-toast";
 import { message, Popconfirm } from "antd";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
+import { Rate } from "antd";
 
 
 function Profile() {
@@ -55,11 +56,45 @@ function Profile() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-   const showModal = () => {
+  const [rateData,setrateData] = useState();
+  const [rateValue, setrateValue] = useState([]);
+
+  let newfield = { prod_id: "", rating: 0 };
+
+
+   const showModal = (oid) => {
      setIsModalOpen(true);
+     console.log(oid)
+
+
+     const token = sessionStorage.getItem("token");
+     const headers = { Authorization: `Bearer ${token}` };
+     try {
+       axios
+         .get(
+           `http://127.0.0.1:8000/rating-products/${oid}/`,
+           { headers }
+         )
+         .then((response) => {
+          setrateData(response.data.data);
+          console.log(response.data.data.length)
+          const tmp = Array.from({ length: response.data.data.length }, () => ({
+            prod_id: "",
+            rating: 0,
+          }));
+          setrateValue(tmp)
+          
+         })
+         .catch((error) => {
+           console.log(error);
+         });
+     } catch (err) {}
+
    };
+   
    const handleOk = () => {
-     setIsModalOpen(false);
+    //  setIsModalOpen(false);
+    console.log(rateValue)
    };
    const handleCancel = () => {
      setIsModalOpen(false);
@@ -162,7 +197,7 @@ function Profile() {
       axios
         .get("http://127.0.0.1:8000/customer-order/", { headers })
         .then((response) => {
-          console.log(response.data.data);
+          // console.log(response.data.data);
           if (response.data.message === "Success!") {
             setOrderData(response.data.data);
           }
@@ -485,18 +520,7 @@ function Profile() {
       <Navbar />
 
       <div className="exp"></div>
-      <Button type="primary" onClick={showModal}>
-        Open Modal
-      </Button>
-      <Modal
-        title="Basic Modal"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </Modal>
+      
       {!isEmpty(userData) && (
         <>
           <div className="profile-container">
@@ -741,9 +765,65 @@ function Profile() {
                           );
                         })}
                         {value.order_status === "Pending" && (
-                          <Link to={`/invoice/${value._id}`}>
-                            <button className="button-4445">Get invoice</button>
-                          </Link>
+                          <>
+                            {" "}
+                            <Link to={`/invoice/${value._id}`}>
+                              <button className="button-4445">
+                                Get invoice
+                              </button>
+                            </Link>
+                            <button
+                              className="button-4445"
+                              onClick={() => showModal(value._id)}>
+                              Give rating
+                            </button>
+                            <ConfigProvider
+                              theme={{
+                                components: {
+                                  Button: {
+                                    colorPrimary: "#000",
+                                    colorPrimaryHover: "#000",
+                                    colorPrimaryClick: "#000",
+                                    colorPrimaryActive: "#000",
+                                  },
+                                },
+                              }}>
+                              {!isEmpty(rateData) && (
+                                <>
+                                  <Modal
+                                    // mask={false}
+                                    maskStyle={{
+                                      backgroundColor: "#ffffff34",
+                                      opacity: 0.45,
+                                    }}
+                                    title="Give rating"
+                                    open={isModalOpen}
+                                    onOk={handleOk}
+                                    onCancel={handleCancel}>
+                                      {/* {console.log(rateValue)} */}
+                                    {rateData.map((rate)=>{
+                                      return (
+                                        <div className="rate-div">
+                                          <div className="rate-div-sub1">
+                                            <img
+                                              src={rate.prod_image}
+                                              height="100px"
+                                              width="80px"
+                                            />
+                                            <p>{rate.prod_name}</p>
+                                          </div>
+                                          <div className="rate-div-sub2">
+                                            <Rate value={rateValue} onChange={(value)=>{setrateValue(value)}} defaultValue={rate.rating} />
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                    
+                                  </Modal>
+                                </>
+                              )}
+                            </ConfigProvider>
+                          </>
                         )}
                       </div>
                     </>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams,useHistory } from "react-router-dom";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import TextField from "@mui/material/TextField";
@@ -11,13 +12,15 @@ import { Toaster, toast } from "react-hot-toast";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function UpdateCategory() {
+  let { id } = useParams();
+  const history = useHistory();
   // Category_type
   const [cattype, setCat_type] = useState("");
   const [cat_typeflag, setCat_typeFlag] = useState(false);
   const [cat_typeerror, setCat_typeError] = useState("");
   const [cat1, setCat1] = useState(false);
 
-  const [cat_status, setCat_status] = useState(true);
+  const [cat_status, setCat_status] = useState();
 
   const [cat_data, setCat_Data] = useState();
 
@@ -37,7 +40,10 @@ function UpdateCategory() {
   const [category_desError, setCategotyDesError] = useState("");
   const [cat4, setCat4] = useState(false);
 
-  const [subcatstatus, setSubCatStatus] = useState(true);
+  const [visible1, setVisible1] = useState(false);
+  const [visible2, setVisible2] = useState(false);
+
+  const [subcatstatus, setSubCatStatus] = useState();
 
   const width = true;
 
@@ -53,6 +59,25 @@ function UpdateCategory() {
       },
     },
   });
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      axios
+        .get(
+          "http://127.0.0.1:8000/admin-category-type/${id}",
+          //  qs.stringify({ cat_type: cat_type, active: cat_status }),
+          { headers }
+        )
+        .then((response) => {
+          console.log(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {}
+  }, []);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -79,13 +104,60 @@ function UpdateCategory() {
     } catch (err) {}
   }, [cat_typeflag]);
 
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      axios
+        .get(`http://127.0.0.1:8000/admin-category-type/${id}/`, {
+          headers,
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.data.message === "Success!") {
+            setCat_type(response.data.data.cat_type);
+            setCat_status(response.data.data.active);
+            setVisible1(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log("Error");
+    }
+
+    try {
+      axios
+        .get(`http://127.0.0.1:8000/admin-category/${id}/`, {
+          headers,
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.data.message === "Success!") {
+            // setCat_type(response.data.data.cat_type);
+            setCatid(response.data.data.cat_type_id);
+            setCat_Title(response.data.data.cat_title);
+            setCategotyDescription(response.data.data.cat_desc)
+            setSubCatStatus(response.data.data.active)
+            setVisible2(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log("Error");
+    }
+  }, [id]);
+
   const handleCategoryType = (e) => {
     e.preventDefault();
 
     /******* Category *******/
-    const re = /^[A-Za-z]+$/;
 
-    if (cattype.trim().length === 0 || !re.test(cattype)) {
+
+    if (cattype.trim().length === 0) {
       setCat_typeFlag(false);
       setCat_typeError("Invalid category!");
       toast.error("Invalid category!", {
@@ -93,28 +165,29 @@ function UpdateCategory() {
       });
       setCat1(true);
     }
-    if (cattype.trim().length !== 0 && re.test(cattype)) {
+    if (cattype.trim().length !== 0) {
       setCat_typeFlag(true);
     }
 
-    if (cattype.trim().length !== 0 && re.test(cattype)) {
+    if (cattype.trim().length !== 0) {
       console.log("valid");
       const token = sessionStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       try {
         axios
-          .post(
-            "http://127.0.0.1:8000/admin-category-type/",
+          .patch(
+            `http://127.0.0.1:8000/admin-category-type/${id}/`,
             qs.stringify({ cat_type: cattype, active: cat_status }),
             { headers }
           )
           .then((response) => {
             if (response.data.message === "Success!") {
               setCat_typeFlag(false);
-              toast.success("Category-type added!", {
+              toast.success("Category-type updated!", {
                 duration: 3000,
               });
               setCat_type("");
+              history.push("/admin/manageCategory");
               setCat_status(true);
               setCat1(false);
             } else if (
@@ -166,22 +239,20 @@ function UpdateCategory() {
     /******* Title *******/
     const re = /^[A-Za-z]+$/;
 
-    if (cat_title.trim().length === 0 || cat_title.trim().length > 10) {
+    if (cat_title.trim().length === 0) {
       setCat_TitleFlag(false);
       setCat_TitleError("Invalid category!");
       // toast_message("warning");
       setCat3(true);
     }
-    if (!re.test(cat_title)) {
-      setCat_TitleFlag(false);
-      setCat_TitleError("Invalid title!");
-      //  toast_message("warning");
-      setCat3(true);
-    }
+    // if (!re.test(cat_title)) {
+    //   setCat_TitleFlag(false);
+    //   setCat_TitleError("Invalid title!");
+    //   //  toast_message("warning");
+    //   setCat3(true);
+    // }
     if (
-      cat_title.trim().length !== 0 &&
-      cat_title.trim().length < 10 &&
-      re.test(cat_title)
+      cat_title.trim().length !== 0
     ) {
       setCat_TitleFlag(true);
       setCat3(false);
@@ -205,7 +276,7 @@ function UpdateCategory() {
     // }
     if (
       category_description.toString().length !== 0 &&
-      category_description.toString().length > 10
+      category_description.toString().length > 5
       // re.test(category_description)
     ) {
       setCategotyDesFlag(true);
@@ -216,9 +287,8 @@ function UpdateCategory() {
     if (
       catid === "" ||
       cat_title.trim().length === 0 ||
-      !re.test(cat_title) ||
       category_description.toString().length === 0 ||
-      category_description.toString().length < 10
+      category_description.toString().length < 5
       // !re.test(category_description)
     ) {
       toast.error("Something wrong!", {
@@ -226,12 +296,19 @@ function UpdateCategory() {
       });
     }
 
+    console.log(
+      catid !== "",
+        cat_title.toString().length !== 0,
+        re.test(cat_title) ,
+        category_description.trim().length !== 0 ,
+        category_description.trim().length > 5
+    );
+
     if (
       catid !== "" &&
-      cat_title.trim().length !== 0 &&
-      re.test(cat_title) &&
+      cat_title.toString().length !== 0 &&
       category_description.trim().length !== 0 &&
-      category_description.trim().length > 10
+      category_description.trim().length > 5
       // re.test(category_description)
     ) {
       console.log("valid");
@@ -239,8 +316,8 @@ function UpdateCategory() {
       const headers = { Authorization: `Bearer ${token}` };
       try {
         axios
-          .post(
-            "http://127.0.0.1:8000/admin-category/",
+          .patch(
+            `http://127.0.0.1:8000/admin-category/${id}/`,
             qs.stringify({
               cat_type_id: catid,
               active: subcatstatus,
@@ -252,7 +329,7 @@ function UpdateCategory() {
           .then((response) => {
             // console.log(response.data);
             if (response.data.message === "Success!") {
-              toast.success(response.data.message, {
+              toast.success("Category updated!", {
                 duration: 3000,
               });
               setCat_TitleFlag(false);
@@ -264,6 +341,7 @@ function UpdateCategory() {
               setCat2(false);
               setCat3(false);
               setCat4(false);
+              history.push("/admin/manageCategory");
             } else if (response.data.message === "Category not inserted.") {
               toast.error(response.data.message, {
                 duration: 3000,
@@ -289,114 +367,111 @@ function UpdateCategory() {
 
   return (
     <>
-      <section>
-        <Header name="Add Category" path="admin / addCategory" />
+      <section className="home">
+        <Header name="Update Category" path="admin / updateCategory" />
         <ThemeProvider theme={theme}>
           <div className="add-suplier">
-            <div className="add-suplier-sub1">
-              Category:
-              <div className="box">
-                <p>Enter Category type:</p>
-                <TextField
-                  label="type"
-                  size="small"
-                  value={cattype}
-                  fullWidth={width}
-                  onChange={(e) => setCat_type(e.target.value)}
-                />
-                {cat1 && <p className="error-color">{cat_typeerror}</p>}
-              </div>
-              <div className="box">
-                <p>Status:</p>
+            {visible1 && (
+              <div className="add-suplier-sub1">
+                Category:
+                <div className="box">
+                  <p>Enter Category type:</p>
+                  <TextField
+                    label="type"
+                    size="small"
+                    value={cattype}
+                    fullWidth={width}
+                    onChange={(e) => setCat_type(e.target.value)}
+                  />
+                  {cat1 && <p className="error-color">{cat_typeerror}</p>}
+                </div>
+                <div className="box">
+                  <p>Status:</p>
 
-                <Switch
-                  defaultChecked
-                  // checked={true}
-                  onChange={(e) => setCat_status(e.target.checked)}
-                />
+                  <Switch
+                    // defaultChecked
+                    // checked={true}
+                    value={cat_status}
+                    onChange={(e) => setCat_status(e.target.checked)}
+                  />
+                </div>
+                <div className="suplier-button">
+                  <button className="button-311" onClick={handleCategoryType}>
+                    Update Category
+                  </button>
+                </div>
               </div>
-              <div className="suplier-button">
-                <button
-                  className="button-311"
-                  onClick={handleCategoryType}
-                  // variant="contained"
-                  // endIcon={<SendIcon />}
-                  // fullWidth={width}
-                >
-                  Add Category
-                </button>
-              </div>
-            </div>
+            )}
 
-            <div className="add-suplier-sub1">
-              Sub-Category:
-              <div className="box">
-                <p>Select Category:</p>
+            {visible2 && (
+              <div className="add-suplier-sub1">
+                Sub-Category:
+                <div className="box">
+                  <p>Select Category:</p>
 
-                <Select
-                  showSearch
-                  style={{ width: 332 }}
-                  placeholder="Search to Select"
-                  value={catid}
-                  onChange={(value) => setCatid(value)}
-                  size="mediam"
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    (option?.label ?? "").includes(input)
-                  }
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? "")
-                      .toLowerCase()
-                      .localeCompare((optionB?.label ?? "").toLowerCase())
-                  }
-                  options={cat_data}
-                />
-                {cat2 && <p className="error-color">{catiderror}</p>}
-              </div>
-              <div className="box">
-                <p>Category Title</p>
-                <TextField
-                  label="title"
-                  size="small"
-                  value={cat_title}
-                  fullWidth={width}
-                  onChange={(e) => setCat_Title(e.target.value)}
-                />
-                {cat3 && <p className="error-color">{cat_titleError}</p>}
-              </div>
-              <div className="box">
-                <p>Categoty Description</p>
-                <TextField
-                  label="description"
-                  size="small"
-                  value={category_description}
-                  fullWidth={width}
-                  onChange={(e) => setCategotyDescription(e.target.value)}
-                />
-                {cat4 && <p className="error-color">{category_desError}</p>}
-              </div>
-              <div className="box">
-                <p>Category Status</p>
+                  <Select
+                    showSearch
+                    style={{ width: 332 }}
+                    placeholder="Search to Select"
+                    value={catid}
+                    onChange={(value) => setCatid(value)}
+                    size="mediam"
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      (option?.label ?? "").includes(input)
+                    }
+                    filterSort={(optionA, optionB) =>
+                      (optionA?.label ?? "")
+                        .toLowerCase()
+                        .localeCompare((optionB?.label ?? "").toLowerCase())
+                    }
+                    options={cat_data}
+                  />
+                  {cat2 && <p className="error-color">{catiderror}</p>}
+                </div>
+                <div className="box">
+                  <p>Category Title</p>
+                  <TextField
+                    label="title"
+                    size="small"
+                    value={cat_title}
+                    fullWidth={width}
+                    onChange={(e) => setCat_Title(e.target.value)}
+                  />
+                  {cat3 && <p className="error-color">{cat_titleError}</p>}
+                </div>
+                <div className="box">
+                  <p>Categoty Description</p>
+                  <TextField
+                    label="description"
+                    size="small"
+                    value={category_description}
+                    fullWidth={width}
+                    onChange={(e) => setCategotyDescription(e.target.value)}
+                  />
+                  {cat4 && <p className="error-color">{category_desError}</p>}
+                </div>
+                <div className="box">
+                  <p>Category Status</p>
 
-                <Switch
-                  defaultChecked
-                  // color='Black'
-                  // checked={true}
-                  onChange={(e) => setSubCatStatus(e.target.checked)}
-                />
+                  <Switch                    
+                    checked={subcatstatus}
+                    onChange={(e) => setSubCatStatus(e.target.checked)}
+                  />
+                </div>
+                <div className="suplier-button">
+                  <button
+                    // variant="contained"
+                    className="button-311"
+                    onClick={handleCategory}
+                    // endIcon={<SendIcon />}
+                    // fullWidth={width}
+                  >
+                    Update sub-Category
+                  </button>
+                </div>
               </div>
-              <div className="suplier-button">
-                <button
-                  // variant="contained"
-                  className="button-311"
-                  onClick={handleCategory}
-                  // endIcon={<SendIcon />}
-                  // fullWidth={width}
-                >
-                  Add sub-Category
-                </button>
-              </div>
-            </div>
+            )}
           </div>
         </ThemeProvider>
         <Footer />
