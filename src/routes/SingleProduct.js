@@ -6,6 +6,7 @@ import Navbar from "../components/navbar/Navbar";
 import axios from "axios";
 import { ConfigProvider, Radio } from "antd";
 import { Toaster, toast } from "react-hot-toast";
+import { isEmpty } from "lodash";
 
 function SingleProduct() {
   // const [val,setVal] = useState(1);
@@ -24,7 +25,7 @@ function SingleProduct() {
       axios
         .get(`http://127.0.0.1:8000/customer-product/${product_id}`)
         .then((response) => {
-          // console.log(response.data.data.prod_image[0])
+          console.log(response)
           setData(response.data.data);
           setUrl(response.data.data.prod_image[0]);
         })
@@ -109,7 +110,7 @@ function SingleProduct() {
 
       <Navbar navrender={navrender} />
       {/* <Start cName="hero-singleproduct"/> */}
-      {data !== "" && (
+      {!isEmpty(data) && (
         <section id="prodetails" className="section-p1">
           <div className="single-pro-image">
             <img src={url} width="100%" id="MainImg" alt="" />
@@ -171,7 +172,8 @@ function SingleProduct() {
                       setSelectSize(false);
                     }
                   }}>
-                  {Object.keys(data.prod_qty).map((qty, index) => {
+                  {!isEmpty(data.prod_qty) &&
+                  Object.keys(data.prod_qty).map((qty, index) => {
                     return (
                       <>
                         <Radio.Button key={index} value={qty}>
@@ -182,7 +184,7 @@ function SingleProduct() {
                   })}
                 </Radio.Group>
               </ConfigProvider>
-              {Object.keys(data.prod_qty).length === 0 &&
+              {!isEmpty(data.prod_qty) && Object.keys(data.prod_qty).length === 0 &&
                 data.prod_qty.constructor === Object && (
                   <p className="out-stock">
                     This item is currently out of stock

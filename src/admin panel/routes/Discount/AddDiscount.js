@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ConfigProvider, InputNumber, DatePicker } from "antd";
 import { isEmpty } from "lodash";
+import qs from "qs";
 
 function AddDiscount() {
   // valid from
@@ -55,7 +56,6 @@ function AddDiscount() {
 
   const onChange = (newValue) => {
     setInputValue(newValue);
-    console.log(newValue);
   };
 
   const onChangeFrom = (date, dateStrinig) => {
@@ -138,20 +138,24 @@ function AddDiscount() {
       minValue !== "" &&
       maxValue !== ""
     ) {
+      console.log(validFrom.$d)
       const token = sessionStorage.getItem("token");
-      const headers = { Authorization: `Bearer ${token}` };
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      };
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/product-discount/",
+            "http://127.0.0.1:8000/product-discount/",qs.stringify(
             {
               disc_percent: inputValue,
-              valid_from: validFrom,
-              valid_until: validUntil,
+              valid_from: validFrom.$d,
+              valid_until: validUntil.$d,
               coupon_code: coupen,
               min_ord_val: minValue,
               max_disc_amt: maxValue,
-            },
+            }),
             { headers }
           )
           .then((response) => {
@@ -160,6 +164,7 @@ function AddDiscount() {
               toast.success("Discount added!", {
                 duration: 3000,
               });
+              setInputValue(1);
               setCoupen("");
               setminValue("");
               setmaxValue("");
@@ -220,7 +225,7 @@ function AddDiscount() {
                 />{" "}
                 <InputNumber
                   min={1}
-                  max={20}
+                  max={100}
                   style={{
                     width: "60px",
                   }}

@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from '../../components/Header'
 import axios from 'axios';
 import DataTable from "react-data-table-component";
@@ -72,7 +73,9 @@ function ManageDiscount() {
      {
        name: <h4>Edit</h4>,
        cell: (row) => (
-         <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+         <Link to={`updateDiscount/${row._id}`}>
+           <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+         </Link>
        ),
        //  right:true,
        width: "100px",
@@ -179,6 +182,16 @@ function ManageDiscount() {
           top: 10,
         }}
         reverseOrder={true}
+        toastOptions={{
+          // Default options for specific types
+          success: {
+            duration: 3000,
+            theme: {
+              primary: "green",
+              secondary: "black",
+            },
+          },
+        }}
       />
     </>
   );

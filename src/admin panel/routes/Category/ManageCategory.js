@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory,Link } from "react-router-dom";
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import DataTable from "react-data-table-component";
@@ -122,27 +122,19 @@ function ManageCategory() {
 
     const columns = [
       {
-        name: <h4>Cat_type</h4>,
-        selector: (row) => row.cat_type,
-        sortable: true,
-      },
-      {
-        name: <h4>Status</h4>,
-        selector: (row) => row.active.toString(),
-        sortable: true,
-      },
-      {
-        name: <h4>Action</h4>,
+        name: <h4>Edit</h4>,
         cell: (row) => (
           // <button className="supplier-edit-btn" onClick={() => alert(row._id)}>
           //   Edit
           // </button>
-          <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+          <Link to={`updateCategory/${row._id}`}>
+            <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+          </Link>
         ),
         // right: true,
       },
       {
-        name: <h4>Action</h4>,
+        name: <h4>Delete</h4>,
         cell: (row) => (
           // <button
           //   className="supplier-delete-btn"
@@ -173,30 +165,19 @@ function ManageCategory() {
           </ConfigProvider>
         ),
       },
-    ];
-
-    const columns1 = [
       {
         name: <h4>Cat_type</h4>,
         selector: (row) => row.cat_type,
         sortable: true,
-        // right:true,
       },
       {
-        name: <h4>Title</h4>,
-        selector: (row) => row.cat_title,
-        sortable: true,
-      },
-      {
-        name: <h4>Description</h4>,
-        selector: (row) => row.cat_desc,
-        sortable: true,
-      },
-      {
-        name: <h4>Active</h4>,
+        name: <h4>Status</h4>,
         selector: (row) => row.active.toString(),
         sortable: true,
       },
+    ];
+
+    const columns1 = [
       {
         name: <h4>Edit</h4>,
         cell: (row) => (
@@ -210,11 +191,7 @@ function ManageCategory() {
       {
         name: <h4>Delete</h4>,
         cell: (row) => (
-          // <button
-          //   className="supplier-delete-btn"
-          //   onClick={() => alert(row._id)}>
-          //   Delete
-          // </button>
+
 
           <ConfigProvider
             theme={{
@@ -239,6 +216,27 @@ function ManageCategory() {
             </Popconfirm>
           </ConfigProvider>
         ),
+      },
+      {
+        name: <h4>Cat_type</h4>,
+        selector: (row) => row.cat_type,
+        sortable: true,
+        // right:true,
+      },
+      {
+        name: <h4>Title</h4>,
+        selector: (row) => row.cat_title,
+        sortable: true,
+      },
+      {
+        name: <h4>Description</h4>,
+        selector: (row) => row.cat_desc,
+        sortable: true,
+      },
+      {
+        name: <h4>Active</h4>,
+        selector: (row) => row.active.toString(),
+        sortable: true,
       },
     ];
 

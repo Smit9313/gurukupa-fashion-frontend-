@@ -1,10 +1,9 @@
 import React,{useEffect, useState} from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory,Link } from "react-router-dom";
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import axios from "axios";
 import DataTable from "react-data-table-component";
-import { width } from '@mui/system';
 import { Toaster, toast } from "react-hot-toast";
 import { ConfigProvider } from "antd";
 import { message, Popconfirm } from "antd";
@@ -76,7 +75,9 @@ function ManageProduct() {
      {
        name: <h4>Edit</h4>,
        cell: (row) => (
-         <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+         <Link to={`updateProduct/${row._id}`}>
+           <FontAwesomeIcon className="edit-supplier" icon={faPenToSquare} />
+         </Link>
        ),
        //  right:true,
        width: "100px",
