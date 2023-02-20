@@ -1,5 +1,8 @@
 import React,{ useState } from 'react';
-import '../Style/contactform.css'
+import '../Style/contactform.css';
+import { Toaster, toast } from "react-hot-toast";
+import axios from 'axios';
+import qs from "qs";
 
 function ContactForm() {
 
@@ -29,109 +32,166 @@ function ContactForm() {
     e.preventDefault();
 
     /*************** Name *************/
-    console.log(name);
+    // console.log(name);
     let nameNull = name.trim() === "";
-    let nameNotNull = name.trim() !== "";
-    let minNameLength = name.trim().length < 6;
-    let maxNameLength = name.trim().length > 10;
+    // let nameNotNull = name.trim() !== "";
+    // let minNameLength = name.trim().length < 6;
+    // let maxNameLength = name.trim().length > 10;
 
     if (nameNull) {
       setNameFlag(false);
       setNameError("Name Should not blank.");
     }
 
-    if ((minNameLength || maxNameLength) && nameNotNull) {
-      setNameFlag(false);
-      setNameError("Name length must be 6 to 10");
-    }
+    // if ((minNameLength || maxNameLength) && nameNotNull) {
+    //   setNameFlag(false);
+    //   setNameError("Name length must be 6 to 10");
+    // }
 
-    if (!nameNull && !minNameLength && !maxNameLength) {
+    if (!nameNull) {
       setNameFlag(true);
     }
 
     /*************** Email *************/
-    console.log(email);
+    // console.log(email);
     const email_pattern =
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     let emailNull = email.trim() === "";
-    let emailNotNull = email.trim() !== "";
 
     if (emailNull) {
       setEmailFlag(false);
       setEmailError("Email Should not be blank.");
     }
 
-    if (emailNotNull && !email_pattern.test(email)) {
+    if (!email_pattern.test(email)) {
       setEmailFlag(false);
       setEmailError("Enter Valid Email.");
     }
 
     if (!emailNull && email_pattern.test(email)) {
       setEmailFlag(true);
+       setEmailError("");
     }
 
     /*************** Subject *************/
-    console.log(subject);
-    if (subject.length < 15 || subject.length > 50) {
+    // console.log(subject);
+    if (subject === "") {
       setSubjectFlag(false);
-      setSubjectError("Subject length must be 15 to 50.");
+      setSubjectError("Subject should not be blank!.");
     }
 
-    if (subject.length > 15 && subject.length < 50) {
+    if (subject !== "") {
       setSubjectFlag(true);
+      setSubjectError("");
     }
 
     /*************** Message *************/
-    if (message.length < 40 || message.length > 100) {
+    if (message === '') {
       setMessageFlag(false);
-      setMessageError("Message length must be 40 to 100.");
+      setMessageError("Message should not be blank!");
     }
 
-    if (message.length > 40 && message.length < 100) {
+    if (message !== "") {
       setMessageFlag(true);
+       setMessageError("");
     }
+
+    if(nameNull || emailNull || !email_pattern.test(email) || subject === "" || message === ''){
+      toast.error("Something wrong!", {
+        duration: 3000,
+      });
+    }
+
+    if(!nameNull && !emailNull && email_pattern.test(email) && subject !== "" && message !== ""){
+      
+      const headers = { "Content-Type": "application/jsonn" };
+      try {
+        axios
+          .post(
+            "http://127.0.0.1:8000/contact-us/",
+            {
+              name: name,
+              email: email,
+              subject: subject,
+              message: message,
+            },
+            { headers }
+          )
+          .then((response) => {
+            console.log(response)
+            if (response.data.message === "Success!") {
+              setName("");
+              setEmail("");
+              setSubject("");
+              setMessage("");
+
+              toast.success("Message sended!", {
+                duration: 3000,
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err) {}
+
+    }
+
 
   }
 
   return (
-    <div className="form-container">
-      <h1>Send a message to us!</h1>
-      <form type="submit">
-        <input
-          type="text"
-          placeholder="Name"
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        {!nameFlag && <p>{nameError}</p>}
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        {!emailFlag && <p>{emailError}</p>}
-        {/* {errorFlag && <p>{error}</p>} */}
-        <input
-          type="text"
-          placeholder="Subject"
-          onChange={(e) => setSubject(e.target.value)}
-          required
-        />
-        {!subjectFlag && <p>{subjectError}</p>}
+    <>
+      <div className="form-container">
+        <h1>Send a message to us!</h1>
+        <form type="submit">
+          <input
+            type="text"
+            value={name}
+            placeholder="Name"
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          {!nameFlag && <p>{nameError}</p>}
+          <input
+            type="email"
+            value={email}
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          {!emailFlag && <p>{emailError}</p>}
+          {/* {errorFlag && <p>{error}</p>} */}
+          <input
+            type="text"
+            value={subject}
+            placeholder="Subject"
+            onChange={(e) => setSubject(e.target.value)}
+            required
+          />
+          {!subjectFlag && <p>{subjectError}</p>}
 
-        <textarea
-          placeholder="Message"
-          rows="4"
-          onChange={(e) => setMessage(e.target.value)}
-          required />
-        {!messageFlag && <p>{messageError}</p>}
-        <button type="submit" onClick={handleSubmit}>
-          Send Message
-        </button>
-
-      </form>
-    </div>
+          <textarea
+            placeholder="Message"
+            rows="4"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+          />
+          {!messageFlag && <p>{messageError}</p>}
+          <button type="submit" onClick={handleSubmit}>
+            Send Message
+          </button>
+        </form>
+      </div>
+      <Toaster
+        position="top-center"
+        containerStyle={{
+          top: 10,
+        }}
+        reverseOrder={true}
+      />
+    </>
   );
 }
 
