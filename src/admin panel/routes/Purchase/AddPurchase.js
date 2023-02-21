@@ -28,9 +28,8 @@ function AddPurchase() {
   const [cattypeid, setCatTypeId] = useState("");
   const [subcatid, setSubCatId] = useState("");
   const [flag, setFlag] = useState(false);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-
 
   const [productDetails, setProductDetails] = useState([
     {
@@ -57,7 +56,6 @@ function AddPurchase() {
       },
     },
   });
-
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -145,7 +143,6 @@ function AddPurchase() {
 
   const handleAddProduct = () => {
     let object = {
-
       prod_id: "",
       purch_qty: [
         {
@@ -213,93 +210,96 @@ function AddPurchase() {
           prod.prod_id !== "" &&
           prod.purch_price !== ""
         ) {
-          setFlag(false)
+          setFlag(false);
         }
       });
     });
 
-    productDetails.map((prod, index) => {
-       if (!isEmpty(prod.purch_qty)) {
-         prod.purch_qty.map((pqty) => {
-           if (
-             pqty.size !== "" &&
-             pqty.qty !== "" &&
-             prod.prod_id !== "" &&
-             prod.purch_price !== "" &&
-             supId !== "" &&
-             date !== ""
-           ) {
-             const token = sessionStorage.getItem("token");
-             console.log(token);
-             const headers = {
-               Authorization: `Bearer ${token}`,
-               "Content-Type": "application/jsonn",
-             };
-             console.log(headers);
-             try {
-               axios
-                 .post(
-                   "http://127.0.0.1:8000/admin-purchase/",
-                   {
-                     supp_id: supId,
-                     date: date,
-                     "Purchase-details": productDetails,
-                   },
-                   { headers }
-                 )
-                 .then((response) => {
-                   console.log(response.data);
-                   if (response.data.message === "Success!") {
-                     setSupId("");
-                     setSupIdFlag(false);
-                     setProductDetails([
-                       {
-                         prod_id: "",
-                         purch_qty: [
-                           {
-                             size: "",
-                             qty: "",
-                           },
-                         ],
-                         purch_price: "",
-                       },
-                     ]);
-                     setFlag(false);
-                    //  toast.success("Purchase added!", {
-                    //    duration: 3000,
-                    //  });
-                    setSuccess(true);
-                   } else {
-                     toast.error(response.data.message, {
-                       duration: 3000,
-                     });
-                     setSuccess(false);
-                   }
-                 })
-                 .catch((error) => {
-                   console.log(error);
-                    setSuccess(false);
-                 });
-             } catch (err) {}
-           } else {
-             toast.error("Fill all product details!", {
-               duration: 3000,
-             });
-             setFlag(true);
-             setError("Fill all product details!");
-           }
-         });
-       } else {
-         toast.error("Minimum 1 size and qty required!", {
-           duration: 20,
-         });
-         setFlag(true);
-         setError("Fill all product details!");
-       }
-      
-    });
+    let flagg = true;
 
-    
+    productDetails.map((prod, index) => {
+      if (!isEmpty(prod.purch_qty)) {
+        prod.purch_qty.map((pqty) => {
+          if (
+            pqty.size !== "" &&
+            pqty.qty !== "" &&
+            prod.prod_id !== "" &&
+            prod.purch_price !== "" &&
+            supId !== "" &&
+            date !== ""
+          ) {
+            flagg = false;
+          } else {
+            toast.error("Fill all product details!", {
+              duration: 3000,
+            });
+            setFlag(true);
+            setError("Fill all product details!");
+          }
+        });
+      } else {
+        toast.error("Minimum 1 size and qty required!", {
+          duration: 20,
+        });
+        setFlag(true);
+        setError("Fill all product details!");
+      }
+
+      if (flagg === false) {
+        const token = sessionStorage.getItem("token");
+        console.log(token);
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/jsonn",
+        };
+        console.log(headers);
+        try {
+          axios
+            .post(
+              "http://127.0.0.1:8000/admin-purchase/",
+              {
+                supp_id: supId,
+                date: date,
+                "Purchase-details": productDetails,
+              },
+              { headers }
+            )
+            .then((response) => {
+              console.log(response.data);
+              if (response.data.message === "Success!") {
+                setSupId("");
+                setSupIdFlag(false);
+                setProductDetails([
+                  {
+                    prod_id: "",
+                    purch_qty: [
+                      {
+                        size: "",
+                        qty: "",
+                      },
+                    ],
+                    purch_price: "",
+                  },
+                ]);
+                setFlag(false);
+                 toast.success("Purchase added!", {
+                   duration: 3000,
+                 });
+                setSuccess(true);
+              } else {
+                toast.error(response.data.message, {
+                  duration: 3000,
+                });
+                setSuccess(false);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              setSuccess(false);
+            });
+        } catch (err) {}
+      }
+    });
 
     // if (supId !== "" && date !== "") {
     //   productDetails.map((prod, index) => {
@@ -632,7 +632,9 @@ function AddPurchase() {
                       value={form.purch_price}
                     />
                   </div>
-                  <button className="button-40" onClick={() =>handleRemoveProduct(index)}>
+                  <button
+                    className="button-40"
+                    onClick={() => handleRemoveProduct(index)}>
                     - Remove product
                   </button>
                 </div>
@@ -643,9 +645,7 @@ function AddPurchase() {
               + Add product
             </button>
             <div className="suplier-button">
-              <button
-                className="button-311"
-                onClick={handleAddClick}>
+              <button className="button-311" onClick={handleAddClick}>
                 Add
               </button>
             </div>
