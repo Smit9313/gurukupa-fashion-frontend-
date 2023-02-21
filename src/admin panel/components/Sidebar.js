@@ -171,7 +171,8 @@ function Sidebar({url}) {
 
               <li className="nav-link" onClick={handlePurchase}>
                 <section>
-                  <i className="bx bx-bell icon"></i>
+                  {/* <i className="bx bx-bell icon"></i> */}
+                  <i className="bx bxs-purchase-tag-alt icon"></i>
                   <span className="text nav-text">Purchase</span>
                 </section>
                 <i
@@ -260,7 +261,8 @@ function Sidebar({url}) {
 
               <li className="nav-link" onClick={handleProduct}>
                 <section>
-                  <i className="bx bx-heart icon"></i>
+                  {/* <i className="bx bx-heart icon"></i> */}
+                  <i className="bx bxl-product-hunt icon"></i>
                   <span className="text nav-text">Product</span>
                 </section>
                 <i
@@ -321,7 +323,9 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to="/" activeClassName="sidebar-active">
+                    <NavLink
+                      to={`/admin/allOrder`}
+                      activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">{"->"}All Order</span>
                       {/* <hr /> */}
@@ -331,7 +335,9 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to="/" activeClassName="sidebar-active">
+                    <NavLink
+                      to={`/admin/pendingOrder`}
+                      activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"}Pending Order
@@ -343,7 +349,9 @@ function Sidebar({url}) {
                   <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
-                    <NavLink to="/" activeClassName="sidebar-active">
+                    <NavLink
+                      to={`/admin/deliveredOrder`}
+                      activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"}Delivered Product
@@ -352,24 +360,24 @@ function Sidebar({url}) {
                     </NavLink>
                   </li>
                   <hr />
-                  <li
+                  {/* <li
                     className="nav-link-sub"
                     onClick={() => setSidebar(!sidebar)}>
                     <NavLink to="/" activeClassName="sidebar-active">
-                      {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
                         {"->"}Returned Product
                       </span>
-                      {/* <hr /> */}
+
                     </NavLink>
-                  </li>
+                  </li> */}
                   <hr />
                 </>
               )}
 
               <li className="nav-link" onClick={handleDiscount}>
                 <section>
-                  <i className="bx bx-bar-chart-alt-2 icon"></i>
+                  {/* <i className="bx bx-bar-chart-alt-2 icon"></i> */}
+                  <i className="bx bxs-discount icon"></i>
                   <span className="text nav-text">Discount</span>
                 </section>
                 <i
@@ -417,10 +425,11 @@ function Sidebar({url}) {
 
           <div className="bottom-content">
             <li className="">
-              <NavLink to="/"
-              onClick={()=>{
-                sessionStorage.removeItem("token");
-              }}>
+              <NavLink
+                to="/"
+                onClick={() => {
+                  sessionStorage.removeItem("token");
+                }}>
                 <i className="bx bx-log-out icon"></i>
                 <span className="text nav-text">Logout</span>
               </NavLink>

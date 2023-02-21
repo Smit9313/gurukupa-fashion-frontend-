@@ -244,62 +244,64 @@ function AddPurchase() {
         setFlag(true);
         setError("Fill all product details!");
       }
-
-      if (flagg === false) {
-        const token = sessionStorage.getItem("token");
-        console.log(token);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/jsonn",
-        };
-        console.log(headers);
-        try {
-          axios
-            .post(
-              "http://127.0.0.1:8000/admin-purchase/",
-              {
-                supp_id: supId,
-                date: date,
-                "Purchase-details": productDetails,
-              },
-              { headers }
-            )
-            .then((response) => {
-              console.log(response.data);
-              if (response.data.message === "Success!") {
-                setSupId("");
-                setSupIdFlag(false);
-                setProductDetails([
-                  {
-                    prod_id: "",
-                    purch_qty: [
-                      {
-                        size: "",
-                        qty: "",
-                      },
-                    ],
-                    purch_price: "",
-                  },
-                ]);
-                setFlag(false);
-                 toast.success("Purchase added!", {
-                   duration: 3000,
-                 });
-                setSuccess(true);
-              } else {
-                toast.error(response.data.message, {
-                  duration: 3000,
-                });
-                setSuccess(false);
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-              setSuccess(false);
-            });
-        } catch (err) {}
-      }
     });
+
+    if (flagg === false) {
+      // console.log("Hello")
+      const token = sessionStorage.getItem("token");
+      console.log(token);
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/jsonn",
+      };
+      console.log(headers);
+      try {
+        axios
+          .post(
+            "http://127.0.0.1:8000/admin-purchase/",
+            {
+              supp_id: supId,
+              date: date,
+              "Purchase-details": productDetails,
+            },
+            { headers }
+          )
+          .then((response) => {
+            console.log(response.data);
+            if (response.data.message === "Success!") {
+              setSupId("");
+              flagg = false
+              setSupIdFlag(false);
+              setProductDetails([
+                {
+                  prod_id: "",
+                  purch_qty: [
+                    {
+                      size: "",
+                      qty: "",
+                    },
+                  ],
+                  purch_price: "",
+                },
+              ]);
+              setFlag(false);
+              toast.success("Purchase added!", {
+                duration: 3000,
+              });
+              setSuccess(true);
+            } else {
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
+              setSuccess(false);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            setSuccess(false);
+          });
+      } catch (err) {}
+    }
 
     // if (supId !== "" && date !== "") {
     //   productDetails.map((prod, index) => {

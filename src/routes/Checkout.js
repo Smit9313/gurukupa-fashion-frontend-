@@ -242,7 +242,14 @@ function Checkout() {
           }
         )
         .then((response) => {
-          // console.log(response.data.data);
+          console.log(response)
+          if(response.data.message === "Success!"){
+
+          }else{
+            toast.error(response.data.message, {
+              duration: 3000,
+            });
+          }
           setDiscountData(response.data.data);
         })
         .catch((error) => {

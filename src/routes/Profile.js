@@ -53,16 +53,19 @@ function Profile() {
   const [addressId, setAddressId] = useState();
   const [updateAddress, setUpdateAddress] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [rateData, setrateData] = useState([]);
-  // const [rateValue, setrateValue] = useState([]);
+  const [test,setTest] = useState();
+
+  const [modalsVisible, setModalsVisible] = useState();
 
   let newfield = { prod_id: "", rating: 0 };
 
-  const showModal = (oid) => {
-    setIsModalOpen(true);
-    // console.log(oid);
+  const showModal = (index, oid) => {
+    // setIsModalOpen(true);
+    console.log(index, oid);
+    const newModalsVisible = [...modalsVisible];
+    newModalsVisible[index] = true;
+    setModalsVisible(newModalsVisible);
 
     const token = sessionStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
@@ -77,15 +80,6 @@ function Profile() {
           ) {
             setrateData(response.data.data);
           }
-
-          //  const tmp = Array.from(
-          //    { length: response.data.data.length },
-          //    () => ({
-          //      prod_id: "",
-          //      rating: 0,
-          //    })
-          //  );
-          //  setrateValue(tmp);
         })
         .catch((error) => {
           console.log(error);
@@ -94,7 +88,7 @@ function Profile() {
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setModalsVisible(test);
   };
 
   const handleChange = (index) => (event, isExpanded) => {
@@ -128,8 +122,8 @@ function Profile() {
     }
   };
   const cancel = (e) => {
-    // console.log(e);
-    // message.error("Click on No");
+      // console.log(e);
+      // message.error("Click on No");
   };
 
   const showDrawer = (e) => {
@@ -197,6 +191,8 @@ function Profile() {
           // console.log(response.data.data);
           if (response.data.message === "Success!") {
             setOrderData(response.data.data);
+            setTest(Array(response.data.data.length).fill(false));
+            setModalsVisible(Array(response.data.data.length).fill(false));
           }
         })
         .catch((error) => {
@@ -525,13 +521,13 @@ function Profile() {
     setrateData(newState);
   };
 
-  const handleOk = (oid) => {
+  const handleOk = (index,oid) => {
     const token = sessionStorage.getItem("token");
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-type": "application/json",
     };
-    console.log(oid)
+    console.log(oid);
     try {
       axios
         .post(`http://127.0.0.1:8000/customer-rating/${oid}/`, rateData, {
@@ -539,7 +535,14 @@ function Profile() {
         })
         .then((response) => {
           if (response.data.message === "Success!") {
-            setIsModalOpen(false);
+            // setModalsVisible(false);
+            const newModalsVisible = [...modalsVisible];
+            newModalsVisible[index] = false;
+            setModalsVisible(newModalsVisible);
+          } else {
+            toast.error(response.data.message, {
+              duration: 3000,
+            });
           }
         })
         .catch((error) => {
@@ -712,7 +715,7 @@ function Profile() {
                 {orderData.map((value, index) => {
                   return (
                     <>
-                      <div key={index} className="order-data">
+                      <div key={value._id} className="order-data">
                         <p>Order - {index + 1}</p>
                         <div className="order-address-data">
                           <div>
@@ -808,7 +811,7 @@ function Profile() {
                             </Link>
                             <button
                               className="button-4445"
-                              onClick={() => showModal(value._id)}>
+                              onClick={() => showModal(index, value._id)}>
                               Give rating
                             </button>
                             <ConfigProvider
@@ -831,9 +834,8 @@ function Profile() {
                                       opacity: 0.45,
                                     }}
                                     title="Give rating"
-                                    destroyOnClose={true}
-                                    open={isModalOpen}
-                                    onOk={() => handleOk(value._id)}
+                                    open={modalsVisible[index]}
+                                    onOk={() => handleOk(index,value._id)}
                                     onCancel={handleCancel}>
                                     {/* {console.log(rateValue)} */}
                                     {rateData.map((rate) => {
@@ -855,7 +857,7 @@ function Profile() {
                                                 value={rate.rating}
                                                 defaultValue={rate.rating}
                                               />
-                                              {/* <p>{rate.date.substring(0,10)}</p> */}
+                                              <p>{rate.date.substring(0,10)}</p>
                                             </div>
                                           )}
 

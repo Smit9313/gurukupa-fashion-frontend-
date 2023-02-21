@@ -13,6 +13,9 @@ import ManageDiscount from "./Discount/ManageDiscount";
 import AddDiscount from "./Discount/AddDiscount";
 import Error from "../../routes/Error";
 import Dashboard from "./Dashboard";
+import PendingOrder from "./Order/PendingOrder";
+import DeliveredOrder from "./Order/DeliveredOrder";
+import AllOrder from "./Order/AllOrder"
 
 function Home({ path }) {
   let { id } = useParams();
@@ -75,6 +78,21 @@ function Home({ path }) {
           <AddDiscount />
         </section>
       )}
+      {id === "pendingOrder" && (
+        <section className="home">
+          <PendingOrder />
+        </section>
+      )}
+      {id === "deliveredOrder" && (
+        <section className="home">
+          <DeliveredOrder />
+        </section>
+      )}
+      {id === "allOrder" && (
+        <section className="home">
+          <AllOrder />
+        </section>
+      )}
       {id !== "dashboard" &&
         id !== "manageSupplier" &&
         id !== "addSupplier" &&
@@ -85,10 +103,13 @@ function Home({ path }) {
         id !== "addProduct" &&
         id !== "manageProduct" &&
         id !== "manageDiscount" &&
-        id !== "addDiscount" && (
+        id !== "addDiscount" &&
+        id !== "pendingOrder" &&
+        id !== "deliveredOrder" &&
+        id !== "allOrder" && (
           <>
             <section className="home">
-              <Error/>
+              <Error />
             </section>
           </>
         )}
