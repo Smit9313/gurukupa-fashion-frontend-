@@ -6,6 +6,7 @@ import UpdateDiscount from './routes/Discount/UpdateDiscount';
 import UpdateProduct from "./routes/Product/UpdateProduct";
 import UpdateCategory from './routes/Category/UpdateCategory';
 import UpdateSupplier from './routes/Supplier/UpdateSupplier';
+import UpdatePurchase from './routes/Purchase/UpdatePurchase';
 
 function Admin() {
 
@@ -30,6 +31,9 @@ function Admin() {
         </Route>
         <Route path={`${path}/updateSupplier/:id`}>
           <UpdateSupplier />
+        </Route>
+        <Route path={`${path}/updatePurchase/:id`}>
+         <UpdatePurchase/>
         </Route>
         <Route path={`${path}/:id`}>
           <Home path={path} />

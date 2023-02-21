@@ -236,7 +236,7 @@ function SingleProduct() {
             </div>
           </section>
 
-          <div className="" id="prodetails-suggestion">
+          <div id="prodetails-suggestion">
             <center>
               <h2>SIMILAR PRODUCTS</h2>
             </center>

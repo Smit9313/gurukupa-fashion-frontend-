@@ -604,7 +604,7 @@ function Checkout() {
 
             <div className="col-75">
               <div className="add-suplier-sub1 cart-products-details">
-                <table>
+                <table className="table-checkout">
                   <thead>
                     <tr>
                       <th>Items</th>

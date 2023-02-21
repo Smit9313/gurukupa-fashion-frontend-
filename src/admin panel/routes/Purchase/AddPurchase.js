@@ -29,6 +29,8 @@ function AddPurchase() {
   const [subcatid, setSubCatId] = useState("");
   const [flag, setFlag] = useState(false);
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false);
+
 
   const [productDetails, setProductDetails] = useState([
     {
@@ -56,7 +58,6 @@ function AddPurchase() {
     },
   });
 
-  const width = true;
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -144,6 +145,7 @@ function AddPurchase() {
 
   const handleAddProduct = () => {
     let object = {
+
       prod_id: "",
       purch_qty: [
         {
@@ -263,17 +265,20 @@ function AddPurchase() {
                        },
                      ]);
                      setFlag(false);
-                     toast.success("Purchase added!", {
-                       duration: 3000,
-                     });
+                    //  toast.success("Purchase added!", {
+                    //    duration: 3000,
+                    //  });
+                    setSuccess(true);
                    } else {
                      toast.error(response.data.message, {
                        duration: 3000,
                      });
+                     setSuccess(false);
                    }
                  })
                  .catch((error) => {
                    console.log(error);
+                    setSuccess(false);
                  });
              } catch (err) {}
            } else {
@@ -357,6 +362,12 @@ function AddPurchase() {
     //      });
     //  } catch (err) {}
   };
+
+  // if(success === true){
+  //   toast.success("Purchase added!", {
+  //                      duration: 3000,
+  //                    });
+  // }
 
   return (
     <>
@@ -597,11 +608,6 @@ function AddPurchase() {
                             value={form1.qty}
                           />
                           {"  "}
-                          {/* <button
-                            className="button-39"
-                            onClick={() => handleRemove(index1, index)}>
-                            - Remove
-                          </button> */}
                           <FontAwesomeIcon
                             className="edit-product-delete"
                             icon={faTrashCan}
@@ -626,7 +632,7 @@ function AddPurchase() {
                       value={form.purch_price}
                     />
                   </div>
-                  <button className="button-40" onClick={handleRemoveProduct}>
+                  <button className="button-40" onClick={() =>handleRemoveProduct(index)}>
                     - Remove product
                   </button>
                 </div>

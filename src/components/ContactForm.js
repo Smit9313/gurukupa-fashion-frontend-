@@ -128,6 +128,10 @@ function ContactForm() {
               toast.success("Message sended!", {
                 duration: 3000,
               });
+            }else{
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
             }
           })
           .catch((error) => {

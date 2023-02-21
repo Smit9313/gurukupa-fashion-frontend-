@@ -18,7 +18,6 @@ import { message, Popconfirm } from "antd";
 import { Modal } from "antd";
 import { Rate } from "antd";
 
-
 function Profile() {
   const [userData, setUserData] = useState();
   const [addressData, setAddressData] = useState();
@@ -56,49 +55,47 @@ function Profile() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [rateData,setrateData] = useState();
-  const [rateValue, setrateValue] = useState([]);
+  const [rateData, setrateData] = useState([]);
+  // const [rateValue, setrateValue] = useState([]);
 
   let newfield = { prod_id: "", rating: 0 };
 
+  const showModal = (oid) => {
+    setIsModalOpen(true);
+    // console.log(oid);
 
-   const showModal = (oid) => {
-     setIsModalOpen(true);
-     console.log(oid)
+    const token = sessionStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      axios
+        .get(`http://127.0.0.1:8000/customer-rating/${oid}/`, { headers })
+        .then((response) => {
+          console.log(response);
+          if (
+            response.data.message === "Rating not found." ||
+            response.data.message === "Success!"
+          ) {
+            setrateData(response.data.data);
+          }
 
+          //  const tmp = Array.from(
+          //    { length: response.data.data.length },
+          //    () => ({
+          //      prod_id: "",
+          //      rating: 0,
+          //    })
+          //  );
+          //  setrateValue(tmp);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {}
+  };
 
-     const token = sessionStorage.getItem("token");
-     const headers = { Authorization: `Bearer ${token}` };
-     try {
-       axios
-         .get(
-           `http://127.0.0.1:8000/rating-products/${oid}/`,
-           { headers }
-         )
-         .then((response) => {
-          setrateData(response.data.data);
-          console.log(response.data.data.length)
-          const tmp = Array.from({ length: response.data.data.length }, () => ({
-            prod_id: "",
-            rating: 0,
-          }));
-          setrateValue(tmp)
-          
-         })
-         .catch((error) => {
-           console.log(error);
-         });
-     } catch (err) {}
-
-   };
-   
-   const handleOk = () => {
-    //  setIsModalOpen(false);
-    console.log(rateValue)
-   };
-   const handleCancel = () => {
-     setIsModalOpen(false);
-   };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const handleChange = (index) => (event, isExpanded) => {
     setExpanded(isExpanded ? index : false);
@@ -117,10 +114,10 @@ function Profile() {
           if (response.data.message === "Success!") {
             setUpdateDrop(!updateDrop);
             message.success("deleted successfully!");
-          }else{
-             toast.error("something wrong!", {
-               duration: 3000,
-             });
+          } else {
+            toast.error("something wrong!", {
+              duration: 3000,
+            });
           }
         })
         .catch((error) => {
@@ -515,12 +512,48 @@ function Profile() {
     }
   };
 
+  const updateRate = (value, rate) => {
+    const newState = rateData.map((obj) => {
+      // 👇️ if id equals 2, update country property
+      if (obj.prod_id === rate.prod_id) {
+        return { ...obj, rating: value, date: new Date() };
+      }
+
+      // 👇️ otherwise return the object as is
+      return obj;
+    });
+    setrateData(newState);
+  };
+
+  const handleOk = (oid) => {
+    const token = sessionStorage.getItem("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-type": "application/json",
+    };
+    console.log(oid)
+    try {
+      axios
+        .post(`http://127.0.0.1:8000/customer-rating/${oid}/`, rateData, {
+          headers,
+        })
+        .then((response) => {
+          if (response.data.message === "Success!") {
+            setIsModalOpen(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {}
+  };
+
   return (
     <>
       <Navbar />
 
       <div className="exp"></div>
-      
+
       {!isEmpty(userData) && (
         <>
           <div className="profile-container">
@@ -764,6 +797,7 @@ function Profile() {
                             </>
                           );
                         })}
+
                         {value.order_status === "Pending" && (
                           <>
                             {" "}
@@ -797,11 +831,12 @@ function Profile() {
                                       opacity: 0.45,
                                     }}
                                     title="Give rating"
+                                    destroyOnClose={true}
                                     open={isModalOpen}
-                                    onOk={handleOk}
+                                    onOk={() => handleOk(value._id)}
                                     onCancel={handleCancel}>
-                                      {/* {console.log(rateValue)} */}
-                                    {rateData.map((rate)=>{
+                                    {/* {console.log(rateValue)} */}
+                                    {rateData.map((rate) => {
                                       return (
                                         <div className="rate-div">
                                           <div className="rate-div-sub1">
@@ -812,13 +847,32 @@ function Profile() {
                                             />
                                             <p>{rate.prod_name}</p>
                                           </div>
-                                          <div className="rate-div-sub2">
-                                            <Rate value={rateValue} onChange={(value)=>{setrateValue(value)}} defaultValue={rate.rating} />
-                                          </div>
+                                          {/* {console.log(rate)} */}
+                                          {rate.date !== null && (
+                                            <div className="rate-div-sub2">
+                                              <Rate
+                                                disabled
+                                                value={rate.rating}
+                                                defaultValue={rate.rating}
+                                              />
+                                              {/* <p>{rate.date.substring(0,10)}</p> */}
+                                            </div>
+                                          )}
+
+                                          {rate.date === null && (
+                                            <div className="rate-div-sub2">
+                                              <Rate
+                                                value={rate.rating}
+                                                onChange={(value) => {
+                                                  updateRate(value, rate);
+                                                }}
+                                                defaultValue={rate.rating}
+                                              />
+                                            </div>
+                                          )}
                                         </div>
                                       );
                                     })}
-                                    
                                   </Modal>
                                 </>
                               )}

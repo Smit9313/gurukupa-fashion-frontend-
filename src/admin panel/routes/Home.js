@@ -12,6 +12,7 @@ import AddProduct from "./Product/AddProduct";
 import ManageDiscount from "./Discount/ManageDiscount";
 import AddDiscount from "./Discount/AddDiscount";
 import Error from "../../routes/Error";
+import Dashboard from "./Dashboard";
 
 function Home({ path }) {
   let { id } = useParams();
@@ -20,7 +21,8 @@ function Home({ path }) {
     <>
       {id === "dashboard" && (
         <section className="home">
-          <h1>Admin Home Page</h1>
+          <Dashboard />
+          {/* <h1>Admin Dashboard</h1> */}
         </section>
       )}
       {id === "manageSupplier" && (
