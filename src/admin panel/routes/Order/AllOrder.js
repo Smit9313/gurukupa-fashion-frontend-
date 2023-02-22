@@ -3,18 +3,17 @@ import Header from "../../components/Header";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import DataTable from "react-data-table-component";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { Toaster, toast } from "react-hot-toast";
 import { ColorRing } from "react-loader-spinner";
 import "../../Style/allorder.css";
-import { Button, Input, Space, Switch } from "antd";
+import { ConfigProvider, Switch } from "antd";
 import qs from "qs";
 
 function AllOrder() {
-  const [pendingOrderData, setPendingOrderData] = useState();
+  const [deliveredOrderData, setDeliveredOrderData] = useState();
 
   const [flag, setFlag] = useState(false);
-  const [input, setInput] = useState(false);
+  const [deliveredFlag, setDeliveredFlag] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -22,14 +21,17 @@ function AllOrder() {
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-order?order_status=Pending",
+          "http://127.0.0.1:8000/admin-order?order_status=All",
           // { order_status: "All"},
           { headers }
         )
         .then((response) => {
           setFlag(false);
           console.log(response);
-          setPendingOrderData(response.data.data);
+          if (response.data.message === "Success!") {
+            setDeliveredOrderData(response.data.data);
+          }
+
           setFlag(true);
         })
         .catch((error) => {
@@ -38,7 +40,11 @@ function AllOrder() {
     } catch (err) {
       console.log("dshbhj");
     }
-  }, []);
+  }, [deliveredFlag]);
+
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
   const CustomTitle = ({ row }) => (
     <div>
@@ -89,58 +95,45 @@ function AllOrder() {
   );
 
   const CustomTitle1 = ({ row }) => (
-    <div>
-      {row.order_status === "Pending" && (
-        <>
-          <Switch
-            checked={input}
-            checkedChildren="Input"
-            unCheckedChildren="TextArea"
-            onChange={() => {
-              setInput(true);
-
-               const token = sessionStorage.getItem("token");
-               const headers = { Authorization: `Bearer ${token}` };
-               try {
-                 axios
-                   .patch(
-                     `http://127.0.0.1:8000/admin-order/${row._id}/`,
-                     qs.stringify({ order_status: "Delivered"}),
-                     { headers }
-                   )
-                   .then((response) => {
-                     console.log(response)
-                   })
-                   .catch((error) => {
-                     console.log(error);
-                   });
-               } catch (err) {
-                 console.log("dshbhj");
-               }
-
-
-            }}
-          />
-        </>
-      )}
-      {row.order_status === "Delivered" && (
-        <>
-          <Switch
-            checked={true}
-            checkedChildren="Input"
-            unCheckedChildren="TextArea"
-            // onChange={() => {
-            //   setInput(true);
-            // }}
-          />
-        </>
-      )}
-      {row.order_status === "Failed" && (
-        <>
-          <h4>Failed</h4>
-        </>
-      )}{" "}
-    </div>
+    <ConfigProvider
+      theme={{
+        components: {
+          Switch: {
+            colorPrimary: "#000",
+            colorPrimaryHover: "#000",
+            colorPrimaryBorder: "#000",
+            colorPrimaryBorderHover: "#000",
+          },
+        },
+      }}>
+      <div>
+        {row.order_status === "Pending" && (
+          <>
+            <Switch
+              checked={false}
+              checkedChildren="Delivered"
+              unCheckedChildren="Pending"
+              disabled={true}
+            />
+          </>
+        )}
+        {row.order_status === "Delivered" && (
+          <>
+            <Switch
+              checked={true}
+              checkedChildren="Delivered"
+              unCheckedChildren="Pending"
+              disabled={true}
+            />
+          </>
+        )}
+        {row.order_status === "Failed" && (
+          <>
+            <h4>Failed</h4>
+          </>
+        )}{" "}
+      </div>
+    </ConfigProvider>
   );
 
   const columns = [
@@ -236,7 +229,7 @@ function AllOrder() {
         <div className="suplier-list">
           <DataTable
             columns={columns}
-            data={pendingOrderData}
+            data={deliveredOrderData}
             pagination
             highlightOnHover
             subHeader
@@ -255,6 +248,13 @@ function AllOrder() {
           />
         </div>
       )}
+      <Toaster
+        position="top-center"
+        containerStyle={{
+          top: 10,
+        }}
+        reverseOrder={true}
+      />
     </>
   );
 }

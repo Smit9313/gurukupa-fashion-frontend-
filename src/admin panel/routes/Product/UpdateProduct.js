@@ -12,9 +12,11 @@ import { Upload, message } from "antd";
 import { Toaster, toast } from "react-hot-toast";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Error from "../../../routes/Error";
+import { isEmpty } from "lodash";
 
 function AddProduct() {
-    let { id } = useParams();
+  let { id } = useParams();
+  const history = useHistory();
   const width = true;
   const [cat_typeflag, setCat_typeFlag] = useState(false);
   const [catid, setCatid] = useState("");
@@ -33,6 +35,7 @@ function AddProduct() {
   const [nameError, setNameError] = useState("");
 
   const [subcatid, setSubCatid] = useState("");
+  const [subcatid1, setSubCatid1] = useState();
   const [subcatidFlag, setSubCatidFlag] = useState(false);
   const [subcatidError, setSubCatidError] = useState("");
 
@@ -46,9 +49,9 @@ function AddProduct() {
   const [priceFlag, setPriceFlag] = useState(false);
   const [priceError, setPriceError] = useState("");
 
+  const [fileList, setFileList] = useState();
 
-
-   const [showForm, setshowForm] = useState(false); 
+  const [showForm, setshowForm] = useState(false);
 
   const theme = createTheme({
     palette: {
@@ -66,7 +69,7 @@ function AddProduct() {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
-    console.log(id)
+    console.log(id);
     try {
       axios
         .get(`http://127.0.0.1:8000/admin-product/${id}/`, {
@@ -77,14 +80,24 @@ function AddProduct() {
           if (response.data.message === "Success!") {
             setshowForm(true);
             setName(response.data.data.prod_name);
-            // setSubCatid(response.data.data.cat_id);
+            setSubCatid1(response.data.data.cat_id);
             setDescription(response.data.data.prod_desc);
+            setActive(response.data.data.active);
             setPrice(response.data.data.prod_price);
-            setCatType(response.data.data.cat_type)
+            setCatType(response.data.data.cat_type);
             setImages(response.data.data.prod_images);
-            setSubCatid(response.data.data.cat_title)
+            setSubCatid(response.data.data.cat_title);
 
-
+            setFileList(
+              response.data.data.prod_image.map((val) => {
+                return {
+                  uid: val.split("%2F")[1].split("?")[0],
+                  name: val.split("%2F")[1].split("?")[0],
+                  url: val,
+                  status: "done",
+                };
+              })
+            );
           }
         })
         .catch((error) => {
@@ -94,7 +107,6 @@ function AddProduct() {
       console.log("Error");
     }
   }, [id]);
-
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -119,30 +131,16 @@ function AddProduct() {
           console.log(error);
         });
     } catch (err) {}
-  }, [cat_typeflag,id]);
+  }, [cat_typeflag, id]);
 
-  const fileList = [
-  {
-    uid: '0',
-    name: 'xxx.png',
-    status: 'uploading',
-    percent: 33,
-  },
-  {
-    // uid: '-1',
-    // name: 'yyy.png',
-    // status: 'done',
-    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  },
-  {
-    uid: '-2',
-    name: 'zzz.png',
-    status: 'error',
-  },
-]
-
-  const handleChange = ({ fileList }) => setImages(fileList);
+  const handleChange = ({ fileList }) => {
+    setImages(fileList);
+    setFileList(
+      fileList.filter((value) => {
+        return value.status === "done";
+      })
+    );
+  };
 
   const props = {
     multiple: true,
@@ -155,7 +153,7 @@ function AddProduct() {
       if (!isJpgOrPng) {
         message.error("You can only upload JPG/PNG file!");
       }
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 9024 / 9024 < 2;
       if (!isLt2M) {
         message.error("Image must be smaller than 2MB!");
       }
@@ -164,15 +162,165 @@ function AddProduct() {
   };
   //  console.log(images)
 
-  const handleProduct = async (e) => {
+  // const handleProduct = async (e) => {
+  //   e.preventDefault();
+
+  //   const formData = new FormData();
+  //   images.map(async (file, index) => {
+  //     formData.append(index, file.originFileObj, file?.name);
+  //   });
+
+  //   // Name
+  //   if (name === "") {
+  //     setNameError("Name should not be null");
+  //     setNameFlag(true);
+  //   }
+
+  //   if (name !== "") {
+  //     setNameError("");
+  //     setNameFlag(false);
+  //   }
+
+  //   // Sub category id
+  //   if (cattype === "") {
+  //     setCatTypeError("Name should not be null");
+  //     setCatTypeFlag(true);
+  //   }
+
+  //   if (cattype !== "") {
+  //     setCatTypeError("");
+  //     setCatTypeFlag(false);
+  //   }
+
+  //   // category
+  //   if (subcatid === "") {
+  //     setSubCatidError("Sub category should not be null");
+  //     setSubCatidFlag(true);
+  //   }
+
+  //   if (subcatid !== "") {
+  //     setSubCatidError("");
+  //     setSubCatidFlag(false);
+  //   }
+
+  //   // description
+  //   if (description === "") {
+  //     setDescriptionError("Description should not be null");
+  //     setDescriptionFlag(true);
+  //   }
+
+  //   if (description !== "") {
+  //     setDescriptionError("");
+  //     setDescriptionFlag(false);
+  //   }
+
+  //   // price
+  //   if (price === "") {
+  //     setPriceError("Description should not be null");
+  //     setPriceFlag(true);
+  //   }
+
+  //   if (price !== "") {
+  //     setPriceError("");
+  //     setPriceFlag(false);
+  //   }
+
+  //   // images
+  //   if (images.length < 3) {
+  //     setImagesFlag(true);
+  //     setImagesError("Minimum 3 images required!");
+  //   }
+  //   if (images.length > 3) {
+  //     setImagesFlag(true);
+  //     setImagesError("Upload only 3 images");
+  //   }
+
+  //   if (images.length === 3) {
+  //     setImagesFlag(false);
+  //     setImagesError("");
+  //   }
+
+  //   if (
+  //     name === "" ||
+  //     subcatid === "" ||
+  //     description === "" ||
+  //     price === "" ||
+  //     images === []
+  //   ) {
+  //     toast.error("Something wrong!", {
+  //       duration: 3000,
+  //     });
+  //   }
+
+  //   if (
+  //     name !== "" &&
+  //     subcatid !== "" &&
+  //     description !== "" &&
+  //     price !== "" &&
+  //     images.length === 3
+  //   ) {
+  //     const token = sessionStorage.getItem("token");
+
+  //     formData.append("prod_name", name);
+  //     formData.append("cat_id", subcatid);
+  //     formData.append("active", active);
+  //     formData.append("prod_desc", description);
+  //     formData.append("prod_price", price);
+  //     formData.append("previous_prod_images", fileList);
+
+  //     try {
+  //       axios
+  //         .post("http://127.0.0.1:8000/admin-product/", formData, {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //             "Content-Type": `multipart/form-data`,
+  //           },
+  //         })
+  //         .then((response) => {
+  //           console.log(response.data.message);
+  //           if (response.data.message === "Success!") {
+  //             toast.success("Product added!", {
+  //               duration: 3000,
+  //             });
+  //             setName("");
+  //             setImages([]);
+  //             setActive(true);
+  //             setDescription("");
+  //             setPrice("");
+  //           } else {
+  //             toast.error(response.data.message, {
+  //               duration: 3000,
+  //             });
+  //           }
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //         });
+  //     } catch (err) {}
+  //   }
+  // };
+
+  const handleProduct1 = (e) => {
     e.preventDefault();
+    console.log(name, cattype, catid, subcatid1, active, description, price);
+
+    console.log(
+      fileList.map((value) => {
+        return value.url;
+      })
+    );
 
     const formData = new FormData();
-    images.map(async (file, index) => {
-      formData.append(index, file.originFileObj, file?.name);
-    });
+    if (!isEmpty(images)) {
+      images
+        .filter((value) => {
+          return value["status"] === undefined;
+        })
+        .map(async (file, index) => {
+          formData.append(index, file.originFileObj, file?.name);
+        });
+    }
 
-    // Name
     if (name === "") {
       setNameError("Name should not be null");
       setNameFlag(true);
@@ -218,7 +366,7 @@ function AddProduct() {
 
     // price
     if (price === "") {
-      setPriceError("Description should not be null");
+      setPriceError("Price should not be null");
       setPriceFlag(true);
     }
 
@@ -228,57 +376,53 @@ function AddProduct() {
     }
 
     // images
-    if (images.length < 3) {
-      setImagesFlag(true);
-      setImagesError("Minimum 3 images required!");
-    }
-    if (images.length > 3) {
-      setImagesFlag(true);
-      setImagesError("Upload only 3 images");
+    if (!isEmpty(images)) {
+      if (images.length < 3) {
+        setImagesFlag(true);
+        setImagesError("Minimum 3 images required!");
+      }
+      if (images.length > 3) {
+        setImagesFlag(true);
+        setImagesError("Upload only 3 images");
+      }
+
+      if (images.length === 3) {
+        setImagesFlag(false);
+        setImagesError("");
+      }
     }
 
-    if (images.length === 3) {
-      setImagesFlag(false);
-      setImagesError("");
-    }
-
-    if (
-      name === "" ||
-      subcatid === "" ||
-      description === "" ||
-      price === "" ||
-      images === []
-    ) {
-      toast.error("Something wrong!", {
-        duration: 3000,
-      });
-    }
 
     if (
       name !== "" &&
-      subcatid !== "" &&
+      subcatid1 !== "" &&
       description !== "" &&
-      price !== "" &&
-      images.length === 3
+      price !== ""
     ) {
+      console.log("valid");
       const token = sessionStorage.getItem("token");
 
       formData.append("prod_name", name);
-      formData.append("cat_id", subcatid);
+      formData.append("cat_id", subcatid1);
       formData.append("active", active);
       formData.append("prod_desc", description);
       formData.append("prod_price", price);
+      formData.append("prod_image", [
+        fileList.map((value) => {
+          return value.url;
+        }),
+      ]);
 
       try {
         axios
-          .post("http://127.0.0.1:8000/admin-product/", formData, {
+          .patch(`http://127.0.0.1:8000/admin-product/${id}/`, formData, {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": `multipart/form-data`,
             },
           })
           .then((response) => {
-            console.log(response.data.message);
+            console.log(response);
             if (response.data.message === "Success!") {
               toast.success("Product added!", {
                 duration: 3000,
@@ -288,6 +432,7 @@ function AddProduct() {
               setActive(true);
               setDescription("");
               setPrice("");
+              history.push("/admin/manageProduct");
             } else {
               toast.error(response.data.message, {
                 duration: 3000,
@@ -327,10 +472,14 @@ function AddProduct() {
                     showSearch
                     style={{ width: 332 }}
                     placeholder="Search to Select"
+                    defaultValue={catid}
                     value={cattype}
+                    // label={cattype}
                     onChange={(value1) => {
                       // console.log(value1);
+                      setCatid(value1);
                       setCatType(value1);
+                      setSubCatid("");
 
                       const token = sessionStorage.getItem("token");
                       const headers = { Authorization: `Bearer ${token}` };
@@ -380,7 +529,10 @@ function AddProduct() {
                     style={{ width: 332 }}
                     placeholder="Select category"
                     value={subcatid}
-                    onChange={(value) => setSubCatid(value)}
+                    onChange={(value) => {
+                      setSubCatid(value);
+                      setSubCatid1(value);
+                    }}
                     size="mediam"
                     optionFilterProp="children"
                     filterOption={(input, option) =>
@@ -401,8 +553,8 @@ function AddProduct() {
                 <div className="box">
                   <p>Enter status:</p>
                   <Switch
-                    defaultChecked
-                    // checked={true}
+                    
+                    checked={active}
                     onChange={(e) => {
                       console.log(e.target.checked);
                       setActive(e.target.checked);
@@ -463,7 +615,7 @@ function AddProduct() {
                     // variant="contained"
                     className="button-311"
                     type="submit"
-                    onClick={handleProduct}
+                    onClick={handleProduct1}
                     // endIcon={<SendIcon />}
                     // fullWidth={width}
                   >

@@ -11,6 +11,7 @@ function Sidebar({url}) {
   const [product, setProduct] = useState(true);
   const [order, setOrder] = useState(true);
   const [discount, setDiscount] = useState(true);
+  const [report, setReport] = useState(true);
   const [lock, setLock] = useState(true);
   // const [urlPath, setUrlPath] =useState(url);
 
@@ -28,6 +29,7 @@ function Sidebar({url}) {
       setProduct(true);
       setOrder(true);
       setDiscount(true);
+      setReport(true);
       setSupplier(!supplier);
     }
 
@@ -37,6 +39,7 @@ function Sidebar({url}) {
       setProduct(true);
       setOrder(true);
       setDiscount(true);
+      setReport(true);
       setPurchase(!purchase);
     };
 
@@ -46,6 +49,7 @@ function Sidebar({url}) {
       setProduct(true);
       setOrder(true);
       setDiscount(true);
+      setReport(true);
       setCategory(!category);
     };
 
@@ -55,6 +59,7 @@ function Sidebar({url}) {
       setCategory(true);
       setOrder(true);
       setDiscount(true);
+      setReport(true);
       setProduct(!product);
     };
 
@@ -64,6 +69,7 @@ function Sidebar({url}) {
       setCategory(true);
       setProduct(true);
       setDiscount(true);
+      setReport(true);
       setOrder(!order);
     };
 
@@ -73,8 +79,19 @@ function Sidebar({url}) {
       setCategory(true);
       setProduct(true);
       setOrder(true);
+      setReport(true);
       setDiscount(!discount);
     };
+
+    const handleReport = () =>{
+      setPurchase(true);
+      setSupplier(true);
+      setCategory(true);
+      setProduct(true);
+      setOrder(true);
+      setDiscount(true);
+      setReport(!report);
+    }
 
 
   return (
@@ -172,7 +189,8 @@ function Sidebar({url}) {
               <li className="nav-link" onClick={handlePurchase}>
                 <section>
                   {/* <i className="bx bx-bell icon"></i> */}
-                  <i className="bx bxs-purchase-tag-alt icon"></i>
+                  {/* <i className="bx bxs-purchase-tag-alt icon"></i> */}
+                  <i className="bx bx-purchase-tag-alt icon"></i>
                   <span className="text nav-text">Purchase</span>
                 </section>
                 <i
@@ -250,7 +268,7 @@ function Sidebar({url}) {
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text-sub">
-                        {"->"}Add Categoty
+                        {"->"}Add Category
                       </span>
                       {/* <hr /> */}
                     </NavLink>
@@ -417,6 +435,53 @@ function Sidebar({url}) {
                       {/* <hr /> */}
                     </NavLink>
                   </li>
+                  <hr />
+                </>
+              )}
+
+              <li className="nav-link" onClick={handleReport}>
+                <section>
+                  {/* <i className="bx bx-bar-chart-alt-2 icon"></i> */}
+                  {/* <i className="bx bxs-discount icon"></i> */}
+                  <i className="bx bxs-report icon"></i>
+                  <span className="text nav-text">Reports</span>
+                </section>
+                <i
+                  className={
+                    report
+                      ? "bx bx-right-arrow-alt icon"
+                      : "bx bx-down-arrow-alt icon"
+                  }></i>
+              </li>
+
+              {!report && (
+                <>
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
+                    <NavLink
+                      to={`/admin/supplierReport`}
+                      activeClassName="sidebar-active">
+                      <span className="text nav-text-sub">
+                        {"->"}Supplier Report
+                      </span>
+                    </NavLink>
+                  </li>
+
+                  <hr />
+
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
+                    <NavLink
+                      to={`/admin/salesReport`}
+                      activeClassName="sidebar-active">
+                      <span className="text nav-text-sub">
+                        {"->"}Sales Report
+                      </span>
+                    </NavLink>
+                  </li>
+
                   <hr />
                 </>
               )}

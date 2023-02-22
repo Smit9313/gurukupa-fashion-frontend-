@@ -54,7 +54,7 @@ function Profile() {
   const [updateAddress, setUpdateAddress] = useState(false);
 
   const [rateData, setrateData] = useState([]);
-  const [test,setTest] = useState();
+  const [test, setTest] = useState();
 
   const [modalsVisible, setModalsVisible] = useState();
 
@@ -122,8 +122,8 @@ function Profile() {
     }
   };
   const cancel = (e) => {
-      // console.log(e);
-      // message.error("Click on No");
+    // console.log(e);
+    // message.error("Click on No");
   };
 
   const showDrawer = (e) => {
@@ -188,7 +188,7 @@ function Profile() {
       axios
         .get("http://127.0.0.1:8000/customer-order/", { headers })
         .then((response) => {
-          // console.log(response.data.data);
+          console.log(response.data.data);
           if (response.data.message === "Success!") {
             setOrderData(response.data.data);
             setTest(Array(response.data.data.length).fill(false));
@@ -521,7 +521,7 @@ function Profile() {
     setrateData(newState);
   };
 
-  const handleOk = (index,oid) => {
+  const handleOk = (index, oid) => {
     const token = sessionStorage.getItem("token");
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -539,6 +539,9 @@ function Profile() {
             const newModalsVisible = [...modalsVisible];
             newModalsVisible[index] = false;
             setModalsVisible(newModalsVisible);
+            toast.success("Rating added!", {
+              duration: 3000,
+            });
           } else {
             toast.error(response.data.message, {
               duration: 3000,
@@ -772,6 +775,12 @@ function Profile() {
                                 <h5 className="pending">: Pending</h5>
                               </div>
                             )}
+                            {value.order_status === "Delivered" && (
+                              <div className="sub-address-data">
+                                <p>Order status</p>
+                                <h5 className="pending">: Delivered</h5>
+                              </div>
+                            )}
                           </div>
                         </div>
 
@@ -801,14 +810,14 @@ function Profile() {
                           );
                         })}
 
-                        {value.order_status === "Pending" && (
+                        {value.order_status !== "Failed" && 
+                        <Link to={`/invoice/${value._id}`}>
+                          <button className="button-4445">Get invoice</button>
+                        </Link>
+                }
+                        {value.order_status === "Delivered" && (
                           <>
                             {" "}
-                            <Link to={`/invoice/${value._id}`}>
-                              <button className="button-4445">
-                                Get invoice
-                              </button>
-                            </Link>
                             <button
                               className="button-4445"
                               onClick={() => showModal(index, value._id)}>
@@ -835,7 +844,7 @@ function Profile() {
                                     }}
                                     title="Give rating"
                                     open={modalsVisible[index]}
-                                    onOk={() => handleOk(index,value._id)}
+                                    onOk={() => handleOk(index, value._id)}
                                     onCancel={handleCancel}>
                                     {/* {console.log(rateValue)} */}
                                     {rateData.map((rate) => {
@@ -850,18 +859,8 @@ function Profile() {
                                             <p>{rate.prod_name}</p>
                                           </div>
                                           {/* {console.log(rate)} */}
-                                          {rate.date !== null && (
-                                            <div className="rate-div-sub2">
-                                              <Rate
-                                                disabled
-                                                value={rate.rating}
-                                                defaultValue={rate.rating}
-                                              />
-                                              <p>{rate.date.substring(0,10)}</p>
-                                            </div>
-                                          )}
 
-                                          {rate.date === null && (
+                                          {isEmpty(rate.date) && (
                                             <div className="rate-div-sub2">
                                               <Rate
                                                 value={rate.rating}
@@ -870,6 +869,19 @@ function Profile() {
                                                 }}
                                                 defaultValue={rate.rating}
                                               />
+                                            </div>
+                                          )}
+
+                                          {!isEmpty(rate.date) && (
+                                            <div className="rate-div-sub2">
+                                              <Rate
+                                                disabled
+                                                value={rate.rating}
+                                                defaultValue={rate.rating}
+                                              />
+                                              <p>
+                                                {rate.date.substring(0, 10)}
+                                              </p>
                                             </div>
                                           )}
                                         </div>

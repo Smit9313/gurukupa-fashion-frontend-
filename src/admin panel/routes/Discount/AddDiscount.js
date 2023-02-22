@@ -138,7 +138,7 @@ function AddDiscount() {
       minValue !== "" &&
       maxValue !== ""
     ) {
-      console.log(validFrom.$d)
+
       const token = sessionStorage.getItem("token");
       const headers = {
         Authorization: `Bearer ${token}`,
