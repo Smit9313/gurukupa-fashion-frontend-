@@ -18,6 +18,10 @@ import DeliveredOrder from "./Order/DeliveredOrder";
 import AllOrder from "./Order/AllOrder"
 import SupplierReport from "./Reports/SupplierReport";
 import SalesReport from "./Reports/SalesReport";
+import StockReport from "./Reports/StockReport";
+import AddAdmin from "./Admin/AddAdmin";
+import PurchaseReport from "./Reports/PurchaseReport";
+
 
 function Home({ path }) {
   let { id } = useParams();
@@ -105,6 +109,21 @@ function Home({ path }) {
           <SalesReport />
         </section>
       )}
+      {id === "stockReport" && (
+        <section className="home">
+          <StockReport />
+        </section>
+      )}
+      {id === "addAdmin" && (
+        <section className="home">
+          <AddAdmin />
+        </section>
+      )}
+      {id === "purchaseReport" && (
+        <section className="home">
+          <PurchaseReport />
+        </section>
+      )}
 
       {id !== "dashboard" &&
         id !== "manageSupplier" &&
@@ -121,7 +140,10 @@ function Home({ path }) {
         id !== "deliveredOrder" &&
         id !== "allOrder" &&
         id !== "supplierReport" &&
-        id !== "salesReport" && (
+        id !== "salesReport" &&
+        id !== "stockReport" &&
+        id !== "purchaseReport" &&
+        id !== "addAdmin" && (
           <>
             <section className="home">
               <Error />

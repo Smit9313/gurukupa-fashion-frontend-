@@ -1,11 +1,10 @@
-import React,{useState} from 'react';
-import { NavLink } from 'react-router-dom';
-import '../Style/sidebar.css'
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import "../Style/sidebar.css";
 
-function Sidebar({url}) {
-  
+function Sidebar({ url }) {
   const [sidebar, setSidebar] = useState(false);
-  const [supplier ,setSupplier] = useState(true);
+  const [supplier, setSupplier] = useState(true);
   const [purchase, setPurchase] = useState(true);
   const [category, setCategory] = useState(true);
   const [product, setProduct] = useState(true);
@@ -13,6 +12,7 @@ function Sidebar({url}) {
   const [discount, setDiscount] = useState(true);
   const [report, setReport] = useState(true);
   const [lock, setLock] = useState(true);
+  const [admin, setAdmin] = useState(true);
   // const [urlPath, setUrlPath] =useState(url);
 
   const handleSidebar = () => {
@@ -23,76 +23,93 @@ function Sidebar({url}) {
     return str.replace(/\/+$/, "");
   }
 
-    const handleSuplier = () =>{
-      setPurchase(true);
-      setCategory(true);
-      setProduct(true);
-      setOrder(true);
-      setDiscount(true);
-      setReport(true);
-      setSupplier(!supplier);
-    }
+  const handleSuplier = () => {
+    setPurchase(true);
+    setCategory(true);
+    setProduct(true);
+    setOrder(true);
+    setDiscount(true);
+    setReport(true);
+    setAdmin(true);
+    setSupplier(!supplier);
+  };
 
-    const handlePurchase = () => {
-      setSupplier(true);
-      setCategory(true);
-      setProduct(true);
-      setOrder(true);
-      setDiscount(true);
-      setReport(true);
-      setPurchase(!purchase);
-    };
+  const handlePurchase = () => {
+    setSupplier(true);
+    setCategory(true);
+    setProduct(true);
+    setOrder(true);
+    setDiscount(true);
+    setReport(true);
+    setAdmin(true);
+    setPurchase(!purchase);
+  };
 
-    const handleCategory = () => {
-      setPurchase(true);
-      setSupplier(true);
-      setProduct(true);
-      setOrder(true);
-      setDiscount(true);
-      setReport(true);
-      setCategory(!category);
-    };
+  const handleCategory = () => {
+    setPurchase(true);
+    setSupplier(true);
+    setProduct(true);
+    setOrder(true);
+    setDiscount(true);
+    setReport(true);
+    setAdmin(true);
+    setCategory(!category);
+  };
 
-    const handleProduct = () => {
-      setPurchase(true);
-      setSupplier(true);
-      setCategory(true);
-      setOrder(true);
-      setDiscount(true);
-      setReport(true);
-      setProduct(!product);
-    };
+  const handleProduct = () => {
+    setPurchase(true);
+    setSupplier(true);
+    setCategory(true);
+    setOrder(true);
+    setDiscount(true);
+    setReport(true);
+    setAdmin(true);
+    setProduct(!product);
+  };
 
-    const handleOrder = () => {
-      setPurchase(true);
-      setSupplier(true);
-      setCategory(true);
-      setProduct(true);
-      setDiscount(true);
-      setReport(true);
-      setOrder(!order);
-    };
+  const handleOrder = () => {
+    setPurchase(true);
+    setSupplier(true);
+    setCategory(true);
+    setProduct(true);
+    setDiscount(true);
+    setReport(true);
+    setAdmin(true);
+    setOrder(!order);
+  };
 
-    const handleDiscount = () => {
-      setPurchase(true);
-      setSupplier(true);
-      setCategory(true);
-      setProduct(true);
-      setOrder(true);
-      setReport(true);
-      setDiscount(!discount);
-    };
+  const handleDiscount = () => {
+    setPurchase(true);
+    setSupplier(true);
+    setCategory(true);
+    setProduct(true);
+    setOrder(true);
+    setReport(true);
+    setAdmin(true);
+    setDiscount(!discount);
+  };
 
-    const handleReport = () =>{
-      setPurchase(true);
-      setSupplier(true);
-      setCategory(true);
-      setProduct(true);
-      setOrder(true);
-      setDiscount(true);
-      setReport(!report);
-    }
+  const handleReport = () => {
+    setPurchase(true);
+    setSupplier(true);
+    setCategory(true);
+    setProduct(true);
+    setOrder(true);
+    setDiscount(true);
+    setAdmin(true);
+    setReport(!report);
+  };
 
+  const handleAdmin = () => {
+    setPurchase(true);
+    setSupplier(true);
+    setCategory(true);
+    setProduct(true);
+    setOrder(true);
+    setDiscount(true);
+    setReport(true);
+    setAdmin(!admin);
+  };
 
   return (
     <>
@@ -136,15 +153,48 @@ function Sidebar({url}) {
               <li className="nav-link">
                 <NavLink
                   to={`${removeTrailingSlash(url)}/dashboard`}
-                  activeClassName="sidebar-active">
+                  activeClassName="sidebar-active"
+                  onClick={() => setSidebar(!sidebar)}>
                   <i className="bx bx-home-alt icon"></i>
                   <span className="text nav-text">Dashboard</span>
                 </NavLink>
               </li>
 
+              <li className="nav-link" onClick={handleAdmin}>
+                <section>
+                  {/* <i className="bx bx-bar-chart-alt-2 icon"></i> */}
+                  <i className="bx bx-user-pin icon"></i>
+                  <span className="text nav-text">Admin</span>
+                  </section>
+                <i
+                  className={
+                    supplier
+                      ? "bx bx-right-arrow-alt icon"
+                      : "bx bx-down-arrow-alt icon"
+                  }></i>
+              </li>
+              {!admin && (
+                <>
+                 
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
+                    <NavLink
+                      to={`/admin/addAdmin`}
+                      activeClassName="sidebar-active">
+                      {/* <i className="bx bx-bell icon"></i> */}
+                      <span className="text nav-text">{"->"}Add Admin</span>
+                      {/* <hr /> */}
+                    </NavLink>
+                  </li>
+                  <hr />
+                </>
+              )}
+
               <li className="nav-link" onClick={handleSuplier}>
                 <section>
-                  <i className="bx bx-bar-chart-alt-2 icon"></i>
+                  {/* <i className="bx bx-bar-chart-alt-2 icon"></i> */}
+                  <i className="bx bx-user-voice icon"></i>
                   <span className="text nav-text">Supplier</span>
                 </section>
                 <i
@@ -164,7 +214,7 @@ function Sidebar({url}) {
                       to={`/admin/manageSupplier`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text-sub">
+                      <span className="text nav-text">
                         {"->"}Manage Supplier
                       </span>
                       {/* <hr /> */}
@@ -209,7 +259,7 @@ function Sidebar({url}) {
                     <NavLink
                       to={`/admin/managePurchase`}
                       activeClassName="sidebar-active">
-                      <span className="text nav-text-sub">
+                      <span className="text nav-text">
                         {"->"}Manage Purchase
                       </span>
                       {/* <hr /> */}
@@ -253,7 +303,7 @@ function Sidebar({url}) {
                       to={`/admin/manageCategory`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text-sub">
+                      <span className="text nav-text">
                         {"->"}Manage Category
                       </span>
                       {/* <hr /> */}
@@ -267,9 +317,7 @@ function Sidebar({url}) {
                       to={`/admin/addCategory`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text-sub">
-                        {"->"}Add Category
-                      </span>
+                      <span className="text nav-text">{"->"}Add Category</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -280,7 +328,8 @@ function Sidebar({url}) {
               <li className="nav-link" onClick={handleProduct}>
                 <section>
                   {/* <i className="bx bx-heart icon"></i> */}
-                  <i className="bx bxl-product-hunt icon"></i>
+                  {/* <i className="bx bxl-product-hunt icon"></i> */}
+                  <i className="bx bx-package icon"></i>
                   <span className="text nav-text">Product</span>
                 </section>
                 <i
@@ -300,7 +349,7 @@ function Sidebar({url}) {
                       to={`/admin/manageProduct`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text-sub">
+                      <span className="text nav-text">
                         {"->"}Manage Product
                       </span>
                       {/* <hr /> */}
@@ -313,9 +362,7 @@ function Sidebar({url}) {
                     activeClassName="sidebar-active">
                     <NavLink to={`/admin/addProduct`}>
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text-sub">
-                        {"->"}Add Product
-                      </span>
+                      <span className="text nav-text">{"->"}Add Product</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -345,7 +392,7 @@ function Sidebar({url}) {
                       to={`/admin/allOrder`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text-sub">{"->"}All Order</span>
+                      <span className="text nav-text">{"->"}All Order</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -357,9 +404,7 @@ function Sidebar({url}) {
                       to={`/admin/pendingOrder`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text-sub">
-                        {"->"}Pending Order
-                      </span>
+                      <span className="text nav-text">{"->"}Pending Order</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -371,7 +416,7 @@ function Sidebar({url}) {
                       to={`/admin/deliveredOrder`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text-sub">
+                      <span className="text nav-text">
                         {"->"}Delivered Product
                       </span>
                       {/* <hr /> */}
@@ -395,7 +440,8 @@ function Sidebar({url}) {
               <li className="nav-link" onClick={handleDiscount}>
                 <section>
                   {/* <i className="bx bx-bar-chart-alt-2 icon"></i> */}
-                  <i className="bx bxs-discount icon"></i>
+                  {/* <i className="bx bxs-discount icon"></i> */}
+                  <i className="bx bx-gift icon"></i>
                   <span className="text nav-text">Discount</span>
                 </section>
                 <i
@@ -415,7 +461,7 @@ function Sidebar({url}) {
                       to={`/admin/manageDiscount`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text-sub">
+                      <span className="text nav-text">
                         {"->"}Manage Discount
                       </span>
                       {/* <hr /> */}
@@ -429,9 +475,7 @@ function Sidebar({url}) {
                       to={`/admin/addDiscount`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text-sub">
-                        {"->"} Add Discount
-                      </span>
+                      <span className="text nav-text">{"->"} Add Discount</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -441,9 +485,7 @@ function Sidebar({url}) {
 
               <li className="nav-link" onClick={handleReport}>
                 <section>
-                  {/* <i className="bx bx-bar-chart-alt-2 icon"></i> */}
-                  {/* <i className="bx bxs-discount icon"></i> */}
-                  <i className="bx bxs-report icon"></i>
+                  <i className="bx bx-copy-alt icon"></i>
                   <span className="text nav-text">Reports</span>
                 </section>
                 <i
@@ -462,7 +504,7 @@ function Sidebar({url}) {
                     <NavLink
                       to={`/admin/supplierReport`}
                       activeClassName="sidebar-active">
-                      <span className="text nav-text-sub">
+                      <span className="text nav-text">
                         {"->"}Supplier Report
                       </span>
                     </NavLink>
@@ -476,8 +518,32 @@ function Sidebar({url}) {
                     <NavLink
                       to={`/admin/salesReport`}
                       activeClassName="sidebar-active">
-                      <span className="text nav-text-sub">
-                        {"->"}Sales Report
+                      <span className="text nav-text">{"->"}Sales Report</span>
+                    </NavLink>
+                  </li>
+
+                  <hr />
+
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
+                    <NavLink
+                      to={`/admin/stockReport`}
+                      activeClassName="sidebar-active">
+                      <span className="text nav-text">{"->"}Stock Report</span>
+                    </NavLink>
+                  </li>
+
+                  <hr />
+
+                  <li
+                    className="nav-link-sub"
+                    onClick={() => setSidebar(!sidebar)}>
+                    <NavLink
+                      to={`/admin/purchaseReport`}
+                      activeClassName="sidebar-active">
+                      <span className="text nav-text">
+                        {"->"}Purchase Report
                       </span>
                     </NavLink>
                   </li>
@@ -489,6 +555,13 @@ function Sidebar({url}) {
           </div>
 
           <div className="bottom-content">
+            <li className="">
+              <NavLink to="/">
+                {/* <i className="bx bx-log-out icon"></i> */}
+                <i className="bx bx-store-alt icon"></i>
+                <span className="text nav-text">Go to store</span>
+              </NavLink>
+            </li>
             <li className="">
               <NavLink
                 to="/"
@@ -522,4 +595,4 @@ function Sidebar({url}) {
   );
 }
 
-export default Sidebar
+export default Sidebar;

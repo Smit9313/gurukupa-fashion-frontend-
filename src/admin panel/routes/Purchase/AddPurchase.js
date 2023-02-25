@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { Toaster, toast } from "react-hot-toast";
 import { isEmpty } from "lodash";
+import { triggerFocus } from "antd/es/input/Input";
 
 function AddPurchase() {
   const [suppName, setSuppName] = useState("");
@@ -33,6 +34,8 @@ function AddPurchase() {
 
   const [productDetails, setProductDetails] = useState([
     {
+      cat_type_id:"",
+      category_id:"",
       prod_id: "",
       purch_qty: [
         {
@@ -64,11 +67,9 @@ function AddPurchase() {
       axios
         .get(
           "http://127.0.0.1:8000/admin-supplier/",
-          //  qs.stringify({ cat_type: cat_type, active: cat_status }),
           { headers }
         )
         .then((response) => {
-          //  console.log(response.data.data);
           setSuppName(
             response.data.data.map(({ name, _id }) => ({
               label: name,
@@ -89,7 +90,6 @@ function AddPurchase() {
       axios
         .get(
           "http://127.0.0.1:8000/admin-category-type/",
-          //  qs.stringify({ cat_type: cat_type, active: cat_status }),
           { headers }
         )
         .then((response) => {
@@ -115,7 +115,9 @@ function AddPurchase() {
 
   const handleFormChangeprice = (event, index) => {
     let data = [...productDetails];
+    // console.log(index)
     data[index][event.target.name] = parseFloat(event.target.value);
+    console.log(data)
     setProductDetails(data);
   };
 
@@ -135,14 +137,34 @@ function AddPurchase() {
     setProductDetails(data);
   };
 
+
+    const handleCategoryType = (value, index) => {
+    let data = [...productDetails];
+    data[index]["cat_type_id"] = value;
+    setProductDetails(data);
+  };
+
+    const handleCategory = (value, index) => {
+      let data = [...productDetails];
+      data[index]["category_id"] = value;
+      setProductDetails(data);
+    };
+
+
   const handleProductId = (value, index) => {
     let data = [...productDetails];
     data[index]["prod_id"] = value;
     setProductDetails(data);
   };
 
+
+
+
+
   const handleAddProduct = () => {
     let object = {
+      cat_type_id: "",
+      category_id: "",
       prod_id: "",
       purch_qty: [
         {
@@ -226,15 +248,13 @@ function AddPurchase() {
             prod.prod_id !== "" &&
             prod.purch_price !== "" &&
             supId !== "" &&
-            date !== ""
+            !isEmpty(date) 
           ) {
             flagg = false;
           } else {
-            toast.error("Fill all product details!", {
-              duration: 3000,
-            });
-            setFlag(true);
-            setError("Fill all product details!");
+            flagg = true;
+             setFlag(true);
+             setError("Fill all product details!");
           }
         });
       } else {
@@ -246,7 +266,26 @@ function AddPurchase() {
       }
     });
 
-    if (flagg === false) {
+    let flagg1 = true;
+    let item = []
+     productDetails.map((prod, index) => {
+        item.push(prod.prod_id)
+     });
+    
+    
+     for (let i = 0; i < item.length; i++) {
+       if (item.indexOf(item[i]) !== i) {
+         console.log("Item repeated:", item[i]);
+        flagg1 = false
+        	toast.error("Product must be different!", {
+            duration: 3000,
+          });
+         break;
+       }
+     }
+
+
+    if (!flagg && flagg1) {
       // console.log("Hello")
       const token = sessionStorage.getItem("token");
       console.log(token);
@@ -270,7 +309,7 @@ function AddPurchase() {
             console.log(response.data);
             if (response.data.message === "Success!") {
               setSupId("");
-              flagg = false
+              flagg = false;
               setSupIdFlag(false);
               setProductDetails([
                 {
@@ -284,6 +323,7 @@ function AddPurchase() {
                   purch_price: "",
                 },
               ]);
+
               setFlag(false);
               toast.success("Purchase added!", {
                 duration: 3000,
@@ -301,7 +341,14 @@ function AddPurchase() {
             setSuccess(false);
           });
       } catch (err) {}
-    }
+    } 
+    // else {
+      
+    //   toast.error("Fill all product details!", {
+    //     duration: 3000,
+    //   });
+      
+    // }
 
     // if (supId !== "" && date !== "") {
     //   productDetails.map((prod, index) => {
@@ -423,6 +470,7 @@ function AddPurchase() {
                   value={date}
                   onChange={(value) => {
                     setDate(value);
+                    console.log(value)
                   }}
                 />
               </ConfigProvider>
@@ -454,9 +502,10 @@ function AddPurchase() {
                       showSearch
                       style={{ width: 300 }}
                       placeholder="Select category-type"
-                      // value={cattypeid}
+                      value={form.cat_type_id}
                       onChange={(value) => {
                         // setCatTypeId(value);
+                        handleCategoryType(value, index);
                         setSubCatId("");
                         setProductId("");
                         console.log(value);
@@ -506,8 +555,11 @@ function AddPurchase() {
                       showSearch
                       style={{ width: 300 }}
                       placeholder="Select category"
+                      value={form.category_id}
                       onChange={(value) => {
                         setProductId("");
+                        handleCategory(value, index);
+                        console.log(value);
 
                         const token = sessionStorage.getItem("token");
                         const headers = { Authorization: `Bearer ${token}` };
@@ -555,8 +607,9 @@ function AddPurchase() {
                       showSearch
                       name="prod_id"
                       style={{ width: 300 }}
+                      value={form.prod_id}
                       placeholder="Select product"
-                      onChange={(value, na) => {
+                      onChange={(value) => {
                         handleProductId(value, index);
                       }}
                       size="mediam"

@@ -38,6 +38,9 @@ function Profile() {
   const [city, setCity] = useState("");
 
   const [oldpassword, setOldPassword] = useState("");
+  const [oldPassError, setOldPassError] = useState("");
+  const [oldPassFlag, setOldPassFlag] = useState(false);
+
   const [password, setPassword] = useState("");
   const [conPassword, setConPassword] = useState("");
 
@@ -206,40 +209,71 @@ function Profile() {
 
     console.log(oldpassword, password, conPassword);
 
+    /****** Old password *******/
+
+    if (oldpassword === "") {
+      setOldPassFlag(true);
+      setOldPassError("Old password Should not blank!");
+    }
+
+    if (oldpassword !== "") {
+      setOldPassError("");
+      setOldPassFlag(false);
+    }
+
+    if (oldpassword !== password) {
+      setPassFlag(false);
+      setPassError("");
+    }
+
     /****** Password *******/
 
     if (password === "") {
-      setPassFlag(false);
+      setPassFlag(true);
       setPassError("Password Should not blank.");
     }
 
-    if (
-      password !== "" &&
-      password.trim().length > 10 &&
-      password.trim().length < 7
-    ) {
+    // if (
+    //   password !== "" &&
+    //   password.trim().length > 10 &&
+    //   password.trim().length < 7
+    // ) {
+    //   setPassFlag(false);
+    //   setPassError("password length must be 8 to 10");
+    // }
+
+    if (password !== "") {
       setPassFlag(false);
-      setPassError("password length must be 8 to 10");
+      setPassError("");
+    }
+    if (oldpassword === password) {
+      setPassFlag(true);
+      setPassError("Old password and new password must be different!");
     }
 
     /****** Password *******/
 
     if (conPassword === "") {
-      setPassConFlag(false);
+      setPassConFlag(true);
       setPassConError("Password Should not blank.");
     }
 
-    if (
-      conPassword !== "" &&
-      conPassword.trim().length > 10 &&
-      conPassword.trim().length < 7
-    ) {
+    // if (
+    //   conPassword !== "" &&
+    //   conPassword.trim().length > 10 &&
+    //   conPassword.trim().length < 7
+    // ) {
+    //   setPassConFlag(false);
+    //   setPassConError("password length must be 8 to 10");
+    // }
+
+    if (conPassword !== "") {
       setPassConFlag(false);
-      setPassConError("password length must be 8 to 10");
+      setPassConError("");
     }
 
     if (password !== conPassword) {
-      setPassConFlag(false);
+      setPassConFlag(true);
       setPassConError("password and confirm password must be same.");
     }
 
@@ -250,11 +284,9 @@ function Profile() {
       conPassword !== "" &&
       conPassword.length < 10 &&
       conPassword.length > 7 &&
-      password === conPassword
+      password === conPassword &&
+      oldpassword !== password
     ) {
-      setPassConFlag(true);
-      setPassFlag(true);
-
       const token = sessionStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       try {
@@ -278,6 +310,9 @@ function Profile() {
               setOldPassword("");
               setPassword("");
               setConPassword("");
+              setOldPassFlag(false);
+              setPassFlag(false);
+              setPassConFlag(false);
             } else {
               toast.error("Wrong old password", {
                 duration: 3000,
@@ -810,11 +845,11 @@ function Profile() {
                           );
                         })}
 
-                        {value.order_status !== "Failed" && 
-                        <Link to={`/invoice/${value._id}`}>
-                          <button className="button-4445">Get invoice</button>
-                        </Link>
-                }
+                        {value.order_status !== "Failed" && (
+                          <Link to={`/invoice/${value._id}`}>
+                            <button className="button-4445">Get invoice</button>
+                          </Link>
+                        )}
                         {value.order_status === "Delivered" && (
                           <>
                             {" "}
@@ -909,12 +944,17 @@ function Profile() {
                 <form>
                   <div className="input-line">
                     <h6>Old password:</h6>
-                    <input
-                      type="password"
-                      placeholder="Old password"
-                      value={oldpassword}
-                      onChange={(e) => setOldPassword(e.target.value)}
-                    />
+                    <div>
+                      <input
+                        type="password"
+                        placeholder="Old password"
+                        value={oldpassword}
+                        onChange={(e) => setOldPassword(e.target.value)}
+                      />
+                      {oldPassFlag && (
+                        <p className="error-color">{oldPassError}</p>
+                      )}
+                    </div>
                   </div>
                   <br />
 
@@ -927,7 +967,7 @@ function Profile() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       />
-                      {!passFlag && <p className="error-color">{passError}</p>}
+                      {passFlag && <p className="error-color">{passError}</p>}
                     </div>
                   </div>
 
@@ -941,7 +981,7 @@ function Profile() {
                         value={conPassword}
                         onChange={(e) => setConPassword(e.target.value)}
                       />{" "}
-                      {!passConFlag && (
+                      {passConFlag && (
                         <p className="error-color">{passConError}</p>
                       )}
                     </div>

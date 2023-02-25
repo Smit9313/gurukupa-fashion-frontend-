@@ -280,6 +280,10 @@ hr {
   position: relative;
 }
 
+.invoice-background{
+  background-color: #f5f6fa;
+}
+
 @media (min-width: 1000px) {
   .tm_invoice_btns {
     display: -webkit-box;

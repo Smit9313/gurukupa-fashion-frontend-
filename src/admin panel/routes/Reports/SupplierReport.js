@@ -1,34 +1,18 @@
 import React, { useState } from "react";
 import Header from "../../components/Header";
 import "../../Style/supplierreport.css";
-import { DatePicker } from "antd";
-import dayjs from "dayjs";
 import { isEmpty } from "lodash";
 import axios from "axios";
 
-const { RangePicker } = DatePicker;
-const dateFormat = "YYYY/MM/DD";
 
 function SupplierReport() {
-  const [selectedDates, setSelectedDates] = useState([]);
-
-  function handleDateChange(dates) {
-    setSelectedDates(dates);
-  }
 
   const handleClick = async () => {
-    if (!isEmpty(selectedDates)) {
-      console.log(selectedDates[0].$d);
-      console.log(selectedDates[1].$d);
-    }
 
     const token = sessionStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
-    const jsonData = {
-      from_date: selectedDates[0].$d,
-      until_date: selectedDates[1].$d,
-    };
+
 
     try {
       axios
@@ -67,9 +51,9 @@ function SupplierReport() {
       <div className="add-suplier supplier-report">
         <div className="add-suplier-sub1">
           <div className="box">
-            <h3>Select date:</h3>
+          
           </div>
-          <RangePicker onChange={handleDateChange} format={dateFormat} />
+          
           <button
             className="button-311 supplier-report-button"
             onClick={handleClick}>

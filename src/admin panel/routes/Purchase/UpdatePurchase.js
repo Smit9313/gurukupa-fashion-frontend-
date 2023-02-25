@@ -1,7 +1,7 @@
-import React,{useState, useEffect} from "react";
-import { useParams, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import TextField from "@mui/material/TextField";
+import { useParams, useHistory } from "react-router-dom";
 import dayjs from "dayjs";
 import Footer from "../../components/Footer";
 import { Select } from "antd";
@@ -13,14 +13,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { Toaster, toast } from "react-hot-toast";
 import { isEmpty } from "lodash";
-
+import { triggerFocus } from "antd/es/input/Input";
 
 function UpdatePurchase() {
+  const [suppName, setSuppName] = useState("");
   let { id } = useParams();
   const history = useHistory();
-
-  const [suppName, setSuppName] = useState("");
-
   const [supId, setSupId] = useState("");
   const [supIdFlag, setSupIdFlag] = useState(false);
   const [supIdError, setSupIdError] = useState("");
@@ -38,7 +36,12 @@ function UpdatePurchase() {
 
   const [productDetails, setProductDetails] = useState([
     {
+      cat_type_id: "",
+      cat_id: "",
       prod_id: "",
+      cat_type: "",
+      cat_title: "",
+      prod_name: "",
       purch_qty: [
         {
           size: "",
@@ -49,55 +52,48 @@ function UpdatePurchase() {
     },
   ]);
 
-    const theme = createTheme({
-      palette: {
-        primary: {
-          // Purple and green play nicely together.
-          main: "#09142d",
-        },
-        secondary: {
-          // This is green.A700 as hex.
-          main: "#11cb5f",
-        },
+  const theme = createTheme({
+    palette: {
+      primary: {
+        // Purple and green play nicely together.
+        main: "#09142d",
       },
-    });
-
-    useEffect(() => {
-      const token = sessionStorage.getItem("token");
-      const headers = { Authorization: `Bearer ${token}` };
-      try {
-        axios
-          .get(`http://127.0.0.1:8000/admin-purchase/${id}/`, {
-            headers,
-          })
-          .then((response) => {
-            console.log(response);
-            if (response.data.message === "Success!") {
-                setSupId(response.data.data.supp_name)
-                // setDate(dayjs(response.))
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } catch (err) {
-        console.log("Error");
-      }
-    }, [id]);
-
+      secondary: {
+        // This is green.A700 as hex.
+        main: "#11cb5f",
+      },
+    },
+  });
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get(
-          "http://127.0.0.1:8000/admin-supplier/",
-          //  qs.stringify({ cat_type: cat_type, active: cat_status }),
-          { headers }
-        )
+        .get(`http://127.0.0.1:8000/admin-purchase/${id}/`, { headers })
         .then((response) => {
-          //  console.log(response.data.data);
+          console.log(response);
+          if (response.data.message === "Success!") {
+            setProductDetails(response.data.data.Purchase_details);
+            setSupId(response.data.data.supp_id);
+            setDate(dayjs(response.data.data.date));
+
+
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {}
+  }, []);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      axios
+        .get("http://127.0.0.1:8000/admin-supplier/", { headers })
+        .then((response) => {
           setSuppName(
             response.data.data.map(({ name, _id }) => ({
               label: name,
@@ -116,11 +112,7 @@ function UpdatePurchase() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get(
-          "http://127.0.0.1:8000/admin-category-type/",
-          //  qs.stringify({ cat_type: cat_type, active: cat_status }),
-          { headers }
-        )
+        .get("http://127.0.0.1:8000/admin-category-type/", { headers })
         .then((response) => {
           //  console.log(response.data.data);
           setCat_Data(
@@ -144,7 +136,9 @@ function UpdatePurchase() {
 
   const handleFormChangeprice = (event, index) => {
     let data = [...productDetails];
+    // console.log(index)
     data[index][event.target.name] = parseFloat(event.target.value);
+    console.log(data);
     setProductDetails(data);
   };
 
@@ -164,15 +158,34 @@ function UpdatePurchase() {
     setProductDetails(data);
   };
 
+  const handleCategoryType = (value, index) => {
+    let data = [...productDetails];
+    data[index]["cat_type_id"] = value;
+    setProductDetails(data);
+  };
+
+  const handleCategory = (value, index) => {
+    let data = [...productDetails];
+    data[index]["cat_id"] = value;
+    data[index]["cat_title"] = value;
+    setProductDetails(data);
+  };
+
   const handleProductId = (value, index) => {
     let data = [...productDetails];
     data[index]["prod_id"] = value;
+    data[index]["prod_name"] = value;
     setProductDetails(data);
   };
 
   const handleAddProduct = () => {
     let object = {
+      cat_type_id: "",
+      cat_id: "",
       prod_id: "",
+      cat_type:"",
+      cat_title:"",
+      prod_name:"",
       purch_qty: [
         {
           size: "",
@@ -216,65 +229,259 @@ function UpdatePurchase() {
     setProductDetails(data);
   };
 
+  const handleAddClick = () => {
+    // console.log(date)
+    // console.log(supId);
+    // console.log(date);
+    // console.log(productDetails)
+
+    // Supplier Id
+    if (supId === "") {
+      setSupIdError("Select sup_id!");
+      setSupIdFlag(true);
+    } else {
+      setSupIdError("");
+      setSupIdFlag(false);
+    }
+
+    productDetails.map((prod, index) => {
+      prod.purch_qty.map((pqty) => {
+        if (
+          pqty.size !== "" &&
+          pqty.qty !== "" &&
+          prod.prod_id !== "" &&
+          prod.purch_price !== ""
+        ) {
+          setFlag(false);
+        }
+      });
+    });
+
+    let flagg = true;
+
+    productDetails.map((prod, index) => {
+      if (!isEmpty(prod.purch_qty)) {
+        prod.purch_qty.map((pqty) => {
+          if (
+            pqty.size !== "" &&
+            pqty.qty !== "" &&
+            prod.prod_id !== "" &&
+            prod.purch_price !== "" &&
+            supId !== "" &&
+            !isEmpty(date)
+          ) {
+            flagg = false;
+          } else {
+            flagg = true;
+            setFlag(true);
+            setError("Fill all product details!");
+          }
+        });
+      } else {
+        toast.error("Minimum 1 size and qty required!", {
+          duration: 20,
+        });
+        setFlag(true);
+        setError("Fill all product details!");
+      }
+    });
+
+    if (flagg === false) {
+      // console.log("Hello")
+      const token = sessionStorage.getItem("token");
+      console.log(token);
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/jsonn",
+      };
+      // console.log(headers);
+      console.log({
+               supp_id: supId,
+               date: date,
+               "Purchase-details": productDetails,
+          })
+      try { 
+        axios
+          .patch(
+            `http://127.0.0.1:8000/admin-purchase/${id}/`,
+            {
+              supp_id: supId,
+              date: date,
+              "Purchase-details": productDetails,
+            },
+            { headers }
+          )
+          .then((response) => {
+            console.log(response.data);
+            if (response.data.message === "Success!") {
+              setSupId("");
+              flagg = false;
+              setSupIdFlag(false);
+              setProductDetails([
+                {
+                  prod_id: "",
+                  purch_qty: [
+                    {
+                      size: "",
+                      qty: "",
+                    },
+                  ],
+                  purch_price: "",
+                },
+              ]);
+
+              setFlag(false);
+              toast.success("Purchase updated!", {
+                duration: 3000,
+              });
+              history.push("/admin/managePurchase");
+              setSuccess(true);
+            } else {
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
+              setSuccess(false);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            setSuccess(false);
+          });
+      } catch (err) {}
+    } else {
+      toast.error("Fill all product details!", {
+        duration: 3000,
+      });
+    }
+
+    // if (supId !== "" && date !== "") {
+    //   productDetails.map((prod, index) => {
+    //     if (
+    //       prod.prod_id !== "" &&
+    //       prod.purch_price !== "" &&
+    //       prod.prod_qty !== []
+    //     ) {
+    //       const token = sessionStorage.getItem("token");
+    //       console.log(token);
+    //       const headers = {
+    //         Authorization: `Bearer ${token}`,
+    //         "Content-Type": "application/jsonn",
+    //       };
+    //       console.log(headers);
+    //       try {
+    //         axios
+    //           .post(
+    //             "http://127.0.0.1:8000/admin-purchase/",
+    //             {
+    //               supp_id: supId,
+    //               date: date,
+    //               "Purchase-details": productDetails,
+    //             },
+    //             { headers }
+    //           )
+    //           .then((response) => {
+    //             //  console.log(response.data.data);
+    //             console.log(response);
+    //           })
+    //           .catch((error) => {
+    //             console.log(error);
+    //           });
+    //       } catch (err) {}
+    //     }
+    //   });
+    // }
+
+    // const token = sessionStorage.getItem("token");
+    // console.log(token)
+    // const headers = { Authorization: `Bearer ${token}` , 'Content-Type': 'application/jsonn'};
+    // console.log(headers)
+    //  try {
+    //    axios
+    //      .post(
+    //        "http://127.0.0.1:8000/admin-purchase/",
+    //        {
+    //          'supp_id': supId,
+    //          'date': date,
+    //          'Purchase-details': productDetails,
+    //        },
+    //        { headers }
+    //      )
+    //      .then((response) => {
+    //        //  console.log(response.data.data);
+    //        console.log(response);
+    //      })
+    //      .catch((error) => {
+    //        console.log(error);
+    //      });
+    //  } catch (err) {}
+  };
+
+  // if(success === true){
+  //   toast.success("Purchase added!", {
+  //                      duration: 3000,
+  //                    });
+  // }
+
   return (
     <>
-      <section className="home">
-        <Header name="Update Purchase" path="admin / updatePurchase" />
-
+      {/* <form> */}
+      {!isEmpty(productDetails) && (
         <ThemeProvider theme={theme}>
-          <div className="add-suplier">
-            <div className="add-suplier-sub1">
-              <div className="box">
-                <p>Select Suplier Name:</p>
+          <section className="home">
+            <Header name="Update Purchase" path="admin / updatePurchase" />
+            <div className="add-suplier">
+              <div className="add-suplier-sub1">
+                <div className="box">
+                  <p>Select Suplier Name:</p>
 
-                <Select
-                  showSearch
-                  style={{ width: 332 }}
-                  placeholder="Select supplier"
-                  value={supId}
-                  onChange={(value) => {
-                    setSupId(value);
-                  }}
-                  size="mediam"
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    (option?.label ?? "").includes(input)
-                  }
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? "")
-                      .toLowerCase()
-                      .localeCompare((optionB?.label ?? "").toLowerCase())
-                  }
-                  options={suppName}
-                />
-                {supIdFlag && <p className="error-color">{supIdError}</p>}
-              </div>
-
-              <div className="box">
-                <p>Select Purchase Date:</p>
-                <ConfigProvider
-                  theme={{
-                    components: {
-                      DatePicker: {
-                        colorPrimary: "#000",
-                        colorPrimaryHover: "#000",
-                        colorPrimaryBorder: "#000",
-                        colorPrimaryBorderHover: "#000",
-                        colorPrimaryText: "#000",
-                      },
-                    },
-                  }}>
-                  <DatePicker
-                    // defaultValue={dayjs()}
-                    value={date}
+                  <Select
+                    showSearch
+                    style={{ width: 332 }}
+                    placeholder="Select supplier"
+                    value={supId}
                     onChange={(value) => {
-                      setDate(value);
+                      setSupId(value);
                     }}
+                    size="mediam"
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      (option?.label ?? "").includes(input)
+                    }
+                    filterSort={(optionA, optionB) =>
+                      (optionA?.label ?? "")
+                        .toLowerCase()
+                        .localeCompare((optionB?.label ?? "").toLowerCase())
+                    }
+                    options={suppName}
                   />
-                </ConfigProvider>
-              </div>
+                  {supIdFlag && <p className="error-color">{supIdError}</p>}
+                </div>
 
-              {/* <div className="box">
+                <div className="box">
+                  <p>Select Purchase Date:</p>
+                  <ConfigProvider
+                    theme={{
+                      components: {
+                        DatePicker: {
+                          colorPrimary: "#000",
+                          colorPrimaryHover: "#000",
+                          colorPrimaryBorder: "#000",
+                          colorPrimaryBorderHover: "#000",
+                          colorPrimaryText: "#000",
+                        },
+                      },
+                    }}>
+                    <DatePicker
+                      defaultValue={dayjs()}
+                      value={date}
+                      onChange={(value) => {
+                        setDate(value);
+                      }}
+                    />
+                  </ConfigProvider>
+                </div>
+
+                {/* <div className="box">
               <p>Enter Total Amount:</p>
               <TextField
                 label="amount"
@@ -284,234 +491,257 @@ function UpdatePurchase() {
                 onChange={(e) => console.log(e.target.value)}
               />
             </div> */}
-            </div>
+              </div>
 
-            <div className="add-suplier-sub2">
-              Purchase details:
-              {/* <form> */}
-              {productDetails.map((form, index) => {
-                return (
-                  <div className="product-details" key={index}>
-                    <b>product {index + 1}</b>
-                    <div className="box">
-                      Select Category-type
-                      <br />
-                      <Select
-                        showSearch
-                        style={{ width: 300 }}
-                        placeholder="Select category-type"
-                        // value={cattypeid}
-                        onChange={(value) => {
-                          // setCatTypeId(value);
-                          setSubCatId("");
-                          setProductId("");
-                          console.log(value);
-                          const token = sessionStorage.getItem("token");
-                          const headers = { Authorization: `Bearer ${token}` };
+              <div className="add-suplier-sub2">
+                Purchase details:
+                {/* <form> */}
+                {productDetails.map((form, index) => {
+                  return (
+                    <div className="product-details" key={index}>
+                      <b>product {index + 1}</b>
+                      <div className="box">
+                        Select Category-type
+                        <br />
+                        <Select
+                          showSearch
+                          style={{ width: 300 }}
+                          placeholder="Select category-type"
+                          label={form.cat_type}
+                          value={form.cat_type_id}
+                          onChange={(value) => {
+                            // setCatTypeId(value);
+                            handleCategoryType(value, index);
+                            setSubCatId("");
+                            setProductId("");
+                            console.log(value);
+                            const token = sessionStorage.getItem("token");
+                            const headers = {
+                              Authorization: `Bearer ${token}`,
+                            };
 
-                          try {
-                            axios
-                              .get(
-                                `http://127.0.0.1:8000/admin-cat-type-to-category/${value}/`,
-                                //  qs.stringify({ cat_type: cat_type, active: cat_status }),
-                                { headers }
+                            try {
+                              axios
+                                .get(
+                                  `http://127.0.0.1:8000/admin-cat-type-to-category/${value}/`,
+                                  //  qs.stringify({ cat_type: cat_type, active: cat_status }),
+                                  { headers }
+                                )
+                                .then((response) => {
+                                  console.log(response.data.data.Category);
+                                  setSubCat_Data(
+                                    response.data.data.Category.map(
+                                      ({ cat_title, cat_id }) => ({
+                                        label: cat_title,
+                                        value: cat_id,
+                                      })
+                                    )
+                                  );
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                });
+                            } catch (err) {}
+                          }}
+                          size="mediam"
+                          optionFilterProp="children"
+                          filterOption={(input, option) =>
+                            (option?.label ?? "").includes(input)
+                          }
+                          filterSort={(optionA, optionB) =>
+                            (optionA?.label ?? "")
+                              .toLowerCase()
+                              .localeCompare(
+                                (optionB?.label ?? "").toLowerCase()
                               )
-                              .then((response) => {
-                                console.log(response.data.data.Category);
-                                setSubCat_Data(
-                                  response.data.data.Category.map(
-                                    ({ cat_title, cat_id }) => ({
-                                      label: cat_title,
-                                      value: cat_id,
-                                    })
-                                  )
-                                );
-                              })
-                              .catch((error) => {
-                                console.log(error);
-                              });
-                          } catch (err) {}
-                        }}
-                        size="mediam"
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                          (option?.label ?? "").includes(input)
-                        }
-                        filterSort={(optionA, optionB) =>
-                          (optionA?.label ?? "")
-                            .toLowerCase()
-                            .localeCompare((optionB?.label ?? "").toLowerCase())
-                        }
-                        options={cat_data}
-                      />
-                    </div>
-                    <div className="box">
-                      Select category
-                      <br />
-                      <Select
-                        showSearch
-                        style={{ width: 300 }}
-                        placeholder="Select category"
-                        onChange={(value) => {
-                          setProductId("");
+                          }
+                          options={cat_data}
+                        />
+                      </div>
+                      <div className="box">
+                        Select category
+                        <br />
+                        <Select
+                          showSearch
+                          style={{ width: 300 }}
+                          placeholder="Select category"
+                          // label={form.cat_id}
+                          value={form.cat_title}
+                          onChange={(value, label) => {
+                            setProductId("");
+                            console.log(label);
+                            handleCategory(value, index);
+                            console.log(value);
 
-                          const token = sessionStorage.getItem("token");
-                          const headers = { Authorization: `Bearer ${token}` };
+                            const token = sessionStorage.getItem("token");
+                            const headers = {
+                              Authorization: `Bearer ${token}`,
+                            };
 
-                          try {
-                            axios
-                              .get(
-                                `http://127.0.0.1:8000/admin-cat-to-product/${value}/`,
-                                //  qs.stringify({ cat_type: cat_type, active: cat_status }),
-                                { headers }
+                            try {
+                              axios
+                                .get(
+                                  `http://127.0.0.1:8000/admin-cat-to-product/${value}/`,
+                                  //  qs.stringify({ cat_type: cat_type, active: cat_status }),
+                                  { headers }
+                                )
+                                .then((response) => {
+                                  console.log(response.data.data);
+                                  setProd_Data(
+                                    response.data.data.Product.map(
+                                      ({ prod_name, prod_id }) => ({
+                                        label: prod_name,
+                                        value: prod_id,
+                                      })
+                                    )
+                                  );
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                });
+                            } catch (err) {}
+                          }}
+                          size="mediam"
+                          optionFilterProp="children"
+                          filterOption={(input, option) =>
+                            (option?.label ?? "").includes(input)
+                          }
+                          filterSort={(optionA, optionB) =>
+                            (optionA?.label ?? "")
+                              .toLowerCase()
+                              .localeCompare(
+                                (optionB?.label ?? "").toLowerCase()
                               )
-                              .then((response) => {
-                                console.log(response.data.data);
-                                setProd_Data(
-                                  response.data.data.Product.map(
-                                    ({ prod_name, prod_id }) => ({
-                                      label: prod_name,
-                                      value: prod_id,
-                                    })
-                                  )
-                                );
-                              })
-                              .catch((error) => {
-                                console.log(error);
-                              });
-                          } catch (err) {}
-                        }}
-                        size="mediam"
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                          (option?.label ?? "").includes(input)
-                        }
-                        filterSort={(optionA, optionB) =>
-                          (optionA?.label ?? "")
-                            .toLowerCase()
-                            .localeCompare((optionB?.label ?? "").toLowerCase())
-                        }
-                        options={subcat_data}
-                      />
-                    </div>
-                    <div className="box">
-                      Select product
-                      <br />
-                      <Select
-                        showSearch
-                        name="prod_id"
-                        style={{ width: 300 }}
-                        placeholder="Select product"
-                        onChange={(value, na) => {
-                          handleProductId(value, index);
-                        }}
-                        size="mediam"
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                          (option?.label ?? "").includes(input)
-                        }
-                        filterSort={(optionA, optionB) =>
-                          (optionA?.label ?? "")
-                            .toLowerCase()
-                            .localeCompare((optionB?.label ?? "").toLowerCase())
-                        }
-                        options={prod_data}
-                      />
-                    </div>
+                          }
+                          options={subcat_data}
+                        />
+                      </div>
+                      <div className="box">
+                        Select product
+                        <br />
+                        <Select
+                          showSearch
+                          name="prod_id"
+                          style={{ width: 300 }}
+                          value={form.prod_name}
+                          placeholder="Select product"
+                          onChange={(value) => {
+                            handleProductId(value, index);
+                          }}
+                          size="mediam"
+                          optionFilterProp="children"
+                          filterOption={(input, option) =>
+                            (option?.label ?? "").includes(input)
+                          }
+                          filterSort={(optionA, optionB) =>
+                            (optionA?.label ?? "")
+                              .toLowerCase()
+                              .localeCompare(
+                                (optionB?.label ?? "").toLowerCase()
+                              )
+                          }
+                          options={prod_data}
+                        />
+                      </div>
 
-                    <div className="box-qty">
-                      Enter size and quantity{" "}
+                      <div className="box-qty">
+                        Enter size and quantity{" "}
+                        <button
+                          className="button-2"
+                          onClick={() => handleNewSize(index)}>
+                          + add
+                        </button>
+                        <br />
+                        {productDetails[index].purch_qty.map(
+                          (form1, index1) => {
+                            return (
+                              <div className="size-quantity" key={index1}>
+                                <TextField
+                                  label="size"
+                                  size="small"
+                                  name="size"
+                                  type="text"
+                                  sx={{ width: 100 }}
+                                  // fullWidth={width}
+                                  onChange={(event) =>
+                                    handleFormChangeSize(event, index1, index)
+                                  }
+                                  value={form1.size}
+                                />
+                                {"  "}
+                                <TextField
+                                  label="qty"
+                                  size="small"
+                                  name="qty"
+                                  type="number"
+                                  sx={{ width: 100 }}
+                                  // fullWidth={width}
+                                  onChange={(event) =>
+                                    handleFormChangeSize1(event, index1, index)
+                                  }
+                                  value={form1.qty}
+                                />
+                                {"  "}
+                                <FontAwesomeIcon
+                                  className="edit-product-delete"
+                                  icon={faTrashCan}
+                                  onClick={() => handleRemove(index1, index)}
+                                />
+                              </div>
+                            );
+                          }
+                        )}
+                      </div>
+
+                      <div className="box">
+                        Price:
+                        <br />
+                        <TextField
+                          label="price"
+                          name="purch_price"
+                          size="small"
+                          type="number"
+                          sx={{ width: 200 }}
+                          // fullWidth={width}
+                          onChange={(event) =>
+                            handleFormChangeprice(event, index)
+                          }
+                          value={form.purch_price}
+                        />
+                      </div>
                       <button
-                        className="button-2"
-                        onClick={() => handleNewSize(index)}>
-                        + add
+                        className="button-40"
+                        onClick={() => handleRemoveProduct(index)}>
+                        - Remove product
                       </button>
-                      <br />
-                      {productDetails[index].purch_qty.map((form1, index1) => {
-                        return (
-                          <div className="size-quantity" key={index1}>
-                            <TextField
-                              label="size"
-                              size="small"
-                              name="size"
-                              type="text"
-                              sx={{ width: 100 }}
-                              // fullWidth={width}
-                              onChange={(event) =>
-                                handleFormChangeSize(event, index1, index)
-                              }
-                              value={form1.size}
-                            />
-                            {"  "}
-                            <TextField
-                              label="qty"
-                              size="small"
-                              name="qty"
-                              type="number"
-                              sx={{ width: 100 }}
-                              // fullWidth={width}
-                              onChange={(event) =>
-                                handleFormChangeSize1(event, index1, index)
-                              }
-                              value={form1.qty}
-                            />
-                            {"  "}
-                            <FontAwesomeIcon
-                              className="edit-product-delete"
-                              icon={faTrashCan}
-                              onClick={() => handleRemove(index1, index)}
-                            />
-                          </div>
-                        );
-                      })}
                     </div>
-
-                    <div className="box">
-                      Price:
-                      <br />
-                      <TextField
-                        label="price"
-                        name="purch_price"
-                        size="small"
-                        type="number"
-                        sx={{ width: 200 }}
-                        // fullWidth={width}
-                        onChange={(event) =>
-                          handleFormChangeprice(event, index)
-                        }
-                        value={form.purch_price}
-                      />
-                    </div>
-                    <button
-                      className="button-40"
-                      onClick={() => handleRemoveProduct(index)}>
-                      - Remove product
-                    </button>
-                  </div>
-                );
-              })}
-              {flag && <p className="error-color">{error}</p>}
-              <button className="button-30" onClick={handleAddProduct}>
-                + Add product
-              </button>
-              <div className="suplier-button">
-                <button className="button-311">
-                  Add
+                  );
+                })}
+                {flag && <p className="error-color">{error}</p>}
+                <button className="button-30" onClick={handleAddProduct}>
+                  + Add product
                 </button>
+                <div className="suplier-button">
+                  <button className="button-311" onClick={handleAddClick}>
+                    Add
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+            <Footer />
+          </section>
         </ThemeProvider>
-        {/* </form> */}
-        <Footer />
-        <Toaster
-          position="top-center"
-          containerStyle={{
-            top: 10,
-          }}
-          reverseOrder={true}
-        />
-      </section>
+      )}
+
+      {/* </form> */}
+
+      <Toaster
+        position="top-center"
+        containerStyle={{
+          top: 10,
+        }}
+        reverseOrder={true}
+      />
     </>
   );
 }

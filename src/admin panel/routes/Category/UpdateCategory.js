@@ -390,8 +390,7 @@ function UpdateCategory() {
 
                   <Switch
                     // defaultChecked
-                    // checked={true}
-                    value={cat_status}
+                    checked={cat_status}
                     onChange={(e) => setCat_status(e.target.checked)}
                   />
                 </div>

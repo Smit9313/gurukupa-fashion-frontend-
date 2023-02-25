@@ -9,7 +9,7 @@ import { isEmpty } from "lodash";
 import { Drawer, Radio, Space, ConfigProvider } from "antd";
 import { Select } from "antd";
 import qs from "qs";
-import { Toaster, toast } from "react-hot-toast"
+import { Toaster, toast } from "react-hot-toast";
 import useRazorpay from "react-razorpay";
 import { useHistory } from "react-router-dom";
 
@@ -102,7 +102,7 @@ function Checkout() {
         .get("http://127.0.0.1:8000/checkout-user-info/", { headers })
         .then((response) => {
           // console.log(response.data.data["Ship-add"]);
-          console.log(response)
+          console.log(response);
           setUserData(response.data.data);
           if (response.data.data["Ship-add"].length === 0) {
             setDefaultAddress("");
@@ -242,15 +242,17 @@ function Checkout() {
           }
         )
         .then((response) => {
-          console.log(response)
-          if(response.data.message === "Success!"){
-
-          }else{
+          console.log(response);
+          if (response.data.message === "Success!") {
+            setDiscountData(response.data.data);
+            toast.success("Coupen code applied!", {
+              duration: 3000,
+            });
+          } else {
             toast.error(response.data.message, {
               duration: 3000,
             });
           }
-          setDiscountData(response.data.data);
         })
         .catch((error) => {
           console.log(error);
@@ -263,7 +265,11 @@ function Checkout() {
   const handlePayment = (e) => {
     e.preventDefault();
 
-    if (!isEmpty(mobile) && mobile.toString().length === 10 && addData._id !== "") {
+    if (
+      !isEmpty(mobile) &&
+      mobile.toString().length === 10 &&
+      addData._id !== ""
+    ) {
       setMobileFlag(false);
       const token = sessionStorage.getItem("token");
       const headers = {
@@ -284,6 +290,7 @@ function Checkout() {
             "http://127.0.0.1:8000/customer-order/",
             {
               add_id: addData._id,
+              mobile_no: parseInt(mobile),
               "Order-details": products.map((val, index) => ({
                 prod_id: val.prod_id,
                 prod_qty: {
@@ -299,7 +306,7 @@ function Checkout() {
             }
           )
           .then((response) => {
-            console.log(response)
+            console.log(response);
             if (response.data.message === "Success!") {
               var options = {
                 key: "rzp_test_Cl1G7wgRpRqdBD",
@@ -316,29 +323,29 @@ function Checkout() {
                   contact: response.data.data.mobile_no,
                 },
                 handler: async function (response1) {
-                   console.log(response1);
+                  console.log(response1);
                   // response1.push({"order_id":response.data.data.order_id})
                   response1.order_id = response.data.data.order_id;
-                 
+
                   try {
-                   await axios
+                    await axios
                       .post(
                         "http://127.0.0.1:8000/verify-order/",
-                        {response1},
+                        { response1 },
                         {
                           headers,
                         }
                       )
                       .then((dt) => {
-                        if (dt.data.message === "Success!"){
+                        if (dt.data.message === "Success!") {
                           toast.success("Payment successfully!", {
                             duration: 4000,
                           });
-                          setNavChange(!navchange)
+                          setNavChange(!navchange);
 
-                          history.push('/profile')
+                          history.push("/profile");
                         }
-                        console.log(dt)
+                        console.log(dt);
                       });
                   } catch (error) {
                     console.log(error);
@@ -350,36 +357,33 @@ function Checkout() {
               };
               const rzpay = new Razorpay(options);
               rzpay.on("payment.failed", function (response2) {
-                  console.log(response2)
-                  response2.error.metadata.ord_id = response.data.data.order_id;
-                  let dataError = response2.error.metadata;
-                  try {
-                    axios
-                      .post(
-                        "http://127.0.0.1:8000/verify-order/",
-                        { dataError},
-                        {
-                          headers,
-                        }
-                      )
-                      .then((dt1) => {
-                        if (dt1.data.message === "Order failed.") {
-                          toast.error("Payment failed!");
-                          // rzpay.close();
-                          rzpay.onClose();
-                        }
-                      });
-                  } catch (error) {
-                    console.log(error);
-                  }
-
+                console.log(response2);
+                response2.error.metadata.ord_id = response.data.data.order_id;
+                let dataError = response2.error.metadata;
+                try {
+                  axios
+                    .post(
+                      "http://127.0.0.1:8000/verify-order/",
+                      { dataError },
+                      {
+                        headers,
+                      }
+                    )
+                    .then((dt1) => {
+                      if (dt1.data.message === "Order failed.") {
+                        toast.error("Payment failed!");
+                        // rzpay.close();
+                        rzpay.onClose();
+                      }
+                    });
+                } catch (error) {
+                  console.log(error);
+                }
               });
               rzpay.open();
-
-            }else{
+            } else {
               toast.error(response.data.message);
             }
-
           })
           .catch((error) => {
             console.log(error);
@@ -558,8 +562,8 @@ function Checkout() {
                           buttonStyle="solid"
                           // value={addtype1}
                           disabled={true}>
-                          <Radio.Button value="home">Home</Radio.Button>
-                          <Radio.Button value="office">Office</Radio.Button>
+                          <Radio.Button value="Home">Home</Radio.Button>
+                          <Radio.Button value="Office">Office</Radio.Button>
                         </Radio.Group>
                       </ConfigProvider>
                     </div>
@@ -672,8 +676,17 @@ function Checkout() {
                     type="text"
                     onChange={(e) => setCoupenCode(e.target.value)}
                   />
+
                   <button type="button" onClick={handleDiscount} />
                 </div>
+                {!isEmpty(discountData) && (
+                  <div className="discount-details">
+                    <p>Applied discount : {discountData.applied_disc}</p>
+                    <p>Maximum discount amount : {discountData.max_disc_amt}</p>
+                    <p>Minimum order value : {discountData.min_ord_val}</p>
+                  </div>
+                )}
+
                 <form>
                   <div className="continue-btn">
                     <button className="checkout-btn" onClick={handlePayment}>

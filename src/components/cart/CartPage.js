@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
-import ProductsData from "./Products";
 import PromoCode from "./PromoCode";
 import ProductList from "./ProductList";
 import Summary from "./Summary";

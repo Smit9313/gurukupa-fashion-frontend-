@@ -288,6 +288,22 @@ span.price {
   justify-content: space-between;
 }
 
+.discount-details{
+  margin: 10px;
+  padding: 10px;
+}
+
+
+.discount-details p{
+  font-size: 0.8rem;
+  color: dimgrey;
+}
+
+.promotion{
+  padding: 10px;
+  margin: 10px;
+}
+
 .promotion input{
   width: 150px;
 }

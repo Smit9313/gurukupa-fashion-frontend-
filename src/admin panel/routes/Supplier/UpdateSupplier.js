@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams,useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import Header from "../../components/Header";
 import "../../Style/addsuplier.css";
 import TextField from "@mui/material/TextField";
@@ -10,6 +10,8 @@ import qs from "qs";
 import "react-toastify/dist/ReactToastify.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { isEmpty } from "lodash";
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function UpdateSupplier() {
   let { id } = useParams();
@@ -280,7 +282,7 @@ function UpdateSupplier() {
             }),
             { headers }
           )
-          .then((response) => {
+          .then(async (response) => {
             console.log(response);
             if (response.data["message"] === "Success!") {
               setValid(true);
@@ -307,8 +309,8 @@ function UpdateSupplier() {
               setFlag4(false);
               setFlag5(false);
               setFlag6(false);
-
-                history.push("/admin/manageSupplier");
+              await delay(3000);
+              history.push("/admin/manageSupplier");
             } else if (response.data["message"] === "Supplier not inserted.") {
               setValid(false);
               toast.error("Supplier not inserted!", {

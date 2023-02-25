@@ -1,98 +1,111 @@
-import React,{useState,useEffect,createContext} from 'react';
-import {NavLink,Link, useHistory} from 'react-router-dom';
-import './NavbarStyle.css';
+import React, { useState, useEffect, createContext } from "react";
+import { NavLink, Link, useHistory } from "react-router-dom";
+import "./NavbarStyle.css";
 import jwtDecode from "jwt-decode";
-import { ConfigProvider,Badge } from "antd";
-import axios from 'axios';
-
+import { ConfigProvider, Badge } from "antd";
+import axios from "axios";
+import { isEmpty } from "lodash";
 
 const UserContext = createContext();
 
-function Navbar({navrender}) {
-    const [icon, setIcon] = useState(false);
-    const [arrow, setArrow] = useState(true);
-    const [arrowMan, setArrowMan] = useState(true);    
-    const [arrowWoman, setArrowWoman] = useState(true);
-    const [arrowKid, setArrowKid] = useState(true);
+function Navbar({ navrender }) {
+  const [icon, setIcon] = useState(false);
+  const [arrow, setArrow] = useState(true);
+  const [arrowMan, setArrowMan] = useState(true);
+  const [arrowWoman, setArrowWoman] = useState(true);
+  const [arrowKid, setArrowKid] = useState(true);
 
-    const [isHovering, setIsHovering] = useState(false);
-    const [token, setToken] = useState(sessionStorage.getItem("token"));
-    const [role, setRole] = useState("");
-    const [countCart, setCountCart] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [token, setToken] = useState(sessionStorage.getItem("token"));
+  const [role, setRole] = useState("");
+  const [countCart, setCountCart] = useState(0);
 
-    const history = useHistory();
+  const [navData, setNavData] = useState();
 
-    const handleClick = () =>{
-        setIcon(!icon);
+  useEffect(() => {
+    try {
+      axios
+        .get("http://127.0.0.1:8000/navbar-shop-category/")
+        .then((response) => {
+          console.log(response);
+          setNavData(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log("Error");
     }
+  }, []);
 
-    const handleProfileClick= () =>{
-      setIcon(!icon);
-      setToken(sessionStorage.getItem("token"));
+  const history = useHistory();
+
+  const handleClick = () => {
+    setIcon(!icon);
+  };
+
+  const handleProfileClick = () => {
+    setIcon(!icon);
+    setToken(sessionStorage.getItem("token"));
+  };
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
+  const handleArrow = () => {
+    setArrow(!arrow);
+  };
+
+  const handleArrowMan = () => {
+    setArrowMan(!arrowMan);
+  };
+
+  const handleArrowWoman = () => {
+    setArrowWoman(!arrowWoman);
+  };
+
+  const handleArrowKid = () => {
+    setArrowKid(!arrowKid);
+  };
+
+  const handleClickLogout = () => {
+    sessionStorage.removeItem("token");
+    history.push("/home");
+    setToken(null);
+  };
+
+  //  console.log(token);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("token") !== null) {
+      const decoded = jwtDecode(token);
+      setRole(decoded["id"]["role"]);
     }
+  }, [role, token]);
 
-     const handleMouseOver = () => {
-       setIsHovering(true);
-     };
-
-     const handleMouseOut = () => {
-       setIsHovering(false);
-     };
-
-     const handleArrow = () => {
-      setArrow(!arrow);
-     }
-
-     const handleArrowMan = () => {
-      setArrowMan(!arrowMan);
-     }
-
-     const handleArrowWoman = () => {
-       setArrowWoman(!arrowWoman);
-     };
-
-      const handleArrowKid = () => {
-        setArrowKid(!arrowKid);
-      };
-
-     const handleClickLogout = () => {
-      sessionStorage.removeItem("token");
-      history.push("/home");
-      setToken(null);
-     }
-
-    //  console.log(token);
-
-     useEffect(() => {
-       if (sessionStorage.getItem("token") !== null) {
-         const decoded = jwtDecode(token);
-         setRole(decoded["id"]["role"]);
-       }
-     }, [role, token]);
-
-     useEffect(() => {
-       const token = sessionStorage.getItem("token");
-       const headers = { Authorization: `Bearer ${token}` };
-       try {
-         axios
-           .get(
-             "http://127.0.0.1:8000/cart-count/",
-             { headers }
-           )
-           .then((response) => {
-              if(response.data.message === "Success!"){
-                  setCountCart(response.data.data["cart_count"]);
-              }else{
-                setCountCart(0)
-              }
-                
-           })
-           .catch((error) => {
-             console.log(error);
-           });
-       } catch (err) {}
-     }, [navrender]);
-  
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      axios
+        .get("http://127.0.0.1:8000/cart-count/", { headers })
+        .then((response) => {
+          if (response.data.message === "Success!") {
+            setCountCart(response.data.data["cart_count"]);
+          } else {
+            setCountCart(0);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {}
+  }, [navrender]);
 
   return (
     <>
@@ -133,20 +146,29 @@ function Navbar({navrender}) {
                 onMouseOver={handleMouseOver}
                 onMouseOut={handleMouseOut}>
                 <div className="mb-category-1">
-                  <div className="mb-category-2">
-                    <div className="cat-man">
-                      <NavLink to="/shop/Men" onClick={handleClick}>
-                        <h4>Men</h4>
-                      </NavLink>
-                      <i
-                        className={
-                          arrowMan ? "fas fa-angle-right" : "fas fa-angle-down"
-                        }
-                        onClick={handleArrowMan}></i>
-                    </div>
-                    <hr />
-                    {!arrowMan && (
-                      <div className="man-cat-items">
+                  {navData.map((val, index) => {
+                    return (
+                      <div className="mb-category-2" key={index}>
+                        <div className="cat-man">
+                          <NavLink to={`/shop/${val.cat_type}`} onClick={handleClick}>
+                            <h4>{val.cat_type}</h4>
+                          </NavLink>
+                        </div>
+                        <hr />
+
+                        {val.Category.map((val1,index1) => {
+                          return (
+                            <div className="man-cat-items" key={index1}>
+                              <NavLink
+                                to={`/shop/${val.cat_type}/${val1.cat_title}`}
+                                onClick={handleClick}>
+                                {val1.cat_title}
+                              </NavLink>
+                            </div>
+                          );
+                        })}
+
+                        {/* <div className="man-cat-items">
                         <NavLink to="/shop/Men/T-Shirts" onClick={handleClick}>
                           T-Shirt
                         </NavLink>
@@ -171,11 +193,12 @@ function Navbar({navrender}) {
                         <NavLink to="/shop/Men/Kurta" onClick={handleClick}>
                           Kurta
                         </NavLink>
+                      </div> */}
                       </div>
-                    )}
-                  </div>
+                    );
+                  })}
 
-                  <div className="">
+                  {/* <div className="">
                     <div className="mb-category-2">
                       <div className="cat-woman">
                         <NavLink to="/shop/Women" onClick={handleClick}>
@@ -222,9 +245,9 @@ function Navbar({navrender}) {
                         </div>
                       )}
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div>
+                  {/* <div>
                     <div className="set-kid mb-category-2">
                       <div className="cat-kid">
                         <center>
@@ -239,7 +262,7 @@ function Navbar({navrender}) {
                               : "fas fa-angle-down"
                           }
                           onClick={handleArrowKid}></i>
-                        {/* <hr /> */}
+                        
                       </div>
                       <hr />
                     </div>
@@ -301,8 +324,8 @@ function Navbar({navrender}) {
                           </NavLink>
                         </div>
                       </div>
-                    )}
-                  </div>
+                    )} */}
+                  {/* </div> */}
                 </div>
               </div>
             )}
@@ -468,13 +491,41 @@ function Navbar({navrender}) {
               onClick={handleClick}></i>
           </div>
         </nav>
-        {isHovering && (
+        {isHovering && !isEmpty(navData) && (
           <div
             className="category-container"
             onMouseOver={handleMouseOver}
             onMouseOut={handleMouseOut}>
             <div className="sub-category-container">
-              <div className="category-1">
+              {navData.map((val, index) => {
+                return (
+                  <div className="category-1" key={index}>
+                    <center>
+                      <NavLink to={`/shop/${val.cat_type}`}>
+                        <h3>{val.cat_type}</h3>
+                      </NavLink>
+                    </center>
+                    <hr className="hr-style" />
+                    {val.Category.map((val1, index1) => {
+                      return (
+                        <div key={index1}>
+                          <center>
+                            <NavLink
+                              to={`/shop/${val.cat_type}/${val1.cat_title}`}>
+                              {val1.cat_title}
+                            </NavLink>
+
+                            <br />
+                          </center>
+                          <hr />
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+
+              {/* <div className="category-1">
                 <NavLink to="/shop/Men">
                   <h3>Men</h3>
                 </NavLink>
@@ -483,7 +534,7 @@ function Navbar({navrender}) {
                 <br />
                 <NavLink to="/shop/Men/Jeans">Jeans</NavLink>
                 <br />
-                <NavLink to="/shop/Men/CasualShirts">Casual Shirt </NavLink>
+                <NavLink to="/shop/Men/CasualShirts">Casual Shirt</NavLink>
                 <br />
                 <NavLink to="/shop/Men/FormalShirts">Formal Shirt</NavLink>
                 <br />
@@ -560,9 +611,9 @@ function Navbar({navrender}) {
                     </NavLink>
                     <NavLink to="/shop/Kids/Girl/Tops">Tops</NavLink>
                     <br />
-                  </div>
-                </div>
-              </div>
+                  </div> */}
+              {/* </div> */}
+              {/* </div> */}
             </div>
           </div>
         )}
@@ -571,4 +622,4 @@ function Navbar({navrender}) {
   );
 }
 
-export default Navbar
+export default Navbar;

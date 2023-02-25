@@ -49,6 +49,7 @@ function ProductList({ products, onChangeProductQuantity, onRemoveProduct ,onAdd
                           <input
                             type="text"
                             className="quantity"
+                            disabled
                             step="1"
                             value={product.qty}
                             onChange={(event) =>

@@ -380,6 +380,10 @@ body.dark .home .text{
     color: white;
 }
 
+.sidebar .sidebar-active span{
+    color: white;
+}
+
 
 @media screen and (max-width:450px) {
     .sidebar.close{

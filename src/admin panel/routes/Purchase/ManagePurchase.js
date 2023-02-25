@@ -34,7 +34,9 @@ function ManagePurchase() {
       {row.Purchase_details.map((val, index) => {
         return (
           <div key={index} className="single-purchase">
-            <p>Name : {val.prod_name}</p>
+            <p>Cat_type : {val.cat_type}</p>
+            <p>Cat_title : {val.cat_title}</p>
+            <p>Prod_name : {val.prod_name}</p>
             <p>Price : {val.purch_price}</p>
 
             <div>

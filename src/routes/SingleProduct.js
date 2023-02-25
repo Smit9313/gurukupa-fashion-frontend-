@@ -44,7 +44,10 @@ function SingleProduct() {
                 )
                 .then((response) => {
                   console.log(response)
-                  setrelatedProduct(response.data.data);
+                  if(response.data.message === "Success!"){
+                     setrelatedProduct(response.data.data);
+                  }
+                 
                 })
                 .catch((error) => {
                   console.log(error);
@@ -132,7 +135,7 @@ function SingleProduct() {
     <>
       <Navbar navrender={navrender} />
       {/* <Start cName="hero-singleproduct"/> */}
-      {!isEmpty(data) && !isEmpty(relatedProduct) ? (
+      {!isEmpty(data) ? (
         <>
           <section id="prodetails" className="section-p1">
             <div className="single-pro-image">
@@ -207,7 +210,7 @@ function SingleProduct() {
                       })}
                   </Radio.Group>
                 </ConfigProvider>
-                {!isEmpty(data.prod_qty) &&
+                {isEmpty(data.prod_qty) &&
                   Object.keys(data.prod_qty).length === 0 &&
                   data.prod_qty.constructor === Object && (
                     <p className="out-stock">
@@ -219,8 +222,10 @@ function SingleProduct() {
                 )}
               </div>
               <input
-                type="text"
+                type="number"
                 className="quantity"
+                min={1}
+                max={99}
                 step="1"
                 value={prod_qty}
                 onChange={(event) => handleQty(event)}
@@ -236,12 +241,14 @@ function SingleProduct() {
             </div>
           </section>
 
-          <div id="prodetails-suggestion">
-            <center>
-              <h2>SIMILAR PRODUCTS</h2>
-            </center>
-            <RelatedProduct items={relatedProduct} />
-          </div>
+          {!isEmpty(relatedProduct) && (
+            <div id="prodetails-suggestion">
+              <center>
+                <h2>SIMILAR PRODUCTS</h2>
+              </center>
+              <RelatedProduct items={relatedProduct} />
+            </div>
+          )}
         </>
       ) : (
         <>

@@ -9,6 +9,7 @@ import { ConfigProvider } from "antd";
 import { message, Popconfirm } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { isEmpty } from 'lodash';
 
 function ManageProduct() {
 
@@ -26,7 +27,7 @@ function ManageProduct() {
        axios
          .get("http://127.0.0.1:8000/admin-product/", { headers })
          .then((response) => {
-           // console.log(response.data.data);
+           console.log(response.data.data);
            setProduct(response.data.data);
            setFilteredProduct(response.data.data);
          })
@@ -69,6 +70,56 @@ function ManageProduct() {
       console.log(e);
       message.error("Click on No");
     };
+
+
+    const CustomTitle = ({ row }) => (
+      <div>
+        {!isEmpty(row.prod_qty) ? 
+            <div key={row._id} className="single-purchase">
+              {/* <p>Name : {val.prod_name}</p>
+              <p>Price : {val.purch_price}</p> */}
+
+              <div>
+                <table className="purchase-data-table">
+                  <thead>
+                    <tr>
+                      <th>Size</th>
+                      <th>Qty</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {row.prod_qty.map((val1, index1) => {
+                      // console.log(val)
+                      return (
+                        <tr key={index1}>
+                          <td>{val1.size}</td>
+                          <td>{val1.qty}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        
+ : <>-</>}
+        
+        <div>{row.title}</div>
+        <div>
+          <div
+            data-tag="allowRowEvents"
+            style={{
+              color: "grey",
+              overflow: "hidden",
+              whiteSpace: "wrap",
+              textOverflow: "ellipses",
+            }}>
+            {}
+            {row.plot}
+          </div>
+        </div>
+      </div>
+    );
 
 
    const columns = [
@@ -160,6 +211,13 @@ function ManageProduct() {
        selector: (row) => row.active.toString(),
        sortable: true,
        width: "100px",
+     },
+     {
+       name: <h4>Qty</h4>,
+       selector: (row) => row.prod_qty,
+       cell: (row) => <CustomTitle row={row} />,
+       sortable: true,
+      //  width: "100px",
      },
    ];
 

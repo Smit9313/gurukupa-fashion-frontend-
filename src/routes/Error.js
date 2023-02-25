@@ -18,14 +18,14 @@ function Error() {
             </Link>
           </center>
           <center>
-            <Dna
+            {/* <Dna
               visible={true}
               height="100"
               width="100"
               ariaLabel="dna-loading"
               wrapperStyle={{}}
               wrapperClass="dna-wrapper"
-            />
+            /> */}
           </center>
         </h1>
       </div>
