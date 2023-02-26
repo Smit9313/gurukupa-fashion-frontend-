@@ -9,6 +9,7 @@ import { ConfigProvider } from "antd";
 import { message, Popconfirm } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function ManageCategory() {
   
@@ -21,6 +22,7 @@ function ManageCategory() {
     const [searchCategory, setSearchCategory] = useState("");
     const [filteredCategory, setFilteredCategory] = useState([]);
     const [deleteFlag, setDeleteFlag] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
       const token = sessionStorage.getItem("token");
@@ -30,8 +32,10 @@ function ManageCategory() {
           .get("http://127.0.0.1:8000/admin-category-type/", { headers })
           .then((response) => {
             // console.log(response)
+            setLoading(false);
             setCatType(response.data.data);
             setFilteredCatType(response.data.data);
+            setLoading(true);
           })
           .catch((error) => {
             console.log(error);
@@ -43,8 +47,10 @@ function ManageCategory() {
            .get("http://127.0.0.1:8000/admin-category/", { headers })
            .then((response) => {
             //  console.log(response)
+            setLoading(false);
              setCategory(response.data.data);
              setFilteredCategory(response.data.data);
+             setLoading(true);
            })
            .catch((error) => {
              console.log(error);
@@ -258,61 +264,71 @@ function ManageCategory() {
   return (
     <>
       <Header name="Manage Category" path="admin / manageCategory" />
-      <div className="suplier-list">
-        <DataTable
-          columns={columns}
-          data={filteredCatType}
-          title="Manage Cat_type"
-          pagination
-          highlightOnHover
-          actions={
-            <button
-              className="supplier-add-btn"
-              onClick={() => history.push("/admin/addCategory")}>
-              Add new category_type
-            </button>
-          }
-          subHeader
-          subHeaderComponent={
-            <input
-              type="text"
-              className="search-supplier"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search here"
+      {loading ? (
+        <>
+          <div className="suplier-list">
+            <DataTable
+              columns={columns}
+              data={filteredCatType}
+              title="Manage Cat_type"
+              pagination
+              highlightOnHover
+              actions={
+                <button
+                  className="supplier-add-btn"
+                  onClick={() => history.push("/admin/addCategory")}>
+                  Add new category_type
+                </button>
+              }
+              subHeader
+              subHeaderComponent={
+                <input
+                  type="text"
+                  className="search-supplier"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search here"
+                />
+              }
+              subHeaderAlign="left"
             />
-          }
-          subHeaderAlign="left"
-        />
-      </div>
+          </div>
 
-      <div className="suplier-list">
-        <DataTable
-          columns={columns1}
-          data={filteredCategory}
-          title="Manage category"
-          pagination
-          highlightOnHover
-          actions={
-            <button
-              className="supplier-add-btn"
-              onClick={() => history.push("/admin/addCategory")}>
-              Add new category
-            </button>
-          }
-          subHeader
-          subHeaderComponent={
-            <input
-              type="text"
-              className="search-supplier"
-              value={searchCategory}
-              onChange={(e) => setSearchCategory(e.target.value)}
-              placeholder="Search here"
+          <div className="suplier-list">
+            <DataTable
+              columns={columns1}
+              data={filteredCategory}
+              title="Manage category"
+              pagination
+              highlightOnHover
+              actions={
+                <button
+                  className="supplier-add-btn"
+                  onClick={() => history.push("/admin/addCategory")}>
+                  Add new category
+                </button>
+              }
+              subHeader
+              subHeaderComponent={
+                <input
+                  type="text"
+                  className="search-supplier"
+                  value={searchCategory}
+                  onChange={(e) => setSearchCategory(e.target.value)}
+                  placeholder="Search here"
+                />
+              }
+              subHeaderAlign="left"
             />
-          }
-          subHeaderAlign="left"
-        />
-      </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="loader-spin">
+            <ClipLoader color="#000" />
+          </div>
+        </>
+      )}
 
       <Footer />
       <Toaster

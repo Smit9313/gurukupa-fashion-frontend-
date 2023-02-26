@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory,Link } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import "../../Style/managesuplier.css";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
@@ -9,10 +9,8 @@ import { ConfigProvider } from "antd";
 import { message, Popconfirm } from "antd";
 import { Toaster, toast } from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrashCan,
-  faPenToSquare
-} from "@fortawesome/free-regular-svg-icons";
+import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 function ManageSuplier() {
@@ -21,6 +19,7 @@ function ManageSuplier() {
   const [search, setSearch] = useState("");
   const [filteredSupplier, setFilteredSupplier] = useState([]);
   const [deleteFlag, setDeleteFlag] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -29,8 +28,10 @@ function ManageSuplier() {
       axios
         .get("http://127.0.0.1:8000/admin-supplier/", { headers })
         .then((response) => {
+          setLoading(false);
           setSupplier(response.data.data);
           setFilteredSupplier(response.data.data);
+          setLoading(true);
         })
         .catch((error) => {
           console.log(error);
@@ -39,36 +40,31 @@ function ManageSuplier() {
   }, [deleteFlag]);
 
   const confirm = (supid) => {
-    console.log(supid)
+    console.log(supid);
 
-     const token = sessionStorage.getItem("token");
-     const headers = { Authorization: `Bearer ${token}` };
+    const token = sessionStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
 
-     try {
-       axios
-         .delete(`http://127.0.0.1:8000/admin-supplier/${supid}`, { headers })
-         .then((response) => {
-           console.log(response);
-           if (response.data.message === "Success!") {
-             message.success("deleted successfully!");
-              setDeleteFlag(!deleteFlag);
-           } else {
-             toast.error(
-               response.data.message,
-               {
-                 duration: 3000,
-               }
-             );
-           }
-         })
-         .catch((error) => {
-           console.log(error);
-         });
-     } catch (err) {
-       console.log("Error");
-     }
-
-
+    try {
+      axios
+        .delete(`http://127.0.0.1:8000/admin-supplier/${supid}`, { headers })
+        .then((response) => {
+          console.log(response);
+          if (response.data.message === "Success!") {
+            message.success("deleted successfully!");
+            setDeleteFlag(!deleteFlag);
+          } else {
+            toast.error(response.data.message, {
+              duration: 3000,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log("Error");
+    }
   };
   const cancel = (e) => {
     console.log(e);
@@ -189,32 +185,43 @@ function ManageSuplier() {
     <>
       <Header name="Suplier List" path="admin / manageSuplier" />
 
-      <div className="suplier-list">
-        <DataTable
-          columns={columns}
-          data={filteredSupplier}
-          pagination
-          highlightOnHover
-          actions={
-            <button
-              className="supplier-add-btn"
-              onClick={() => history.push("/admin/addSupplier")}>
-              Add new supplier
-            </button>
-          }
-          subHeader
-          subHeaderComponent={
-            <input
-              type="text"
-              className="search-supplier"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search here"
+      {loading ? (
+        <>
+          <div className="suplier-list">
+            <DataTable
+              columns={columns}
+              data={filteredSupplier}
+              pagination
+              highlightOnHover
+              actions={
+                <button
+                  className="supplier-add-btn"
+                  onClick={() => history.push("/admin/addSupplier")}>
+                  Add new supplier
+                </button>
+              }
+              subHeader
+              subHeaderComponent={
+                <input
+                  type="text"
+                  className="search-supplier"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search here"
+                />
+              }
+              subHeaderAlign="left"
             />
-          }
-          subHeaderAlign="left"
-        />
-      </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="loader-spin">
+            <ClipLoader color="#000" />
+          </div>
+        </>
+      )}
+
       <Footer />
       <Toaster
         position="top-center"

@@ -279,6 +279,8 @@
     transition: 0.3s ease-in-out;
     /* right: 150; */
     /* margin-top: 65px; */
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-left: 350px;
 }
 
 .sub-category-container

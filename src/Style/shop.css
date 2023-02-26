@@ -244,3 +244,10 @@ input[type="range"]::-webkit-slider-thumb{
 }
 
 }
+
+.loader-spin{
+    margin-top: 25vh;
+    margin-left: 45vw;
+    height: 100vh;
+    
+}

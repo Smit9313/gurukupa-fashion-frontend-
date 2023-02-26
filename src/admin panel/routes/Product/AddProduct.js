@@ -10,6 +10,8 @@ import Switch from "@mui/material/Switch";
 import { Upload, message } from "antd";
 import { Toaster, toast } from "react-hot-toast";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 function AddProduct() {
   const width = true;
@@ -44,6 +46,8 @@ function AddProduct() {
   const [price, setPrice] = useState("");
   const [priceFlag, setPriceFlag] = useState(false);
   const [priceError, setPriceError] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const theme = createTheme({
     palette: {
@@ -211,6 +215,12 @@ function AddProduct() {
       formData.append("prod_desc", description);
       formData.append("prod_price", price);
 
+      toast.promise(loading, {
+        loading: "Uploading...",
+        success: "Product Added!",
+        error: "Error when fetching",
+      });
+
       try {
         axios
           .post("http://127.0.0.1:8000/admin-product/", formData, {
@@ -222,9 +232,10 @@ function AddProduct() {
           .then((response) => {
             console.log(response.data.message);
             if (response.data.message === "Success!") {
-              toast.success("Product added!", {
-                duration: 3000,
-              });
+              setLoading(true);
+              // toast.success("Product added!", {
+              //   duration: 3000,
+              // });
               setName("");
               setImages([]);
               setActive(true);

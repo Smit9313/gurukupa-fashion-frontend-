@@ -9,12 +9,14 @@ import Banner1 from '../components/Banner1.js';
 import Navbar from "../components/navbar/Navbar";
 import Slider from "react-slick";
 import HomeImages from "../data/HomeImages";
-import Category from '../components/Category';
+
+
+
 
 function Home() {
-
   const [user ,setUser] = useState(sessionStorage.getItem("token"));
 
+  
   const settings = {
     dots: true,
     infinite: true,
@@ -34,6 +36,7 @@ function Home() {
       <Navbar />
       {/* <div className="extra-space-home"></div> */}
       {/* <Category/> */}
+      
       <div className='slider'>
         {/* <h2> Single Item</h2> */}
         <Slider {...settings}>

@@ -5,6 +5,7 @@ import "../Style/register.css";
 import Footer from "./Footer.js";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import { isEmpty } from "lodash";
 
 function Register() {
   const [uname, setUname] = useState("");
@@ -27,6 +28,13 @@ function Register() {
   const [errorFlag, setErrorFlag] = useState(false);
 
   let history = useHistory();
+
+    const token = sessionStorage.getItem("token");
+
+    // Replace this with your actual check
+    if (!isEmpty (token)) {
+      history.replace("/");
+    }
 
   const validateRegister = (event) => {
     event.preventDefault();

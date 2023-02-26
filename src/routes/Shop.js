@@ -1,23 +1,24 @@
-import React,{useState, useEffect} from 'react';
-import {Link, useLocation} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useParams, useHistory } from "react-router-dom";
 import Footer from "../routes/Footer";
-import FeaturedProduct from '../components/FeaturedProduct';
-import '../Style/shop.css';
+import FeaturedProduct from "../components/FeaturedProduct";
+import "../Style/shop.css";
 import Navbar from "../components/navbar/Navbar";
-import axios from 'axios';
-
-
+import axios from "axios";
+import { ShopOutlined } from "@ant-design/icons";
+import { Breadcrumb } from "antd";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function Shop() {
   // const [items,setItem] = useState(ProductData);
 
   let { id } = useParams();
-  let {cat, subcat} = useParams();
-  let { kid, kidcat, kidsubcat} = useParams();
+  let { cat, subcat } = useParams();
+  let { kid, kidcat, kidsubcat } = useParams();
   const history = useHistory();
   const location = useLocation();
-
+  const [loading, setLoading] = useState(false);
 
   const [priceDisplay, setPrice] = useState(4000);
   const [maxPrice, setMaxPrice] = useState();
@@ -26,7 +27,7 @@ function Shop() {
   const [data, setData] = useState([]);
   const [product_data, setProductData] = useState(data);
 
-  const [mentoggle,setMentoggle] = useState(false);
+  const [mentoggle, setMentoggle] = useState(false);
   const [womentoggle, setWomentoggle] = useState(false);
   const [kidtoggle, setKidtoggle] = useState(false);
 
@@ -40,16 +41,17 @@ function Shop() {
       axios
         .get("http://127.0.0.1:8000/customer-product/", { headers })
         .then((response) => {
-          console.log(response.data)
-          setData(response.data.data);      
-          // console.log(response.data.data);    
+          setLoading(false);
+          console.log(response.data);
+          setData(response.data.data);
+          // console.log(response.data.data);
+          setLoading(true);
         })
         .catch((error) => {
           console.log(error);
         });
     } catch (err) {}
-  },[]);
-
+  }, []);
 
   useEffect(() => {
     // All
@@ -60,14 +62,12 @@ function Shop() {
       setPrice(maxPrice);
     }
 
-
     try {
       axios
         .get("http://127.0.0.1:8000/navbar-shop-category/")
         .then((response) => {
-          response.data.data.forEach(element => {
-           
-            if(id === element.cat_type){
+          response.data.data.forEach((element) => {
+            if (id === element.cat_type) {
               const updatedItem = data.filter((curEle) => {
                 //  console.log(curEle.cat_type === catItem);
                 return curEle.cat_type === element.cat_type;
@@ -83,38 +83,35 @@ function Shop() {
               setPrice(maxPrice);
             }
 
-            element.Category.forEach((element1)=>{
+            element.Category.forEach((element1) => {
               // console.log(element1)
-                if (cat === element.cat_type && subcat === element1.cat_title) {
-                  const updatedItem = data.filter((curEle) => {
-                    //  console.log(curEle.cat_type === catItem);
-                    return (
-                      curEle.cat_type === element.cat_type &&
-                      curEle.cat_title === element1.cat_title
-                    );
-                  });
-                  //  console.log(updatedItem);
-                  setProductData(updatedItem);
-                  setMinPrice(
-                    Math.min(...updatedItem.map((data) => data.prod_price))
+              if (cat === element.cat_type && subcat === element1.cat_title) {
+                const updatedItem = data.filter((curEle) => {
+                  //  console.log(curEle.cat_type === catItem);
+                  return (
+                    curEle.cat_type === element.cat_type &&
+                    curEle.cat_title === element1.cat_title
                   );
-                  setMaxPrice(
-                    Math.max(...updatedItem.map((data) => data.prod_price))
-                  );
-                  setPrice(maxPrice);
-                }
-            })
-
+                });
+                //  console.log(updatedItem);
+                setProductData(updatedItem);
+                setMinPrice(
+                  Math.min(...updatedItem.map((data) => data.prod_price))
+                );
+                setMaxPrice(
+                  Math.max(...updatedItem.map((data) => data.prod_price))
+                );
+                setPrice(maxPrice);
+              }
+            });
           });
-          })
+        })
         .catch((error) => {
           console.log(error);
         });
     } catch (err) {
       console.log("Error");
     }
-
-
 
     // Men
     // if (id === "Men") {
@@ -513,32 +510,29 @@ function Shop() {
     //   setPrice(maxPrice);
     // }
   }, [data, id, cat, subcat, maxPrice, kid, kidcat, kidsubcat]);
-  
 
+  const filterItem = (catItem) => {
+    if (catItem === "Men") {
+      setMentoggle(!mentoggle);
+      setWomentoggle(false);
+      setKidtoggle(false);
+    } else if (catItem === "Women") {
+      setWomentoggle(!womentoggle);
+      setMentoggle(false);
+      setKidtoggle(false);
+    } else {
+    }
 
-
-  const filterItem = (catItem) =>{
-      if(catItem === "Men"){
-        setMentoggle(!mentoggle)
-        setWomentoggle(false)
-        setKidtoggle(false)
-      }else if(catItem === "Women"){
-        setWomentoggle(!womentoggle);
-        setMentoggle(false)
-        setKidtoggle(false)
-      }else{}
-
-       if(catItem === "Men"){
-        history.push("/shop/Men");
-       }
-      if (catItem === "Women") {
-        history.push("/shop/Women");
-      }
-
-  }
+    if (catItem === "Men") {
+      history.push("/shop/Men");
+    }
+    if (catItem === "Women") {
+      history.push("/shop/Women");
+    }
+  };
 
   const filterKidsItem = (ele) => {
-    if(ele === "Kids"){
+    if (ele === "Kids") {
       setKidtoggle(!kidtoggle);
       setWomentoggle(false);
       setMentoggle(false);
@@ -548,14 +542,17 @@ function Shop() {
     }
   };
 
-  const allItemHandler = () =>{
-      history.push("/shop/all");
-  }
+  const allItemHandler = () => {
+    history.push("/shop/all");
+  };
 
-  const searchProductHandler = (e) =>{
-      setsearchTerm(e.target.value);
-  }
+  const searchProductHandler = (e) => {
+    setsearchTerm(e.target.value);
+  };
 
+  let string_with_slashes = location.pathname.substring(1);
+  let array_of_elements = string_with_slashes.split("/");
+  console.log(array_of_elements);
 
   return (
     <>
@@ -633,52 +630,77 @@ function Shop() {
           )}
         </div>
       </div> */}
+      {loading ? (
+        <>
+          <div className="filters">
+            <div className="filter-product">
+              <h3>Price</h3>
+              <div className="price-range">
+                <p>{minPrice}</p>
+                <p>{maxPrice}</p>
+              </div>
+              <input
+                type="range"
+                min={minPrice}
+                name="price"
+                max={maxPrice}
+                value={priceDisplay}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+              <br />
+              <p>{priceDisplay}</p>
+            </div>
 
-      <div className="filters">
-        <div className="filter-product">
-          <h3>Price</h3>
-          <div className="price-range">
-            <p>{minPrice}</p>
-            <p>{maxPrice}</p>
+            <div className="search-product">
+              <input
+                type="text"
+                className="search-field"
+                placeholder="Search product"
+                value={searchTerm}
+                onChange={searchProductHandler}
+              />
+            </div>
           </div>
-          <input
-            type="range"
-            min={minPrice}
-            name="price"
-            max={maxPrice}
-            value={priceDisplay}
-            onChange={(e) => setPrice(e.target.value)}
+
+          {
+            <div className="url-path">
+              {/* <p>{location.pathname.substring(1)}</p> */}
+              <Breadcrumb>
+                <Breadcrumb.Item>
+                  <Link to={`/${array_of_elements[0]}`}>
+                    <ShopOutlined /> Shop
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <Link to={`/${array_of_elements[0]}/${array_of_elements[1]}`}>
+                    {array_of_elements[1]}
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>{array_of_elements[2]}</Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+          }
+
+          <FeaturedProduct
+            items={product_data.filter((val) => {
+              return (
+                val.prod_price <= priceDisplay &&
+                (val.prod_name
+                  .toLowerCase()
+                  .includes(searchTerm.toLocaleLowerCase()) ||
+                  val.prod_desc
+                    .toLowerCase()
+                    .includes(searchTerm.toLocaleLowerCase()))
+              );
+            })}
           />
-          <br />
-          <p>{priceDisplay}</p>
+        </>
+      ) : (
+        <div className="loader-spin">
+          <ClipLoader color="#000" />
         </div>
+      )}
 
-        <div className="search-product">
-          <input
-            type="text"
-            className="search-field"
-            placeholder="Search product"
-            value={searchTerm}
-            onChange={searchProductHandler}
-          />
-        </div>
-      </div>
-
-      {
-        <div className="url-path">
-          <p>{location.pathname.substring(1).replace(/\//g, " >> ")}</p>
-        </div>
-      }
-
-      <FeaturedProduct
-        items={product_data.filter((val) => {
-          return (
-            val.prod_price <= priceDisplay &&
-            (val.prod_name.toLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
-             val.prod_desc.toLowerCase().includes(searchTerm.toLocaleLowerCase()))
-          );
-        })}
-      />
       <Footer />
       {/* <Outlet /> */}
     </>

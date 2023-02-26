@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "../components/navbar/Navbar";
 import axios from "axios";
+import { isEmpty } from "lodash";
 
 function Login() {
   const [role, setRole] = useState("");
@@ -25,6 +26,15 @@ function Login() {
   //   sessionStorage.setItem("role", role);
   //   console.log(role)
   // }, [role]);
+
+  const token = sessionStorage.getItem("token");
+
+    // Replace this with your actual check
+   if (!isEmpty(token)) {
+     history.replace("/");
+   }
+
+
 
   const validateRegister = (event) => {
     event.preventDefault();

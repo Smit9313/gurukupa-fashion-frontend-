@@ -9,6 +9,7 @@ import { ConfigProvider } from "antd";
 import { message, Popconfirm } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function ManageDiscount() {
 
@@ -18,6 +19,7 @@ function ManageDiscount() {
    const [search, setSearch] = useState("");
    const [filteredSupplier, setFilteredSupplier] = useState([]);
    const [deleteFlag, setDeleteFlag] = useState(false);
+   const [loading, setLoading] = useState(false);
 
    useEffect(() => {
      const token = sessionStorage.getItem("token");
@@ -26,8 +28,10 @@ function ManageDiscount() {
        axios
          .get("http://127.0.0.1:8000/product-discount/", { headers })
          .then((response) => {
+          setLoading(false);
            setDiscount(response.data.data);
            setFilteredSupplier(response.data.data);
+           setLoading(true);
          })
          .catch((error) => {
            console.log(error);
@@ -150,32 +154,43 @@ function ManageDiscount() {
   return (
     <>
       <Header name="Manage Discount" path="admin / manageDiscount" />
-      <div className="suplier-list">
-        <DataTable
-          columns={columns}
-          data={filteredSupplier}
-          pagination
-          highlightOnHover
-          actions={
-            <button
-              className="supplier-add-btn"
-              onClick={() => history.push("/admin/addSupplier")}>
-              Add new discount
-            </button>
-          }
-          subHeader
-          subHeaderComponent={
-            <input
-              type="text"
-              className="search-supplier"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search here"
+      {loading ? (
+        <>
+          <div className="suplier-list">
+            <DataTable
+              columns={columns}
+              data={filteredSupplier}
+              pagination
+              highlightOnHover
+              actions={
+                <button
+                  className="supplier-add-btn"
+                  onClick={() => history.push("/admin/addSupplier")}>
+                  Add new discount
+                </button>
+              }
+              subHeader
+              subHeaderComponent={
+                <input
+                  type="text"
+                  className="search-supplier"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search here"
+                />
+              }
+              subHeaderAlign="left"
             />
-          }
-          subHeaderAlign="left"
-        />
-      </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="loader-spin">
+            <ClipLoader color="#000" />
+          </div>
+        </>
+      )}
+
       <Toaster
         position="top-center"
         containerStyle={{

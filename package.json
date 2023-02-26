@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.0.1",
     "@coreui/react": "^4.5.2",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -50,6 +51,7 @@
     "react-toastify": "^9.1.1",
     "react-uploader": "^3.4.0",
     "react-use-clock": "^0.0.4",
+    "react-webcam": "^7.0.1",
     "set-cookie": "^0.0.4",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.6",

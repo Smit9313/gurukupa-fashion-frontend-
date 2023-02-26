@@ -9,6 +9,8 @@ import CountUp from "react-countup";
 import { Toaster, toast } from "react-hot-toast";
 import { isEmpty } from "lodash";
 import { Divider } from "antd";
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 const formatter = (value) => <CountUp end={value} separator="," />;
 
@@ -38,6 +40,7 @@ function Dashboard() {
   const [count, setCount] = useState();
   const [userCount, setUserCount] = useState();
   const [orderCount, setOrderCount] = useState();
+  const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState();
 
@@ -85,9 +88,11 @@ function Dashboard() {
       axios
         .get("http://127.0.0.1:8000/admin-contact-us/", { headers })
         .then((response) => {
+          setLoading(false);
           console.log(response);
           // setCatType(response.data.data);
           setData(response.data.data);
+          setLoading(true);
         })
         .catch((error) => {
           console.log(error);
@@ -269,81 +274,91 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="suplier-list">
-          {!isEmpty(orderCount) && (
-            <div className="dashboard-statistic">
-              <div className="dashboard-statistic-sub1">
-                <Card bordered={false} className="dashboard-statistic-card">
-                  <Statistic
-                    title="Users"
-                    value={userCount}
-                    precision={2}
-                    valueStyle={{
-                      color: "#3f8600",
-                    }}
-                    formatter={formatter}
-                  />
-                </Card>
-                <Divider
-                  type="vertical"
-                  style={{ height: "150px", backgroundColor: "#000"}}
-                />
+        {loading ? (
+          <>
+            <div className="suplier-list">
+              {!isEmpty(orderCount) && (
+                <div className="dashboard-statistic">
+                  <div className="dashboard-statistic-sub1">
+                    <Card bordered={false} className="dashboard-statistic-card">
+                      <Statistic
+                        title="Users"
+                        value={userCount}
+                        precision={2}
+                        valueStyle={{
+                          color: "#3f8600",
+                        }}
+                        formatter={formatter}
+                      />
+                    </Card>
+                    <Divider
+                      type="vertical"
+                      style={{ height: "150px", backgroundColor: "#000" }}
+                    />
 
-                <Card bordered={false} className="dashboard-statistic-card">
-                  <Statistic
-                    title="Delivered"
-                    value={orderCount.Delivered}
-                    precision={2}
-                    valueStyle={{
-                      color: "#3f8600",
-                    }}
-                    formatter={formatter}
-                  />
-                </Card>
-              </div>
-              <div className="dashboard-statistic-sub1">
-                <Card bordered={false} className="dashboard-statistic-card">
-                  <Statistic
-                    title="Pending"
-                    value={orderCount.Pending}
-                    precision={2}
-                    valueStyle={{
-                      color: "#fca503",
-                    }}
-                    formatter={formatter}
-                  />
-                </Card>
-                
-                <Card bordered={false} className="dashboard-statistic-card">
-                  <Statistic
-                    title="Failed"
-                    value={orderCount.Failed}
-                    precision={2}
-                    valueStyle={{
-                      color: "#cf1322",
-                    }}
-                    formatter={formatter}
-                  />
-                </Card>
-              </div>
+                    <Card bordered={false} className="dashboard-statistic-card">
+                      <Statistic
+                        title="Delivered"
+                        value={orderCount.Delivered}
+                        precision={2}
+                        valueStyle={{
+                          color: "#3f8600",
+                        }}
+                        formatter={formatter}
+                      />
+                    </Card>
+                  </div>
+                  <div className="dashboard-statistic-sub1">
+                    <Card bordered={false} className="dashboard-statistic-card">
+                      <Statistic
+                        title="Pending"
+                        value={orderCount.Pending}
+                        precision={2}
+                        valueStyle={{
+                          color: "#fca503",
+                        }}
+                        formatter={formatter}
+                      />
+                    </Card>
+
+                    <Card bordered={false} className="dashboard-statistic-card">
+                      <Statistic
+                        title="Failed"
+                        value={orderCount.Failed}
+                        precision={2}
+                        valueStyle={{
+                          color: "#cf1322",
+                        }}
+                        formatter={formatter}
+                      />
+                    </Card>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        <div className="suplier-list">
-          <DataTable
-            columns={columns}
-            data={data}
-            title="Manage Messages"
-            pagination
-            sortable
-            sortIcon={<SortIcon />}
-            customStyles={customStyles}
-            highlightOnHover
-            subHeader
-            subHeaderAlign="left"
-          />
-        </div>
+            <div className="suplier-list">
+              <DataTable
+                columns={columns}
+                data={data}
+                title="Manage Messages"
+                pagination
+                sortable
+                sortIcon={<SortIcon />}
+                customStyles={customStyles}
+                highlightOnHover
+                subHeader
+                subHeaderAlign="left"
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="loader-spin">
+              <ClipLoader color="#000" />
+            </div>
+          </>
+        )}
       </div>
       <Toaster
         position="top-center"

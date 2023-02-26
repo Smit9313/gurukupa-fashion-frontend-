@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "../Style/sidebar.css";
 
 function Sidebar({ url }) {
-  const [sidebar, setSidebar] = useState(false);
+  const [sidebar, setSidebar] = useState(true);
   const [supplier, setSupplier] = useState(true);
   const [purchase, setPurchase] = useState(true);
   const [category, setCategory] = useState(true);
@@ -11,7 +11,7 @@ function Sidebar({ url }) {
   const [order, setOrder] = useState(true);
   const [discount, setDiscount] = useState(true);
   const [report, setReport] = useState(true);
-  const [lock, setLock] = useState(true);
+  const [lock, setLock] = useState(false);
   const [admin, setAdmin] = useState(true);
   // const [urlPath, setUrlPath] =useState(url);
 
@@ -168,7 +168,7 @@ function Sidebar({ url }) {
                   </section>
                 <i
                   className={
-                    supplier
+                    admin
                       ? "bx bx-right-arrow-alt icon"
                       : "bx bx-down-arrow-alt icon"
                   }></i>

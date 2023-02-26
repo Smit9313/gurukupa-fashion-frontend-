@@ -9,11 +9,12 @@ import { ColorRing } from "react-loader-spinner";
 import "../../Style/allorder.css";
 import { Button, Input, Space, Switch } from "antd";
 import qs from "qs";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function DeliverdOrder() {
   const [deliveredOrderData, setDeliveredOrderData] = useState();
 
-  const [flag, setFlag] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [input, setInput] = useState(false);
 
   useEffect(() => {
@@ -27,13 +28,13 @@ function DeliverdOrder() {
           { headers }
         )
         .then((response) => {
-          setFlag(false);
+          setLoading(false);
           console.log(response)
           if (response.data.message === "Success!") {
             setDeliveredOrderData(response.data.data);
           }
 
-          setFlag(true);
+          setLoading(true);
         })
         .catch((error) => {
           console.log(error);
@@ -226,7 +227,7 @@ function DeliverdOrder() {
   return (
     <>
       <Header name="Delivered Order" path="admin / deliveredOrder" />
-      {flag ? (
+      {loading ? (
         <div className="suplier-list">
           <DataTable
             columns={columns}
@@ -237,16 +238,8 @@ function DeliverdOrder() {
           />
         </div>
       ) : (
-        <div className="color-ring">
-          <ColorRing
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="blocks-loading"
-            wrapperStyle={{}}
-            wrapperClass="blocks-wrapper"
-            colors={["#000", "#000", "#000", "#000", "#000"]}
-          />
+        <div className="loader-spin">
+          <ClipLoader color="#000" />
         </div>
       )}
     </>

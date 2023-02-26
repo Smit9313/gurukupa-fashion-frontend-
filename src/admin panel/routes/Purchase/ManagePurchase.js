@@ -9,9 +9,11 @@ import { message, Popconfirm } from "antd";
 import "../../Style/managepurchase.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function ManagePurchase() {
   const [purchaseData, setpurchaseData] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -20,8 +22,10 @@ function ManagePurchase() {
       axios
         .get("http://127.0.0.1:8000/admin-purchase/", { headers })
         .then((response) => {
+          setLoading(false);
           console.log(response);
           setpurchaseData(response.data.data);
+          setLoading(true);
         })
         .catch((error) => {
           console.log(error);
@@ -113,14 +117,24 @@ function ManagePurchase() {
   return (
     <>
       <Header name="Manage Purchase" path="admin / managePurchase" />
-      <div className="suplier-list">
-        <DataTable
-          columns={columns}
-          data={purchaseData}
-          pagination
-          highlightOnHover
-        />
-      </div>
+      {loading ? (
+        <>
+          <div className="suplier-list">
+            <DataTable
+              columns={columns}
+              data={purchaseData}
+              pagination
+              highlightOnHover
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="loader-spin">
+            <ClipLoader color="#000" />
+          </div>
+        </>
+      )}
     </>
   );
 }

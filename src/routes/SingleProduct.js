@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../Style/singleproduct.css";
-import { useParams } from "react-router-dom";
+import {Link, useParams } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "../components/navbar/Navbar";
 import axios from "axios";
@@ -12,6 +12,10 @@ import { Toaster, toast } from "react-hot-toast";
 import { isEmpty } from "lodash";
 import { Rate } from "antd";
 import RelatedProduct from "../components/RelatedProduct";
+import Webcam from "react-webcam";
+import { ShopOutlined } from "@ant-design/icons";
+import { Breadcrumb } from "antd";
+
 
 function SingleProduct() {
   // const [val,setVal] = useState(1);
@@ -174,6 +178,27 @@ function SingleProduct() {
             </div>
 
             <div className="single-pro-details">
+              <Breadcrumb>
+                <Breadcrumb.Item>
+                  <Link to={`/shop`}>
+                    <ShopOutlined /> Shop
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <Link to={`/shop/${data.cat_type}`}>{data.cat_type}</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <Link to={`/shop/${data.cat_type}/${data.cat_title}`}>
+                    {data.cat_title}
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  
+                    {data.prod_name}
+                  
+                </Breadcrumb.Item>
+              </Breadcrumb>
+              <br/>
               <h1>{data.prod_name}</h1>
               <Rate disabled defaultValue={data.rating} />
               <p>({data.user_count})</p>
@@ -235,6 +260,9 @@ function SingleProduct() {
                 className="normal"
                 onClick={handleAddToCart}>
                 Add to cart
+              </button>
+              <button type="submit" className="normal">
+                Megic
               </button>
               <h4>Product details</h4>
               <span>{data.prod_desc}</span>
