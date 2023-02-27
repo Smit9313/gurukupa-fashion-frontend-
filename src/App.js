@@ -19,6 +19,7 @@ import ForgotPassword from "./routes/ForgotPassword";
 import ChangePassword from "./routes/ChangePassword";
 import jwtDecode from "jwt-decode";
 import Invoice from "./routes/Invoice";
+import Megic from "./routes/Megic";
 
 
 
@@ -64,7 +65,7 @@ function App() {
         <Route exact path="/footer" component={Footer} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/cart-products" component={CartProducts} />
-
+        <Route exact path="/megic" component={Megic} />
         <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/resetpassword/:key" component={ChangePassword} />
         {user && role === "admin" && (

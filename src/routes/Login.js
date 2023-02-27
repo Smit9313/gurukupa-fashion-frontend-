@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "../components/navbar/Navbar";
 import axios from "axios";
+import { Input } from "antd";
 import { isEmpty } from "lodash";
 
 function Login() {
@@ -145,7 +146,7 @@ function Login() {
               </div>
               <div className="input-box">
                 <span className="details">Password</span>
-                <input
+                <Input.Password
                   type="password"
                   placeholder="Enter your password"
                   onChange={(e) => setPass(e.target.value)}

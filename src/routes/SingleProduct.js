@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../Style/singleproduct.css";
-import {Link, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "../components/navbar/Navbar";
 import axios from "axios";
@@ -16,11 +17,11 @@ import Webcam from "react-webcam";
 import { ShopOutlined } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
 
-
 function SingleProduct() {
   // const [val,setVal] = useState(1);
   const [url, setUrl] = useState("cloths/1.jpg");
   let { product_id } = useParams();
+  const history = useHistory();
 
   const [data, setData] = useState("");
   const [prod_qty, setProd_qty] = useState(1);
@@ -39,7 +40,7 @@ function SingleProduct() {
           if (response.data.message === "Success!") {
             setData(response.data.data);
             setUrl(response.data.data.prod_image[0]);
-            console.log(response.data.data.cat_id)
+            console.log(response.data.data.cat_id);
 
             try {
               axios
@@ -47,11 +48,10 @@ function SingleProduct() {
                   `http://127.0.0.1:8000/suggested-product/${response.data.data.cat_id}`
                 )
                 .then((response) => {
-                  console.log(response)
-                  if(response.data.message === "Success!"){
-                     setrelatedProduct(response.data.data);
+                  console.log(response);
+                  if (response.data.message === "Success!") {
+                    setrelatedProduct(response.data.data);
                   }
-                 
                 })
                 .catch((error) => {
                   console.log(error);
@@ -135,6 +135,11 @@ function SingleProduct() {
     }
   };
 
+  const handleMegicClick = () => {
+    const token = sessionStorage.getItem("token");
+    history.push("/megic");
+  };
+
   return (
     <>
       <Navbar navrender={navrender} />
@@ -192,13 +197,9 @@ function SingleProduct() {
                     {data.cat_title}
                   </Link>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                  
-                    {data.prod_name}
-                  
-                </Breadcrumb.Item>
+                <Breadcrumb.Item>{data.prod_name}</Breadcrumb.Item>
               </Breadcrumb>
-              <br/>
+              <br />
               <h1>{data.prod_name}</h1>
               <Rate disabled defaultValue={data.rating} />
               <p>({data.user_count})</p>
@@ -261,7 +262,10 @@ function SingleProduct() {
                 onClick={handleAddToCart}>
                 Add to cart
               </button>
-              <button type="submit" className="normal">
+              <button
+                type="submit"
+                className="normal"
+                onClick={handleMegicClick}>
                 Megic
               </button>
               <h4>Product details</h4>

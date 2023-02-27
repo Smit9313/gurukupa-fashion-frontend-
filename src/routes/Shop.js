@@ -9,6 +9,11 @@ import axios from "axios";
 import { ShopOutlined } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
 import ClipLoader from "react-spinners/ClipLoader";
+import { isEmpty, isWeakMap } from "lodash";
+import { ConfigProvider, Radio } from "antd";
+import { Result } from "antd";
+import { Button } from "antd";
+import { FrownOutlined } from "@ant-design/icons";
 
 function Shop() {
   // const [items,setItem] = useState(ProductData);
@@ -55,7 +60,8 @@ function Shop() {
 
   useEffect(() => {
     // All
-    if (id === "all") {
+    
+    if (id === "all" && !isEmpty(data)) {
       setProductData(data);
       setMinPrice(Math.min(...data.map((data) => data.prod_price)));
       setMaxPrice(Math.max(...data.map((data) => data.prod_price)));
@@ -681,19 +687,52 @@ function Shop() {
             </div>
           }
 
-          <FeaturedProduct
-            items={product_data.filter((val) => {
-              return (
-                val.prod_price <= priceDisplay &&
-                (val.prod_name
-                  .toLowerCase()
-                  .includes(searchTerm.toLocaleLowerCase()) ||
-                  val.prod_desc
+          {!isEmpty(product_data) ? (
+            <FeaturedProduct
+              items={product_data.filter((val) => {
+                return (
+                  val.prod_price <= priceDisplay &&
+                  (val.prod_name
                     .toLowerCase()
-                    .includes(searchTerm.toLocaleLowerCase()))
-              );
-            })}
-          />
+                    .includes(searchTerm.toLocaleLowerCase()) ||
+                    val.prod_desc
+                      .toLowerCase()
+                      .includes(searchTerm.toLocaleLowerCase()))
+                );
+              })}
+            />
+          ) : (
+            <>
+              <div className="not-found">
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Button: {
+                        colorPrimary: "#000",
+                        colorPrimaryHover: "#000",
+                        colorPrimaryClick: "#000",
+                        colorPrimaryActive: "#000",
+                      },
+                      Icon: {
+                        colorPrimary: "#000",
+                      },
+                    },
+                  }}>
+                  <Result
+                    icon={<FrownOutlined style={{ color: "#000" }} />}
+                    title="No products found!"
+                    extra={
+                      <Button
+                        type="primary"
+                        onClick={() => window.location.reload(true)}>
+                        Refresh
+                      </Button>
+                    }
+                  />
+                </ConfigProvider>
+              </div>
+            </>
+          )}
         </>
       ) : (
         <div className="loader-spin">
