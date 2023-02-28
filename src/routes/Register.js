@@ -6,6 +6,7 @@ import Footer from "./Footer.js";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import { isEmpty } from "lodash";
+import { Input } from "antd";
 
 function Register() {
   const [uname, setUname] = useState("");
@@ -224,21 +225,33 @@ function Register() {
                 {!emailFlag && <p>{emailError}</p>}
                 {errorFlag && <p>{error}</p>}
               </div>
-              <div className="input-box">
+              <div className="">
                 <span className="details">Password</span>
-                <input
+                <Input.Password
                   type="password"
-                  placeholder="Enter your password"
+                  style={{
+                    height: "45px",
+                    borderBottomWidth: "2px",
+                    borderColor: "#000000",
+                    marginBottom: "30px",
+                  }}
                   onChange={(e) => setPass(e.target.value)}
+                  placeholder="Enter your password"
                 />
                 {!passFlag && <p>{passError}</p>}
               </div>
-              <div className="input-box">
+              <div className="">
                 <span className="details">Confirm Password</span>
-                <input
+                <Input.Password
                   type="password"
-                  placeholder="Confirm your password"
+                  style={{
+                    height: "45px",
+                    borderBottomWidth: "2px",
+                    borderColor: "#000000",
+                    marginBottom: "30px",
+                  }}
                   onChange={(e) => setPassCon(e.target.value)}
+                  placeholder="Confirm your password"
                 />
                 {!passConFlag && <p>{passConError}</p>}
               </div>

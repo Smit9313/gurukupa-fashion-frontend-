@@ -65,8 +65,10 @@ function Home() {
           buttonText = 'Shop Now'
           btnClass = 'show'
             /> */}
-      <Banner />
+      {/* <Banner /> */}
+
       {/* <FeaturedProduct items={ProductData} title="Featured Products" des="Summer Collection New morden Design"/> */}
+      
       <Banner1 />
 
       <Footer />

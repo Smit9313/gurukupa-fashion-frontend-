@@ -4,11 +4,14 @@ import "./NavbarStyle.css";
 import jwtDecode from "jwt-decode";
 import { ConfigProvider, Badge } from "antd";
 import axios from "axios";
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Dropdown, message, Space, Tooltip } from "antd";
 import { isEmpty } from "lodash";
 
 const UserContext = createContext();
 
 function Navbar({ navrender }) {
+  const history = useHistory();
   const [icon, setIcon] = useState(false);
   const [arrow, setArrow] = useState(true);
   const [arrowMan, setArrowMan] = useState(true);
@@ -19,8 +22,38 @@ function Navbar({ navrender }) {
   const [token, setToken] = useState(sessionStorage.getItem("token"));
   const [role, setRole] = useState("");
   const [countCart, setCountCart] = useState(0);
+  const [userData, setUserData] = useState();
 
   const [navData, setNavData] = useState();
+
+  const items = [
+    {
+      label: "Profile",
+      key: "1",
+      icon: <UserOutlined />,
+    },
+    {
+      label: "logout",
+      key: "2",
+      icon: <LogoutOutlined />,
+    },
+  ];
+
+  const handleMenuClick = (e) => {
+    if (e.key === "1") {
+      history.push("/profile");
+    }
+    if (e.key === "2") {
+      sessionStorage.removeItem("token");
+      history.push("/home");
+      window.location.reload(true);
+    }
+  };
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
+  };
 
   useEffect(() => {
     try {
@@ -38,7 +71,25 @@ function Navbar({ navrender }) {
     }
   }, []);
 
-  const history = useHistory();
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+
+    try {
+      axios
+        .get("http://127.0.0.1:8000/user-profile/", { headers })
+        .then((response) => {
+          console.log(response);
+          //  setNavData(response.data.data);
+          setUserData(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log("Error");
+    }
+  }, []);
 
   const handleClick = () => {
     setIcon(!icon);
@@ -150,13 +201,15 @@ function Navbar({ navrender }) {
                     return (
                       <div className="mb-category-2" key={index}>
                         <div className="cat-man">
-                          <NavLink to={`/shop/${val.cat_type}`} onClick={handleClick}>
+                          <NavLink
+                            to={`/shop/${val.cat_type}`}
+                            onClick={handleClick}>
                             <h4>{val.cat_type}</h4>
                           </NavLink>
                         </div>
                         <hr />
 
-                        {val.Category.map((val1,index1) => {
+                        {val.Category.map((val1, index1) => {
                           return (
                             <div className="man-cat-items" key={index1}>
                               <NavLink
@@ -373,7 +426,7 @@ function Navbar({ navrender }) {
 
             {token !== null && role === "admin" && (
               <>
-                <li>
+                {/* <li>
                   <NavLink
                     to="/profile"
                     className="nav-links"
@@ -381,7 +434,7 @@ function Navbar({ navrender }) {
                     onClick={handleProfileClick}>
                     PROFILE
                   </NavLink>
-                </li>
+                </li> */}
 
                 <li>
                   <NavLink
@@ -392,7 +445,7 @@ function Navbar({ navrender }) {
                   </NavLink>
                 </li>
 
-                <li>
+                {/* <li>
                   <a
                     // to="/register"
                     href="/"
@@ -401,11 +454,11 @@ function Navbar({ navrender }) {
                     onClick={handleClickLogout}>
                     LOG-OUT
                   </a>
-                </li>
+                </li> */}
               </>
             )}
 
-            {token !== null && role === "customer" && (
+            {/* {token !== null && role === "customer" && !isEmpty(userData) && (
               <>
                 <li>
                   <NavLink
@@ -413,11 +466,11 @@ function Navbar({ navrender }) {
                     className="nav-links"
                     activeClassName="active-link"
                     onClick={handleProfileClick}>
-                    PROFILE
+                    {userData.name}
                   </NavLink>
-                </li>
+                </li> */}
 
-                <li>
+                {/* <li>
                   <a
                     // to="/register"
                     href="/"
@@ -426,9 +479,9 @@ function Navbar({ navrender }) {
                     onClick={handleClickLogout}>
                     LOG-OUT
                   </a>
-                </li>
-              </>
-            )}
+                </li> */}
+              {/* </>
+            )} */}
             {/* <li>
             <NavLink
               to="/profile"
@@ -439,34 +492,91 @@ function Navbar({ navrender }) {
             </NavLink>
           </li> */}
           </ul>
-          <Link to="/cart-products">
-            <div className="cat-icon-style">
-              <ConfigProvider
-                theme={{
-                  colorPrimary: "#000",
-                  colorPrimaryHover: "#000",
-                  colorErrorText: "#000",
-                  colorError: "#000",
-                }}>
-                <Badge
-                  count={countCart}
-                  showZero
-                  className="cart-img"
-                  style={{
-                    backgroundColor: "#000",
+
+          <div className="icon-flex">
+            {token !== null && !isEmpty(userData) && (
+              <>
+                <div className="profile-icon-style">
+                  <ConfigProvider
+                    theme={{
+                      components: {
+                        UserOutlined: {
+                          colorPrimary: "#000",
+                          colorPrimaryHover: "#000",
+                          colorPrimaryBorder: "#000",
+                          colorPrimaryBorderHover: "#000",
+                          colorPrimaryText: "#000",
+                        },
+                      },
+                    }}>
+                    <Dropdown menu={menuProps}>
+                      <Space style={{cursor:"pointer"}}>
+                        {userData.name}
+                        <UserOutlined
+                          style={{ fontSize: "25px", color: "black" }}
+                        />
+                      </Space>
+                    </Dropdown>
+                  </ConfigProvider>
+                </div>
+              </>
+            )}
+            <Link to="/cart-products">
+              <div className="cat-icon-style">
+                <ConfigProvider
+                  theme={{
+                    colorPrimary: "#000",
+                    colorPrimaryHover: "#000",
+                    colorErrorText: "#000",
+                    colorError: "#000",
                   }}>
-                  <img
-                    src="/logo/shopping-cart.png"
-                    alt=""
+                  <Badge
+                    count={countCart}
+                    showZero
                     className="cart-img"
-                    height="35px"
-                    width="35px"
-                  />
-                </Badge>
-              </ConfigProvider>
-            </div>
-          </Link>
+                    style={{
+                      backgroundColor: "#000",
+                    }}>
+                    <img
+                      src="/logo/shopping-cart.png"
+                      alt=""
+                      className="cart-img"
+                      height="35px"
+                      width="35px"
+                    />
+                  </Badge>
+                </ConfigProvider>
+              </div>
+            </Link>
+          </div>
+
           <div className="menu-icons">
+            {token !== null && (
+              <>
+                <div className="profile-icon-style">
+                  <ConfigProvider
+                    theme={{
+                      components: {
+                        UserOutlined: {
+                          colorPrimary: "#000",
+                          colorPrimaryHover: "#000",
+                          colorPrimaryBorder: "#000",
+                          colorPrimaryBorderHover: "#000",
+                          colorPrimaryText: "#000",
+                        },
+                      },
+                    }}>
+                    <Dropdown menu={menuProps}>
+                      <Space>
+                        <UserOutlined
+                          style={{ fontSize: "25px", color: "black" }}
+                        />
+                      </Space>
+                    </Dropdown>
+                  </ConfigProvider>
+                </div>
+              </>
+            )}
             <Link to="/cart-products">
               <div className="cart-icon-mobile">
                 <Badge

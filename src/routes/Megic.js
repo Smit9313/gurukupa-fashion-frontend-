@@ -20,7 +20,7 @@ function Megic() {
     e.preventDefault();
 
     if (!isEmpty(hight) && !isEmpty(weight) && !isEmpty(gender)) {
-      console.log("valid");
+      // console.log("valid");
       setForm(false);
       setTool(true);
 
@@ -88,7 +88,7 @@ function Megic() {
             )}
             {tool && (
               <>
-                <BodyMeasurements />
+                <BodyMeasurements hight={hight} weight={weight} gender={gender} />
               </>
             )}
           </ConfigProvider>

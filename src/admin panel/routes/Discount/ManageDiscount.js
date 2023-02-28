@@ -165,7 +165,7 @@ function ManageDiscount() {
               actions={
                 <button
                   className="supplier-add-btn"
-                  onClick={() => history.push("/admin/addSupplier")}>
+                  onClick={() => history.push("/admin/addDiscount")}>
                   Add new discount
                 </button>
               }

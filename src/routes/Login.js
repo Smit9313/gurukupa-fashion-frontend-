@@ -144,10 +144,12 @@ function Login() {
                 {!emailFlag && <p>{emailError}</p>}
                 {errorFlag && <p>{error}</p>}
               </div>
-              <div className="input-box">
+
+              <div className="">
                 <span className="details">Password</span>
                 <Input.Password
                   type="password"
+                  style={{height:"45px",borderBottomWidth: "2px",borderColor: "#000000",marginBottom:"30px"}}
                   placeholder="Enter your password"
                   onChange={(e) => setPass(e.target.value)}
                 />

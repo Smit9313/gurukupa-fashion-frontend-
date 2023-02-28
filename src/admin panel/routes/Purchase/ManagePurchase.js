@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Header from "../../components/Header";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -12,8 +13,11 @@ import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import ClipLoader from "react-spinners/ClipLoader";
 
 function ManagePurchase() {
-  const [purchaseData, setpurchaseData] = useState();
+  const history = useHistory();
+  const [purchaseData, setpurchaseData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(false);
+    const [search, setSearch] = useState("");
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -25,6 +29,7 @@ function ManagePurchase() {
           setLoading(false);
           console.log(response);
           setpurchaseData(response.data.data);
+          setFilteredData(response.data.data);
           setLoading(true);
         })
         .catch((error) => {
@@ -114,6 +119,13 @@ function ManagePurchase() {
     },
   ];
 
+   useEffect(() => {
+     const result = purchaseData.filter((supp) => {
+       return supp.supp_name.toLowerCase().match(search.toLowerCase());
+     });
+     setFilteredData(result);
+   }, [search]);
+
   return (
     <>
       <Header name="Manage Purchase" path="admin / managePurchase" />
@@ -122,9 +134,27 @@ function ManagePurchase() {
           <div className="suplier-list">
             <DataTable
               columns={columns}
-              data={purchaseData}
+              data={filteredData}
               pagination
               highlightOnHover
+              actions={
+                <button
+                  className="supplier-add-btn"
+                  onClick={() => history.push("/admin/addPurchase")}>
+                  Add new purchase
+                </button>
+              }
+              subHeader
+              subHeaderComponent={
+                <input
+                  type="text"
+                  className="search-supplier"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search here"
+                />
+              }
+              subHeaderAlign="left"
             />
           </div>
         </>

@@ -3,7 +3,8 @@ import Navbar from "../components/navbar/Navbar";
 import Footer from './Footer';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { ToastContainer, toast } from "react-toastify";
+import { LineWave } from "react-loader-spinner";
+import { Toaster, toast } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 
 function ForgotPassword() {
@@ -12,6 +13,7 @@ function ForgotPassword() {
    const [emailError, setEmailError] = useState("");
    const [emailFlag, setEmailFlag] = useState(false);
    const [flag , setFlag] = useState(true);
+   const [loading, setLoading] = useState(false);
 
    let history = useHistory();
 
@@ -28,77 +30,63 @@ function ForgotPassword() {
     if (emailNull) {
       setEmailFlag(false);
       setEmailError("Email Should not be blank.");
+      	toast.error("Email Should not be blank.", {
+          duration: 3000,
+        });
     }
 
     if (emailNotNull && !email_pattern.test(email)) {
       setEmailFlag(false);
       setEmailError("Enter Valid Email.");
       setFlag(true);
+      	toast.error("Enter Valid Email.", {
+          duration: 3000,
+        });
     }
 
     if (!emailNull && email_pattern.test(email)) {
-      setEmailFlag(true);
+      // setEmailFlag(true);
+      setEmailError("");
+      setLoading(true);
+
+      try {
+        axios
+          .post("http://127.0.0.1:8000/request-password-reset/", {
+            email: email,
+          })
+          .then((response) => {
+            console.log(response);
+
+            if (response.data.message === "User doesn't exist.") {
+              setEmailError("User doesn't exist.");
+              setEmailFlag(false);
+              	toast.error(response.data.message, {
+                  duration: 3000,
+                });
+                setLoading(false);
+            } else if (response.data.message === "Success!") {
+               setLoading(false);
+              setEmailFlag(false);
+              setFlag(!flag);
+              	toast.success("Email send!", {
+                  duration: 3000,
+                });
+            } else {
+              setEmailFlag(false);
+
+            }
+            setEmailFlag(false);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err) {}
+
     }
   }
 
-       const toast_message = (message) => {
-         if (message === "Success") {
-           return toast.success("Check Email..", {
-             position: "top-center",
-             autoClose: 3000,
-             hideProgressBar: false,
-             closeOnClick: true,
-             pauseOnHover: true,
-             draggable: true,
-             progress: undefined,
-             theme: "light",
-           });
-         } else if (message === "warning") {
-           return toast.warn("Somthing wrong!", {
-             position: "top-center",
-             autoClose: 3000,
-             hideProgressBar: false,
-             closeOnClick: true,
-             pauseOnHover: true,
-             draggable: true,
-             progress: undefined,
-             theme: "light",
-           });
-         } else {
-         }
-       };
+      
 
-  if(emailFlag === true){
-
-    try {
-         axios
-           .post("http://127.0.0.1:8000/request-password-reset/", {
-             email: email,
-           })
-           .then((response) => {
-
-            console.log(response)
-
-            if (response.data.message === "User doesn't exist."){
-              setEmailError("User doesn't exist.");
-              toast_message("warning");
-              setEmailFlag(false);
-            }else if(response.data.message === "Success!"){
-              setEmailFlag(false);
-              toast_message("Success");
-              setFlag(!flag);
-            }else{
-               setEmailFlag(false);
-            }
-             setEmailFlag(false);
-           })
-           .catch((error) => {
-             console.log(error);
-           });
-       } catch (err) {
-
-       }
-     }
 
   
 
@@ -107,6 +95,22 @@ function ForgotPassword() {
     <>
       <Navbar />
       <div className="extra-space-login"></div>
+      <div style={{marginLeft:"45vw"}}>
+        {loading && (
+          <LineWave
+            height="100"
+            width="100"
+            color="#000"
+            ariaLabel="line-wave"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            firstLineColor=""
+            middleLineColor=""
+            lastLineColor=""
+          />
+        )}
+      </div>
       <div className="container1">
         <div className="title">Reset Password</div>
         <div className="content">
@@ -121,6 +125,7 @@ function ForgotPassword() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   {!emailFlag && <p>{emailError}</p>}
+                  {loading && <h4>loading...</h4>}
                 </div>
               </div>
 
@@ -136,7 +141,7 @@ function ForgotPassword() {
                 <div className="input-box">
                   You should receive a link in a few moments. Please open that
                   link to reset your password.
-                  <br/>
+                  <br />
                   <span className="details">Email:</span>
                   <h5>{email}</h5>
                 </div>
@@ -153,17 +158,12 @@ function ForgotPassword() {
       <div className="extra-space-login"></div>
 
       <Footer />
-      <ToastContainer
+      <Toaster
         position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
+        containerStyle={{
+          top: 10,
+        }}
+        reverseOrder={true}
       />
     </>
   );

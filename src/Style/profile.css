@@ -139,7 +139,7 @@
   width: 200px;
 }
 
-.change-password input {
+/* .change-password input {
   margin-left: 50px;
   height: 45px;
   width: 300px;
@@ -150,7 +150,7 @@
   border: 1px solid #ccc;
   border-bottom-width: 2px;
   transition: all 0.3s ease;
-}
+} */
 
 .input-line {
   display: flex;

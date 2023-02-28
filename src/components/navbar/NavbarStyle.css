@@ -128,6 +128,14 @@
     margin-right: 20px;
 }
 
+.profile-icon-style{
+    margin: 18px;
+}
+
+.icon-flex{
+    display: flex;
+}
+
 
 
 @media screen and (max-width: 850px) {
@@ -257,6 +265,10 @@
     .cart-icon-mobile{
         margin-top: 8px;
         margin-right: 10px;
+    }
+
+    .icon-flex{
+        display: none;
     }
 
 }

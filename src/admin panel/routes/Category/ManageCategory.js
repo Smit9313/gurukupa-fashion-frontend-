@@ -270,7 +270,7 @@ function ManageCategory() {
             <DataTable
               columns={columns}
               data={filteredCatType}
-              title="Manage Cat_type"
+              title="Manage Category_type"
               pagination
               highlightOnHover
               actions={

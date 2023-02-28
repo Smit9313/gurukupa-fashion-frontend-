@@ -219,7 +219,7 @@ function ManageProduct() {
       selector: (row) => row.prod_qty,
       cell: (row) => <CustomTitle row={row} />,
       sortable: true,
-      //  width: "100px",
+       width: "350px",
     },
   ];
 

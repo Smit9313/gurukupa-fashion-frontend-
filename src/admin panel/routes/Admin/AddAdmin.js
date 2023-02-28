@@ -8,6 +8,7 @@ import { Toaster, toast } from "react-hot-toast";
 import qs from "qs";
 import "react-toastify/dist/ReactToastify.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Input } from "antd";
 
 
 function AddAdmin() {
@@ -227,14 +228,16 @@ function AddAdmin() {
 
               <div className="box">
                 <p>Enter Password:</p>
-                <TextField
-                  label="password"
-                  size="small"
+                <Input.Password
                   type="password"
-                  value={pass}
-                  fullWidth={width}
+                  style={{
+                    height: "45px",
+                    borderColor: "#000000",
+                  }}
                   onChange={(e) => setPass(e.target.value)}
+                  placeholder="Enter your password"
                 />
+
                 {!passFlag && (
                   <p className="error-color set-margin-left">{passError}</p>
                 )}
@@ -242,13 +245,14 @@ function AddAdmin() {
 
               <div className="box">
                 <p>Enter Confirm Password:</p>
-                <TextField
-                  label="confirm password"
-                  size="small"
+                <Input.Password
                   type="password"
-                  value={passCon}
-                  fullWidth={width}
+                  style={{
+                    height: "45px",
+                    borderColor: "#000000",
+                  }}
                   onChange={(e) => setPassCon(e.target.value)}
+                  placeholder="Confirm your password"
                 />
                 {!passConFlag && (
                   <p className="error-color set-margin-left">{passConError}</p>

@@ -16,6 +16,7 @@ import qs from "qs";
 import { Toaster, toast } from "react-hot-toast";
 import { message, Popconfirm } from "antd";
 import { Modal } from "antd";
+import { Input } from "antd";
 import { Rate } from "antd";
 
 function Profile() {
@@ -618,6 +619,7 @@ function Profile() {
                   <h5>: {userData.mobile_no}</h5>
                 </div>
               </div>
+              
             </div>
 
             <div className="profile-user-address">
@@ -945,11 +947,18 @@ function Profile() {
                   <div className="input-line">
                     <h6>Old password:</h6>
                     <div>
-                      <input
+                      <Input.Password
                         type="password"
-                        placeholder="Old password"
-                        value={oldpassword}
+                        style={{
+                          height: "45px",
+                          width: "200px",
+                          marginLeft: "50px",
+                          borderBottomWidth: "2px",
+                          borderColor: "#000000",
+                          marginBottom: "0px",
+                        }}
                         onChange={(e) => setOldPassword(e.target.value)}
+                        placeholder="Enter old password"
                       />
                       {oldPassFlag && (
                         <p className="error-color">{oldPassError}</p>
@@ -961,11 +970,18 @@ function Profile() {
                   <div className="input-line">
                     <h6>New password:</h6>
                     <div>
-                      <input
+                      <Input.Password
                         type="password"
-                        placeholder="New password"
-                        value={password}
+                        style={{
+                          height: "45px",
+                          width: "200px",
+                          marginLeft: "50px",
+                          borderBottomWidth: "2px",
+                          borderColor: "#000000",
+                          marginBottom: "0px",
+                        }}
                         onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter new password"
                       />
                       {passFlag && <p className="error-color">{passError}</p>}
                     </div>
@@ -975,12 +991,19 @@ function Profile() {
                   <div className="input-line">
                     <h6>Confirm password:</h6>
                     <div>
-                      <input
+                      <Input.Password
                         type="password"
-                        placeholder="Confirm password"
-                        value={conPassword}
+                        style={{
+                          height: "45px",
+                          width: "200px",
+                          marginLeft: "50px",
+                          borderBottomWidth: "2px",
+                          borderColor: "#000000",
+                          marginBottom: "0px",
+                        }}
                         onChange={(e) => setConPassword(e.target.value)}
-                      />{" "}
+                        placeholder="Enter confirm password"
+                      />
                       {passConFlag && (
                         <p className="error-color">{passConError}</p>
                       )}

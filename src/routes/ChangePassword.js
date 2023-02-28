@@ -3,10 +3,10 @@ import Footer from "./Footer";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom";
 import Error from "./Error";
+import { Input } from "antd";
+import { Toaster, toast } from "react-hot-toast";
 
 function ChangePassword() {
   let { key } = useParams();
@@ -22,32 +22,7 @@ function ChangePassword() {
 
   const [isValid, setIsValid] = useState(false);
 
-  const toast_message = (message) => {
-    if (message === "Success") {
-      return toast.success("password added", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else if (message === "warning") {
-      return toast.warn("Somthing wrong!", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else {
-    }
-  };
+  
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -95,6 +70,11 @@ function ChangePassword() {
       setPassConError("password and confirm password must be same.");
     }
 
+    if(!passConNull && !minPassConLength && !maxPassConLength && pass === passCon){
+      setPassConFlag(true);
+      setPassConError("");
+    }
+
     if (
       !passConNull &&
       !minPassConLength &&
@@ -104,7 +84,52 @@ function ChangePassword() {
       setPassConFlag(true);
     }
 
-    console.log(passFlag, passConFlag);
+    
+    if (
+      !passNull &&
+      !minPassLength &&
+      !maxPassLength &&
+      !passConNull &&
+      !minPassConLength &&
+      !maxPassConLength &&
+      pass === passCon
+    ) {
+      const headers = { Authorization: `Bearer "${key}"` };
+      console.log(headers);
+      try {
+        axios
+          .post(
+            `http://127.0.0.1:8000/reset-password/`,
+            {
+              newPassword: passCon,
+            },
+            { headers }
+          )
+          .then((response) => {
+            console.log(response.data.message);
+
+            if (response.data.message === "Success!") {
+              setPassFlag(false);
+              setPassConFlag(false);
+              setPass("");
+              setPassCon("");
+              history.push("/login");
+            } else {
+                toast.error(response.data.message, {
+                  duration: 3000,
+                });
+            }
+
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+
   };
 
   useEffect(() => {
@@ -118,7 +143,9 @@ function ChangePassword() {
             setIsValid(false);
           }else if (response.data.message === "User exists.") {
             setIsValid(true);
-          }else{}
+          }else{
+
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -130,38 +157,7 @@ function ChangePassword() {
 
   if (passFlag === true && passConFlag === true) {
     console.log(key);
-    const headers = { Authorization: `Bearer "${key}"` };
-    console.log(headers);
-    try {
-      axios
-        .post(
-          `http://127.0.0.1:8000/reset-password/`,
-          {
-            newPassword: passCon,
-          },
-          { headers }
-        )
-        .then((response) => {
-          console.log(response.data.message);
-
-          if (response.data.message === "Success!") {
-            setPassFlag(false);
-            setPassConFlag(false);
-            toast_message("Success");
-            setPass("");
-            setPassCon("");
-            history.push("/login");
-            // <Redirect to="/login" />;
-          } else {
-            toast_message("warning");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    
   }
 
   return (
@@ -176,23 +172,35 @@ function ChangePassword() {
             <div className="content">
               <form>
                 <div className="user-details">
-                  <div className="input-box">
+                  <div className="">
                     <span className="details">Password:</span>
-                    <input
-                      type="text"
-                      value={pass}
-                      placeholder="password"
+                    <Input.Password
+                      type="password"
+                      style={{
+                        height: "45px",
+                        borderBottomWidth: "2px",
+                        borderColor: "#000000",
+                        marginBottom: "30px",
+                      }}
                       onChange={(e) => setPass(e.target.value)}
+                      placeholder="Enter your password"
                     />
+                    {!passFlag && <p>{passError}</p>}
                   </div>
-                  <div className="input-box">
+                  <div className="">
                     <span className="details">Confirm password:</span>
-                    <input
-                      type="text"
-                      value={passCon}
-                      placeholder="confirm password"
+                    <Input.Password
+                      type="password"
+                      style={{
+                        height: "45px",
+                        borderBottomWidth: "2px",
+                        borderColor: "#000000",
+                        marginBottom: "30px",
+                      }}
                       onChange={(e) => setPassCon(e.target.value)}
+                      placeholder="Confirm your password"
                     />
+                    {!passConFlag && <p>{passConError}</p>}
                   </div>
                 </div>
 
@@ -206,25 +214,19 @@ function ChangePassword() {
           <div className="extra-space-login"></div>
 
           <Footer />
-          <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
         </>
-      ):
-      <>
-        <Error/>
-      </>
-      }
-
+      ) : (
+        <>
+          <Error />
+        </>
+      )}
+      <Toaster
+        position="top-center"
+        containerStyle={{
+          top: 10,
+        }}
+        reverseOrder={true}
+      />
     </>
   );
 }
