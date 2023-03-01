@@ -94,12 +94,12 @@ function ChangePassword() {
       !maxPassConLength &&
       pass === passCon
     ) {
-      const headers = { Authorization: `Bearer "${key}"` };
+      const headers = { Authorization: `Bearer "${key}` };
       console.log(headers);
       try {
         axios
           .post(
-            `http://127.0.0.1:8000/reset-password/`,
+            `${process.env.REACT_APP_API_HOST}/reset-password/`,
             {
               newPassword: passCon,
             },
@@ -115,11 +115,10 @@ function ChangePassword() {
               setPassCon("");
               history.push("/login");
             } else {
-                toast.error(response.data.message, {
-                  duration: 3000,
-                });
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
             }
-
           })
           .catch((error) => {
             console.log(error);
@@ -137,7 +136,7 @@ function ChangePassword() {
 
     try {
       axios
-        .get(`http://127.0.0.1:8000/reset-password/`, { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/reset-password/`, { headers })
         .then((response) => {
           if (response.data.message === "Token corrupted.") {
             setIsValid(false);

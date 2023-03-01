@@ -22,7 +22,7 @@ function AllOrder() {
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-order?order_status=All",
+          `${process.env.REACT_APP_API_HOST}/admin-order?order_status=All`,
           // { order_status: "All"},
           { headers }
         )

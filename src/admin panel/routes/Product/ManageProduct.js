@@ -26,7 +26,7 @@ function ManageProduct() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/admin-product/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/admin-product/`, { headers })
         .then((response) => {
           console.log(response.data.data);
           setLoading(false);
@@ -48,7 +48,7 @@ function ManageProduct() {
 
     try {
       axios
-        .delete(`http://127.0.0.1:8000/admin-product/${prodid}/`, {
+        .delete(`${process.env.REACT_APP_API_HOST}/admin-product/${prodid}/`, {
           headers,
         })
         .then((response) => {
@@ -170,18 +170,18 @@ function ManageProduct() {
     {
       name: <h4>Images</h4>,
       selector: (row) => (
-        <>
+        <Link to={`/single-product/${row._id}`}>
           <img width="40px" height="50px" src={row.prod_image[0]} />{" "}
           <img width="40px" height="50px" src={row.prod_image[1]} />{" "}
           <img width="40px" height="50px" src={row.prod_image[2]} />
-        </>
+        </Link>
       ),
       width: "200px",
     },
 
     {
       name: <h4>Product name</h4>,
-      selector: (row) => row.prod_name,
+      selector: (row) =><Link to={`/single-product/${row._id}`} style={{textDecoration:"none",color:"black"}}>{row.prod_name}</Link>,
       sortable: true,
       width: "170px",
     },

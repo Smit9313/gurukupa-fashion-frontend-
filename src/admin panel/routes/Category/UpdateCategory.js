@@ -66,7 +66,7 @@ function UpdateCategory() {
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-category-type/${id}",
+          `${process.env.REACT_APP_API_HOST}/admin-category-type/${id}`,
           //  qs.stringify({ cat_type: cat_type, active: cat_status }),
           { headers }
         )
@@ -85,7 +85,7 @@ function UpdateCategory() {
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-category-type/",
+          `${process.env.REACT_APP_API_HOST}/admin-category-type/`,
           //  qs.stringify({ cat_type: cat_type, active: cat_status }),
           { headers }
         )
@@ -109,7 +109,7 @@ function UpdateCategory() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get(`http://127.0.0.1:8000/admin-category-type/${id}/`, {
+        .get(`${process.env.REACT_APP_API_HOST}/admin-category-type/${id}/`, {
           headers,
         })
         .then((response) => {
@@ -129,7 +129,7 @@ function UpdateCategory() {
 
     try {
       axios
-        .get(`http://127.0.0.1:8000/admin-category/${id}/`, {
+        .get(`${process.env.REACT_APP_API_HOST}/admin-category/${id}/`, {
           headers,
         })
         .then((response) => {
@@ -176,7 +176,7 @@ function UpdateCategory() {
       try {
         axios
           .patch(
-            `http://127.0.0.1:8000/admin-category-type/${id}/`,
+            `${process.env.REACT_APP_API_HOST}/admin-category-type/${id}/`,
             qs.stringify({ cat_type: cattype, active: cat_status }),
             { headers }
           )
@@ -317,7 +317,7 @@ function UpdateCategory() {
       try {
         axios
           .patch(
-            `http://127.0.0.1:8000/admin-category/${id}/`,
+            `${process.env.REACT_APP_API_HOST}/admin-category/${id}/`,
             qs.stringify({
               cat_type_id: catid,
               active: subcatstatus,

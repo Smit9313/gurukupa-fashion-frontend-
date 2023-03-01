@@ -9,8 +9,8 @@ import { Select } from "antd";
 import Switch from "@mui/material/Switch";
 import { Upload, message } from "antd";
 import { Toaster, toast } from "react-hot-toast";
+import { LineWave } from "react-loader-spinner";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import ClipLoader from "react-spinners/ClipLoader";
 
 
 function AddProduct() {
@@ -68,7 +68,7 @@ function AddProduct() {
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-category-type/",
+          `${process.env.REACT_APP_API_HOST}/admin-category-type/`,
           //  qs.stringify({ cat_type: cat_type, active: cat_status }),
           { headers }
         )
@@ -163,7 +163,7 @@ function AddProduct() {
 
     // price
     if (price === "") {
-      setPriceError("Description should not be null");
+      setPriceError("Price should not be null");
       setPriceFlag(true);
     }
 
@@ -208,6 +208,8 @@ function AddProduct() {
       images.length === 3
     ) {
       const token = sessionStorage.getItem("token");
+      setLoading(true)
+      
 
       formData.append("prod_name", name);
       formData.append("cat_id", subcatid);
@@ -215,15 +217,10 @@ function AddProduct() {
       formData.append("prod_desc", description);
       formData.append("prod_price", price);
 
-      toast.promise(loading, {
-        loading: "Uploading...",
-        success: "Product Added!",
-        error: "Error when fetching",
-      });
 
       try {
         axios
-          .post("http://127.0.0.1:8000/admin-product/", formData, {
+          .post(`${process.env.REACT_APP_API_HOST}/admin-product/`, formData, {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": `multipart/form-data`,
@@ -232,15 +229,16 @@ function AddProduct() {
           .then((response) => {
             console.log(response.data.message);
             if (response.data.message === "Success!") {
-              setLoading(true);
-              // toast.success("Product added!", {
-              //   duration: 3000,
-              // });
+              
+              toast.success("Product added!", {
+                duration: 3000,
+              });
               setName("");
               setImages([]);
               setActive(true);
               setDescription("");
               setPrice("");
+              setLoading(false)
             } else {
               toast.error(response.data.message, {
                 duration: 3000,
@@ -289,7 +287,7 @@ function AddProduct() {
                   try {
                     axios
                       .get(
-                        `http://127.0.0.1:8000/admin-cat-type-to-category/${value1}/`,
+                        `${process.env.REACT_APP_API_HOST}/admin-cat-type-to-category/${value1}/`,
                         //  qs.stringify({ cat_type: cat_type, active: cat_status }),
                         { headers }
                       )
@@ -388,6 +386,22 @@ function AddProduct() {
           </div>
 
           <div className="add-suplier-sub1">
+            {loading && (
+              <div style={{marginLeft:"40px"}}>
+              <LineWave
+                height="100"
+                width="100"
+                color="#000"
+                ariaLabel="line-wave"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                firstLineColor=""
+                middleLineColor=""
+                lastLineColor=""
+              />
+              </div>
+            )}
             <div className="box box-qty ds-flex">
               <p>select Product image:</p>
               <br />
@@ -402,10 +416,11 @@ function AddProduct() {
                 <Button>upload</Button>
               </Upload.Dragger>
               {imagesFlag && <p className="error-color">{imagesError}</p>}
+              {loading && <h4>loading...</h4>}
             </div>
 
-            <br/>
-            <br/>
+            <br />
+            <br />
             <div className="suplier-button">
               <button
                 // variant="contained"

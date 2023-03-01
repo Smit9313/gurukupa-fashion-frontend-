@@ -12,8 +12,8 @@ import { ConfigProvider, Radio } from "antd";
 import { Toaster, toast } from "react-hot-toast";
 import { isEmpty } from "lodash";
 import { Rate } from "antd";
+import jwtDecode from "jwt-decode";
 import RelatedProduct from "../components/RelatedProduct";
-import Webcam from "react-webcam";
 import { ShopOutlined } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
 
@@ -22,6 +22,7 @@ function SingleProduct() {
   const [url, setUrl] = useState("cloths/1.jpg");
   let { product_id } = useParams();
   const history = useHistory();
+  const token = sessionStorage.getItem("token");
 
   const [data, setData] = useState("");
   const [prod_qty, setProd_qty] = useState(1);
@@ -30,11 +31,12 @@ function SingleProduct() {
   const [selectSize, setSelectSize] = useState(false);
   const [navrender, setNavRender] = useState(true);
   const [relatedProduct, setrelatedProduct] = useState("");
+  const [role, setRole] = useState("");
 
   useEffect(() => {
     try {
       axios
-        .get(`http://127.0.0.1:8000/customer-product/${product_id}`)
+        .get(`${process.env.REACT_APP_API_HOST}/customer-product/${product_id}`)
         .then((response) => {
           console.log(response);
           if (response.data.message === "Success!") {
@@ -45,7 +47,7 @@ function SingleProduct() {
             try {
               axios
                 .get(
-                  `http://127.0.0.1:8000/suggested-product/${response.data.data.cat_id}`
+                  `${process.env.REACT_APP_API_HOST}/suggested-product/${response.data.data.cat_id}`
                 )
                 .then((response) => {
                   console.log(response);
@@ -65,6 +67,14 @@ function SingleProduct() {
     } catch (err) {}
   }, [product_id]);
 
+    
+  useEffect(() => {
+    if (sessionStorage.getItem("token") !== null) {
+      const decoded = jwtDecode(token);
+      setRole(decoded["id"]["role"]);
+    }
+  }, [role, token]);
+
   const handleQty = (event) => {
     const value = event.target.value;
     const valueInt = parseInt(value);
@@ -82,7 +92,7 @@ function SingleProduct() {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/cart/",
+            `${process.env.REACT_APP_API_HOST}/cart/`,
             {
               prod_id: product_id,
               prod_qty: {
@@ -95,35 +105,18 @@ function SingleProduct() {
             console.log(response.data.message);
 
             if (response.data.message === "Success!") {
-              toast.success("Added to cart!", {
-                style: {
-                  border: "1px solid #000",
-                  padding: "8px",
-                  color: "#000",
-                },
-                position: "top-center  ",
-                duration: 1500,
-                iconTheme: {
-                  primary: "#000",
-                  secondary: "#FFFAEE",
-                },
+              toast.success("Product added!", {
+                duration: 3000,
               });
               setNavRender(!navrender);
             } else if (response.data.message === "Token corrupted.") {
               toast.error("Please login first to use cart!", {
-                style: {
-                  border: "1px solid DA2424",
-                  padding: "9px",
-                  color: "black",
-                },
-                iconTheme: {
-                  primary: "#DA2424",
-                  secondary: "#FFFAEE",
-                },
+                duration: 3000,
               });
-            } else if (response.data.message === "User not customer.") {
-              setisUser("Login first to use cart.");
             } else {
+              toast.error(response.data.message, {
+                duration: 3000,
+              });
             }
           })
           .catch((error) => {
@@ -243,7 +236,7 @@ function SingleProduct() {
                       This item is currently out of stock
                     </p>
                   )}
-                {selectSize && (
+                {selectSize && !isEmpty(data.prod_qty) && (
                   <p className="out-stock">Please select a size</p>
                 )}
               </div>
@@ -251,23 +244,37 @@ function SingleProduct() {
                 type="number"
                 className="quantity"
                 min={1}
-                max={99}
+                max={10}
                 step="1"
                 value={prod_qty}
                 onChange={(event) => handleQty(event)}
               />
-              <button
-                type="submit"
-                className="normal"
-                onClick={handleAddToCart}>
-                Add to cart
-              </button>
-              <button
-                type="submit"
-                className="normal"
-                onClick={handleMegicClick}>
-                Megic
-              </button>
+              {/* {isEmpty(role) && role !== "admin" && (
+                <button
+                  type="submit"
+                  className="normal"
+                  onClick={handleAddToCart}>
+                  Add to cart
+                </button>
+              )} */}
+              {!isEmpty(role) && role==="customer" &&(
+                <button
+                  type="submit"
+                  className="normal"
+                  onClick={handleAddToCart}>
+                  Add to cart
+                </button>
+              )}
+
+              {!isEmpty(token) && (
+                <button
+                  type="submit"
+                  className="normal"
+                  onClick={handleMegicClick}>
+                  Magic
+                </button>
+              )}
+
               <h4>Product details</h4>
               <span>{data.prod_desc}</span>
             </div>
@@ -276,7 +283,7 @@ function SingleProduct() {
           {!isEmpty(relatedProduct) && (
             <div id="prodetails-suggestion">
               <center>
-                <h2>SIMILAR PRODUCTS</h2>
+                <h2>YOU MAY ALSO LIKE</h2>
               </center>
               <RelatedProduct items={relatedProduct} />
             </div>

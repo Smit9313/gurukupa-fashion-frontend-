@@ -12,6 +12,7 @@ import { ConfigProvider, InputNumber, DatePicker } from "antd";
 import { isEmpty } from "lodash";
 import qs from "qs";
 import Error from "../../../routes/Error";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function UpdateDiscount() {
   let { id } = useParams();
@@ -67,7 +68,7 @@ function UpdateDiscount() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get(`http://127.0.0.1:8000/product-discount/${id}/`, {
+        .get(`${process.env.REACT_APP_API_HOST}/product-discount/${id}/`, {
           headers,
         })
         .then((response) => {
@@ -193,7 +194,7 @@ function UpdateDiscount() {
       try {
         axios
           .patch(
-            `http://127.0.0.1:8000/product-discount/${id}/`,
+            `${process.env.REACT_APP_API_HOST}/product-discount/${id}/`,
             qs.stringify({
               disc_percent: inputValue,
               valid_from: validFrom.$d,
@@ -389,7 +390,9 @@ function UpdateDiscount() {
         </section>
       ) : (
         <>
-        <Error />
+          <div className="loader-spin">
+            <ClipLoader color="#000" />
+          </div>
         </>
       )}
     </>

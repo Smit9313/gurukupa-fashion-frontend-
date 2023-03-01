@@ -19,11 +19,11 @@ function DeliverdOrder() {
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    const headers = { Authorization: `Bearer ${token}` };
+    const headers = { Authorization: `Bearer ${token}`};
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-order?order_status=Delivered",
+          `${process.env.REACT_APP_API_HOST}/admin-order?order_status=Delivered`,
           // { order_status: "All"},
           { headers }
         )
@@ -108,7 +108,7 @@ function DeliverdOrder() {
               try {
                 axios
                   .patch(
-                    `http://127.0.0.1:8000/admin-order/${row._id}/`,
+                    `${process.env.REACT_APP_API_HOST}/admin-order/${row._id}/`,
                     qs.stringify({ order_status: "Delivered" }),
                     { headers }
                   )

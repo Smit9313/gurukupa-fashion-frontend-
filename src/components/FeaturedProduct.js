@@ -35,7 +35,11 @@ function FeaturedProduct({items,title,des}) {
               <h5>{item.prod_name}</h5>
               <span className="des-text">{item.prod_desc}</span>
               <div className="star">
-                <Rate disabled defaultValue={item.rating} />
+                <Rate
+                  disabled
+                  defaultValue={parseInt(item.rating)}
+                  value={parseInt(item.rating)}
+                />
                 <p>({item.user_count})</p>
               </div>
               <h4>{item.prod_price} ₹</h4>

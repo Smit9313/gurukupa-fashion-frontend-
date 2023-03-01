@@ -49,7 +49,7 @@
     "react-razorpay": "^1.2.0",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^5.3.4",
-    "react-scripts": "5.0.1",
+  "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.1",

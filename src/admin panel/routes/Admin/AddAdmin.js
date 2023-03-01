@@ -163,7 +163,7 @@ function AddAdmin() {
     ) {
       console.log("Valid");
       axios
-        .post("http://127.0.0.1:8000/signup/", {
+        .post(`${process.env.REACT_APP_API_HOST}/signup/`, {
           name: name,
           email: email.toLocaleLowerCase(),
           password: passCon,

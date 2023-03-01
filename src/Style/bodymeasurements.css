@@ -11,7 +11,7 @@
   align-items: center;
   appearance: none;
   background-color: #FCFCFD;
-  border-radius: 30px;
+  border-radius: 50%;
   border-width: 0;
   box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
   box-sizing: border-box;
@@ -19,8 +19,8 @@
   cursor: pointer;
   display: inline-flex;
   font-family: "JetBrains Mono",monospace;
-  height: 58px;
-  width: 90px;
+  height: 68px;
+  width: 68px;
   justify-content: center;
   line-height: 1;
   list-style: none;

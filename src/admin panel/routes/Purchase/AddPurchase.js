@@ -66,7 +66,7 @@ function AddPurchase() {
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-supplier/",
+          `${process.env.REACT_APP_API_HOST}/admin-supplier/`,
           { headers }
         )
         .then((response) => {
@@ -89,7 +89,7 @@ function AddPurchase() {
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-category-type/",
+          `${process.env.REACT_APP_API_HOST}/admin-category-type/`,
           { headers }
         )
         .then((response) => {
@@ -297,7 +297,7 @@ function AddPurchase() {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/admin-purchase/",
+            `${process.env.REACT_APP_API_HOST}/admin-purchase/`,
             {
               supp_id: supId,
               date: date,
@@ -367,7 +367,7 @@ function AddPurchase() {
     //       try {
     //         axios
     //           .post(
-    //             "http://127.0.0.1:8000/admin-purchase/",
+    //             `${process.env.REACT_APP_API_HOST}/admin-purchase/`,
     //             {
     //               supp_id: supId,
     //               date: date,
@@ -394,7 +394,7 @@ function AddPurchase() {
     //  try {
     //    axios
     //      .post(
-    //        "http://127.0.0.1:8000/admin-purchase/",
+    //        `${process.env.REACT_APP_API_HOST}/admin-purchase/`,
     //        {
     //          'supp_id': supId,
     //          'date': date,
@@ -515,7 +515,7 @@ function AddPurchase() {
                         try {
                           axios
                             .get(
-                              `http://127.0.0.1:8000/admin-cat-type-to-category/${value}/`,
+                              `${process.env.REACT_APP_API_HOST}/admin-cat-type-to-category/${value}/`,
                               //  qs.stringify({ cat_type: cat_type, active: cat_status }),
                               { headers }
                             )
@@ -567,7 +567,7 @@ function AddPurchase() {
                         try {
                           axios
                             .get(
-                              `http://127.0.0.1:8000/admin-cat-to-product/${value}/`,
+                              `${process.env.REACT_APP_API_HOST}/admin-cat-to-product/${value}/`,
                               //  qs.stringify({ cat_type: cat_type, active: cat_status }),
                               { headers }
                             )

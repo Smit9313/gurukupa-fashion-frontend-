@@ -73,7 +73,7 @@ function UpdateSupplier() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get(`http://127.0.0.1:8000/admin-supplier/${id}/`, {
+        .get(`${process.env.REACT_APP_API_HOST}/admin-supplier/${id}/`, {
           headers,
         })
         .then((response) => {
@@ -268,7 +268,7 @@ function UpdateSupplier() {
       try {
         axios
           .patch(
-            `http://127.0.0.1:8000/admin-supplier/${id}/`,
+            `${process.env.REACT_APP_API_HOST}/admin-supplier/${id}/`,
             qs.stringify({
               name: name,
               mobile_no: mobile,

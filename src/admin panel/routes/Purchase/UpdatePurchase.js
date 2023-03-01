@@ -70,7 +70,7 @@ function UpdatePurchase() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get(`http://127.0.0.1:8000/admin-purchase/${id}/`, { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/admin-purchase/${id}/`, { headers })
         .then((response) => {
           console.log(response);
           if (response.data.message === "Success!") {
@@ -92,7 +92,7 @@ function UpdatePurchase() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/admin-supplier/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/admin-supplier/`, { headers })
         .then((response) => {
           setSuppName(
             response.data.data.map(({ name, _id }) => ({
@@ -112,7 +112,7 @@ function UpdatePurchase() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/admin-category-type/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/admin-category-type/`, { headers })
         .then((response) => {
           //  console.log(response.data.data);
           setCat_Data(
@@ -303,7 +303,7 @@ function UpdatePurchase() {
       try { 
         axios
           .patch(
-            `http://127.0.0.1:8000/admin-purchase/${id}/`,
+            `${process.env.REACT_APP_API_HOST}/admin-purchase/${id}/`,
             {
               supp_id: supId,
               date: date,
@@ -371,7 +371,7 @@ function UpdatePurchase() {
     //       try {
     //         axios
     //           .post(
-    //             "http://127.0.0.1:8000/admin-purchase/",
+    //             `${process.env.REACT_APP_API_HOST}/admin-purchase/`,
     //             {
     //               supp_id: supId,
     //               date: date,
@@ -398,7 +398,7 @@ function UpdatePurchase() {
     //  try {
     //    axios
     //      .post(
-    //        "http://127.0.0.1:8000/admin-purchase/",
+    //        `${process.env.REACT_APP_API_HOST}/admin-purchase/`,
     //        {
     //          'supp_id': supId,
     //          'date': date,
@@ -523,7 +523,7 @@ function UpdatePurchase() {
                             try {
                               axios
                                 .get(
-                                  `http://127.0.0.1:8000/admin-cat-type-to-category/${value}/`,
+                                  `${process.env.REACT_APP_API_HOST}/admin-cat-type-to-category/${value}/`,
                                   //  qs.stringify({ cat_type: cat_type, active: cat_status }),
                                   { headers }
                                 )
@@ -581,7 +581,7 @@ function UpdatePurchase() {
                             try {
                               axios
                                 .get(
-                                  `http://127.0.0.1:8000/admin-cat-to-product/${value}/`,
+                                  `${process.env.REACT_APP_API_HOST}/admin-cat-to-product/${value}/`,
                                   //  qs.stringify({ cat_type: cat_type, active: cat_status }),
                                   { headers }
                                 )

@@ -89,7 +89,7 @@ function Login() {
       email_pattern.test(email)
     ) {
       axios
-        .post("http://127.0.0.1:8000/login/", {
+        .post(`${process.env.REACT_APP_API_HOST}/login/`, {
           // name: uname,
           email: email.toLocaleLowerCase(),
           password: pass,
@@ -142,21 +142,21 @@ function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 {!emailFlag && <p>{emailError}</p>}
-                {errorFlag && <p>{error}</p>}
+                {errorFlag && <p className="error-color">{error}</p>}
               </div>
 
               <div className="">
                 <span className="details">Password</span>
                 <Input.Password
                   type="password"
-                  style={{height:"45px",borderBottomWidth: "2px",borderColor: "#000000",marginBottom:"30px"}}
+                  style={{height:"45px",borderBottomWidth: "2px",borderColor: "#000000"}}
                   placeholder="Enter your password"
                   onChange={(e) => setPass(e.target.value)}
                 />
-                {!passFlag && <p>{passError}</p>}
+                {!passFlag && <p className="error-color">{passError}</p>}
               </div>
             </div>
-            <button type="submit">Login</button>
+            <button style={{marginTop:"30px"}} type="submit">Login</button>
             <div className="footer-f">
               <p>
                 Don't have an account ?{" "}

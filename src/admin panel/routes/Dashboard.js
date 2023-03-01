@@ -50,7 +50,7 @@ function Dashboard() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/admin-user-count/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/admin-user-count/`, { headers })
         .then((response) => {
           console.log(response);
           if(response.data.message === "Success!"){
@@ -68,7 +68,7 @@ function Dashboard() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/admin-order-count/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/admin-order-count/`, { headers })
         .then((response) => {
           console.log(response);
           if (response.data.message === "Success!") {
@@ -86,7 +86,7 @@ function Dashboard() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/admin-contact-us/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/admin-contact-us/`, { headers })
         .then((response) => {
           setLoading(false);
           console.log(response);
@@ -101,7 +101,7 @@ function Dashboard() {
 
     try {
       axios
-        .get("http://127.0.0.1:8000/admin-count-messages/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/admin-count-messages/`, { headers })
         .then((response) => {
           setCount(response.data.data["message_count"]);
         })
@@ -159,7 +159,7 @@ function Dashboard() {
                 try {
                   axios
                     .patch(
-                      `http://127.0.0.1:8000/admin-contact-us/${row._id}/`,
+                      `${process.env.REACT_APP_API_HOST}/admin-contact-us/${row._id}/`,
                       {
                         status: "seen",
                       },

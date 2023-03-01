@@ -89,9 +89,9 @@ function BodyMeasurements({hight,weight,gender}) {
     // Draw the live video on the canvas
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "green";
-    ctx.fillText("Hello...", 50, 50);
+    // ctx.font = "30px Arial";
+    // ctx.fillStyle = "green";
+    // ctx.fillText("Hello...", 50, 50);
 
     // Draw additional graphics based on conditions
 
@@ -186,6 +186,10 @@ function BodyMeasurements({hight,weight,gender}) {
     // fire();
     console.log("valid");
     console.log(hight,weight,gender)
+
+    
+
+
   }
 
   return (
@@ -208,13 +212,13 @@ function BodyMeasurements({hight,weight,gender}) {
         </div>
         <div>
           <button className="button-300" onClick={handleScreenshot}>
-            Click
+            
           </button>
-          <button className="button-300" onClick={()=>{
+          {/* <button className="button-300" onClick={()=>{
             // history.push('');
           }}>
             model
-          </button>
+          </button> */}
         </div>
 
         {/* {!isEmpty(ss) && <img src={ss} />} */}

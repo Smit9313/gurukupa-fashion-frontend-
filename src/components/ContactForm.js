@@ -108,7 +108,7 @@ function ContactForm() {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/contact-us/",
+            `${process.env.REACT_APP_API_HOST}/contact-us/`,
             {
               name: name,
               email: email,

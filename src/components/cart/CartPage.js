@@ -21,11 +21,11 @@ function CartPage() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/cart/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/cart/`, { headers })
         .then((response) => {
           if (response.data.message === "Success!") {
             setProducts(response.data.data);
-            console.log(response.data)
+            console.log(response.data);
           } else if (
             response.data.message === "Token corrupted." ||
             response.data.message === "Cart is empty." ||
@@ -70,7 +70,10 @@ function CartPage() {
 
   const onAddQty = (index) => {
     const cloneProducts = [...products];
-    cloneProducts[index].qty = parseInt(cloneProducts[index].qty) + 1;
+    if (cloneProducts[index].qty < 10) {
+      cloneProducts[index].qty = parseInt(cloneProducts[index].qty) + 1;
+    }
+
     setProducts(cloneProducts);
 
     const token = sessionStorage.getItem("token");
@@ -78,7 +81,7 @@ function CartPage() {
     try {
       axios
         .patch(
-          "http://127.0.0.1:8000/cart/",
+          `${process.env.REACT_APP_API_HOST}/cart/`,
           {
             prod_id: cloneProducts[index].prod_id,
             prod_qty: {
@@ -108,7 +111,7 @@ function CartPage() {
     try {
       axios
         .patch(
-          "http://127.0.0.1:8000/cart/",
+          `${process.env.REACT_APP_API_HOST}/cart/`,
           {
             prod_id: cloneProducts[index].prod_id,
             prod_qty: {
@@ -137,7 +140,7 @@ function CartPage() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .delete("http://127.0.0.1:8000/cart/", {
+        .delete(`${process.env.REACT_APP_API_HOST}/cart/`, {
           data: {
             prod_id: cloneProducts[i].prod_id,
             prod_qty: {

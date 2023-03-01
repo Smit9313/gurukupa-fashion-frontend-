@@ -20,7 +20,7 @@ function Invoice() {
         try {
           axios
             .get(
-              `http://127.0.0.1:8000/order-invoice/${order_id}/`,
+              `${process.env.REACT_APP_API_HOST}/order-invoice/${order_id}/`,
               { headers }
             )
             .then((response) => {

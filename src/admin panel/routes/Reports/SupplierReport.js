@@ -16,7 +16,7 @@ function SupplierReport() {
 
     try {
       axios
-        .get("http://127.0.0.1:8000/supplier-report/", {
+        .get(`${process.env.REACT_APP_API_HOST}/supplier-report/`, {
           headers: headers,
           responseType: "blob",
         })

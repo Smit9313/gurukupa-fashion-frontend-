@@ -24,7 +24,7 @@ function ManagePurchase() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/admin-purchase/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/admin-purchase/`, { headers })
         .then((response) => {
           setLoading(false);
           console.log(response);

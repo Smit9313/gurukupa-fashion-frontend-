@@ -10,25 +10,25 @@ const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
 
 function StockReport() {
-  const [selectedDates, setSelectedDates] = useState([]);
+  // const [selectedDates, setSelectedDates] = useState([]);
 
-  function handleDateChange(dates) {
-    setSelectedDates(dates);
-  }
+  // function handleDateChange(dates) {
+  //   setSelectedDates(dates);
+  // }
 
   const handleClick = async () => {
-    if (!isEmpty(selectedDates)) {
+   
       const token = sessionStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
 
-      const jsonData = {
-        from_date: selectedDates[0].$d,
-        until_date: selectedDates[1].$d,
-      };
+      // const jsonData = {
+      //   from_date: selectedDates[0].$d,
+      //   until_date: selectedDates[1].$d,
+      // };
 
       try {
         axios
-          .get("http://127.0.0.1:8000/stock-report/", {
+          .get(`${process.env.REACT_APP_API_HOST}/stock-report/`, {
             headers: headers,
             responseType: "blob",
           })
@@ -55,11 +55,7 @@ function StockReport() {
       } catch (err) {
         console.log("Error");
       }
-    } else {
-      toast.error("Select date!", {
-        duration: 3000,
-      });
-    }
+    
   };
 
   return (
@@ -67,10 +63,10 @@ function StockReport() {
       <Header name="Stock Report" path="admin / stockReport" />
       <div className="add-suplier supplier-report">
         <div className="add-suplier-sub1">
-          <div className="box">
+          {/* <div className="box">
             <h3>Select date:</h3>
-          </div>
-          <RangePicker onChange={handleDateChange} format={dateFormat} />
+          </div> */}
+          {/* <RangePicker onChange={handleDateChange} format={dateFormat} /> */}
           <button
             className="button-311 supplier-report-button"
             onClick={handleClick}>

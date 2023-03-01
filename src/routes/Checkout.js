@@ -12,6 +12,7 @@ import qs from "qs";
 import { Toaster, toast } from "react-hot-toast";
 import useRazorpay from "react-razorpay";
 import { useHistory } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function Checkout() {
   const history = useHistory();
@@ -99,7 +100,9 @@ function Checkout() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/checkout-user-info/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/checkout-user-info/`, {
+          headers,
+        })
         .then((response) => {
           // console.log(response.data.data["Ship-add"]);
           console.log(response);
@@ -134,7 +137,7 @@ function Checkout() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/cart/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/cart/`, { headers })
         .then((response) => {
           if (response.data.message === "Success!") {
             setProducts(response.data.data);
@@ -174,7 +177,7 @@ function Checkout() {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/customer-address/",
+            `${process.env.REACT_APP_API_HOST}/customer-address/`,
             qs.stringify({
               house_no: houseno,
               area_street: area,
@@ -232,7 +235,7 @@ function Checkout() {
     try {
       axios
         .post(
-          "http://127.0.0.1:8000/check-discount-code/",
+          `${process.env.REACT_APP_API_HOST}/check-discount-code/`,
           qs.stringify({
             coupon_code: coupenCode,
             total_amount: total,
@@ -287,7 +290,7 @@ function Checkout() {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/customer-order/",
+            `${process.env.REACT_APP_API_HOST}/customer-order/`,
             {
               add_id: addData._id,
               mobile_no: parseInt(mobile),
@@ -330,7 +333,7 @@ function Checkout() {
                   try {
                     await axios
                       .post(
-                        "http://127.0.0.1:8000/verify-order/",
+                        `${process.env.REACT_APP_API_HOST}/verify-order/`,
                         { response1 },
                         {
                           headers,
@@ -363,7 +366,7 @@ function Checkout() {
                 try {
                   axios
                     .post(
-                      "http://127.0.0.1:8000/verify-order/",
+                      `${process.env.REACT_APP_API_HOST}/verify-order/`,
                       { dataError },
                       {
                         headers,
@@ -381,6 +384,24 @@ function Checkout() {
                 }
               });
               rzpay.open();
+            } else if (
+              response.data.message === "Entered more quantity then available."
+            ) {
+              let qty_flag = false;
+              let name404 = "";
+              let qty404 = "";
+
+              products.forEach((element) => {
+                if (response.data.data.prod_id === element.prod_id) {
+                  name404 = element.prod_name;
+                  qty404 = response.data.data.available_qty;
+                }
+              });
+              // if (qty_flag === true) {
+                toast.error(
+                  `Availabel Quantity for product ${name404} is ${qty404}.`
+                );
+              // }
             } else {
               toast.error(response.data.message);
             }
@@ -701,7 +722,9 @@ function Checkout() {
         </>
       ) : (
         <>
-          <Error />
+          <div className="loader-spin">
+            <ClipLoader color="#000" />
+          </div>
         </>
       )}
 

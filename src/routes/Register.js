@@ -141,7 +141,7 @@ function Register() {
     ) {
 
       axios
-        .post("http://127.0.0.1:8000/signup/", {
+        .post(`${process.env.REACT_APP_API_HOST}/signup/`, {
           name: uname,
           email: email.toLocaleLowerCase(),
           password: passCon,
@@ -151,7 +151,7 @@ function Register() {
           console.log(response);
           if (response.data.message === "Success!") {
             axios
-              .post("http://127.0.0.1:8000/login/", {
+              .post(`${process.env.REACT_APP_API_HOST}/login/`, {
                 // name: uname,
                 email: email.toLocaleLowerCase(),
                 password: passCon,
@@ -213,7 +213,7 @@ function Register() {
                   placeholder="Enter your name"
                   onChange={(e) => setUname(e.target.value)}
                 />
-                {!nameFlag && <p>{unameError}</p>}
+                {!nameFlag && <p className="error-color">{unameError}</p>}
               </div>
               <div className="input-box">
                 <span className="details">Email</span>
@@ -222,10 +222,10 @@ function Register() {
                   placeholder="Enter your email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                {!emailFlag && <p>{emailError}</p>}
-                {errorFlag && <p>{error}</p>}
+                {!emailFlag && <p className="error-color">{emailError}</p>}
+                {errorFlag && <p className="error-color">{error}</p>}
               </div>
-              <div className="">
+              <div style={{ marginTop: "30px" }}>
                 <span className="details">Password</span>
                 <Input.Password
                   type="password"
@@ -233,30 +233,32 @@ function Register() {
                     height: "45px",
                     borderBottomWidth: "2px",
                     borderColor: "#000000",
-                    marginBottom: "30px",
                   }}
                   onChange={(e) => setPass(e.target.value)}
                   placeholder="Enter your password"
                 />
-                {!passFlag && <p>{passError}</p>}
+                {!passFlag && <p className="error-color">{passError}</p>}
               </div>
-              <div className="">
-                <span className="details">Confirm Password</span>
+              <div style={{ marginTop: "30px" }}>
+                <span style={{ marginTop: "30px" }} className="details">
+                  Confirm Password
+                </span>
                 <Input.Password
                   type="password"
                   style={{
                     height: "45px",
                     borderBottomWidth: "2px",
                     borderColor: "#000000",
-                    marginBottom: "30px",
                   }}
                   onChange={(e) => setPassCon(e.target.value)}
                   placeholder="Confirm your password"
                 />
-                {!passConFlag && <p>{passConError}</p>}
+                {!passConFlag && <p className="error-color">{passConError}</p>}
               </div>
             </div>
-            <button type="submit">Register</button>
+            <button style={{ marginTop: "30px" }} type="submit">
+              Register
+            </button>
           </form>
         </div>
       </div>

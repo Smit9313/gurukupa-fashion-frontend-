@@ -75,7 +75,7 @@ function Profile() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get(`http://127.0.0.1:8000/customer-rating/${oid}/`, { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/customer-rating/${oid}/`, { headers })
         .then((response) => {
           console.log(response);
           if (
@@ -106,7 +106,7 @@ function Profile() {
 
     try {
       axios
-        .delete(`http://127.0.0.1:8000/customer-address/${addid}`, { headers })
+        .delete(`${process.env.REACT_APP_API_HOST}/customer-address/${addid}`, { headers })
         .then((response) => {
           // console.log(response);
           if (response.data.message === "Success!") {
@@ -160,7 +160,7 @@ function Profile() {
     // userDetails
     try {
       axios
-        .get("http://127.0.0.1:8000/user-profile/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/user-profile/`, { headers })
         .then((response) => {
           // console.log(response)
           if (response.data.message === "Success!") {
@@ -175,7 +175,7 @@ function Profile() {
     // address Details
     try {
       axios
-        .get("http://127.0.0.1:8000/customer-address/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/customer-address/`, { headers })
         .then((response) => {
           // console.log(response);
           if (response.data.message === "Success!") {
@@ -190,7 +190,7 @@ function Profile() {
     // Order details
     try {
       axios
-        .get("http://127.0.0.1:8000/customer-order/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/customer-order/`, { headers })
         .then((response) => {
           console.log(response.data.data);
           if (response.data.message === "Success!") {
@@ -293,7 +293,7 @@ function Profile() {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/change-password/",
+            `${process.env.REACT_APP_API_HOST}/change-password/`,
             qs.stringify({
               currentPassword: oldpassword,
               newPassword: conPassword,
@@ -379,7 +379,7 @@ function Profile() {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/customer-address/",
+            `${process.env.REACT_APP_API_HOST}/customer-address/`,
             qs.stringify({
               house_no: houseno,
               area_street: area,
@@ -483,7 +483,7 @@ function Profile() {
     try {
       axios
         .patch(
-          `http://127.0.0.1:8000/customer-address/${addressId}/`,
+          `${process.env.REACT_APP_API_HOST}/customer-address/${addressId}/`,
           qs.stringify({
             house_no: houseno,
             area_street: area,
@@ -566,7 +566,7 @@ function Profile() {
     console.log(oid);
     try {
       axios
-        .post(`http://127.0.0.1:8000/customer-rating/${oid}/`, rateData, {
+        .post(`${process.env.REACT_APP_API_HOST}/customer-rating/${oid}/`, rateData, {
           headers,
         })
         .then((response) => {

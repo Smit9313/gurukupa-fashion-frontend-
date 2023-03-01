@@ -26,7 +26,7 @@ function ManageDiscount() {
      const headers = { Authorization: `Bearer ${token}` };
      try {
        axios
-         .get("http://127.0.0.1:8000/product-discount/", { headers })
+         .get(`${process.env.REACT_APP_API_HOST}/product-discount/`, { headers })
          .then((response) => {
           setLoading(false);
            setDiscount(response.data.data);
@@ -47,7 +47,7 @@ function ManageDiscount() {
 
      try {
        axios
-         .delete(`http://127.0.0.1:8000/product-discount/${discid}/`, {
+         .delete(`${process.env.REACT_APP_API_HOST}/product-discount/${discid}/`, {
            headers,
          })
          .then((response) => {

@@ -5,6 +5,7 @@ import { DatePicker } from "antd";
 import { isEmpty } from "lodash";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
@@ -28,7 +29,7 @@ function PurchaseReport() {
 
       try {
         axios
-          .post("http://127.0.0.1:8000/purchase-report/", jsonData, {
+          .post(`${process.env.REACT_APP_API_HOST}/purchase-report/`, jsonData, {
             headers: headers,
             responseType: "blob",
           })
@@ -70,7 +71,11 @@ function PurchaseReport() {
           <div className="box">
             <h3>Select date:</h3>
           </div>
-          <RangePicker onChange={handleDateChange} format={dateFormat} />
+          <RangePicker onChange={handleDateChange} format={dateFormat}
+            defaultValue={[
+              dayjs("2023-02-03", dateFormat),
+              dayjs(dayjs()),
+            ]}/>
           <button
             className="button-311 supplier-report-button"
             onClick={handleClick}>

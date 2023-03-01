@@ -11,8 +11,9 @@ import Switch from "@mui/material/Switch";
 import { Upload, message } from "antd";
 import { Toaster, toast } from "react-hot-toast";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Error from "../../../routes/Error";
+import ClipLoader from "react-spinners/ClipLoader";
 import { isEmpty } from "lodash";
+import { LineWave } from "react-loader-spinner";
 
 function AddProduct() {
   let { id } = useParams();
@@ -52,6 +53,7 @@ function AddProduct() {
   const [fileList, setFileList] = useState();
 
   const [showForm, setshowForm] = useState(false);
+    const [loading, setLoading] = useState(false);
 
   const theme = createTheme({
     palette: {
@@ -72,7 +74,7 @@ function AddProduct() {
     console.log(id);
     try {
       axios
-        .get(`http://127.0.0.1:8000/admin-product/${id}/`, {
+        .get(`${process.env.REACT_APP_API_HOST}/admin-product/${id}/`, {
           headers,
         })
         .then((response) => {
@@ -91,8 +93,12 @@ function AddProduct() {
             setFileList(
               response.data.data.prod_image.map((val) => {
                 return {
-                  uid: val.split("%2F")[1].split("?")[0],
-                  name: val.split("%2F")[1].split("?")[0],
+                  uid: val
+                    .split("/prod_image%2Fprod_image%2F")[1]
+                    .split("?")[0],
+                  name: val
+                    .split("/prod_image%2Fprod_image%2F")[1]
+                    .split("?")[0],
                   url: val,
                   status: "done",
                 };
@@ -114,7 +120,7 @@ function AddProduct() {
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-category-type/",
+          `${process.env.REACT_APP_API_HOST}/admin-category-type/`,
           //  qs.stringify({ cat_type: cat_type, active: cat_status }),
           { headers }
         )
@@ -270,7 +276,7 @@ function AddProduct() {
 
   //     try {
   //       axios
-  //         .post("http://127.0.0.1:8000/admin-product/", formData, {
+  //         .post(`${process.env.REACT_APP_API_HOST}/admin-product/`, formData, {
   //           headers: {
   //             Authorization: `Bearer ${token}`,
   //             "Content-Type": `multipart/form-data`,
@@ -400,8 +406,10 @@ function AddProduct() {
       price !== ""
     ) {
       console.log("valid");
+      
       const token = sessionStorage.getItem("token");
 
+      setLoading(true);
       formData.append("prod_name", name);
       formData.append("cat_id", subcatid1);
       formData.append("active", active);
@@ -415,7 +423,7 @@ function AddProduct() {
 
       try {
         axios
-          .patch(`http://127.0.0.1:8000/admin-product/${id}/`, formData, {
+          .patch(`${process.env.REACT_APP_API_HOST}/admin-product/${id}/`, formData, {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": `multipart/form-data`,
@@ -432,6 +440,7 @@ function AddProduct() {
               setActive(true);
               setDescription("");
               setPrice("");
+              setLoading(false)
               history.push("/admin/manageProduct");
             } else {
               toast.error(response.data.message, {
@@ -487,7 +496,7 @@ function AddProduct() {
                       try {
                         axios
                           .get(
-                            `http://127.0.0.1:8000/admin-cat-type-to-category/${value1}/`,
+                            `${process.env.REACT_APP_API_HOST}/admin-cat-type-to-category/${value1}/`,
                             //  qs.stringify({ cat_type: cat_type, active: cat_status }),
                             { headers }
                           )
@@ -553,7 +562,6 @@ function AddProduct() {
                 <div className="box">
                   <p>Enter status:</p>
                   <Switch
-                    
                     checked={active}
                     onChange={(e) => {
                       console.log(e.target.checked);
@@ -591,6 +599,22 @@ function AddProduct() {
               </div>
 
               <div className="add-suplier-sub1">
+                {loading && (
+                  <div style={{ marginLeft: "40px" }}>
+                    <LineWave
+                      height="100"
+                      width="100"
+                      color="#000"
+                      ariaLabel="line-wave"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                      visible={true}
+                      firstLineColor=""
+                      middleLineColor=""
+                      lastLineColor=""
+                    />
+                  </div>
+                )}
                 <div className="box box-qty ds-flex">
                   <p>select Product image:</p>
                   <br />
@@ -636,7 +660,9 @@ function AddProduct() {
         </section>
       ) : (
         <>
-          <Error />
+          <div className="loader-spin">
+            <ClipLoader color="#000" />
+          </div>
         </>
       )}
     </>

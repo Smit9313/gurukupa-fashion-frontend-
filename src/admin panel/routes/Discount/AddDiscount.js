@@ -147,7 +147,7 @@ function AddDiscount() {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/product-discount/",qs.stringify(
+            `${process.env.REACT_APP_API_HOST}/product-discount/`,qs.stringify(
             {
               disc_percent: inputValue,
               valid_from: validFrom.$d,

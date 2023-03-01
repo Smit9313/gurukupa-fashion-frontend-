@@ -232,7 +232,7 @@ if (pincode === "" || pincode.toString().length !== 6) {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/admin-supplier/",
+            `${process.env.REACT_APP_API_HOST}/admin-supplier/`,
             qs.stringify({
               name: name,
               mobile_no: mobile,

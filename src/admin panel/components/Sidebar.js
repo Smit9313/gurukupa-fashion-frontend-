@@ -160,9 +160,7 @@ function Sidebar({ url }) {
                 </NavLink>
               </li>
 
-              <li className="nav-link" onClick={handleAdmin}>
-                <section>
-                  {/* <i className="bx bx-bar-chart-alt-2 icon"></i> */}
+              {/*
                   <i className="bx bx-user-pin icon"></i>
                   <span className="text nav-text">Admin</span>
                   </section>
@@ -182,14 +180,14 @@ function Sidebar({ url }) {
                     <NavLink
                       to={`/admin/addAdmin`}
                       activeClassName="sidebar-active">
-                      {/* <i className="bx bx-bell icon"></i> */}
+                    
                       <span className="text nav-text">{"->"}Add Admin</span>
-                      {/* <hr /> */}
+                      
                     </NavLink>
                   </li>
                   <hr />
                 </>
-              )}
+              )} */}
 
               <li className="nav-link" onClick={handleSuplier}>
                 <section>

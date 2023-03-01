@@ -22,7 +22,7 @@ function PendingOrder() {
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-order?order_status=Pending",
+          `${process.env.REACT_APP_API_HOST}/admin-order?order_status=Pending`,
           // { order_status: "All"},
           { headers }
         )
@@ -119,7 +119,7 @@ function PendingOrder() {
                 try {
                   axios
                     .patch(
-                      `http://127.0.0.1:8000/admin-order/${row._id}/`,
+                      `${process.env.REACT_APP_API_HOST}/admin-order/${row._id}/`,
                       qs.stringify({ order_status: "Delivered" }),
                       { headers }
                     )

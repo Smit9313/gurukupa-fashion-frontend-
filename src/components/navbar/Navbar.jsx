@@ -58,7 +58,7 @@ function Navbar({ navrender }) {
   useEffect(() => {
     try {
       axios
-        .get("http://127.0.0.1:8000/navbar-shop-category/")
+        .get(`${process.env.REACT_APP_API_HOST}/navbar-shop-category/`)
         .then((response) => {
           console.log(response);
           setNavData(response.data.data);
@@ -77,7 +77,7 @@ function Navbar({ navrender }) {
 
     try {
       axios
-        .get("http://127.0.0.1:8000/user-profile/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/user-profile/`, { headers })
         .then((response) => {
           console.log(response);
           //  setNavData(response.data.data);
@@ -144,7 +144,7 @@ function Navbar({ navrender }) {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/cart-count/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/cart-count/`, { headers })
         .then((response) => {
           if (response.data.message === "Success!") {
             setCountCart(response.data.data["cart_count"]);
@@ -162,13 +162,14 @@ function Navbar({ navrender }) {
     <>
       <UserContext.Provider value={countCart}>
         <nav className="NavBarItems">
-          <img
-            src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/site_images%2Fgurukrupa.png?alt=media&token=f6246337-bbac-46a9-b2bf-1abaac2de541"
-            alt=""
-            height="40px"
-            width="130px"
-          />
-
+          <Link to="/home">
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/site_images%2Fgurukrupa.png?alt=media&token=f6246337-bbac-46a9-b2bf-1abaac2de541"
+              alt=""
+              height="40px"
+              width="130px"
+            />
+          </Link>
           <ul className={icon ? "nav-menu active-mb" : "nav-menu"}>
             <li>
               <NavLink
@@ -391,15 +392,17 @@ function Navbar({ navrender }) {
               ABOUT
             </NavLink>
           </li> */}
-            <li>
-              <NavLink
-                to="/contact"
-                className="nav-links"
-                activeClassName="active-link"
-                onClick={handleClick}>
-                CONTACT
-              </NavLink>
-            </li>
+            {role !== "admin" && (
+              <li>
+                <NavLink
+                  to="/contact"
+                  className="nav-links"
+                  activeClassName="active-link"
+                  onClick={handleClick}>
+                  CONTACT
+                </NavLink>
+              </li>
+            )}
 
             {token === null && (
               <>
@@ -470,7 +473,7 @@ function Navbar({ navrender }) {
                   </NavLink>
                 </li> */}
 
-                {/* <li>
+            {/* <li>
                   <a
                     // to="/register"
                     href="/"
@@ -480,7 +483,7 @@ function Navbar({ navrender }) {
                     LOG-OUT
                   </a>
                 </li> */}
-              {/* </>
+            {/* </>
             )} */}
             {/* <li>
             <NavLink
@@ -510,7 +513,7 @@ function Navbar({ navrender }) {
                       },
                     }}>
                     <Dropdown menu={menuProps}>
-                      <Space style={{cursor:"pointer"}}>
+                      <Space style={{ cursor: "pointer" }}>
                         {userData.name}
                         <UserOutlined
                           style={{ fontSize: "25px", color: "black" }}
@@ -521,33 +524,35 @@ function Navbar({ navrender }) {
                 </div>
               </>
             )}
-            <Link to="/cart-products">
-              <div className="cat-icon-style">
-                <ConfigProvider
-                  theme={{
-                    colorPrimary: "#000",
-                    colorPrimaryHover: "#000",
-                    colorErrorText: "#000",
-                    colorError: "#000",
-                  }}>
-                  <Badge
-                    count={countCart}
-                    showZero
-                    className="cart-img"
-                    style={{
-                      backgroundColor: "#000",
+            {role !== "admin" && (
+              <Link to="/cart-products">
+                <div className="cat-icon-style">
+                  <ConfigProvider
+                    theme={{
+                      colorPrimary: "#000",
+                      colorPrimaryHover: "#000",
+                      colorErrorText: "#000",
+                      colorError: "#000",
                     }}>
-                    <img
-                      src="/logo/shopping-cart.png"
-                      alt=""
+                    <Badge
+                      count={countCart}
+                      showZero
                       className="cart-img"
-                      height="35px"
-                      width="35px"
-                    />
-                  </Badge>
-                </ConfigProvider>
-              </div>
-            </Link>
+                      style={{
+                        backgroundColor: "#000",
+                      }}>
+                      <img
+                        src="/logo/shopping-cart.png"
+                        alt=""
+                        className="cart-img"
+                        height="35px"
+                        width="35px"
+                      />
+                    </Badge>
+                  </ConfigProvider>
+                </div>
+              </Link>
+            )}
           </div>
 
           <div className="menu-icons">
@@ -577,25 +582,28 @@ function Navbar({ navrender }) {
                 </div>
               </>
             )}
-            <Link to="/cart-products">
-              <div className="cart-icon-mobile">
-                <Badge
-                  count={countCart}
-                  showZero
-                  // className="cart-img"
-                  style={{
-                    backgroundColor: "#000",
-                  }}>
-                  <img
-                    src="/logo/shopping-cart.png"
-                    alt=""
-                    className="cart-mb"
-                    height="40px"
-                    width="40px"
-                  />
-                </Badge>
-              </div>
-            </Link>
+            {role !== "admin" && (
+              <Link to="/cart-products">
+                <div className="cart-icon-mobile">
+                  <Badge
+                    count={countCart}
+                    showZero
+                    // className="cart-img"
+                    style={{
+                      backgroundColor: "#000",
+                    }}>
+                    <img
+                      src="/logo/shopping-cart.png"
+                      alt=""
+                      className="cart-mb"
+                      height="40px"
+                      width="40px"
+                    />
+                  </Badge>
+                </div>
+              </Link>
+            )}
+
             <i
               className={icon ? "fas fa-times" : "fas fa-bars"}
               onClick={handleClick}></i>

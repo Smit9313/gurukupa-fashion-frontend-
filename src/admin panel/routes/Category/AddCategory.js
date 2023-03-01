@@ -61,7 +61,7 @@ function AddCategory() {
     try {
       axios
         .get(
-          "http://127.0.0.1:8000/admin-category-type/",
+          `${process.env.REACT_APP_API_HOST}/admin-category-type/`,
           //  qs.stringify({ cat_type: cat_type, active: cat_status }),
           { headers }
         )
@@ -106,7 +106,7 @@ function AddCategory() {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/admin-category-type/",
+            `${process.env.REACT_APP_API_HOST}/admin-category-type/`,
             qs.stringify({ cat_type: cattype, active: cat_status }),
             { headers }
           )
@@ -245,7 +245,7 @@ function AddCategory() {
       try {
         axios
           .post(
-            "http://127.0.0.1:8000/admin-category/",
+            `${process.env.REACT_APP_API_HOST}/admin-category/`,
             qs.stringify({
               cat_type_id: catid,
               active: subcatstatus,

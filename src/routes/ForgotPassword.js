@@ -51,7 +51,7 @@ function ForgotPassword() {
 
       try {
         axios
-          .post("http://127.0.0.1:8000/request-password-reset/", {
+          .post(`${process.env.REACT_APP_API_HOST}/request-password-reset/`, {
             email: email,
           })
           .then((response) => {

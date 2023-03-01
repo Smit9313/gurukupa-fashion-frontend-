@@ -44,7 +44,7 @@ function Shop() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/customer-product/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/customer-product/`, { headers })
         .then((response) => {
           setLoading(false);
           console.log(response.data);
@@ -74,7 +74,7 @@ function Shop() {
 
     try {
       axios
-        .get("http://127.0.0.1:8000/navbar-shop-category/")
+        .get(`${process.env.REACT_APP_API_HOST}/navbar-shop-category/`)
         .then((response) => {
           response.data.data.forEach((element) => {
             if (id === element.cat_type) {
@@ -251,6 +251,12 @@ function Shop() {
                     .toLowerCase()
                     .includes(searchTerm.toLocaleLowerCase()) ||
                     val.prod_desc
+                      .toLowerCase()
+                      .includes(searchTerm.toLocaleLowerCase()) ||
+                    val.cat_title
+                      .toLowerCase()
+                      .includes(searchTerm.toLocaleLowerCase()) ||
+                    val.cat_type
                       .toLowerCase()
                       .includes(searchTerm.toLocaleLowerCase()))
                 );

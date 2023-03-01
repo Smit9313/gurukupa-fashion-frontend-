@@ -50,6 +50,7 @@ function ProductList({ products, onChangeProductQuantity, onRemoveProduct ,onAdd
                             type="text"
                             className="quantity"
                             disabled
+                            max={10}
                             step="1"
                             value={product.qty}
                             onChange={(event) =>

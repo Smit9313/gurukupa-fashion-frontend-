@@ -26,7 +26,7 @@ function ManageSuplier() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
-        .get("http://127.0.0.1:8000/admin-supplier/", { headers })
+        .get(`${process.env.REACT_APP_API_HOST}/admin-supplier/`, { headers })
         .then((response) => {
           setLoading(false);
           setSupplier(response.data.data);
@@ -47,7 +47,7 @@ function ManageSuplier() {
 
     try {
       axios
-        .delete(`http://127.0.0.1:8000/admin-supplier/${supid}`, { headers })
+        .delete(`${process.env.REACT_APP_API_HOST}/admin-supplier/${supid}`, { headers })
         .then((response) => {
           console.log(response);
           if (response.data.message === "Success!") {
