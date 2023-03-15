@@ -513,7 +513,7 @@ function Navbar({ navrender }) {
                       },
                     }}>
                     <Dropdown menu={menuProps}>
-                      <Space style={{ cursor: "pointer",fontWeight:"bold" }}>
+                      <Space style={{ cursor: "pointer", fontWeight: "bold" }}>
                         {userData.name}
                         <UserOutlined
                           style={{ fontSize: "25px", color: "black" }}
@@ -611,7 +611,7 @@ function Navbar({ navrender }) {
         </nav>
         {isHovering && !isEmpty(navData) && (
           <div
-            className="category-container"
+            className="category-container animate__animated animate__fadeIn"
             onMouseOver={handleMouseOver}
             onMouseOut={handleMouseOut}>
             <div className="sub-category-container">
@@ -626,7 +626,7 @@ function Navbar({ navrender }) {
                     <hr className="hr-style" />
                     {val.Category.map((val1, index1) => {
                       return (
-                        <div key={index1} style={{margin:"5px"}}>
+                        <div key={index1} style={{ margin: "5px" }}>
                           <center>
                             <NavLink
                               to={`/shop/${val.cat_type}/${val1.cat_title}`}>

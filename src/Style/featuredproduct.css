@@ -100,6 +100,9 @@
   padding: 10px 10px;
   /* height: 200px; */
 }
+#product1 .pro .des h5{
+  /* font-weight: 500; */
+}
 
 /* #product1 .pro .des span {
   display: inline-block;
@@ -113,7 +116,7 @@
   /* color: #606063; */
   font-size: 12px;
   margin-top: 7px;
-  /* letter-spacing: 1px; */
+  letter-spacing: 1px;
   /* max-width: 250px; */
   /* overflow: hidden; */
   /* text-overflow: ellipsis; */

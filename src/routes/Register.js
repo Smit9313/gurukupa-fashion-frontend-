@@ -201,7 +201,7 @@ function Register() {
     <>
       <Navbar />
       {/* <div className="extra"></div> */}
-      <div className="container1">
+      <div className="container1 animate__animated animate__zoomIn">
         <div className="title">Registration</div>
         <div className="content">
           <form onSubmit={validateRegister}>
@@ -209,6 +209,7 @@ function Register() {
               <div className="input-box">
                 <span className="details">Name</span>
                 <input
+                  id="inputText"
                   type="text"
                   placeholder="Enter your name"
                   onChange={(e) => setUname(e.target.value)}
@@ -218,6 +219,7 @@ function Register() {
               <div className="input-box">
                 <span className="details">Email</span>
                 <input
+                  id="inputText"
                   type="text"
                   placeholder="Enter your email"
                   onChange={(e) => setEmail(e.target.value)}

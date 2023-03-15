@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../Style/login.css";
 import { Link, useHistory } from "react-router-dom";
 import Footer from "./Footer";
@@ -129,7 +129,7 @@ function Login() {
           </div>
         })
       } */}
-      <div className="container1">
+      <div className="container1 animate__animated animate__zoomIn">
         <div className="title">Login</div>
         <div className="content">
           <form onSubmit={validateRegister}>
@@ -138,6 +138,7 @@ function Login() {
                 <span className="details">Email</span>
                 <input
                   type="text"
+                  id="inputText"
                   placeholder="Enter your email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -149,14 +150,21 @@ function Login() {
                 <span className="details">Password</span>
                 <Input.Password
                   type="password"
-                  style={{height:"45px",borderBottomWidth: "2px",borderColor: "#000000"}}
+                  style={{
+                    height: "45px",
+                    borderBottomWidth: "2px",
+                    borderColor: "#000000",
+                    color: "black",
+                  }}
                   placeholder="Enter your password"
                   onChange={(e) => setPass(e.target.value)}
                 />
                 {!passFlag && <p className="error-color">{passError}</p>}
               </div>
             </div>
-            <button style={{marginTop:"30px"}} type="submit">Login</button>
+            <button style={{ marginTop: "30px" }} type="submit">
+              Login
+            </button>
             <div className="footer-f">
               <p>
                 Don't have an account ?{" "}

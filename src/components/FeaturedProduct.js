@@ -27,7 +27,7 @@ function FeaturedProduct({items,title,des}) {
       .slice(pagesVisited, pagesVisited + usersPerPage)
       .map((item,index) => {
         return (
-          <div className="pro" key={index}>
+          <div className="pro animate__animated animate__zoomIn" key={index}>
             <Link to={`/single-product/${item._id}`}>
               <img src={item.prod_image} alt="" />
             </Link>

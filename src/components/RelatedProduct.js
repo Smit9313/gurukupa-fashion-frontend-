@@ -18,18 +18,20 @@ function RelatedProduct({ items}) {
   const displayUsers = items
     .map((item, index) => {
       return (
-        <div className="pro" key={index}>
+        <div className="pro animate__animated animate__zoomIn" key={index}>
           <Link to={`/single-product/${item._id}`}>
             <img src={item.prod_image} alt="" />
           </Link>
           <div className="des">
             <h5>{item.prod_name}</h5>
             <span className="des-text">{item.prod_desc}</span>
-            <div className="star" style={{fontSize:"18px"}}>
+            <div className="star" style={{ fontSize: "18px" }}>
               <Rate disabled defaultValue={item.rating} />
               <p style={{ marginLeft: "15px", paddingTop: "4px" }}>(</p>
-                <p className="pdown" style={{paddingTop:"6px"}}>{item.user_count}</p>
-                <p style={{ paddingTop: "4px" }}>)</p>
+              <p className="pdown" style={{ paddingTop: "6px" }}>
+                {item.user_count}
+              </p>
+              <p style={{ paddingTop: "4px" }}>)</p>
             </div>
             <h4>{item.prod_price} ₹</h4>
           </div>

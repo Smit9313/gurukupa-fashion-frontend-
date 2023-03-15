@@ -141,14 +141,20 @@ function SingleProduct() {
         <>
           <section id="prodetails" className="section-p1">
             <div className="single-pro-image">
-              <img src={url} width="100%" id="MainImg" alt="" />
+              <img
+                src={url}
+                width="100%"
+                id="MainImg"
+                alt=""
+                className="animate__animated animate__zoomIn"
+              />
 
               <div className="small-img-group">
                 <div className="small-img-col">
                   <img
                     src={data.prod_image[0]}
                     width="100%"
-                    className="small-img"
+                    className="small-img animate__animated animate__zoomIn"
                     alt=""
                     onClick={() => setUrl(data.prod_image[0])}
                   />
@@ -157,7 +163,7 @@ function SingleProduct() {
                 <div className="small-img-col">
                   <img
                     src={data.prod_image[1]}
-                    className="small-img"
+                    className="small-img animate__animated animate__zoomIn"
                     alt=""
                     onClick={() => setUrl(data.prod_image[1])}
                   />
@@ -167,7 +173,7 @@ function SingleProduct() {
                   <img
                     src={data.prod_image[2]}
                     width="100%"
-                    className="small-img"
+                    className="small-img animate__animated animate__zoomIn"
                     alt=""
                     onClick={() => setUrl(data.prod_image[2])}
                   />
@@ -266,7 +272,7 @@ function SingleProduct() {
               <br />
               <br />
               <br />
-              <span style={{fontSize: "12px" }}>
+              <span style={{ fontSize: "12px" }}>
                 No Return, No Refund Policy *
               </span>
             </div>
