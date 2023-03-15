@@ -31,6 +31,8 @@ function PendingOrder() {
           console.log(response);
           if (response.data.message === "Success!") {
             setDeliveredOrderData(response.data.data);
+          }else{
+            setDeliveredOrderData();
           }
 
           setLoading(true);
@@ -124,7 +126,7 @@ function PendingOrder() {
                       { headers }
                     )
                     .then(async (response) => {
-                      await sleep(2000);
+                      await sleep(1000);
                       if (response.data.message === "Success!") {
                         toast.success("Delivered!", {
                           duration: 3000,

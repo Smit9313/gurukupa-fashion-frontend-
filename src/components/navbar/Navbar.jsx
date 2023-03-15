@@ -513,7 +513,12 @@ function Navbar({ navrender }) {
                       },
                     }}>
                     <Dropdown menu={menuProps}>
-                      <Space style={{ cursor: "pointer", fontWeight: "bold" , fontSize:"17px"}}>
+                      <Space
+                        style={{
+                          cursor: "pointer",
+                          fontWeight: "bold",
+                          fontSize: "17px",
+                        }}>
                         {userData.name}
                         <UserOutlined
                           style={{ fontSize: "25px", color: "black" }}

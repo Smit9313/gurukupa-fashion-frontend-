@@ -20,13 +20,19 @@ function RelatedProduct({ items}) {
       return (
         <div className="pro animate__animated animate__zoomIn" key={index}>
           <Link to={`/single-product/${item._id}`}>
-            <img src={item.prod_image} alt="" />
+            <img src={item.prod_image[1]} alt="" style={{ display: "none" }} />
+            <img
+              src={item.prod_image[0]}
+              alt=""
+              onMouseLeave={(e) => (e.currentTarget.src = item.prod_image[0])}
+              onMouseOver={(e) => (e.currentTarget.src = item.prod_image[1])}
+            />
           </Link>
           <div className="des">
             <h5>{item.prod_name}</h5>
             <span className="des-text">{item.prod_desc}</span>
             <div className="star" style={{ fontSize: "18px" }}>
-              <Rate disabled defaultValue={item.rating} />
+              <Rate disabled defaultValue={item.rating} value={item.rating} />
               <p style={{ marginLeft: "15px", paddingTop: "4px" }}>(</p>
               <p className="pdown" style={{ paddingTop: "6px" }}>
                 {item.user_count}

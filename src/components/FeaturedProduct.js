@@ -29,7 +29,17 @@ function FeaturedProduct({items,title,des}) {
         return (
           <div className="pro animate__animated animate__zoomIn" key={index}>
             <Link to={`/single-product/${item._id}`}>
-              <img src={item.prod_image} alt="" />
+              <img
+                src={item.prod_image[1]}
+                alt=""
+                style={{display:"none"}}
+              />
+              <img
+                src={item.prod_image[0]}
+                alt=""
+                onMouseLeave={(e) => (e.currentTarget.src = item.prod_image[0])}
+                onMouseOver={(e) => (e.currentTarget.src = item.prod_image[1])}
+              />
             </Link>
             <div className="des">
               <h5>{item.prod_name}</h5>

@@ -200,7 +200,7 @@ function SingleProduct() {
               </Breadcrumb>
               <br />
               <h1>{data.prod_name}</h1>
-              <Rate disabled defaultValue={data.rating} />
+              <Rate disabled defaultValue={data.rating} value={data.rating} />
               <p>({data.user_count})</p>
               <h2>{data.prod_price} ₹</h2>
               <div className="size-container">
