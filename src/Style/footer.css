@@ -1,7 +1,8 @@
 .footer{
     padding: 4rem 6rem;
     background:#ffffff;
-    color:#000000
+    color:#000000;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .top{

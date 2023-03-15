@@ -46,7 +46,7 @@ function Dashboard() {
 
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -64,7 +64,7 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -82,7 +82,7 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -154,7 +154,7 @@ function Dashboard() {
               // checked={row.status === "seen"}
 
               onChange={() => {
-                const token = sessionStorage.getItem("token");
+                const token = localStorage.getItem("token");
                 const headers = { Authorization: `Bearer ${token}` };
                 try {
                   axios

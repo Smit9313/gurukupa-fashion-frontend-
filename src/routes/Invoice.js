@@ -13,7 +13,7 @@ function Invoice() {
 
     useEffect(() => {
      
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("token");
         const headers = { Authorization: `Bearer ${token}` };
 
         // userDetails

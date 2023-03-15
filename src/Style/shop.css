@@ -251,5 +251,5 @@ input[type="range"]::-webkit-slider-thumb{
     margin-top: 25vh;
     margin-left: 45vw;
     height: 100vh;
-    
+    width: 30px;
 }

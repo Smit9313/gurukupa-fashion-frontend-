@@ -7,7 +7,7 @@ import Navbar from "../components/navbar/Navbar";
 import "../Style/megic.css";
 
 function Megic() {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const [hight, setHight] = useState();
   const [weight, setWeight] = useState();

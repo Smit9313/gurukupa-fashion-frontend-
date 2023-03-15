@@ -22,7 +22,7 @@ function ManageDiscount() {
    const [loading, setLoading] = useState(false);
 
    useEffect(() => {
-     const token = sessionStorage.getItem("token");
+     const token = localStorage.getItem("token");
      const headers = { Authorization: `Bearer ${token}` };
      try {
        axios
@@ -42,7 +42,7 @@ function ManageDiscount() {
    const confirm = (discid) => {
      console.log(discid);
 
-     const token = sessionStorage.getItem("token");
+     const token = localStorage.getItem("token");
      const headers = { Authorization: `Bearer ${token}` };
 
      try {

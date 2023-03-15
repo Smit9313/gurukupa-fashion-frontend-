@@ -204,13 +204,12 @@ function BodyMeasurements({hight,weight,gender}) {
         />
         <div>
           <canvas
-            style={{ borderRadius: "20px" }}
             ref={canvasRef}
-            width="400"
+            width="412px"
             height="590"
           />
         </div>
-        <div>
+        <div style={{marginTop:"30px",marginLeft:"170px"}}>
           <button className="button-300" onClick={handleScreenshot}>
             
           </button>

@@ -13,6 +13,9 @@ import { Toaster, toast } from "react-hot-toast";
 import useRazorpay from "react-razorpay";
 import { useHistory } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+
 
 function Checkout() {
   const history = useHistory();
@@ -24,7 +27,7 @@ function Checkout() {
   const [products, setProducts] = useState(undefined);
   const [mobile, setMobile] = useState();
   const [mobileFlag, setMobileFlag] = useState(false);
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const [userData, setUserData] = useState();
   const [addData, setAddData] = useState();
@@ -95,8 +98,39 @@ function Checkout() {
     fetchData();
   }, [pincode]);
 
+    const theme = createTheme({
+      typography: {
+        fontFamily: "futura",
+      },
+
+      palette: {
+        primary: {
+          // Purple and green play nicely together.
+          main: "#09142d",
+        },
+        secondary: {
+          // This is green.A700 as hex.
+          main: "#11cb5f",
+        },
+      },
+      components: {
+        MuiCssBaseline: {
+          styleOverrides: `
+        @font-face {
+          font-family: 'futura';
+          font-style: normal;
+          font-display: swap;
+          font-weight: 400;
+          src: local('Raleway'), local('Raleway-Regular'), url('public\fonts\futura\futura light bt.ttf') format('woff2');
+          unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
+        }
+      `,
+        },
+      },
+    });
+
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -133,7 +167,7 @@ function Checkout() {
   }, [updateDrop]);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -171,7 +205,7 @@ function Checkout() {
       state !== "" &&
       city !== ""
     ) {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
 
       try {
@@ -229,7 +263,7 @@ function Checkout() {
   const handleDiscount = (e) => {
     e.preventDefault();
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
     try {
@@ -274,7 +308,7 @@ function Checkout() {
       addData._id !== ""
     ) {
       setMobileFlag(false);
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -423,302 +457,310 @@ function Checkout() {
 
       {!isEmpty(token) && !isEmpty(userData) && !isEmpty(products) ? (
         <>
-          <div style={{ margin: "65px" }}></div>
-          <div className="row-checkout">
-            <div className="col-75">
-              <form>
-                <div className="checkout-form">
-                  <div className="add-suplier-sub1">
-                    <h2>Checkout</h2>
-                    <div className="box">
-                      <p>Enter Name:</p>
-                      <TextField
-                        label="name"
-                        size="small"
-                        value={userData.name}
-                        disabled={true}
-                        fullWidth={true}
-                        inputProps={{ readOnly: true }}
-                      />
-                      {/* {flag1 && <p className="error-color">{nameError}</p>} */}
-                    </div>
-
-                    <div className="box">
-                      <p>Enter Mobile No:</p>
-                      <TextField
-                        label="mobile no"
-                        type="number"
-                        size="small"
-                        value={mobile}
-                        onChange={(e) => setMobile(e.target.value)}
-                        fullWidth={true}
-                        // inputProps={{ readOnly: true }}
-                      />
-                      {mobileFlag && (
-                        <p className="error-color">Enter valid number</p>
-                      )}
-                    </div>
-
-                    <div className="box">
-                      <p>Enter Email:</p>
-                      <TextField
-                        label="email"
-                        size="small"
-                        value={userData.email}
-                        disabled={true}
-                        fullWidth={true}
-                        inputProps={{ readOnly: true }}
-                      />
-                      {/* {flag3 && <p className="error-color">{emailError}</p>} */}
-                    </div>
-
-                    <div className="box">
-                      <div className="box-sub-btn">
-                        <p>Select address</p>
-                        <div>
-                          <ConfigProvider
-                            theme={{
-                              components: {
-                                Button: {
-                                  colorPrimary: "#000",
-                                  colorPrimaryHover: "#fff",
-                                  width: "200px",
-                                },
-                              },
-                            }}>
-                            <button className="button-131" onClick={showDrawer}>
-                              + Add new address
-                            </button>
-                            <button
-                              className="button-111"
-                              onClick={showDrawer1}>
-                              + Add new address
-                            </button>
-                          </ConfigProvider>
-                        </div>
-                        {/* {addData.add_id !== "" && (
-                          <p className="error-color">Enter valid number</p>
-                        )} */}
+          <ThemeProvider theme={theme}>
+            <div style={{ margin: "65px" }}></div>
+            <div className="row-checkout">
+              <div className="col-75">
+                <form>
+                  <div className="checkout-form">
+                    <div className="add-suplier-sub1">
+                      <h2>Checkout</h2>
+                      <div className="box">
+                        <p>Enter Name:</p>
+                        <TextField
+                          label="name"
+                          size="small"
+                          value={userData.name}
+                          disabled={true}
+                          fullWidth={true}
+                          inputProps={{ readOnly: true }}
+                        />
+                        {/* {flag1 && <p className="error-color">{nameError}</p>} */}
                       </div>
 
                       <div className="box">
-                        <Select
-                          showSearch
-                          style={{ width: 310 }}
-                          defaultValue={defaultAddress}
-                          onChange={(value) =>
-                            userData["Ship-add"].map((val, index) => {
-                              if (val._id === value) {
-                                setAddData(val);
+                        <p>Enter Mobile No:</p>
+                        <TextField
+                          label="mobile no"
+                          type="number"
+                          size="small"
+                          value={mobile}
+                          onChange={(e) => setMobile(e.target.value)}
+                          fullWidth={true}
+                          // inputProps={{ readOnly: true }}
+                        />
+                        {mobileFlag && (
+                          <p className="error-color">Enter valid number</p>
+                        )}
+                      </div>
 
-                                setHouseNo1(val.house_no);
-                                setArea1(val.area_street);
-                                setAddtype1(val.add_type);
-                                setPincode1(val.pincode);
-                                setState1(val.state);
-                                setCity1(val.city);
-                              }
-                            })
-                          }
-                          placeholder="Select address"
-                          optionFilterProp="children"
-                          filterOption={(input, option) =>
-                            (option?.label ?? "").includes(input)
-                          }
-                          filterSort={(optionA, optionB) =>
-                            (optionA?.label ?? "")
-                              .toLowerCase()
-                              .localeCompare(
-                                (optionB?.label ?? "").toLowerCase()
-                              )
-                          }
-                          options={userData["Ship-add"].map((val, index) => ({
-                            label: val.Shipadd_label,
-                            value: val._id,
-                          }))}
+                      <div className="box">
+                        <p>Enter Email:</p>
+                        <TextField
+                          label="email"
+                          size="small"
+                          value={userData.email}
+                          disabled={true}
+                          fullWidth={true}
+                          inputProps={{ readOnly: true }}
+                        />
+                        {/* {flag3 && <p className="error-color">{emailError}</p>} */}
+                      </div>
+
+                      <div className="box">
+                        <div className="box-sub-btn">
+                          <p>Select address</p>
+                          <div>
+                            <ConfigProvider
+                              theme={{
+                                components: {
+                                  Button: {
+                                    colorPrimary: "#000",
+                                    colorPrimaryHover: "#fff",
+                                    width: "200px",
+                                  },
+                                },
+                              }}>
+                              <button
+                                className="button-131"
+                                onClick={showDrawer}>
+                                + Add new address
+                              </button>
+                              <button
+                                className="button-111"
+                                onClick={showDrawer1}>
+                                + Add new address
+                              </button>
+                            </ConfigProvider>
+                          </div>
+                          {/* {addData.add_id !== "" && (
+                          <p className="error-color">Enter valid number</p>
+                        )} */}
+                        </div>
+
+                        <div className="box">
+                          <Select
+                            showSearch
+                            style={{ width: 310 }}
+                            defaultValue={defaultAddress}
+                            onChange={(value) =>
+                              userData["Ship-add"].map((val, index) => {
+                                if (val._id === value) {
+                                  setAddData(val);
+
+                                  setHouseNo1(val.house_no);
+                                  setArea1(val.area_street);
+                                  setAddtype1(val.add_type);
+                                  setPincode1(val.pincode);
+                                  setState1(val.state);
+                                  setCity1(val.city);
+                                }
+                              })
+                            }
+                            placeholder="Select address"
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              (option?.label ?? "").includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={userData["Ship-add"].map((val, index) => ({
+                              label: val.Shipadd_label,
+                              value: val._id,
+                            }))}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="add-suplier-sub1">
+                      <h4>Address:</h4>
+                      <div className="box">
+                        <p>House no:</p>
+                        <TextField
+                          label="house no"
+                          size="small"
+                          disabled={true}
+                          value={houseno1}
+                          fullWidth={true}
+                          inputProps={{ readOnly: true }}
+                        />
+                      </div>
+
+                      <div className="box">
+                        <p>Area Street:</p>
+                        <TextField
+                          label="area street"
+                          size="small"
+                          disabled={true}
+                          value={area1}
+                          fullWidth={true}
+                          inputProps={{ readOnly: true }}
+                        />
+                      </div>
+
+                      <div className="box">
+                        <p>Address type</p>
+                        <ConfigProvider
+                          theme={{
+                            components: {
+                              Radio: {
+                                colorPrimary: "#000",
+                                colorPrimaryHover: "#000",
+                              },
+                            },
+                          }}>
+                          <Radio.Group
+                            defaultValue={addtype1}
+                            buttonStyle="solid"
+                            // value={addtype1}
+                            disabled={true}>
+                            <Radio.Button value="Home">Home</Radio.Button>
+                            <Radio.Button value="Office">Office</Radio.Button>
+                          </Radio.Group>
+                        </ConfigProvider>
+                      </div>
+
+                      <div className="box">
+                        <p>Pincode:</p>
+                        <TextField
+                          label="pincode"
+                          type="number"
+                          disabled={true}
+                          value={pincode1}
+                          size="small"
+                          fullWidth={true}
+                          inputProps={{ readOnly: true }}
+                          // onChange={(e) => setPincode(e.target.value)}
+                        />
+                        {/* {pincodeError && (
+                        <p className="error-color">Enter valid pincode.</p>
+                      )} */}
+                      </div>
+
+                      <div className="box">
+                        <p>State:</p>
+                        <TextField
+                          label="state"
+                          size="small"
+                          disabled={true}
+                          value={state1}
+                          fullWidth={true}
+                          inputProps={{ readOnly: true }}
+                        />
+                      </div>
+
+                      <div className="box">
+                        <p>City:</p>
+                        <TextField
+                          label="city"
+                          size="small"
+                          value={city1}
+                          disabled={true}
+                          fullWidth={true}
+                          inputProps={{ readOnly: true }}
                         />
                       </div>
                     </div>
                   </div>
-
-                  <div className="add-suplier-sub1">
-                    <h4>Address:</h4>
-                    <div className="box">
-                      <p>House no:</p>
-                      <TextField
-                        label="house no"
-                        size="small"
-                        disabled={true}
-                        value={houseno1}
-                        fullWidth={true}
-                        inputProps={{ readOnly: true }}
-                      />
-                    </div>
-
-                    <div className="box">
-                      <p>Area Street:</p>
-                      <TextField
-                        label="area street"
-                        size="small"
-                        disabled={true}
-                        value={area1}
-                        fullWidth={true}
-                        inputProps={{ readOnly: true }}
-                      />
-                    </div>
-
-                    <div className="box">
-                      <p>Address type</p>
-                      <ConfigProvider
-                        theme={{
-                          components: {
-                            Radio: {
-                              colorPrimary: "#000",
-                              colorPrimaryHover: "#000",
-                            },
-                          },
-                        }}>
-                        <Radio.Group
-                          defaultValue={addtype1}
-                          buttonStyle="solid"
-                          // value={addtype1}
-                          disabled={true}>
-                          <Radio.Button value="Home">Home</Radio.Button>
-                          <Radio.Button value="Office">Office</Radio.Button>
-                        </Radio.Group>
-                      </ConfigProvider>
-                    </div>
-
-                    <div className="box">
-                      <p>Pincode:</p>
-                      <TextField
-                        label="pincode"
-                        type="number"
-                        disabled={true}
-                        value={pincode1}
-                        size="small"
-                        fullWidth={true}
-                        inputProps={{ readOnly: true }}
-                        // onChange={(e) => setPincode(e.target.value)}
-                      />
-                      {/* {pincodeError && (
-                        <p className="error-color">Enter valid pincode.</p>
-                      )} */}
-                    </div>
-
-                    <div className="box">
-                      <p>State:</p>
-                      <TextField
-                        label="state"
-                        size="small"
-                        disabled={true}
-                        value={state1}
-                        fullWidth={true}
-                        inputProps={{ readOnly: true }}
-                      />
-                    </div>
-
-                    <div className="box">
-                      <p>City:</p>
-                      <TextField
-                        label="city"
-                        size="small"
-                        value={city1}
-                        disabled={true}
-                        fullWidth={true}
-                        inputProps={{ readOnly: true }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-
-            <div className="col-75">
-              <div className="add-suplier-sub1 cart-products-details">
-                <table className="table-checkout">
-                  <thead>
-                    <tr>
-                      <th>Items</th>
-                      <th>Size</th>
-                      <th>price</th>
-                      <th>Qty</th>
-                      <th>Sub-total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {!isEmpty(products) &&
-                      products.map((val, key) => {
-                        total = total + val.prod_price * val.qty;
-                        return (
-                          <tr key={key}>
-                            <td>{val.prod_name}</td>
-                            <td>{val.size}</td>
-                            <td>{val.prod_price} *</td>
-                            <td>{val.qty}</td>
-                            <td>{val.qty * val.prod_price}</td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>Total</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th>{total}</th>
-                    </tr>
-                    {!isEmpty(discountData) && (
-                      <>
-                        <tr>
-                          <th>- Discount</th>
-                          <th></th>
-                          <th></th>
-                          <th>{discountData.disc_percent}%</th>
-                          <th>{discountData.applied_disc}</th>
-                        </tr>
-
-                        <tr>
-                          <th>Total</th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th>{total - parseInt(discountData.applied_disc)}</th>
-                        </tr>
-                      </>
-                    )}
-                  </tfoot>
-                </table>
-
-                <div className="promotion">
-                  <label htmlFor="promo-code">Have A Promo Code?</label>
-                  <input
-                    type="text"
-                    onChange={(e) => setCoupenCode(e.target.value)}
-                  />
-
-                  <button type="button" onClick={handleDiscount} />
-                </div>
-                {!isEmpty(discountData) && (
-                  <div className="discount-details">
-                    <p>Applied discount : {discountData.applied_disc}</p>
-                    <p>Maximum discount amount : {discountData.max_disc_amt}</p>
-                    <p>Minimum order value : {discountData.min_ord_val}</p>
-                  </div>
-                )}
-
-                <form>
-                  <div className="continue-btn">
-                    <button className="checkout-btn" onClick={handlePayment}>
-                      Continue
-                    </button>
-                  </div>
                 </form>
               </div>
+
+              <div className="col-75">
+                <div className="add-suplier-sub1 cart-products-details">
+                  <table className="table-checkout">
+                    <thead>
+                      <tr>
+                        <th>Items</th>
+                        <th>Size</th>
+                        <th>price</th>
+                        <th>Qty</th>
+                        <th>Sub-total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {!isEmpty(products) &&
+                        products.map((val, key) => {
+                          total = total + val.prod_price * val.qty;
+                          return (
+                            <tr key={key}>
+                              <td>{val.prod_name}</td>
+                              <td>{val.size}</td>
+                              <td>{val.prod_price} *</td>
+                              <td>{val.qty}</td>
+                              <td>{val.qty * val.prod_price}</td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>Total</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>{total}</th>
+                      </tr>
+                      {!isEmpty(discountData) && (
+                        <>
+                          <tr>
+                            <th>- Discount</th>
+                            <th></th>
+                            <th></th>
+                            <th>{discountData.disc_percent}%</th>
+                            <th>{discountData.applied_disc}</th>
+                          </tr>
+
+                          <tr>
+                            <th>Total</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>
+                              {total - parseInt(discountData.applied_disc)}
+                            </th>
+                          </tr>
+                        </>
+                      )}
+                    </tfoot>
+                  </table>
+
+                  <div className="promotion">
+                    <label htmlFor="promo-code">Have A Promo Code?</label>
+                    <input
+                      type="text"
+                      onChange={(e) => setCoupenCode(e.target.value)}
+                    />
+
+                    <button type="button" onClick={handleDiscount} />
+                  </div>
+                  {!isEmpty(discountData) && (
+                    <div className="discount-details">
+                      <p>Applied discount : {discountData.applied_disc}</p>
+                      <p>
+                        Maximum discount amount : {discountData.max_disc_amt}
+                      </p>
+                      <p>Minimum order value : {discountData.min_ord_val}</p>
+                    </div>
+                  )}
+
+                  <form>
+                    <div className="continue-btn">
+                      <button className="checkout-btn" onClick={handlePayment}>
+                        Continue
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
-          </div>
-          <div style={{ margin: "100px" }}></div>
+            <div style={{ margin: "100px" }}></div>
+          </ThemeProvider>
         </>
       ) : (
         <>
@@ -730,122 +772,124 @@ function Checkout() {
 
       <Footer />
 
-      <Drawer
-        title="Add new address"
-        // placement={placement}
-        className="drawer"
-        width={dwidth}
-        onClose={onClose}
-        open={open}
-        extra={
-          <Space>
-            <ConfigProvider
-              theme={{
-                components: {
-                  Button: {
-                    colorPrimary: "#000",
-                    colorPrimaryHover: "#fff",
-                    width: "200px",
+      <ThemeProvider theme={theme}>
+        <Drawer
+          title="Add new address"
+          // placement={placement}
+          className="drawer"
+          width={dwidth}
+          onClose={onClose}
+          open={open}
+          extra={
+            <Space>
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Button: {
+                      colorPrimary: "#000",
+                      colorPrimaryHover: "#fff",
+                      width: "200px",
+                    },
                   },
-                },
-              }}>
-              <button className="button-1311" onClick={onClose}>
-                Cancel
-              </button>
-
-              <button className="button-1311" onClick={handleNewAddress}>
-                Add
-              </button>
-            </ConfigProvider>
-          </Space>
-        }>
-        <div className="add-suplier-sub11">
-          <div className="box">
-            <p>House no:</p>
-            <TextField
-              label="house no"
-              size="small"
-              value={houseno}
-              fullWidth={true}
-              onChange={(e) => setHouseNo(e.target.value)}
-            />
-          </div>
-
-          <div className="box">
-            <p>Area Street:</p>
-            <TextField
-              label="area street"
-              size="small"
-              value={area}
-              fullWidth={true}
-              onChange={(e) => setArea(e.target.value)}
-            />
-          </div>
-
-          <div className="box">
-            <p>Select address type</p>
-            <ConfigProvider
-              theme={{
-                components: {
-                  Radio: {
-                    colorPrimary: "#000",
-                    colorPrimaryHover: "#000",
-                  },
-                },
-              }}>
-              <Radio.Group
-                defaultValue="Home"
-                buttonStyle="solid"
-                value={addtype}
-                onChange={(value) => {
-                  setAddtype(value.target.value);
                 }}>
-                <Radio.Button value="Home">Home</Radio.Button>
-                <Radio.Button value="Office">Office</Radio.Button>
-              </Radio.Group>
-            </ConfigProvider>
-          </div>
+                <button className="button-1311" onClick={onClose}>
+                  Cancel
+                </button>
 
-          <div className="box">
-            <p>Pincode:</p>
-            <TextField
-              label="pincode"
-              type="number"
-              value={pincode}
-              size="small"
-              fullWidth={true}
-              onChange={(e) => setPincode(e.target.value)}
-            />
-            {pincodeError && (
-              <p className="error-color">Enter valid pincode.</p>
-            )}
-          </div>
+                <button className="button-1311" onClick={handleNewAddress}>
+                  Add
+                </button>
+              </ConfigProvider>
+            </Space>
+          }>
+          <div className="add-suplier-sub11">
+            <div className="box">
+              <p>House no:</p>
+              <TextField
+                label="house no"
+                size="small"
+                value={houseno}
+                fullWidth={true}
+                onChange={(e) => setHouseNo(e.target.value)}
+              />
+            </div>
 
-          <div className="box">
-            <p>State:</p>
-            <TextField
-              label="state"
-              size="small"
-              value={state}
-              disabled={true}
-              fullWidth={true}
-              inputProps={{ readOnly: true }}
-            />
-          </div>
+            <div className="box">
+              <p>Area Street:</p>
+              <TextField
+                label="area street"
+                size="small"
+                value={area}
+                fullWidth={true}
+                onChange={(e) => setArea(e.target.value)}
+              />
+            </div>
 
-          <div className="box">
-            <p>City:</p>
-            <TextField
-              label="city"
-              size="small"
-              value={city}
-              disabled={true}
-              fullWidth={true}
-              inputProps={{ readOnly: true }}
-            />
+            <div className="box">
+              <p>Select address type</p>
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Radio: {
+                      colorPrimary: "#000",
+                      colorPrimaryHover: "#000",
+                    },
+                  },
+                }}>
+                <Radio.Group
+                  defaultValue="Home"
+                  buttonStyle="solid"
+                  value={addtype}
+                  onChange={(value) => {
+                    setAddtype(value.target.value);
+                  }}>
+                  <Radio.Button value="Home">Home</Radio.Button>
+                  <Radio.Button value="Office">Office</Radio.Button>
+                </Radio.Group>
+              </ConfigProvider>
+            </div>
+
+            <div className="box">
+              <p>Pincode:</p>
+              <TextField
+                label="pincode"
+                type="number"
+                value={pincode}
+                size="small"
+                fullWidth={true}
+                onChange={(e) => setPincode(e.target.value)}
+              />
+              {pincodeError && (
+                <p className="error-color">Enter valid pincode.</p>
+              )}
+            </div>
+
+            <div className="box">
+              <p>State:</p>
+              <TextField
+                label="state"
+                size="small"
+                value={state}
+                disabled={true}
+                fullWidth={true}
+                inputProps={{ readOnly: true }}
+              />
+            </div>
+
+            <div className="box">
+              <p>City:</p>
+              <TextField
+                label="city"
+                size="small"
+                value={city}
+                disabled={true}
+                fullWidth={true}
+                inputProps={{ readOnly: true }}
+              />
+            </div>
           </div>
-        </div>
-      </Drawer>
+        </Drawer>
+      </ThemeProvider>
 
       <Toaster
         position="top-center"

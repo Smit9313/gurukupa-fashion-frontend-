@@ -22,7 +22,7 @@ function SingleProduct() {
   const [url, setUrl] = useState("cloths/1.jpg");
   let { product_id } = useParams();
   const history = useHistory();
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const [data, setData] = useState("");
   const [prod_qty, setProd_qty] = useState(1);
@@ -69,7 +69,7 @@ function SingleProduct() {
 
     
   useEffect(() => {
-    if (sessionStorage.getItem("token") !== null) {
+    if (localStorage.getItem("token") !== null) {
       const decoded = jwtDecode(token);
       setRole(decoded["id"]["role"]);
     }
@@ -87,7 +87,7 @@ function SingleProduct() {
   const handleAddToCart = () => {
     console.log(prod_size);
     if (product_id !== "" && prod_qty !== "" && prod_size !== undefined) {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       try {
         axios
@@ -129,7 +129,7 @@ function SingleProduct() {
   };
 
   const handleMegicClick = () => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     history.push("/megic");
   };
 
@@ -249,34 +249,26 @@ function SingleProduct() {
                 value={prod_qty}
                 onChange={(event) => handleQty(event)}
               />
-              {/* {isEmpty(role) && role !== "admin" && (
-                <button
-                  type="submit"
-                  className="normal"
-                  onClick={handleAddToCart}>
-                  Add to cart
-                </button>
-              )} */}
-              {!isEmpty(role) && role==="customer" &&(
-                <button
-                  type="submit"
-                  className="normal"
-                  onClick={handleAddToCart}>
-                  Add to cart
-                </button>
-              )}
-
-              {!isEmpty(token) && (
-                <button
-                  type="submit"
-                  className="normal"
-                  onClick={handleMegicClick}>
-                  Magic
-                </button>
-              )}
-
+              <button
+                type="submit"
+                className="normal"
+                onClick={handleMegicClick}>
+                Magic
+              </button>
+              <button
+                type="submit"
+                className="normal"
+                onClick={handleAddToCart}>
+                Add to cart
+              </button>
               <h4>Product details</h4>
               <span>{data.prod_desc}</span>
+              <br />
+              <br />
+              <br />
+              <span style={{fontSize: "12px" }}>
+                No Return, No Refund Policy *
+              </span>
             </div>
           </section>
 

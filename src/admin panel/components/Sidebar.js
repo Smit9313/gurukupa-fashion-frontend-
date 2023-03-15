@@ -181,7 +181,7 @@ function Sidebar({ url }) {
                       to={`/admin/addAdmin`}
                       activeClassName="sidebar-active">
                     
-                      <span className="text nav-text">{"->"}Add Admin</span>
+                      <span className="text nav-text">{"»"}Add Admin</span>
                       
                     </NavLink>
                   </li>
@@ -213,7 +213,7 @@ function Sidebar({ url }) {
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text">
-                        {"->"}Manage Supplier
+                        {"»"} Manage Supplier
                       </span>
                       {/* <hr /> */}
                     </NavLink>
@@ -226,7 +226,7 @@ function Sidebar({ url }) {
                       to={`/admin/addSupplier`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text">{"->"}Add Supplier</span>
+                      <span className="text nav-text">{"»"} Add Supplier</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -258,7 +258,7 @@ function Sidebar({ url }) {
                       to={`/admin/managePurchase`}
                       activeClassName="sidebar-active">
                       <span className="text nav-text">
-                        {"->"}Manage Purchase
+                        {"»"} Manage Purchase
                       </span>
                       {/* <hr /> */}
                     </NavLink>
@@ -271,7 +271,7 @@ function Sidebar({ url }) {
                       to={`/admin/addPurchase`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text">{"->"}Add Purchase</span>
+                      <span className="text nav-text">{"»"} Add Purchase</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -302,7 +302,7 @@ function Sidebar({ url }) {
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text">
-                        {"->"}Manage Category
+                        {"»"} Manage Category
                       </span>
                       {/* <hr /> */}
                     </NavLink>
@@ -315,7 +315,7 @@ function Sidebar({ url }) {
                       to={`/admin/addCategory`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text">{"->"}Add Category</span>
+                      <span className="text nav-text">{"»"} Add Category</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -348,7 +348,7 @@ function Sidebar({ url }) {
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text">
-                        {"->"}Manage Product
+                        {"»"} Manage Product
                       </span>
                       {/* <hr /> */}
                     </NavLink>
@@ -360,7 +360,7 @@ function Sidebar({ url }) {
                     activeClassName="sidebar-active">
                     <NavLink to={`/admin/addProduct`}>
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text">{"->"}Add Product</span>
+                      <span className="text nav-text">{"»"} Add Product</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -390,7 +390,7 @@ function Sidebar({ url }) {
                       to={`/admin/allOrder`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text">{"->"}All Order</span>
+                      <span className="text nav-text">{"»"} All Order</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -402,7 +402,7 @@ function Sidebar({ url }) {
                       to={`/admin/pendingOrder`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text">{"->"}Pending Order</span>
+                      <span className="text nav-text">{"»"} Pending Order</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -415,7 +415,7 @@ function Sidebar({ url }) {
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text">
-                        {"->"}Delivered Product
+                        {"»"} Delivered Product
                       </span>
                       {/* <hr /> */}
                     </NavLink>
@@ -426,7 +426,7 @@ function Sidebar({ url }) {
                     onClick={() => setSidebar(!sidebar)}>
                     <NavLink to="/" activeClassName="sidebar-active">
                       <span className="text nav-text-sub">
-                        {"->"}Returned Product
+                        {"»"}Returned Product
                       </span>
 
                     </NavLink>
@@ -460,7 +460,7 @@ function Sidebar({ url }) {
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text">
-                        {"->"}Manage Discount
+                        {"»"} Manage Discount
                       </span>
                       {/* <hr /> */}
                     </NavLink>
@@ -473,7 +473,7 @@ function Sidebar({ url }) {
                       to={`/admin/addDiscount`}
                       activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
-                      <span className="text nav-text">{"->"} Add Discount</span>
+                      <span className="text nav-text">{"»"} Add Discount</span>
                       {/* <hr /> */}
                     </NavLink>
                   </li>
@@ -503,7 +503,7 @@ function Sidebar({ url }) {
                       to={`/admin/supplierReport`}
                       activeClassName="sidebar-active">
                       <span className="text nav-text">
-                        {"->"}Supplier Report
+                        {"»"} Supplier Report
                       </span>
                     </NavLink>
                   </li>
@@ -516,7 +516,7 @@ function Sidebar({ url }) {
                     <NavLink
                       to={`/admin/salesReport`}
                       activeClassName="sidebar-active">
-                      <span className="text nav-text">{"->"}Sales Report</span>
+                      <span className="text nav-text">{"»"} Sales Report</span>
                     </NavLink>
                   </li>
 
@@ -528,7 +528,7 @@ function Sidebar({ url }) {
                     <NavLink
                       to={`/admin/stockReport`}
                       activeClassName="sidebar-active">
-                      <span className="text nav-text">{"->"}Stock Report</span>
+                      <span className="text nav-text">{"»"} Stock Report</span>
                     </NavLink>
                   </li>
 
@@ -541,7 +541,7 @@ function Sidebar({ url }) {
                       to={`/admin/purchaseReport`}
                       activeClassName="sidebar-active">
                       <span className="text nav-text">
-                        {"->"}Purchase Report
+                        {"»"} Purchase Report
                       </span>
                     </NavLink>
                   </li>
@@ -564,7 +564,7 @@ function Sidebar({ url }) {
               <NavLink
                 to="/"
                 onClick={() => {
-                  sessionStorage.removeItem("token");
+                  localStorage.removeItem("token");
                 }}>
                 <i className="bx bx-log-out icon"></i>
                 <span className="text nav-text">Logout</span>

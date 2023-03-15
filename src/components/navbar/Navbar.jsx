@@ -19,7 +19,7 @@ function Navbar({ navrender }) {
   const [arrowKid, setArrowKid] = useState(true);
 
   const [isHovering, setIsHovering] = useState(false);
-  const [token, setToken] = useState(sessionStorage.getItem("token"));
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [role, setRole] = useState("");
   const [countCart, setCountCart] = useState(0);
   const [userData, setUserData] = useState();
@@ -44,7 +44,7 @@ function Navbar({ navrender }) {
       history.push("/profile");
     }
     if (e.key === "2") {
-      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
       history.push("/home");
       window.location.reload(true);
     }
@@ -72,7 +72,7 @@ function Navbar({ navrender }) {
   }, []);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
     try {
@@ -97,7 +97,7 @@ function Navbar({ navrender }) {
 
   const handleProfileClick = () => {
     setIcon(!icon);
-    setToken(sessionStorage.getItem("token"));
+    setToken(localStorage.getItem("token"));
   };
 
   const handleMouseOver = () => {
@@ -125,7 +125,7 @@ function Navbar({ navrender }) {
   };
 
   const handleClickLogout = () => {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     history.push("/home");
     setToken(null);
   };
@@ -133,14 +133,14 @@ function Navbar({ navrender }) {
   //  console.log(token);
 
   useEffect(() => {
-    if (sessionStorage.getItem("token") !== null) {
+    if (localStorage.getItem("token") !== null) {
       const decoded = jwtDecode(token);
       setRole(decoded["id"]["role"]);
     }
   }, [role, token]);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -513,7 +513,7 @@ function Navbar({ navrender }) {
                       },
                     }}>
                     <Dropdown menu={menuProps}>
-                      <Space style={{ cursor: "pointer" }}>
+                      <Space style={{ cursor: "pointer",fontWeight:"bold" }}>
                         {userData.name}
                         <UserOutlined
                           style={{ fontSize: "25px", color: "black" }}
@@ -626,7 +626,7 @@ function Navbar({ navrender }) {
                     <hr className="hr-style" />
                     {val.Category.map((val1, index1) => {
                       return (
-                        <div key={index1}>
+                        <div key={index1} style={{margin:"5px"}}>
                           <center>
                             <NavLink
                               to={`/shop/${val.cat_type}/${val1.cat_title}`}>

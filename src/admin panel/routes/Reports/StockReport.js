@@ -18,7 +18,7 @@ function StockReport() {
 
   const handleClick = async () => {
    
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
 
       // const jsonData = {

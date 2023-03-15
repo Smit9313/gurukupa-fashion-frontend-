@@ -67,7 +67,7 @@
   /* padding: 0; */
   /* border: 1px solid #cce7d0; */
   /* border-radius: 25px; */
-  min-height: 480px;
+  min-height: 460px;
   /* max-height: 480px; */
   max-height: 400px;
   cursor: pointer;
@@ -112,6 +112,8 @@
 #product1 .pro .des .des-text {
   /* color: #606063; */
   font-size: 12px;
+  margin-top: 7px;
+  /* letter-spacing: 1px; */
   /* max-width: 250px; */
   /* overflow: hidden; */
   /* text-overflow: ellipsis; */
@@ -131,15 +133,15 @@
   font-size: 14px;
 }
 
-#product1 .pro .des .star {
+.star {
   display: flex;
-  font-size: 15px;
+  /* font-size: 15px; */
 }
 
-#product1 .pro .des .star p {
-  font-size: 0.9rem;
-  padding-top: 5px;
-  padding-left: 15px;
+.pdown {
+  /* font-size: 0.9rem; */
+  padding-top: 7.6px;
+  /* padding-left: 15px; */
 }
 
 #product1 .pro .des h4 {

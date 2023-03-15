@@ -22,7 +22,7 @@ function ManageProduct() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -43,7 +43,7 @@ function ManageProduct() {
   const confirm = (prodid) => {
     console.log(prodid);
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
     try {

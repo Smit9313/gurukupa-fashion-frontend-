@@ -17,7 +17,7 @@ function PendingOrder() {
   const [deliveredFlag, setDeliveredFlag] = useState(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -114,7 +114,7 @@ function PendingOrder() {
               checkedChildren="Delivered"
               unCheckedChildren="Pending"
               onChange={() => {
-                const token = sessionStorage.getItem("token");
+                const token = localStorage.getItem("token");
                 const headers = { Authorization: `Bearer ${token}` };
                 try {
                   axios

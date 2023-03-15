@@ -168,7 +168,7 @@ span.price {
   color: #0f1111;
   cursor: pointer;
   display: inline-block;
-  font-family: "Amazon Ember", sans-serif;
+  /* font-family: "Amazon Ember", sans-serif; */
   font-size: 13px;
   line-height: 29px;
   padding: 0 10px 0 11px;
@@ -203,7 +203,7 @@ span.price {
   color: #0f1111;
   cursor: pointer;
   display: inline-block;
-  font-family: "Amazon Ember", sans-serif;
+  /* font-family: "Amazon Ember", sans-serif; */
   font-size: 13px;
   line-height: 29px;
   padding: 0 10px 0 11px;
@@ -239,7 +239,7 @@ span.price {
   color: #0f1111;
   cursor: pointer;
   display: inline-block;
-  font-family: "Amazon Ember", sans-serif;
+  /* font-family: "Amazon Ember", sans-serif; */
   font-size: 13px;
   line-height: 29px;
   padding: 0 10px 0 11px;
@@ -276,6 +276,7 @@ span.price {
 }
 .add-suplier-sub11 .box p {
   padding-bottom: 10px;
+  font-weight: 600;
 }
 
 .add-suplier-sub11 .box {

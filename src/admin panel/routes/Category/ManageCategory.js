@@ -24,7 +24,7 @@ function ManageCategory() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -62,7 +62,7 @@ function ManageCategory() {
   const confirm = (typeid) => {
     console.log(typeid);
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
     try {
@@ -99,7 +99,7 @@ function ManageCategory() {
   const confirm1 = (catid) => {
     console.log(catid);
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
     try {

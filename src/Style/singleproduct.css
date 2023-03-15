@@ -69,6 +69,7 @@
 #prodetails .single-pro-details h4{
     margin-top: 10px;
     padding: 40px 0 20px 0;
+    letter-spacing: 0.3px;
 }
 
 #prodetails .single-pro-details h2{
@@ -140,6 +141,7 @@
 
 #prodetails .single-pro-details span{
     line-height: 25px;
+    letter-spacing: 1px;
 }
 
 .size-container{

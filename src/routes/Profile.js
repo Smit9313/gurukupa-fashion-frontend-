@@ -18,6 +18,8 @@ import { message, Popconfirm } from "antd";
 import { Modal } from "antd";
 import { Input } from "antd";
 import { Rate } from "antd";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 
 function Profile() {
   const [userData, setUserData] = useState();
@@ -64,6 +66,38 @@ function Profile() {
 
   let newfield = { prod_id: "", rating: 0 };
 
+  const theme = createTheme({
+    typography: {
+      fontFamily: "futura",
+    },
+
+    palette: {
+      primary: {
+        // Purple and green play nicely together.
+        main: "#09142d",
+      },
+      secondary: {
+        // This is green.A700 as hex.
+        main: "#11cb5f",
+      },
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: `
+        @font-face {
+          font-family: 'futura';
+          font-style: normal;
+          font-display: swap;
+          font-weight: 400;
+          src: local('Raleway'), local('Raleway-Regular'), url('public\fonts\futura\futura light bt.ttf') format('woff2');
+          unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
+        }
+      `,
+      },
+    },
+  });
+  
+
   const showModal = (index, oid) => {
     // setIsModalOpen(true);
     console.log(index, oid);
@@ -71,7 +105,7 @@ function Profile() {
     newModalsVisible[index] = true;
     setModalsVisible(newModalsVisible);
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -101,7 +135,7 @@ function Profile() {
 
   const confirm = (addid) => {
     // console.log(e);
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
     try {
@@ -154,7 +188,7 @@ function Profile() {
   };
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
     // userDetails
@@ -288,7 +322,7 @@ function Profile() {
       password === conPassword &&
       oldpassword !== password
     ) {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       try {
         axios
@@ -372,7 +406,7 @@ function Profile() {
       state !== "" &&
       city !== ""
     ) {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       setUpdateDrop(!updateDrop);
 
@@ -477,7 +511,7 @@ function Profile() {
   const handleAddressUpdate = () => {
     console.log(houseno, area, addtype, pincode, state, city);
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
     try {
@@ -558,7 +592,7 @@ function Profile() {
   };
 
   const handleOk = (index, oid) => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-type": "application/json",
@@ -598,65 +632,174 @@ function Profile() {
 
       {!isEmpty(userData) && (
         <>
-          <div className="profile-container">
-            <div className="profile-user-details">
-              <center>
-                <h3>User Details:</h3>
-              </center>
-              <div className="profile-user-details-sub">
-                <div className="sub-address-data">
-                  <p>Name</p>
-                  <h5>: {userData.name}</h5>
-                </div>
+          <ThemeProvider theme={theme}>
+            <div className="profile-container">
+              <div className="profile-user-details">
+                <center>
+                  <h3>User Details:</h3>
+                </center>
+                <div className="profile-user-details-sub">
+                  <div className="sub-address-data">
+                    <p>Name</p>
+                    <h5>: {userData.name}</h5>
+                  </div>
 
-                <div className="sub-address-data">
-                  <p>Email</p>
-                  <h5>: {userData.email}</h5>
-                </div>
+                  <div className="sub-address-data">
+                    <p>Email</p>
+                    <h5>: {userData.email}</h5>
+                  </div>
 
-                <div className="sub-address-data">
-                  <p>Mobile no</p>
-                  <h5>: {userData.mobile_no}</h5>
+                  <div className="sub-address-data">
+                    <p>Mobile no</p>
+                    <h5>: {userData.mobile_no}</h5>
+                  </div>
                 </div>
               </div>
-              
-            </div>
 
-            <div className="profile-user-address">
-              <center>
-                <h3>Address details:</h3>
-              </center>
-              <button className="button-4" onClick={showDrawer}>
-                + Add new address
-              </button>
-              <button className="button-44" onClick={showDrawer1}>
-                + Add new address
-              </button>
-              {!isEmpty(addressData) &&
-                addressData.map((value, index) => {
-                  return (
-                    <div key={index} className="profile-user-details-sub">
-                      <Accordion
-                        expanded={expanded === index}
-                        onChange={handleChange(index)}>
-                        <AccordionSummary
-                          expandIcon={<ExpandMoreIcon />}
-                          aria-controls="panel1bh-content"
-                          id="panel1bh-header">
-                          <Typography sx={{ width: "33%", flexShrink: 0 }}>
-                            <h4> Address {index + 1}</h4>
-                          </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <Typography>
-                            <div className="address-div">
+              <div className="profile-user-address">
+                <center>
+                  <h3>Address details:</h3>
+                </center>
+                <button className="button-4" onClick={showDrawer}>
+                  + Add new address
+                </button>
+                <button className="button-44" onClick={showDrawer1}>
+                  + Add new address
+                </button>
+                {!isEmpty(addressData) &&
+                  addressData.map((value, index) => {
+                    return (
+                      <div key={index} className="profile-user-details-sub">
+                        <Accordion
+                          expanded={expanded === index}
+                          onChange={handleChange(index)}>
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1bh-content"
+                            id="panel1bh-header">
+                            <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                              <h4> Address {index + 1}</h4>
+                            </Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <Typography>
+                              <div className="address-div">
+                                <div className="sub-address-data">
+                                  <p>House no</p>
+                                  <h5>: {value.house_no}</h5>
+                                </div>
+
+                                <div className="sub-address-data">
+                                  <p>Area street</p>
+                                  <h5>: {value.area_street}</h5>
+                                </div>
+
+                                <div className="sub-address-data">
+                                  <p>Add type</p>
+                                  <h5>: {value.add_type}</h5>
+                                </div>
+
+                                <div className="sub-address-data">
+                                  <p>Pincode</p>
+                                  <h5>: {value.pincode}</h5>
+                                </div>
+
+                                <div className="sub-address-data">
+                                  <p>State</p>
+                                  <h5>: {value.state}</h5>
+                                </div>
+
+                                <div className="sub-address-data">
+                                  <p>City</p>
+                                  <h5>: {value.city}</h5>
+                                </div>
+
+                                <button
+                                  className="button-444"
+                                  onClick={() =>
+                                    handleEditAddress(
+                                      value._id,
+                                      value.house_no,
+                                      value.area_street,
+                                      value.add_type,
+                                      value.pincode,
+                                      value.state,
+                                      value.city
+                                    )
+                                  }>
+                                  Edit
+                                </button>
+
+                                <button
+                                  className="button-4444"
+                                  onClick={() =>
+                                    handleEditAddress1(
+                                      value._id,
+                                      value.house_no,
+                                      value.area_street,
+                                      value.add_type,
+                                      value.pincode,
+                                      value.state,
+                                      value.city
+                                    )
+                                  }>
+                                  Edit
+                                </button>
+
+                                <ConfigProvider
+                                  theme={{
+                                    components: {
+                                      Button: {
+                                        colorPrimary: "#000",
+                                        colorPrimaryHover: "#000",
+                                        colorPrimaryClick: "#000",
+                                      },
+                                    },
+                                  }}>
+                                  <Popconfirm
+                                    title="Delete the task"
+                                    description="Are you sure to delete this address?"
+                                    onConfirm={() => confirm(value._id)}
+                                    onCancel={cancel}
+                                    okText="Yes"
+                                    cancelText="No">
+                                    {/* <a href="#">Delete</a> */}
+                                    <button
+                                      className="button-4445"
+                                      // onClick={() => handleDelete(value._id)}
+                                    >
+                                      Delete
+                                    </button>
+                                  </Popconfirm>
+                                </ConfigProvider>
+                              </div>
+                            </Typography>
+                          </AccordionDetails>
+                        </Accordion>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              {!isEmpty(orderData) && (
+                <div className="profile-user-order">
+                  <center>
+                    <h4>Order details:</h4>
+                  </center>
+                  {orderData.map((value, index) => {
+                    return (
+                      <>
+                        <div key={value._id} className="order-data">
+                          <p>Order - {index + 1}</p>
+                          <div className="order-address-data">
+                            <div>
                               <div className="sub-address-data">
                                 <p>House no</p>
                                 <h5>: {value.house_no}</h5>
                               </div>
 
                               <div className="sub-address-data">
-                                <p>Area street</p>
+                                <p>Area-street:</p>
                                 <h5>: {value.area_street}</h5>
                               </div>
 
@@ -669,7 +812,6 @@ function Profile() {
                                 <p>Pincode</p>
                                 <h5>: {value.pincode}</h5>
                               </div>
-
                               <div className="sub-address-data">
                                 <p>State</p>
                                 <h5>: {value.state}</h5>
@@ -679,39 +821,81 @@ function Profile() {
                                 <p>City</p>
                                 <h5>: {value.city}</h5>
                               </div>
+                            </div>
 
-                              <button
-                                className="button-444"
-                                onClick={() =>
-                                  handleEditAddress(
-                                    value._id,
-                                    value.house_no,
-                                    value.area_street,
-                                    value.add_type,
-                                    value.pincode,
-                                    value.state,
-                                    value.city
-                                  )
-                                }>
-                                Edit
+                            <div className="order-location">
+                              <div className="sub-address-data">
+                                <p>Order date</p>
+                                <h5>: {value.order_date.substring(0, 10)}</h5>
+                              </div>
+
+                              <div className="sub-address-data">
+                                <p>Total amount</p>
+                                <h5>: {value.total_amount}</h5>
+                              </div>
+
+                              {value.order_status === "Failed" && (
+                                <div className="sub-address-data">
+                                  <p>Order status</p>
+                                  <h5 className="failed">: Failed</h5>
+                                </div>
+                              )}
+                              {value.order_status === "Pending" && (
+                                <div className="sub-address-data">
+                                  <p>Order status</p>
+                                  <h5 className="pending">: Pending</h5>
+                                </div>
+                              )}
+                              {value.order_status === "Delivered" && (
+                                <div className="sub-address-data">
+                                  <p>Order status</p>
+                                  <h5 className="pending">: Delivered</h5>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {value.Order_details.map((prod, index1) => {
+                            return (
+                              <>
+                                <div key={index1} className="product-data">
+                                  <div className="order-product-image">
+                                    <Link to={`single-product/${prod.prod_id}`}>
+                                      <img
+                                        src={prod.prod_image}
+                                        height="100px"
+                                        alt=""
+                                      />
+                                    </Link>
+                                  </div>
+                                  <div className="order-product-data">
+                                    <Link to={`single-product/${prod.prod_id}`}>
+                                      {prod.prod_name}
+                                    </Link>
+                                    <p>Price: {prod.prod_price}</p>
+                                    <p>Size: {prod.size}</p>
+                                    <p>Qty: {prod.qty}</p>
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          })}
+
+                          {value.order_status !== "Failed" && (
+                            <Link to={`/invoice/${value._id}`}>
+                              <button className="button-4445">
+                                Get invoice
                               </button>
-
+                            </Link>
+                          )}
+                          {value.order_status === "Delivered" && (
+                            <>
+                              {" "}
                               <button
-                                className="button-4444"
-                                onClick={() =>
-                                  handleEditAddress1(
-                                    value._id,
-                                    value.house_no,
-                                    value.area_street,
-                                    value.add_type,
-                                    value.pincode,
-                                    value.state,
-                                    value.city
-                                  )
-                                }>
-                                Edit
+                                className="button-4445"
+                                onClick={() => showModal(index, value._id)}>
+                                Give rating
                               </button>
-
                               <ConfigProvider
                                 theme={{
                                   components: {
@@ -719,435 +903,290 @@ function Profile() {
                                       colorPrimary: "#000",
                                       colorPrimaryHover: "#000",
                                       colorPrimaryClick: "#000",
+                                      colorPrimaryActive: "#000",
                                     },
                                   },
                                 }}>
-                                <Popconfirm
-                                  title="Delete the task"
-                                  description="Are you sure to delete this address?"
-                                  onConfirm={() => confirm(value._id)}
-                                  onCancel={cancel}
-                                  okText="Yes"
-                                  cancelText="No">
-                                  {/* <a href="#">Delete</a> */}
-                                  <button
-                                    className="button-4445"
-                                    // onClick={() => handleDelete(value._id)}
-                                  >
-                                    Delete
-                                  </button>
-                                </Popconfirm>
-                              </ConfigProvider>
-                            </div>
-                          </Typography>
-                        </AccordionDetails>
-                      </Accordion>
-                    </div>
-                  );
-                })}
-            </div>
+                                {!isEmpty(rateData) && (
+                                  <>
+                                    <Modal
+                                      // mask={false}
+                                      maskStyle={{
+                                        backgroundColor: "#ffffff34",
+                                        opacity: 0.45,
+                                      }}
+                                      title="Give rating"
+                                      open={modalsVisible[index]}
+                                      onOk={() => handleOk(index, value._id)}
+                                      onCancel={handleCancel}>
+                                      {/* {console.log(rateValue)} */}
+                                      {rateData.map((rate) => {
+                                        return (
+                                          <div className="rate-div">
+                                            <div className="rate-div-sub1">
+                                              <img
+                                                src={rate.prod_image}
+                                                height="100px"
+                                                width="80px"
+                                              />
+                                              <p>{rate.prod_name}</p>
+                                            </div>
+                                            {/* {console.log(rate)} */}
 
-            {!isEmpty(orderData) && (
-              <div className="profile-user-order">
-                <center>
-                  <h4>Order details:</h4>
-                </center>
-                {orderData.map((value, index) => {
-                  return (
-                    <>
-                      <div key={value._id} className="order-data">
-                        <p>Order - {index + 1}</p>
-                        <div className="order-address-data">
-                          <div>
-                            <div className="sub-address-data">
-                              <p>House no</p>
-                              <h5>: {value.house_no}</h5>
-                            </div>
+                                            {isEmpty(rate.date) && (
+                                              <div className="rate-div-sub2">
+                                                <Rate
+                                                  value={rate.rating}
+                                                  onChange={(value) => {
+                                                    updateRate(value, rate);
+                                                  }}
+                                                  defaultValue={rate.rating}
+                                                />
+                                              </div>
+                                            )}
 
-                            <div className="sub-address-data">
-                              <p>Area-street:</p>
-                              <h5>: {value.area_street}</h5>
-                            </div>
-
-                            <div className="sub-address-data">
-                              <p>Add type</p>
-                              <h5>: {value.add_type}</h5>
-                            </div>
-
-                            <div className="sub-address-data">
-                              <p>Pincode</p>
-                              <h5>: {value.pincode}</h5>
-                            </div>
-                            <div className="sub-address-data">
-                              <p>State</p>
-                              <h5>: {value.state}</h5>
-                            </div>
-
-                            <div className="sub-address-data">
-                              <p>City</p>
-                              <h5>: {value.city}</h5>
-                            </div>
-                          </div>
-
-                          <div className="order-location">
-                            <div className="sub-address-data">
-                              <p>Order date</p>
-                              <h5>: {value.order_date.substring(0, 10)}</h5>
-                            </div>
-
-                            <div className="sub-address-data">
-                              <p>Total amount</p>
-                              <h5>: {value.total_amount}</h5>
-                            </div>
-
-                            {value.order_status === "Failed" && (
-                              <div className="sub-address-data">
-                                <p>Order status</p>
-                                <h5 className="failed">: Failed</h5>
-                              </div>
-                            )}
-                            {value.order_status === "Pending" && (
-                              <div className="sub-address-data">
-                                <p>Order status</p>
-                                <h5 className="pending">: Pending</h5>
-                              </div>
-                            )}
-                            {value.order_status === "Delivered" && (
-                              <div className="sub-address-data">
-                                <p>Order status</p>
-                                <h5 className="pending">: Delivered</h5>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        {value.Order_details.map((prod, index1) => {
-                          return (
-                            <>
-                              <div key={index1} className="product-data">
-                                <div className="order-product-image">
-                                  <Link to={`single-product/${prod.prod_id}`}>
-                                    <img
-                                      src={prod.prod_image}
-                                      height="100px"
-                                      alt=""
-                                    />
-                                  </Link>
-                                </div>
-                                <div className="order-product-data">
-                                  <Link to={`single-product/${prod.prod_id}`}>
-                                    {prod.prod_name}
-                                  </Link>
-                                  <p>Price: {prod.prod_price}</p>
-                                  <p>Size: {prod.size}</p>
-                                  <p>Qty: {prod.qty}</p>
-                                </div>
-                              </div>
-                            </>
-                          );
-                        })}
-
-                        {value.order_status !== "Failed" && (
-                          <Link to={`/invoice/${value._id}`}>
-                            <button className="button-4445">Get invoice</button>
-                          </Link>
-                        )}
-                        {value.order_status === "Delivered" && (
-                          <>
-                            {" "}
-                            <button
-                              className="button-4445"
-                              onClick={() => showModal(index, value._id)}>
-                              Give rating
-                            </button>
-                            <ConfigProvider
-                              theme={{
-                                components: {
-                                  Button: {
-                                    colorPrimary: "#000",
-                                    colorPrimaryHover: "#000",
-                                    colorPrimaryClick: "#000",
-                                    colorPrimaryActive: "#000",
-                                  },
-                                },
-                              }}>
-                              {!isEmpty(rateData) && (
-                                <>
-                                  <Modal
-                                    // mask={false}
-                                    maskStyle={{
-                                      backgroundColor: "#ffffff34",
-                                      opacity: 0.45,
-                                    }}
-                                    title="Give rating"
-                                    open={modalsVisible[index]}
-                                    onOk={() => handleOk(index, value._id)}
-                                    onCancel={handleCancel}>
-                                    {/* {console.log(rateValue)} */}
-                                    {rateData.map((rate) => {
-                                      return (
-                                        <div className="rate-div">
-                                          <div className="rate-div-sub1">
-                                            <img
-                                              src={rate.prod_image}
-                                              height="100px"
-                                              width="80px"
-                                            />
-                                            <p>{rate.prod_name}</p>
+                                            {!isEmpty(rate.date) && (
+                                              <div className="rate-div-sub2">
+                                                <Rate
+                                                  disabled
+                                                  value={rate.rating}
+                                                  defaultValue={rate.rating}
+                                                />
+                                                <p>
+                                                  {rate.date.substring(0, 10)}
+                                                </p>
+                                              </div>
+                                            )}
                                           </div>
-                                          {/* {console.log(rate)} */}
+                                        );
+                                      })}
+                                    </Modal>
+                                  </>
+                                )}
+                              </ConfigProvider>
+                            </>
+                          )}
+                        </div>
+                      </>
+                    );
+                  })}
+                  <div className="space-order-product"></div>
+                </div>
+              )}
 
-                                          {isEmpty(rate.date) && (
-                                            <div className="rate-div-sub2">
-                                              <Rate
-                                                value={rate.rating}
-                                                onChange={(value) => {
-                                                  updateRate(value, rate);
-                                                }}
-                                                defaultValue={rate.rating}
-                                              />
-                                            </div>
-                                          )}
-
-                                          {!isEmpty(rate.date) && (
-                                            <div className="rate-div-sub2">
-                                              <Rate
-                                                disabled
-                                                value={rate.rating}
-                                                defaultValue={rate.rating}
-                                              />
-                                              <p>
-                                                {rate.date.substring(0, 10)}
-                                              </p>
-                                            </div>
-                                          )}
-                                        </div>
-                                      );
-                                    })}
-                                  </Modal>
-                                </>
-                              )}
-                            </ConfigProvider>
-                          </>
+              <div className="profile-user-changePassword">
+                <center>
+                  <h4>Change password:</h4>
+                </center>
+                <div className="change-password">
+                  <form>
+                    <div className="input-line">
+                      <h6>Old password:</h6>
+                      <div>
+                        <Input.Password
+                          type="password"
+                          style={{
+                            height: "45px",
+                            width: "200px",
+                            marginLeft: "50px",
+                            borderBottomWidth: "2px",
+                            borderColor: "#000000",
+                            marginBottom: "0px",
+                          }}
+                          onChange={(e) => setOldPassword(e.target.value)}
+                          placeholder="Enter old password"
+                        />
+                        {oldPassFlag && (
+                          <p className="error-color">{oldPassError}</p>
                         )}
                       </div>
-                    </>
-                  );
-                })}
-                <div className="space-order-product"></div>
-              </div>
-            )}
-
-            <div className="profile-user-changePassword">
-              <center>
-                <h4>Change password:</h4>
-              </center>
-              <div className="change-password">
-                <form>
-                  <div className="input-line">
-                    <h6>Old password:</h6>
-                    <div>
-                      <Input.Password
-                        type="password"
-                        style={{
-                          height: "45px",
-                          width: "200px",
-                          marginLeft: "50px",
-                          borderBottomWidth: "2px",
-                          borderColor: "#000000",
-                          marginBottom: "0px",
-                        }}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        placeholder="Enter old password"
-                      />
-                      {oldPassFlag && (
-                        <p className="error-color">{oldPassError}</p>
-                      )}
                     </div>
-                  </div>
-                  <br />
+                    <br />
 
-                  <div className="input-line">
-                    <h6>New password:</h6>
-                    <div>
-                      <Input.Password
-                        type="password"
-                        style={{
-                          height: "45px",
-                          width: "200px",
-                          marginLeft: "50px",
-                          borderBottomWidth: "2px",
-                          borderColor: "#000000",
-                          marginBottom: "0px",
-                        }}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter new password"
-                      />
-                      {passFlag && <p className="error-color">{passError}</p>}
+                    <div className="input-line">
+                      <h6>New password:</h6>
+                      <div>
+                        <Input.Password
+                          type="password"
+                          style={{
+                            height: "45px",
+                            width: "200px",
+                            marginLeft: "50px",
+                            borderBottomWidth: "2px",
+                            borderColor: "#000000",
+                            marginBottom: "0px",
+                          }}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="Enter new password"
+                        />
+                        {passFlag && <p className="error-color">{passError}</p>}
+                      </div>
                     </div>
-                  </div>
 
-                  <br />
-                  <div className="input-line">
-                    <h6>Confirm password:</h6>
-                    <div>
-                      <Input.Password
-                        type="password"
-                        style={{
-                          height: "45px",
-                          width: "200px",
-                          marginLeft: "50px",
-                          borderBottomWidth: "2px",
-                          borderColor: "#000000",
-                          marginBottom: "0px",
-                        }}
-                        onChange={(e) => setConPassword(e.target.value)}
-                        placeholder="Enter confirm password"
-                      />
-                      {passConFlag && (
-                        <p className="error-color">{passConError}</p>
-                      )}
+                    <br />
+                    <div className="input-line">
+                      <h6>Confirm password:</h6>
+                      <div>
+                        <Input.Password
+                          type="password"
+                          style={{
+                            height: "45px",
+                            width: "200px",
+                            marginLeft: "50px",
+                            borderBottomWidth: "2px",
+                            borderColor: "#000000",
+                            marginBottom: "0px",
+                          }}
+                          onChange={(e) => setConPassword(e.target.value)}
+                          placeholder="Enter confirm password"
+                        />
+                        {passConFlag && (
+                          <p className="error-color">{passConError}</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="input-line">
-                    <button
-                      className="button-31"
-                      onClick={handleChangePassword}>
-                      Update
-                    </button>
-                  </div>
-                </form>
+                    <div className="input-line">
+                      <button
+                        className="button-31"
+                        onClick={handleChangePassword}>
+                        Update
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
+          </ThemeProvider>
         </>
       )}
       <div className="exp"></div>
       <Footer />
-      <Drawer
-        title="Add new address"
-        // placement={placement}
-        className="drawer"
-        width={dwidth}
-        onClose={onClose}
-        open={open}
-        extra={
-          <Space>
-            <ConfigProvider
-              theme={{
-                components: {
-                  Button: {
-                    colorPrimary: "#000",
-                    colorPrimaryHover: "#fff",
-                    width: "200px",
+      <ThemeProvider theme={theme}>
+        <Drawer
+          title="Add new address"
+          // placement={placement}
+          className="drawer"
+          width={dwidth}
+          onClose={onClose}
+          open={open}
+          extra={
+            <Space>
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Button: {
+                      colorPrimary: "#000",
+                      colorPrimaryHover: "#fff",
+                      width: "200px",
+                    },
                   },
-                },
-              }}>
-              <button className="button-1311" onClick={onClose}>
-                Cancel
-              </button>
-
-              {!updateButton && (
-                <button className="button-1311" onClick={handleNewAddress}>
-                  Add
-                </button>
-              )}
-
-              {updateButton && (
-                <button className="button-1311" onClick={handleAddressUpdate}>
-                  Update
-                </button>
-              )}
-            </ConfigProvider>
-          </Space>
-        }>
-        <div className="add-suplier-sub11">
-          <div className="box">
-            <p>House no:</p>
-            <TextField
-              label="house no"
-              size="small"
-              value={houseno}
-              fullWidth={true}
-              onChange={(e) => setHouseNo(e.target.value)}
-            />
-          </div>
-
-          <div className="box">
-            <p>Area Street:</p>
-            <TextField
-              label="area street"
-              size="small"
-              value={area}
-              fullWidth={true}
-              onChange={(e) => setArea(e.target.value)}
-            />
-          </div>
-
-          <div className="box">
-            <p>Select address type</p>
-            <ConfigProvider
-              theme={{
-                components: {
-                  Radio: {
-                    colorPrimary: "#000",
-                    colorPrimaryHover: "#000",
-                  },
-                },
-              }}>
-              <Radio.Group
-                defaultValue="Home"
-                buttonStyle="solid"
-                value={addtype}
-                onChange={(value) => {
-                  setAddtype(value.target.value);
                 }}>
-                <Radio.Button value="Home">Home</Radio.Button>
-                <Radio.Button value="Office">Office</Radio.Button>
-              </Radio.Group>
-            </ConfigProvider>
-          </div>
+                <button className="button-1311" onClick={onClose}>
+                  Cancel
+                </button>
 
-          <div className="box">
-            <p>Pincode:</p>
-            <TextField
-              label="pincode"
-              type="number"
-              value={pincode}
-              size="small"
-              fullWidth={true}
-              onChange={(e) => setPincode(e.target.value)}
-            />
-            {pincodeError && (
-              <p className="error-color">Enter valid pincode.</p>
-            )}
-          </div>
+                {!updateButton && (
+                  <button className="button-1311" onClick={handleNewAddress}>
+                    Add
+                  </button>
+                )}
 
-          <div className="box">
-            <p>State:</p>
-            <TextField
-              label="state"
-              size="small"
-              value={state}
-              disabled={true}
-              fullWidth={true}
-              inputProps={{ readOnly: true }}
-            />
-          </div>
+                {updateButton && (
+                  <button className="button-1311" onClick={handleAddressUpdate}>
+                    Update
+                  </button>
+                )}
+              </ConfigProvider>
+            </Space>
+          }>
+          <div className="add-suplier-sub11">
+            <div className="box">
+              <p>House no:</p>
+              <TextField
+                label="house no"
+                size="small"
+                value={houseno}
+                fullWidth={true}
+                onChange={(e) => setHouseNo(e.target.value)}
+              />
+            </div>
 
-          <div className="box">
-            <p>City:</p>
-            <TextField
-              label="city"
-              size="small"
-              value={city}
-              disabled={true}
-              fullWidth={true}
-              inputProps={{ readOnly: true }}
-            />
+            <div className="box">
+              <p>Area Street:</p>
+              <TextField
+                label="area street"
+                size="small"
+                value={area}
+                fullWidth={true}
+                onChange={(e) => setArea(e.target.value)}
+              />
+            </div>
+
+            <div className="box">
+              <p>Select address type</p>
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Radio: {
+                      colorPrimary: "#000",
+                      colorPrimaryHover: "#000",
+                    },
+                  },
+                }}>
+                <Radio.Group
+                  defaultValue="Home"
+                  buttonStyle="solid"
+                  value={addtype}
+                  onChange={(value) => {
+                    setAddtype(value.target.value);
+                  }}>
+                  <Radio.Button value="Home">Home</Radio.Button>
+                  <Radio.Button value="Office">Office</Radio.Button>
+                </Radio.Group>
+              </ConfigProvider>
+            </div>
+
+            <div className="box">
+              <p>Pincode:</p>
+              <TextField
+                label="pincode"
+                type="number"
+                value={pincode}
+                size="small"
+                fullWidth={true}
+                onChange={(e) => setPincode(e.target.value)}
+              />
+              {pincodeError && (
+                <p className="error-color">Enter valid pincode.</p>
+              )}
+            </div>
+
+            <div className="box">
+              <p>State:</p>
+              <TextField
+                label="state"
+                size="small"
+                value={state}
+                disabled={true}
+                fullWidth={true}
+                inputProps={{ readOnly: true }}
+              />
+            </div>
+
+            <div className="box">
+              <p>City:</p>
+              <TextField
+                label="city"
+                size="small"
+                value={city}
+                disabled={true}
+                fullWidth={true}
+                inputProps={{ readOnly: true }}
+              />
+            </div>
           </div>
-        </div>
-      </Drawer>
+        </Drawer>
+      </ThemeProvider>
       <Toaster
         position="top-center"
         containerStyle={{

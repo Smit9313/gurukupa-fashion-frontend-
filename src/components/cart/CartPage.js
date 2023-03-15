@@ -17,7 +17,7 @@ function CartPage() {
   const history = useHistory();
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -76,7 +76,7 @@ function CartPage() {
 
     setProducts(cloneProducts);
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -106,7 +106,7 @@ function CartPage() {
     }
     setProducts(cloneProducts);
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios
@@ -136,7 +136,7 @@ function CartPage() {
       return index !== i;
     });
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
     try {
       axios

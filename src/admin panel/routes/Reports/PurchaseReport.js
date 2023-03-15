@@ -19,7 +19,7 @@ function PurchaseReport() {
 
   const handleClick = async () => {
     if (!isEmpty(selectedDates)) {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
 
       const jsonData = {

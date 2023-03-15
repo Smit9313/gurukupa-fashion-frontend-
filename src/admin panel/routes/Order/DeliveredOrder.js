@@ -18,7 +18,7 @@ function DeliverdOrder() {
   const [input, setInput] = useState(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}`};
     try {
       axios
@@ -103,7 +103,7 @@ function DeliverdOrder() {
             onChange={() => {
               setInput(true);
 
-              const token = sessionStorage.getItem("token");
+              const token = localStorage.getItem("token");
               const headers = { Authorization: `Bearer ${token}` };
               try {
                 axios

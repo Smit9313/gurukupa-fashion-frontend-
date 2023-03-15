@@ -40,7 +40,9 @@ function FeaturedProduct({items,title,des}) {
                   defaultValue={parseInt(item.rating)}
                   value={parseInt(item.rating)}
                 />
-                <p>({item.user_count})</p>
+                <p style={{ marginLeft: "15px", paddingTop: "6px" }}>(</p>
+                <p className="pdown">{item.user_count}</p>
+                <p style={{ paddingTop: "6px" }}>)</p>
               </div>
               <h4>{item.prod_price} ₹</h4>
             </div>

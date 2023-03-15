@@ -42,6 +42,23 @@ function AddDiscount() {
   const width = true;
 
   const theme = createTheme({
+    typography: {
+      fontFamily: "futura",
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: `
+        @font-face {
+          font-family: 'futura';
+          font-style: normal;
+          font-display: swap;
+          font-weight: 400;
+          src: local('Raleway'), local('Raleway-Regular'), url('public\fonts\futura\futura light bt.ttf') format('woff2');
+          unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
+        }
+      `,
+      },
+    },
     palette: {
       primary: {
         // Purple and green play nicely together.
@@ -139,7 +156,7 @@ function AddDiscount() {
       maxValue !== ""
     ) {
 
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/x-www-form-urlencoded",

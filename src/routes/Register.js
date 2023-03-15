@@ -30,7 +30,7 @@ function Register() {
 
   let history = useHistory();
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     // Replace this with your actual check
     if (!isEmpty (token)) {
@@ -161,7 +161,7 @@ function Register() {
                   toast.success("Registerd successfully!", {
                     duration: 3000,
                   });
-                  sessionStorage.setItem(
+                  localStorage.setItem(
                     "token",
                     JSON.stringify(response1.data.data["token"])
                   );

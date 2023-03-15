@@ -24,11 +24,11 @@ function Login() {
   const history = useHistory();
 
   // useEffect(() => {
-  //   sessionStorage.setItem("role", role);
+  //   localStorage.setItem("role", role);
   //   console.log(role)
   // }, [role]);
 
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
     // Replace this with your actual check
    if (!isEmpty(token)) {
@@ -99,7 +99,7 @@ function Login() {
             setError("User not found.");
             setErrorFlag(true);
           } else if (response.data.message === "Success!") {
-            sessionStorage.setItem(
+            localStorage.setItem(
               "token",
               JSON.stringify(response.data.data["token"])
             );

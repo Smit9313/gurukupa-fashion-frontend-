@@ -15,7 +15,7 @@ import RelatedProduct from "../components/RelatedProduct.js";
 import { isEmpty } from "lodash";
 
 function Home() {
-  const [user, setUser] = useState(sessionStorage.getItem("token"));
+  const [user, setUser] = useState(localStorage.getItem("token"));
   const [productData, setProductData] = useState();
 
   useEffect(() => {

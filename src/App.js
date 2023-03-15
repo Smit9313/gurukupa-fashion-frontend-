@@ -22,19 +22,20 @@ import Invoice from "./routes/Invoice";
 import Megic from "./routes/Megic";
 import Model from "./routes/Model";
 import { Mode } from "@mui/icons-material";
+import { CookiesProvider } from "react-cookie";
 
 
 
 function App() {
 
-  const user = sessionStorage.getItem("token");
+  const user = localStorage.getItem("token");
   const [role, setRole] = useState("");
 
 
   
   useEffect(() => {
 
-     if (sessionStorage.getItem("token") !== null) {
+     if (localStorage.getItem("token") !== null) {
        const decoded = jwtDecode(user);
        setRole(decoded["id"]["role"]);
      }
@@ -42,59 +43,61 @@ function App() {
   }, [role,user])
 
   return (
-    <div className="App">
-      {/* <Navbar /> */}
-      <Switch>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/shop">
-          <Redirect to="/shop/all" />
-        </Route>
-        <Route exact path="/shop/:id" component={Shop} />
-        <Route exact path="/shop/:cat/:subcat" component={Shop} />
-        <Route exact path="/shop/:kid/:kidcat/:kidsubcat" component={Shop} />
-        <Route
-          exact
-          path="/single-product/:product_id"
-          component={SingleProduct}
-        />
-        {/* <Route exact path="/about" component={About} /> */}
-        <Route exact path="/contact" component={Contact} />
-        <Route exact path="/signup" component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/footer" component={Footer} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/cart-products" component={CartProducts} />
-        <Route exact path="/megic" component={Megic} />
-        <Route exact path="/model" component={Model} />
-        <Route exact path="/forgotpassword" component={ForgotPassword} />
-        <Route exact path="/resetpassword/:key" component={ChangePassword} />
-        {user && role === "admin" && (
-          <>
-            <Switch>
-              <Route path="/admin" component={Admin} />
-              <Route exact path="/checkout" component={Checkout} />
-              <Route path="/profile" component={Profile} />
-              <Route path="/*" component={Error} />
-            </Switch>
-          </>
-        )}
-        {user && role === "customer" && (
-          <>
-            <Switch>
-              <Route path="/profile" component={Profile} />
-              <Route exact path="/checkout" component={Checkout} />
-              <Route exact path="/invoice/:order_id" component={Invoice} />
-              <Route path="/*" component={Error} />
-            </Switch>
-          </>
-        )}
+    <CookiesProvider>
+      <div className="App">
+        {/* <Navbar /> */}
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/shop">
+            <Redirect to="/shop/all" />
+          </Route>
+          <Route exact path="/shop/:id" component={Shop} />
+          <Route exact path="/shop/:cat/:subcat" component={Shop} />
+          <Route exact path="/shop/:kid/:kidcat/:kidsubcat" component={Shop} />
+          <Route
+            exact
+            path="/single-product/:product_id"
+            component={SingleProduct}
+          />
+          {/* <Route exact path="/about" component={About} /> */}
+          <Route exact path="/contact" component={Contact} />
+          <Route exact path="/signup" component={Home} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/footer" component={Footer} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/cart-products" component={CartProducts} />
+          <Route exact path="/megic" component={Megic} />
+          <Route exact path="/model" component={Model} />
+          <Route exact path="/forgotpassword" component={ForgotPassword} />
+          <Route exact path="/resetpassword/:key" component={ChangePassword} />
+          {user && role === "admin" && (
+            <>
+              <Switch>
+                <Route path="/admin" component={Admin} />
+                <Route exact path="/checkout" component={Checkout} />
+                <Route path="/profile" component={Profile} />
+                <Route path="/*" component={Error} />
+              </Switch>
+            </>
+          )}
+          {user && role === "customer" && (
+            <>
+              <Switch>
+                <Route path="/profile" component={Profile} />
+                <Route exact path="/checkout" component={Checkout} />
+                <Route exact path="/invoice/:order_id" component={Invoice} />
+                <Route path="/*" component={Error} />
+              </Switch>
+            </>
+          )}
 
-        <Route path="/*" component={Error} />
-      </Switch>
-    </div>
+          <Route path="/*" component={Error} />
+        </Switch>
+      </div>
+    </CookiesProvider>
   );
 }
 
