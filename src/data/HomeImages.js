@@ -1,15 +1,11 @@
 export const HomeImages = [
   {
     id: 1,
-    url: "/home/home1.jpg",
+    url: "https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/site_images%2F8131928.jpg?alt=media&token=a335dff3-c2b6-45ea-b179-c8e6bac75bbb",
   },
   {
     id: 2,
-    url: "/home/home2.jpg",
-  },
-  {
-    id: 3,
-    url: "/home/home3.jpg",
+    url: "https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/site_images%2F8131952%20copy.jpg?alt=media&token=a0876505-b5bb-455a-a7f1-042d8de03bbc",
   },
 ];
 

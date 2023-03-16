@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { Toaster, toast } from "react-hot-toast";
 import { isEmpty } from "lodash";
+import moment from "moment/moment";
 import { triggerFocus } from "antd/es/input/Input";
 
 function AddPurchase() {
@@ -484,10 +485,16 @@ function AddPurchase() {
                 }}>
                 <DatePicker
                   defaultValue={dayjs()}
+                  disabledDate={(current) => {
+                    const now = new Date();
+                    const abc = new Date(now.getFullYear(), 0, 1);
+                    const abc1 = new Date(now.getFullYear(), 11, 31);
+                    return current < abc || current > moment() || current > abc1;
+                  }}
                   value={date}
                   onChange={(value) => {
                     setDate(value);
-                    console.log(value)
+                    console.log(value);
                   }}
                 />
               </ConfigProvider>

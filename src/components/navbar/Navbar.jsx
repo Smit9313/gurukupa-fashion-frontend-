@@ -170,7 +170,12 @@ function Navbar({ navrender }) {
               width="130px"
             />
           </Link>
-          <ul className={icon ? "nav-menu active-mb" : "nav-menu"}>
+          <ul
+            className={
+              icon
+                ? "nav-menu active-mb"
+                : "nav-menu"
+            }>
             <li>
               <NavLink
                 to="/home"

@@ -6,6 +6,7 @@ import { isEmpty } from "lodash";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import dayjs from "dayjs";
+import moment from "moment";
 
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
@@ -74,10 +75,17 @@ function SalesReport() {
           <RangePicker
             onChange={handleDateChange}
             format={dateFormat}
-            defaultValue={[
-              dayjs("2023-02-03", dateFormat),
-              dayjs(dayjs()),
-            ]}
+            defaultValue={[dayjs("2023-02-03", dateFormat), dayjs(dayjs())]}
+            disabledDate={(current) => {
+              const now = new Date();
+              const abc = new Date(now.getFullYear(), 0, 1);
+              const abc1 = new Date(now.getFullYear(), 11, 31);
+              return (
+                current < abc ||
+                current > abc1 ||
+                current.isAfter(moment().subtract(1, "day"))
+              );
+            }}
           />
           <button
             className="button-311 supplier-report-button"

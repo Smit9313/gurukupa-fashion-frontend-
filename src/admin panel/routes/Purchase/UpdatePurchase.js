@@ -752,7 +752,7 @@ function UpdatePurchase() {
                 </button>
                 <div className="suplier-button">
                   <button className="button-311" onClick={handleAddClick}>
-                    Add
+                    Update
                   </button>
                 </div>
               </div>

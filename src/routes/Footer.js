@@ -31,19 +31,21 @@ function Footer() {
           </NavLink>
           <NavLink to="/shop/Men/T-Shirts">T-Shirt</NavLink>
           <NavLink to="/shop/Men/Jeans">Jeans</NavLink>
-          <NavLink to="/shop/Men/CasualShirts">Casual Shirt</NavLink>
-          <NavLink to="/shop/Men/FormalShirts">Formal Shirt</NavLink>
-          <NavLink to="/shop/Men/CasualTrousers">Casual Trouser</NavLink>
-          <NavLink to="/shop/Men/Kurta">Kurta</NavLink>
+          <NavLink to="/shop/Men/Casual Shirts">Casual Shirt</NavLink>
+          <NavLink to="/shop/Men/Formal Shirts">Formal Shirt</NavLink>
+          <NavLink to="/shop/Men/Casual Trousers">Casual Trouser</NavLink>
+          <NavLink to="/shop/Men/Kurtas & Kurtas Sets">
+            Kurtas & Kurtas Sets
+          </NavLink>
         </div>
         <div>
           <NavLink to="/shop/Women">
             <h4>Women</h4>
           </NavLink>
-          <NavLink to="/shop/Women/Tops">Tops</NavLink>
-          <NavLink to="/shop/Women/T-Shirts">T-shirts</NavLink>
-          <NavLink to="/shop/Women/LehengaCholi">Lehenga & Choli</NavLink>
-          <NavLink to="/shop/Women/Kurtas&Suits">Kurtas & Suits</NavLink>
+          <NavLink to="/shop/Women/Top">Tops</NavLink>
+          <NavLink to="/shop/Women/T-shirts">T-shirts</NavLink>
+          <NavLink to="/shop/Women/Lehenga Choli">Lehenga & Choli</NavLink>
+          <NavLink to="/shop/Women/Kurtas & Suits">Kurtas & Suits</NavLink>
           <NavLink to="/shop/Women/Jeans">Jeans</NavLink>
           <NavLink to="/shop/Women/Dresses">Dresses</NavLink>
         </div>
@@ -51,8 +53,8 @@ function Footer() {
           <NavLink to="/shop/Kids">
             <h4>Kids</h4>
           </NavLink>
-          <NavLink to="/shop/Kids/Boy">Kids(Boy)</NavLink>
-          <NavLink to="/shop/Kids/Girl">Kids(Girl)</NavLink>
+          <NavLink to="/shop/Kids(Boy)">Kids(Boy)</NavLink>
+          <NavLink to="/shop/Kids(Girls)">Kids(Girl)</NavLink>
         </div>
       </div>
     </div>

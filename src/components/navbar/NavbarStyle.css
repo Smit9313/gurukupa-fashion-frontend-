@@ -172,12 +172,12 @@
         left: 0;
         opacity: 1;
         z-index: 11;
-        transition: 0.3s ease-in-out;
+        /* transition: 0.3s ease-in-out; */
         margin-top: 65px;
         width: 60%;
         transition-duration: 0.2s;  
         transition-delay: 0.1s;
-        /* height: 92.3vh; */
+        transition: all 0.4s ease;
         height: 93vh;
      }
      .nav-menu.active-mb li{

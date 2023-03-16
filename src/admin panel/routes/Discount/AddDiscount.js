@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ConfigProvider, InputNumber, DatePicker } from "antd";
 import { isEmpty } from "lodash";
 import qs from "qs";
+import moment from "moment";
 
 function AddDiscount() {
   // valid from
@@ -83,10 +84,6 @@ function AddDiscount() {
     setValidUntil(date);
   };
 
-  const disabledDate = (current) => {
-    // Can not select days before today and today
-    return current && current < dayjs().endOf("day");
-  };
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -269,7 +266,16 @@ function AddDiscount() {
                 <DatePicker
                   defaultValue={dayjs()}
                   onChange={onChangeFrom}
-                  disabledDate={disabledDate}
+                  disabledDate={(current) => {
+                    const now = new Date();
+                    const abc = new Date(now.getFullYear(), 0, 1);
+                    const abc1 = new Date(now.getFullYear(), 11, 31);
+                    return (
+                      current < abc ||
+                      current > abc1 ||
+                      current.isBefore(moment().subtract(1, "day"))
+                    );
+                  }}
                 />
               </ConfigProvider>
               {flag2 && <p className="error-color">{error2}</p>}
@@ -290,8 +296,18 @@ function AddDiscount() {
                   },
                 }}>
                 <DatePicker
-                  defaultValue={dayjs()}
-                  disabledDate={disabledDate}
+                  // defaultValue={dayjs()}
+                  disabledDate={(current) => {
+                    const now = new Date();
+                    const abc = new Date(now.getFullYear(), 0, 1);
+                    const abc1 = new Date(now.getFullYear(), 11, 31);
+                    return (
+                      current < abc ||
+                      current > abc1 ||
+                      current < validFrom ||
+                      current.isBefore(moment().subtract(1, "day"))
+                    );
+                  }}
                   onChange={onChangeUntil}
                 />
               </ConfigProvider>

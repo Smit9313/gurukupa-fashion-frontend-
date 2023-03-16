@@ -1,6 +1,6 @@
 import "./App.css";
 import React,{useState, useEffect } from "react";
-// import Navbar from "./components/navbar/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Home from "./routes/Home";
 import Shop from "./routes/Shop";
 import Contact from "./routes/Contact";
