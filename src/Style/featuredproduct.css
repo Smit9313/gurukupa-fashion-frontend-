@@ -15,7 +15,7 @@
   color: #222;
 }
 
-.not-found{
+.not-found {
   font-size: 30px;
   height: 300px;
   margin-top: 65px;
@@ -75,7 +75,6 @@
   margin: 15px 0;
   transition: 0.2s ease;
   position: relative;
-
 }
 
 #product1 .pro:hover {
@@ -100,7 +99,7 @@
   padding: 10px 10px;
   /* height: 200px; */
 }
-#product1 .pro .des h5{
+#product1 .pro .des h5 {
   /* font-weight: 500; */
 }
 
@@ -124,7 +123,7 @@
   /* overflow: hidden; */
 
   display: inline-block;
-  width: 180px;
+  width: 200px;
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis;
@@ -150,7 +149,7 @@
 #product1 .pro .des h4 {
   /* bottom: 0; */
   /* position: absolute; */
-  padding-top: 7px;
+  padding-top: 10px;
   font-size: 15px;
   font-weight: 700;
   color: #000000;
@@ -184,7 +183,7 @@
   }
 
   #product1 .pro-container {
-    justify-content: center;
+    /* justify-content: center; */
   }
 
   #product1 .pro {
@@ -199,25 +198,68 @@
     font-size: 30px;
   }
   #product1 .pro {
-    width: 70%;
-    min-height: 460px;
+    /* width: 70%; */
+    margin: 10px;
+    min-height: 300px;
+    min-width: 150px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   }
+    #product1 .pro-container {
+    margin: 20px;
+    /* margin-left: 10px; */
+    margin-top: 5px;
+  }
+
+
   #product1 .pro img {
     width: 100%;
     /* border-radius: 20px; */
-    height: 325px;
-    width: 250px;
+    height: 200px;
+    width: 160px;
   }
-  #product1 .pro .des{
+  #product1 .pro .des {
     height: 100px;
+    width: 160px;
+    padding: 2px;
   }
+
+  #product1 .pro .des .des-text {
+    font-size: 10px;
+    width: 135px;
+  }
+
+  #product1 .pro .des h5 {
+    font-size: 13px;
+  }
+
   .search-field {
     padding: 5px;
     font-size: 0.8rem;
     float: right;
     width: 90%;
   }
+  .ant-rate{
+    font-size: 15px;
+  }
+
+  .pdown{
+    padding-top: 5px;
+    font-size: 12px;
+  }
+
+  .pb1{
+    padding-top: 3px!important;
+    font-size: 12px;
+  }
+
+  #product1 .pro .des h4 {
+    font-size: 11px;  
+  }
+
+  .star {
+    font-size: 10px;
+  }
+
   .search-product {
     margin-bottom: 50px;
     width: 94%;
