@@ -1,5 +1,6 @@
 import { isEmpty } from "lodash";
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Input, Radio, ConfigProvider } from "antd";
 import { Toaster, toast } from "react-hot-toast";
 import BodyMeasurements from "./BodyMeasurements";
@@ -8,6 +9,8 @@ import "../Style/megic.css";
 
 function Megic() {
   const token = localStorage.getItem("token");
+  const pro_id = useParams();
+  console.log(pro_id.id);
 
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();

@@ -134,7 +134,7 @@ function SingleProduct() {
 
   const handleMegicClick = () => {
     const token = localStorage.getItem("token");
-    history.push("/megic");
+    history.push(`/megic`);
   };
 
   return (

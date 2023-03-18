@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import socketIOClient from "socket.io-client";
 import html2canvas from "html2canvas";
 import { isEmpty } from "lodash";
@@ -10,7 +10,6 @@ import ReactCanvasConfetti from "react-canvas-confetti";
 import axios from "axios";
 import GLBLoader from "../components/GLBLoader";
 import ClipLoader from "react-spinners/ClipLoader";
-
 
 const ENDPOINT = "http://localhost:8000"; // change to your Socket.io server URL
 const canvasStyles = {
@@ -24,6 +23,7 @@ const canvasStyles = {
 
 function BodyMeasurements({ height, weight, gender }) {
   const history = useHistory();
+  // console.log(pro_id)
 
   const [stream, setStream] = useState(null);
   const [socket, setSocket] = useState(null);
@@ -35,7 +35,7 @@ function BodyMeasurements({ height, weight, gender }) {
   const canvasRef = useRef();
   const refAnimationInstance = useRef(null);
   const [loading, setLoading] = useState(true);
-  const [bdata,setBdata] = useState();
+  const [bdata, setBdata] = useState();
   const [tmp, setTmp] = useState(true);
 
   const getInstance = useCallback((instance) => {
@@ -159,6 +159,25 @@ function BodyMeasurements({ height, weight, gender }) {
     }
   };
 
+    function dataURItoBlob(dataURI, fileName) {
+      // Convert the data URI to a binary buffer
+      const binary = atob(dataURI.split(",")[1]);
+      const buffer = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        buffer[i] = binary.charCodeAt(i);
+      }
+
+      // Create a new Blob object from the buffer with the correct MIME type
+      const blob = new Blob([buffer], { type: "image/png" });
+      blob.name = fileName;
+
+      // Set the originFileObj property to the new Blob object
+      blob.originFileObj = blob;
+
+      // Return the new Blob object
+      return blob;
+    }
+
   const handleScreenshot = async () => {
     const canvas = document.createElement("canvas");
     canvas.width = 512;
@@ -184,77 +203,54 @@ function BodyMeasurements({ height, weight, gender }) {
         duration: 3000,
       });
     }
-    console.log(ss);
+      console.log(ss);
+
+        if (ss.length === 1) {
+          setLoading(true);
+          setTmp(false);
+          // fire();
+          console.log("valid");
+          console.log(height, weight, gender);
+          console.log(ss);
+
+          const formData = new FormData();
+
+          const fileName0 = "my-image0.png";
+          const fileName1 = "my-image1.png";
+          const file0 = dataURItoBlob(ss[0], fileName0);
+          const file1 = dataURItoBlob(dataURL, fileName1);
+          console.log(file0);
+
+          formData.append(fileName0, file0.originFileObj, file0?.name);
+          formData.append(fileName1, file1.originFileObj, file1?.name);
+
+          formData.append("gender", gender);
+          formData.append("height", height);
+          formData.append("weight", weight);
+
+          const token = localStorage.getItem("token");
+          const headers = { Authorization: `Bearer ${token}` };
+          try {
+            axios
+              .post(`${process.env.REACT_APP_API_HOST}/measure/`, formData, {
+                headers,
+              })
+              .then((response) => {
+                console.log(response);
+
+                if (response.data.message === "Success!") {
+                  setBdata(response.data.data);
+                  setLoading(false);
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } catch (err) {}
+        }
+
   };
 
-  function dataURItoBlob(dataURI, fileName) {
-    // Convert the data URI to a binary buffer
-    const binary = atob(dataURI.split(",")[1]);
-    const buffer = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-      buffer[i] = binary.charCodeAt(i);
-    }
-
-    // Create a new Blob object from the buffer with the correct MIME type
-    const blob = new Blob([buffer], { type: "image/png" });
-    blob.name = fileName;
-
-    // Set the originFileObj property to the new Blob object
-    blob.originFileObj = blob;
-
-    // Return the new Blob object
-    return blob;
-  }
-
-  
-
-    const handleSubmit = (event) => {
-    event.preventDefault();
-      if (ss.length === 2) {
-        setLoading(true);
-        setTmp(false)
-        // fire();
-        console.log("valid");
-        console.log(height, weight, gender);
-        console.log(ss);
-
-        const formData = new FormData();
-
-        const fileName0 = "my-image0.png";
-        const fileName1 = "my-image1.png";
-        const file0 = dataURItoBlob(ss[0], fileName0);
-        const file1 = dataURItoBlob(ss[1], fileName1);
-        console.log(file0);
-
-        formData.append(fileName0, file0.originFileObj, file0?.name);
-        formData.append(fileName1, file1.originFileObj, file1?.name);
-
-        formData.append("gender", gender);
-        formData.append("height", height);
-        formData.append("weight", weight);
-
-        const token = localStorage.getItem("token");
-        const headers = { Authorization: `Bearer ${token}` };
-        try {
-          axios
-            .post(`${process.env.REACT_APP_API_HOST}/measure/`, formData, {
-              headers,
-            })
-            .then((response) => {
-              console.log(response);
-              
-              if (response.data.message === "Success!") {
-                setBdata(response.data.data);
-                setLoading(false);
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        } catch (err) {}
-      }
-
-  }
 
   return (
     <>
@@ -278,23 +274,25 @@ function BodyMeasurements({ height, weight, gender }) {
             model
           </button> */}
           </div>
-          <button onClick={handleSubmit} className="button-311">
-            Add
-          </button>
           {/* {!isEmpty(ss) && <img src={ss} />} */}
         </div>
       )}
-      {!loading ? (
+      {!loading && (
         <>
           <GLBLoader url={bdata.model_url} />
+          <div>
+          {/* <Link to={`/single-product/${pro_id}`}>Back</Link> */}
+          </div>
         </>
-      ) : (
+      )}
+      {loading && !tmp && (
         <>
           <div className="loader-spin">
             <ClipLoader color="#000" />
           </div>
         </>
       )}
+
       <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
       <Toaster
         position="top-center"

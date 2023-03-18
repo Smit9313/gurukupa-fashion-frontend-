@@ -136,7 +136,7 @@ const GLBLoader = ({ url }) => {
     };
   }, [url]);
 
-  return <div style={{ height: '100vh', width: '100vw' }} ref={containerRef} />;
+  return <div style={{ height: '75vh', width: '100vw' }} ref={containerRef} />;
 };
 
 export default GLBLoader;
