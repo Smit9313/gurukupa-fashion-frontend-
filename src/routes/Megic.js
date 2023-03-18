@@ -9,7 +9,7 @@ import "../Style/megic.css";
 function Megic() {
   const token = localStorage.getItem("token");
 
-  const [hight, setHight] = useState();
+  const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
   const [gender, setGender] = useState("male");
 
@@ -19,7 +19,7 @@ function Megic() {
   const handleNextForm = (e) => {
     e.preventDefault();
 
-    if (!isEmpty(hight) && !isEmpty(weight) && !isEmpty(gender)) {
+    if (!isEmpty(height) && !isEmpty(weight) && !isEmpty(gender)) {
       // console.log("valid");
       setForm(false);
       setTool(true);
@@ -64,7 +64,7 @@ function Megic() {
                       <p>Enter hight :</p>
                       <Input
                         type="number"
-                        onChange={(e) => setHight(e.target.value)}
+                        onChange={(e) => setHeight(e.target.value)}
                       />
                       <label>Cm</label>
                     </div>
@@ -88,7 +88,7 @@ function Megic() {
             )}
             {tool && (
               <>
-                <BodyMeasurements hight={hight} weight={weight} gender={gender} />
+                <BodyMeasurements height={height} weight={weight} gender={gender} />
               </>
             )}
           </ConfigProvider>

@@ -46,7 +46,7 @@ function SingleProduct() {
             setData(response.data.data);
             
             setUrl(response.data.data.prod_image[0]);
-            console.log(response.data.data.cat_id);
+            console.log(response.data.data);
 
             try {
               axios
@@ -269,7 +269,7 @@ function SingleProduct() {
                     type="submit"
                     className="normal"
                     onClick={handleMegicClick}>
-                    Magic
+                    ABC
                   </button>
 
                   {isEmpty(role) ||

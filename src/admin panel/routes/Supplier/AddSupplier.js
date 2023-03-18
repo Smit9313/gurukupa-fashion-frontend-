@@ -9,7 +9,6 @@ import qs from "qs";
 import "react-toastify/dist/ReactToastify.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-
 function AddSuplier() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
@@ -66,8 +65,8 @@ function AddSuplier() {
       },
     },
     components: {
-    MuiCssBaseline: {
-      styleOverrides: `
+      MuiCssBaseline: {
+        styleOverrides: `
         @font-face {
           font-family: 'futura';
           font-style: normal;
@@ -77,8 +76,8 @@ function AddSuplier() {
           unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
         }
       `,
+      },
     },
-  }
   });
 
   useEffect(() => {
@@ -206,13 +205,11 @@ function AddSuplier() {
     }
 
     // pincode
-if (pincode === "" || pincode.toString().length !== 6) {
-  setPincodeError(true)
-} else {
-  setPincodeError(false);
-}
-
-
+    if (pincode === "" || pincode.toString().length !== 6) {
+      setPincodeError(true);
+    } else {
+      setPincodeError(false);
+    }
 
     if (
       nameNull ||
@@ -266,7 +263,7 @@ if (pincode === "" || pincode.toString().length !== 6) {
             { headers }
           )
           .then((response) => {
-            console.log(response)
+            console.log(response);
             if (response.data["message"] === "Success!") {
               setValid(true);
               toast.success("Supplier Added!", {
@@ -303,9 +300,9 @@ if (pincode === "" || pincode.toString().length !== 6) {
                 duration: 3000,
               });
             } else {
-               toast.error("Something wrong!", {
-                 duration: 3000,
-               });
+              toast.error("Something wrong!", {
+                duration: 3000,
+              });
             }
           })
           .catch((error) => {

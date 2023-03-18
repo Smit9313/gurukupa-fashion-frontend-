@@ -7,6 +7,10 @@ import "../Style/bodymeasurements.css";
 import Navbar from "../components/navbar/Navbar";
 import { Toaster, toast } from "react-hot-toast";
 import ReactCanvasConfetti from "react-canvas-confetti";
+import axios from "axios";
+import GLBLoader from "../components/GLBLoader";
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 const ENDPOINT = "http://localhost:8000"; // change to your Socket.io server URL
 const canvasStyles = {
@@ -18,8 +22,7 @@ const canvasStyles = {
   left: 0,
 };
 
-function BodyMeasurements({hight,weight,gender}) {
-
+function BodyMeasurements({ height, weight, gender }) {
   const history = useHistory();
 
   const [stream, setStream] = useState(null);
@@ -31,6 +34,9 @@ function BodyMeasurements({hight,weight,gender}) {
   const videoRef = useRef(null);
   const canvasRef = useRef();
   const refAnimationInstance = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [bdata,setBdata] = useState();
+  const [tmp, setTmp] = useState(true);
 
   const getInstance = useCallback((instance) => {
     refAnimationInstance.current = instance;
@@ -154,10 +160,9 @@ function BodyMeasurements({hight,weight,gender}) {
   };
 
   const handleScreenshot = async () => {
-    
     const canvas = document.createElement("canvas");
-    canvas.width = 400;
-    canvas.height = 400;
+    canvas.width = 512;
+    canvas.height = 512;
     const context = canvas.getContext("2d");
 
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
@@ -182,47 +187,114 @@ function BodyMeasurements({hight,weight,gender}) {
     console.log(ss);
   };
 
-  if(ss.length === 2){
-    // fire();
-    console.log("valid");
-    console.log(hight,weight,gender)
+  function dataURItoBlob(dataURI, fileName) {
+    // Convert the data URI to a binary buffer
+    const binary = atob(dataURI.split(",")[1]);
+    const buffer = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      buffer[i] = binary.charCodeAt(i);
+    }
 
-    
+    // Create a new Blob object from the buffer with the correct MIME type
+    const blob = new Blob([buffer], { type: "image/png" });
+    blob.name = fileName;
 
+    // Set the originFileObj property to the new Blob object
+    blob.originFileObj = blob;
+
+    // Return the new Blob object
+    return blob;
+  }
+
+  
+
+    const handleSubmit = (event) => {
+    event.preventDefault();
+      if (ss.length === 2) {
+        setLoading(true);
+        setTmp(false)
+        // fire();
+        console.log("valid");
+        console.log(height, weight, gender);
+        console.log(ss);
+
+        const formData = new FormData();
+
+        const fileName0 = "my-image0.png";
+        const fileName1 = "my-image1.png";
+        const file0 = dataURItoBlob(ss[0], fileName0);
+        const file1 = dataURItoBlob(ss[1], fileName1);
+        console.log(file0);
+
+        formData.append(fileName0, file0.originFileObj, file0?.name);
+        formData.append(fileName1, file1.originFileObj, file1?.name);
+
+        formData.append("gender", gender);
+        formData.append("height", height);
+        formData.append("weight", weight);
+
+        const token = localStorage.getItem("token");
+        const headers = { Authorization: `Bearer ${token}` };
+        try {
+          axios
+            .post(`${process.env.REACT_APP_API_HOST}/measure/`, formData, {
+              headers,
+            })
+            .then((response) => {
+              console.log(response);
+              
+              if (response.data.message === "Success!") {
+                setBdata(response.data.data);
+                setLoading(false);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } catch (err) {}
+      }
 
   }
 
   return (
     <>
       <Navbar />
-      <div className="canvas-class-canvas">
-        <video
-          style={{ borderRadius: "20px", display: "none" }}
-          ref={videoRef}
-          autoPlay
-          onPlay={handleVideoFrame}
-        />
-        <div>
-          <canvas
-            ref={canvasRef}
-            width="412px"
-            height="590"
+      {tmp && (
+        <div className="canvas-class-canvas">
+          <video
+            style={{ borderRadius: "20px", display: "none" }}
+            ref={videoRef}
+            autoPlay
+            onPlay={handleVideoFrame}
           />
-        </div>
-        <div style={{marginTop:"30px",marginLeft:"170px"}}>
-          <button className="button-300" onClick={handleScreenshot}>
-            
-          </button>
-          {/* <button className="button-300" onClick={()=>{
+          <div>
+            <canvas ref={canvasRef} width="412px" height="590" />
+          </div>
+          <div style={{ marginTop: "30px", marginLeft: "170px" }}>
+            <button className="button-300" onClick={handleScreenshot}></button>
+            {/* <button className="button-300" onClick={()=>{
             // history.push('');
           }}>
             model
           </button> */}
+          </div>
+          <button onClick={handleSubmit} className="button-311">
+            Add
+          </button>
+          {/* {!isEmpty(ss) && <img src={ss} />} */}
         </div>
-
-        {/* {!isEmpty(ss) && <img src={ss} />} */}
-      </div>
-
+      )}
+      {!loading ? (
+        <>
+          <GLBLoader url={bdata.model_url} />
+        </>
+      ) : (
+        <>
+          <div className="loader-spin">
+            <ClipLoader color="#000" />
+          </div>
+        </>
+      )}
       <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
       <Toaster
         position="top-center"

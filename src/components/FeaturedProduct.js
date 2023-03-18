@@ -32,7 +32,7 @@ function FeaturedProduct({items,title,des}) {
               <img
                 src={item.prod_image[1]}
                 alt=""
-                style={{display:"none"}}
+                style={{ display: "none" }}
               />
               <img
                 src={item.prod_image[0]}
@@ -50,9 +50,17 @@ function FeaturedProduct({items,title,des}) {
                   defaultValue={parseInt(item.rating)}
                   value={parseInt(item.rating)}
                 />
-                <p className='pb1' style={{ marginLeft: "15px", paddingTop: "6px" }}>(</p>
-                <p className="pdown">{item.user_count}</p>
-                <p className='pb1' style={{ paddingTop: "6px" }}>)</p>
+                <p
+                  className="pb1"
+                  style={{ marginLeft: "15px", paddingTop: "4px" }}>
+                  (
+                </p>
+                <p className="pdown1" style={{ paddingTop: "5px" }}>
+                  {item.user_count}
+                </p>
+                <p className="pb1" style={{ paddingTop: "4px" }}>
+                  )
+                </p>
               </div>
               <h4>{item.prod_price} ₹</h4>
             </div>

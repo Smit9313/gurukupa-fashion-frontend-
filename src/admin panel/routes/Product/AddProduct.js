@@ -129,6 +129,7 @@ function AddProduct() {
   const handleProduct = async (e) => {
     e.preventDefault();
 
+    console.log(images)
     const formData = new FormData();
     images.map(async (file, index) => {
       formData.append(index, file.originFileObj, file?.name);

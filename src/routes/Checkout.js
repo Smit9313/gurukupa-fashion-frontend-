@@ -15,8 +15,6 @@ import { useHistory } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-
-
 function Checkout() {
   const history = useHistory();
   const Razorpay = useRazorpay();
@@ -52,6 +50,7 @@ function Checkout() {
   const [discountData, setDiscountData] = useState("");
 
   const [coupenCode, setCoupenCode] = useState("");
+  const [eData,setEData] = useState();
 
   const showDrawer = (e) => {
     e.preventDefault();
@@ -98,24 +97,24 @@ function Checkout() {
     fetchData();
   }, [pincode]);
 
-    const theme = createTheme({
-      typography: {
-        fontFamily: "futura",
-      },
+  const theme = createTheme({
+    typography: {
+      fontFamily: "futura",
+    },
 
-      palette: {
-        primary: {
-          // Purple and green play nicely together.
-          main: "#09142d",
-        },
-        secondary: {
-          // This is green.A700 as hex.
-          main: "#11cb5f",
-        },
+    palette: {
+      primary: {
+        // Purple and green play nicely together.
+        main: "#09142d",
       },
-      components: {
-        MuiCssBaseline: {
-          styleOverrides: `
+      secondary: {
+        // This is green.A700 as hex.
+        main: "#11cb5f",
+      },
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: `
         @font-face {
           font-family: 'futura';
           font-style: normal;
@@ -125,9 +124,9 @@ function Checkout() {
           unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
         }
       `,
-        },
       },
-    });
+    },
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -302,6 +301,12 @@ function Checkout() {
   const handlePayment = (e) => {
     e.preventDefault();
 
+    if (isEmpty(mobile)) {
+      toast.error("mobile no should not blank!", {
+        duration: 3000,
+      });
+    }
+
     if (
       !isEmpty(mobile) &&
       mobile.toString().length === 10 &&
@@ -419,23 +424,27 @@ function Checkout() {
               });
               rzpay.open();
             } else if (
-              response.data.message === "Entered more quantity then available."
+              response.data.message === "Something wrong with order."
             ) {
-              let qty_flag = false;
-              let name404 = "";
-              let qty404 = "";
+              // let qty_flag = false;
+              // let name404 = "";
+              // let qty404 = "";
 
-              products.forEach((element) => {
-                if (response.data.data.prod_id === element.prod_id) {
-                  name404 = element.prod_name;
-                  qty404 = response.data.data.available_qty;
-                }
-              });
-              // if (qty_flag === true) {
-                toast.error(
-                  `Availabel Quantity for product ${name404} is ${qty404}.`
-                );
-              // }
+              // products.forEach((element) => {
+              //   if (response.data.data.prod_id === element.prod_id) {
+              //     name404 = element.prod_name;
+              //     qty404 = response.data.data.available_qty;
+              //   }
+              // });
+              // // if (qty_flag === true) {
+              // toast.error(
+              //   `Availabel Quantity for product ${name404} is ${qty404}.`
+              // );
+              // // }
+
+              console.log(response.data.data);
+              setEData(response.data.data);
+
             } else {
               toast.error(response.data.message);
             }
@@ -729,6 +738,17 @@ function Checkout() {
                       )}
                     </tfoot>
                   </table>
+
+                  {!isEmpty(eData) && (
+                    eData.map((evalue,index)=>{
+                      return (
+                        <div key={index} className="echeckout">
+                          <p>Item: {evalue.prod_name}, Size: {evalue.size} </p>
+                          <p style={{color:"red"}}>*{evalue.message}</p>
+                        </div>
+                      );
+                    })
+                  )}
 
                   <div className="promotion">
                     <label htmlFor="promo-code">Have A Promo Code?</label>

@@ -33,11 +33,17 @@ function RelatedProduct({ items}) {
             <span className="des-text">{item.prod_desc}</span>
             <div className="star" style={{ fontSize: "18px" }}>
               <Rate disabled defaultValue={item.rating} value={item.rating} />
-              <p style={{ marginLeft: "15px", paddingTop: "4px" }}>(</p>
-              <p className="pdown" style={{ paddingTop: "6px" }}>
+              <p
+                className="pb1"
+                style={{ marginLeft: "15px", paddingTop: "4px" }}>
+                (
+              </p>
+              <p className="pdown1" style={{ paddingTop: "5px" }}>
                 {item.user_count}
               </p>
-              <p style={{ paddingTop: "4px" }}>)</p>
+              <p className="pb1" style={{ paddingTop: "4px" }}>
+                )
+              </p>
             </div>
             <h4>{item.prod_price} ₹</h4>
           </div>

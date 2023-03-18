@@ -245,6 +245,10 @@ input[type="range"]::-webkit-slider-thumb{
     padding: 4px;
 }
 
+.url-path{
+    margin-left: 34px;
+}
+
 }
 
 .loader-spin{
