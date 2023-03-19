@@ -4,7 +4,7 @@
 
 .set-image img{
     width: 100vw;
-    height: 90vh;
+    /* height: 90vh; */
     cursor: pointer;
     margin:0;
 }
