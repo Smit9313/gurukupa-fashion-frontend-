@@ -92,7 +92,7 @@
   opacity: .75;
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 500px) {
   .add-suplier {
     margin: 10px;
     display: flex;
