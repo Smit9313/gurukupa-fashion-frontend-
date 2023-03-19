@@ -152,6 +152,9 @@ input[type="range"]::-webkit-slider-thumb{
     .filters{
         flex-direction: column;
     }
+     input[type="range"]{
+    width:100px;
+    }
     .filter-product{
         justify-content: center;
         width: 100%;
