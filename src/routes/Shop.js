@@ -16,7 +16,6 @@ import { Button } from "antd";
 import { FrownOutlined } from "@ant-design/icons";
 import { Slider } from "antd";
 
-
 function Shop() {
   // const [items,setItem] = useState(ProductData);
 
@@ -60,7 +59,7 @@ function Shop() {
 
   useEffect(() => {
     // All
-    
+
     if (id === "all" && !isEmpty(data)) {
       setProductData(data);
       setMinPrice(Math.min(...data.map((data) => data.prod_price)));
@@ -68,7 +67,7 @@ function Shop() {
       setPrice(maxPrice);
       setValue([
         Math.min(...data.map((data) => data.prod_price)),
-        Math.max(...data.map((data) => data.prod_price))
+        Math.max(...data.map((data) => data.prod_price)),
       ]);
     }
 
@@ -92,7 +91,7 @@ function Shop() {
               );
               setValue([
                 Math.min(...updatedItem.map((data) => data.prod_price)),
-                Math.max(...updatedItem.map((data) => data.prod_price))
+                Math.max(...updatedItem.map((data) => data.prod_price)),
               ]);
               setPrice(maxPrice);
             }
@@ -130,9 +129,7 @@ function Shop() {
     } catch (err) {
       console.log("Error");
     }
-
   }, [data, id, cat, subcat, kid, kidcat, kidsubcat]);
-
 
   const searchProductHandler = (e) => {
     setsearchTerm(e.target.value);
@@ -142,18 +139,14 @@ function Shop() {
   let array_of_elements = string_with_slashes.split("/");
   // console.log(array_of_elements);
 
-
-
-   const onChange = (value) => {
-     console.log("onChange: ", value);
-     console.log(value["0"],value["1"])
-     setValue(value)
-
-   };
-   const onAfterChange = (value) => {
-     console.log("onAfterChange: ", value);
-
-   };
+  const onChange = (value) => {
+    console.log("onChange: ", value);
+    console.log(value["0"], value["1"]);
+    setValue(value);
+  };
+  const onAfterChange = (value) => {
+    console.log("onAfterChange: ", value);
+  };
   return (
     <>
       <Navbar />
@@ -193,22 +186,22 @@ function Shop() {
                     },
                   },
                 }}>
-                
-                  <Slider
-                    range
-                    min={minPrice}
-                    max={maxPrice}
-                    step={10}
-                    style={{width:"310px"}}
-                    // defaultValue={[minPrice, maxPrice]}
-                    value={value}
-                    onChange={onChange}
-                    onAfterChange={onAfterChange}
-                  />
-              
+                <Slider
+                  range
+                  min={minPrice}
+                  max={maxPrice}
+                  step={10}
+                  style={{ width: "310px" }}
+                  // defaultValue={[minPrice, maxPrice]}
+                  value={value}
+                  onChange={onChange}
+                  onAfterChange={onAfterChange}
+                />
               </ConfigProvider>
               <br />
-              <p>Range: [ {value["0"]} - {value["1"]} ]</p>
+              <p>
+                Range: [ {value["0"]} - {value["1"]} ]
+              </p>
             </div>
 
             <div className="search-product">

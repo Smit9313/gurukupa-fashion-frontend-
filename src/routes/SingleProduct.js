@@ -40,7 +40,7 @@ function SingleProduct() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/customer-product/${product_id}`)
         .then((response) => {
-          setLoading(false);
+          setLoading(false)
           console.log(response);
           if (response.data.message === "Success!") {
             setData(response.data.data);
@@ -64,6 +64,11 @@ function SingleProduct() {
                   console.log(error);
                 });
             } catch (err) {}
+          }else if (response.data.message === "Product not fetched.") {
+            setData();
+            setLoading(true);
+          }else{
+
           }
         })
         .catch((error) => {
@@ -133,7 +138,7 @@ function SingleProduct() {
   };
 
   const handleMegicClick = () => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     history.push(`/megic`);
   };
 

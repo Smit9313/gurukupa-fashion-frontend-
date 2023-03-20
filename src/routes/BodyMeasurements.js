@@ -37,6 +37,7 @@ function BodyMeasurements({ height, weight, gender }) {
   const [loading, setLoading] = useState(true);
   const [bdata, setBdata] = useState();
   const [tmp, setTmp] = useState(true);
+  const [cameraOn, setCameraOn] = useState(true);
 
   const getInstance = useCallback((instance) => {
     refAnimationInstance.current = instance;
@@ -84,6 +85,7 @@ function BodyMeasurements({ height, weight, gender }) {
     video: {
       width: { ideal: 400 },
       height: { ideal: 812 },
+      facingMode: "user",
     },
   };
 
@@ -110,27 +112,37 @@ function BodyMeasurements({ height, weight, gender }) {
     // const socket = socketIOClient(ENDPOINT);
     // setSocket(socket);
 
-    // get access to camera and stream video
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        setStream(stream);
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
-        // console.log(stream);
-        const recorder = new MediaRecorder(stream);
-        setMediaRecorder(recorder);
-      })
-      .catch((error) => console.log("Error getting user media:", error));
+    if (cameraOn) {
+      // get access to camera and stream video
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then((stream) => {
+          setStream(stream);
+          videoRef.current.srcObject = stream;
+          videoRef.current.play();
+          // console.log(stream);
+          const recorder = new MediaRecorder(stream);
+          setMediaRecorder(recorder);
+        })
+        .catch((error) => console.log("Error getting user media:", error));
 
-    // cleanup function
-    // return () => {
-    //   socket.disconnect();
-    //   console.log(stream);
-    //   stream.getTracks().forEach((track) => track.stop());
-    // };
-    draw();
-  }, []);
+      // cleanup function
+      // return () => {
+      //   socket.disconnect();
+      //   console.log(stream);
+      //   stream.getTracks().forEach((track) => track.stop());
+      // };
+      draw();
+    } else {
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+        setStream(null);
+        setMediaRecorder(null);
+      }
+    }
+
+    
+  }, [cameraOn]);
 
   useEffect(() => {
     // if (socket) {
@@ -159,24 +171,24 @@ function BodyMeasurements({ height, weight, gender }) {
     }
   };
 
-    function dataURItoBlob(dataURI, fileName) {
-      // Convert the data URI to a binary buffer
-      const binary = atob(dataURI.split(",")[1]);
-      const buffer = new Uint8Array(binary.length);
-      for (let i = 0; i < binary.length; i++) {
-        buffer[i] = binary.charCodeAt(i);
-      }
-
-      // Create a new Blob object from the buffer with the correct MIME type
-      const blob = new Blob([buffer], { type: "image/png" });
-      blob.name = fileName;
-
-      // Set the originFileObj property to the new Blob object
-      blob.originFileObj = blob;
-
-      // Return the new Blob object
-      return blob;
+  function dataURItoBlob(dataURI, fileName) {
+    // Convert the data URI to a binary buffer
+    const binary = atob(dataURI.split(",")[1]);
+    const buffer = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      buffer[i] = binary.charCodeAt(i);
     }
+
+    // Create a new Blob object from the buffer with the correct MIME type
+    const blob = new Blob([buffer], { type: "image/png" });
+    blob.name = fileName;
+
+    // Set the originFileObj property to the new Blob object
+    blob.originFileObj = blob;
+
+    // Return the new Blob object
+    return blob;
+  }
 
   const handleScreenshot = async () => {
     const canvas = document.createElement("canvas");
@@ -203,54 +215,53 @@ function BodyMeasurements({ height, weight, gender }) {
         duration: 3000,
       });
     }
+    console.log(ss);
+
+    if (ss.length === 1) {
+      setLoading(true);
+      setTmp(false);
+      setCameraOn(false);
+      // fire();
+      console.log("valid");
+      console.log(height, weight, gender);
       console.log(ss);
 
-        if (ss.length === 1) {
-          setLoading(true);
-          setTmp(false);
-          // fire();
-          console.log("valid");
-          console.log(height, weight, gender);
-          console.log(ss);
+      const formData = new FormData();
 
-          const formData = new FormData();
+      const fileName0 = "my-image0.png";
+      const fileName1 = "my-image1.png";
+      const file0 = dataURItoBlob(ss[0], fileName0);
+      const file1 = dataURItoBlob(dataURL, fileName1);
+      console.log(file0);
 
-          const fileName0 = "my-image0.png";
-          const fileName1 = "my-image1.png";
-          const file0 = dataURItoBlob(ss[0], fileName0);
-          const file1 = dataURItoBlob(dataURL, fileName1);
-          console.log(file0);
+      formData.append(fileName0, file0.originFileObj, file0?.name);
+      formData.append(fileName1, file1.originFileObj, file1?.name);
 
-          formData.append(fileName0, file0.originFileObj, file0?.name);
-          formData.append(fileName1, file1.originFileObj, file1?.name);
+      formData.append("gender", gender);
+      formData.append("height", height);
+      formData.append("weight", weight);
 
-          formData.append("gender", gender);
-          formData.append("height", height);
-          formData.append("weight", weight);
+      const token = localStorage.getItem("token");
+      const headers = { Authorization: `Bearer ${token}` };
+      try {
+        axios
+          .post(`${process.env.REACT_APP_API_HOST}/measure/`, formData, {
+            headers,
+          })
+          .then((response) => {
+            console.log(response);
 
-          const token = localStorage.getItem("token");
-          const headers = { Authorization: `Bearer ${token}` };
-          try {
-            axios
-              .post(`${process.env.REACT_APP_API_HOST}/measure/`, formData, {
-                headers,
-              })
-              .then((response) => {
-                console.log(response);
-
-                if (response.data.message === "Success!") {
-                  setBdata(response.data.data);
-                  setLoading(false);
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          } catch (err) {}
-        }
-
+            if (response.data.message === "Success!") {
+              setBdata(response.data.data);
+              setLoading(false);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err) {}
+    }
   };
-
 
   return (
     <>
@@ -280,8 +291,10 @@ function BodyMeasurements({ height, weight, gender }) {
       {!loading && (
         <>
           <GLBLoader url={bdata.model_url} />
-          <div>
-          {/* <Link to={`/single-product/${pro_id}`}>Back</Link> */}
+          <div style={{ padding: "30px" }}>
+            <p>Chest : {bdata.measurement_results["chest"].toFixed(2)}</p>
+            <p>Hip : {bdata.measurement_results["hip"].toFixed(2)}</p>
+            <p>Waist : {bdata.measurement_results["waist"].toFixed(2)}</p>
           </div>
         </>
       )}

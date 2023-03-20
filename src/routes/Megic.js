@@ -9,8 +9,8 @@ import "../Style/megic.css";
 
 function Megic() {
   const token = localStorage.getItem("token");
-  const pro_id = useParams();
-  console.log(pro_id.id);
+  // const pro_id = useParams();
+  // console.log(pro_id.id);
 
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();

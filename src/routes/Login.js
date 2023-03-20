@@ -152,6 +152,7 @@ function Login() {
                   type="password"
                   style={{
                     height: "45px",
+                    fontSize:"16px",
                     borderBottomWidth: "2px",
                     borderColor: "#000000",
                     color: "black",
