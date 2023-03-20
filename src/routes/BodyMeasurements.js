@@ -85,7 +85,7 @@ function BodyMeasurements({ height, weight, gender }) {
     video: {
       width: { ideal: 400 },
       height: { ideal: 812 },
-      facingMode: "user",
+      facingMode: "environment",
     },
   };
 

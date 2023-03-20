@@ -150,6 +150,7 @@ function Login() {
                 <span className="details">Password</span>
                 <Input.Password
                   type="password"
+                  id="font-style"
                   style={{
                     height: "45px",
                     fontSize:"16px",

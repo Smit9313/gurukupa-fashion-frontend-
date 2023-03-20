@@ -20,3 +20,7 @@
   opacity: 0.5; /* Firefox */
   color: rgb(107, 107, 107);
 }
+
+#font-style{
+    font-family: "Futura";
+}

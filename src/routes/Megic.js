@@ -64,7 +64,7 @@ function Megic() {
                       <label>Kgs</label>
                     </div>
                     <div className="megic-form">
-                      <p>Enter hight :</p>
+                      <p>Enter height :</p>
                       <Input
                         type="number"
                         onChange={(e) => setHeight(e.target.value)}
