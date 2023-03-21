@@ -84,7 +84,7 @@ function BodyMeasurements({ height, weight, gender }) {
     audio: false,
     video: {
       width: { ideal: "100%" },
-      height: { ideal: 500 },
+      height: { ideal: "100%" },
       facingMode: "environment",
     },
   };
@@ -269,23 +269,13 @@ function BodyMeasurements({ height, weight, gender }) {
       {tmp && (
         <div className="canvas-class-canvas">
           <video
-            style={{
-              borderRadius: "20px",
-              display: "none",
-              width: "100%",
-              height: "500px",
-            }}
+            style={{ borderRadius: "20px", display: "none" }}
             ref={videoRef}
             autoPlay
             onPlay={handleVideoFrame}
           />
-          <div style={{ width: "100%" }}>
-            <canvas
-              ref={canvasRef}
-              style={{ width: "100%", height: "500px" }}
-              width="100%"
-              height="100%"
-            />
+          <div style={{width:"100%"}}>
+            <canvas ref={canvasRef} style={{width:"100%",height:"500px"}} width="100%" height="100%" />
           </div>
           <div style={{ marginTop: "30px", marginLeft: "170px" }}>
             <button className="button-300" onClick={handleScreenshot}></button>
