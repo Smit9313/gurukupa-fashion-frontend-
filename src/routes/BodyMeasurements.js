@@ -83,7 +83,7 @@ function BodyMeasurements({ height, weight, gender }) {
   const constraints = {
     audio: false,
     video: {
-      width: { ideal: 450 },
+      width: { ideal: "100vw" },
       height: { ideal: 590 },
       facingMode: "environment",
     },
@@ -275,7 +275,7 @@ function BodyMeasurements({ height, weight, gender }) {
             onPlay={handleVideoFrame}
           />
           <div>
-            <canvas ref={canvasRef} width="450" height="590" />
+            <canvas ref={canvasRef} width="100vw" height="590" />
           </div>
           <div style={{ marginTop: "30px", marginLeft: "170px" }}>
             <button className="button-300" onClick={handleScreenshot}></button>

@@ -233,19 +233,7 @@ function Checkout() {
               setCity("");
               setUpdateDrop(true);
 
-              toast.success("Address added!", {
-                style: {
-                  border: "1px solid #000",
-                  padding: "8px",
-                  color: "#000",
-                },
-                position: "top-center  ",
-                duration: 1500,
-                iconTheme: {
-                  primary: "#000",
-                  secondary: "#FFFAEE",
-                },
-              });
+              toast.success("Address added!");
 
               setOpen(false);
             }
@@ -256,6 +244,10 @@ function Checkout() {
       } catch (err) {
         console.log("Error");
       }
+    }else{
+      toast.error("Fill all details!", {
+        duration: 3000,
+      });
     }
   };
 

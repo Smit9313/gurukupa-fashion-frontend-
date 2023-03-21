@@ -398,6 +398,7 @@ function Profile() {
     e.preventDefault();
 
     // console.log(houseno,area,addtype,pincode,state,city)
+
     if (
       houseno !== "" &&
       area !== "" &&
@@ -459,6 +460,10 @@ function Profile() {
       } catch (err) {
         console.log("Error");
       }
+    }else{
+      toast.error("Fill all details!", {
+        duration: 3000,
+      });
     }
   };
 
@@ -514,6 +519,15 @@ function Profile() {
     const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
+    if (
+      houseno !== "" &&
+      area !== "" &&
+      addtype !== "" &&
+      pincode !== "" &&
+      state !== "" &&
+      city !== ""
+    ) {
+
     try {
       axios
         .patch(
@@ -540,34 +554,10 @@ function Profile() {
             setState("");
             setCity("");
 
-            toast.success("Address updated!", {
-              style: {
-                border: "1px solid #000",
-                padding: "8px",
-                color: "#000",
-              },
-              position: "top-center  ",
-              duration: 1500,
-              iconTheme: {
-                primary: "#000",
-                secondary: "#FFFAEE",
-              },
-            });
+            toast.success("Address updated!");
             setUpdateAddress(!updateAddress);
           } else {
-            toast.error("Something wrong!", {
-              style: {
-                border: "1px solid #000",
-                padding: "8px",
-                color: "#000",
-              },
-              position: "top-center  ",
-              duration: 1500,
-              iconTheme: {
-                primary: "#000",
-                secondary: "#FFFAEE",
-              },
-            });
+            toast.error("Something wrong!");
           }
         })
         .catch((error) => {
@@ -576,6 +566,11 @@ function Profile() {
     } catch (err) {
       console.log("Error");
     }
+  }else{
+    toast.error("Fill all details!", {
+      duration: 3000,
+    });
+  }
   };
 
   const updateRate = (value, rate) => {
