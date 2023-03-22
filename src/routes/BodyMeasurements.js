@@ -83,8 +83,8 @@ function BodyMeasurements({ height, weight, gender }) {
   const constraints = {
     audio: false,
     video: {
-      // width: { ideal: 1920 },
-      // height: { ideal: 1080 },
+      width: { ideal: 500 },
+      height: { ideal: 500 },
       facingMode: "environment",
     },
   };
@@ -275,17 +275,17 @@ function BodyMeasurements({ height, weight, gender }) {
       {tmp && (
         <div className="canvas-class-canvas">
           <video
-            style={{ borderRadius: "5px" }}
+            style={{ borderRadius: "5px",display:"none" }}
             ref={videoRef}
-            width="100%"
-            height="600"
+            width="500px"
+            height="500px"
             autoPlay
             onPlay={handleVideoFrame}
           />
           <div style={{ width: "100%" }}>
             <canvas
               ref={canvasRef}
-              style={{ width: "100%", height: "500px", display: "none" }}
+              style={{ width: "500px", height: "500px",}}
               width="100%"
               height="100%"
             />
