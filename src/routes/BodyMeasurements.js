@@ -127,7 +127,7 @@ function BodyMeasurements({ height, weight, gender }) {
             width: 640,
             height: 480,
           };
-          const recorder = new MediaRecorder(stream,options);
+          const recorder = new MediaRecorder(stream, options);
           setMediaRecorder(recorder);
         })
         .catch((error) => console.log("Error getting user media:", error));
@@ -146,8 +146,6 @@ function BodyMeasurements({ height, weight, gender }) {
         setMediaRecorder(null);
       }
     }
-
-    
   }, [cameraOn]);
 
   useEffect(() => {
@@ -275,7 +273,7 @@ function BodyMeasurements({ height, weight, gender }) {
       {tmp && (
         <div className="canvas-class-canvas">
           <video
-            style={{ borderRadius: "5px",display:"none" }}
+            style={{ borderRadius: "5px", display: "none" }}
             ref={videoRef}
             width="500px"
             height="500px"
@@ -285,7 +283,7 @@ function BodyMeasurements({ height, weight, gender }) {
           <div style={{ width: "100%" }}>
             <canvas
               ref={canvasRef}
-              style={{ width: "500px", height: "500px",}}
+              style={{ width: "500px", height: "500px" }}
               width="100%"
               height="100%"
             />

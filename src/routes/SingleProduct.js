@@ -270,12 +270,12 @@ function SingleProduct() {
                     value={prod_qty}
                     onChange={(event) => handleQty(event)}
                   />
-                  <button
+                  {/* <button
                     type="submit"
                     className="normal"
                     onClick={handleMegicClick}>
                     ABC
-                  </button>
+                  </button> */}
 
                   {isEmpty(role) ||
                     (role === "customer" && (

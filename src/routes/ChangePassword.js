@@ -175,6 +175,7 @@ function ChangePassword() {
                     <span className="details">Password:</span>
                     <Input.Password
                       type="password"
+                      id="font-style"
                       style={{
                         height: "45px",
                         borderBottomWidth: "2px",
@@ -190,6 +191,7 @@ function ChangePassword() {
                     <span className="details">Confirm password:</span>
                     <Input.Password
                       type="password"
+                      id="font-style"
                       style={{
                         height: "45px",
                         borderBottomWidth: "2px",

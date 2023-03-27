@@ -437,19 +437,7 @@ function Profile() {
               setCity("");
               setUpdateDrop(true);
 
-              toast.success("Address added!", {
-                style: {
-                  border: "1px solid #000",
-                  padding: "8px",
-                  color: "#000",
-                },
-                position: "top-center  ",
-                duration: 1500,
-                iconTheme: {
-                  primary: "#000",
-                  secondary: "#FFFAEE",
-                },
-              });
+              toast.success("Address added!");
 
               setOpen(false);
             }
@@ -980,6 +968,7 @@ function Profile() {
                       <div>
                         <Input.Password
                           type="password"
+                          id="font-style"
                           style={{
                             height: "45px",
                             width: "200px",
@@ -1003,6 +992,7 @@ function Profile() {
                       <div>
                         <Input.Password
                           type="password"
+                          id="font-style"
                           style={{
                             height: "45px",
                             width: "200px",
@@ -1024,6 +1014,7 @@ function Profile() {
                       <div>
                         <Input.Password
                           type="password"
+                          id="font-style"
                           style={{
                             height: "45px",
                             width: "200px",
