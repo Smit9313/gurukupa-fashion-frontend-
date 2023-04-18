@@ -110,7 +110,7 @@ function FeaturedProduct({items,title,des}) {
                   colorPrimary: "#000",
                   colorPrimaryHover: "#000",
                   colorPrimaryClick: "#000",
-                  colorPrimaryActive:"#000"
+                  colorPrimaryActive: "#000",
                 },
                 Icon: {
                   colorPrimary: "#000",
@@ -118,11 +118,15 @@ function FeaturedProduct({items,title,des}) {
               },
             }}>
             <Result
-              icon={
-                <FrownOutlined style={{ color: "#000" }} />
-              }
+              icon={<FrownOutlined style={{ color: "#000" }} />}
               title="No products found!"
-              extra={<Button type="primary" onClick={()=>window.location.reload(true)}>Refresh</Button>}
+              extra={
+                <Button
+                  type="primary"
+                  onClick={() => window.location.reload(true)}>
+                  Refresh
+                </Button>
+              }
             />
           </ConfigProvider>
         </div>
@@ -136,18 +140,20 @@ function FeaturedProduct({items,title,des}) {
 
       <ScrollToTop />
 
-      <ReactPaginate
-        previousLabel={"Previous"}
-        nextLabel={"Next"}
-        pageCount={pageCount}
-        onPageChange={changePage}
-        containerClassName={"paginationBttns"}
-        previousLinkClassName={"previousBttn"}
-        nextLinkClassName={"nextBttn"}
-        disabledClassName={"paginationDisabled"}
-        activeClassName={"paginationActive"}
-        onClick={scrollToTop}
-      />
+      {!isEmpty(items) && (
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName={"paginationBttns"}
+          previousLinkClassName={"previousBttn"}
+          nextLinkClassName={"nextBttn"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+          onClick={scrollToTop}
+        />
+      )}
 
       {/* <div>
         <section id="product1" className="section-p1" >

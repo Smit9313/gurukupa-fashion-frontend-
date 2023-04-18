@@ -67,6 +67,7 @@ input[type="range"]::-webkit-slider-thumb{
 .filters{
     display: flex;
     margin-top: 90px;
+    /* background-color: #F8F9FA; */
     /* width: 80%; */
     /* justify-content: center; */
 }

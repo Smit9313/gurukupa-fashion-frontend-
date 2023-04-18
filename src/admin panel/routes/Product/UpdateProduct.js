@@ -15,7 +15,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { isEmpty } from "lodash";
 import { LineWave } from "react-loader-spinner";
 
-function AddProduct() {
+function UpdateProduct() {
   let { id } = useParams();
   const history = useHistory();
   const width = true;
@@ -686,4 +686,4 @@ function AddProduct() {
   );
 }
 
-export default AddProduct;
+export default UpdateProduct;

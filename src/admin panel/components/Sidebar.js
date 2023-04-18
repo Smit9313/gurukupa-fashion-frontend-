@@ -356,9 +356,10 @@ function Sidebar({ url }) {
                   <hr />
                   <li
                     className="nav-link-sub"
-                    onClick={() => setSidebar(!sidebar)}
-                    activeClassName="sidebar-active">
-                    <NavLink to={`/admin/addProduct`}>
+                    onClick={() => setSidebar(!sidebar)}>
+                    <NavLink
+                      to={`/admin/addProduct`}
+                      activeClassName="sidebar-active">
                       {/* <i className="bx bx-bell icon"></i> */}
                       <span className="text nav-text">{"»"} Add Product</span>
                       {/* <hr /> */}

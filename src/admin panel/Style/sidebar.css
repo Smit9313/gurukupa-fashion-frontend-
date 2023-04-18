@@ -375,8 +375,6 @@ body.dark .home .text{
 }
 
 .sidebar .sidebar-active{
-    /* background-color: #8e8f9ba1; */
-    /* border-bottom: 2px solid black; */
     background-color: rgb(9, 20, 45);
     color: white;
 }
