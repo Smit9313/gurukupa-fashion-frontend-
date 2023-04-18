@@ -14,7 +14,7 @@
     background-color: #fff;
     padding: 25px 30px;
     border-radius: 5px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     margin: auto;
     margin-top: 100px;
     text-align: center;

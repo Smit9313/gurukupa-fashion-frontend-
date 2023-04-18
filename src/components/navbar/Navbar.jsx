@@ -10,7 +10,7 @@ import { isEmpty } from "lodash";
 
 const UserContext = createContext();
 
-function Navbar({ navrender }) {
+function Navbar({ navrender , closeNav }) {
   const history = useHistory();
   const [icon, setIcon] = useState(false);
   const [arrow, setArrow] = useState(true);
@@ -156,7 +156,10 @@ function Navbar({ navrender }) {
           console.log(error);
         });
     } catch (err) {}
-  }, [navrender]);
+
+    setIcon(false);
+    
+  }, [navrender, closeNav]);
 
   return (
     <>

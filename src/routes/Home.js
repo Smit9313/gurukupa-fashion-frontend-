@@ -17,6 +17,7 @@ import { isEmpty } from "lodash";
 function Home() {
   const [user, setUser] = useState(localStorage.getItem("token"));
   const [productData, setProductData] = useState();
+  const [navClose, setNavClose] = useState(false);
 
   useEffect(() => {
     try {
@@ -47,14 +48,14 @@ function Home() {
 
   return (
     <>
-      <Navbar />
+      <Navbar closeNav={navClose} />
       {/* <div className="extra-space-home"></div> */}
       {/* <Category/> */}
-
-      <div className="slider">
-        {/* <h2> Single Item</h2> */}
-        <Slider {...settings}>
-          {/* <div className="set-image">
+      <div onClick={() => setNavClose(!navClose)}>
+        <div className="slider">
+          {/* <h2> Single Item</h2> */}
+          <Slider {...settings}>
+            {/* <div className="set-image">
             <img src={HomeImages.url} alt="" />
           </div>
           <div className="set-image">
@@ -64,54 +65,55 @@ function Home() {
             <img src="home/home3.jpg" alt="" />
           </div> */}
 
-          {HomeImages.map((item, index) => {
-            return (
-              <div key={index} className="set-image">
-                <img src={item.url} alt="img-home" />
-              </div>
-            );
-          })}
-        </Slider>
-      </div>
+            {HomeImages.map((item, index) => {
+              return (
+                <div key={index} className="set-image">
+                  <img src={item.url} alt="img-home" />
+                </div>
+              );
+            })}
+          </Slider>
+        </div>
 
-      {/* <Start cName = 'hero' 
+        {/* <Start cName = 'hero' 
           title = "Let's Create Your Own Style"
           text= 'Use body measurment tool to get perfect fitting.'
           buttonText = 'Shop Now'
           btnClass = 'show'
             /> */}
-      {/* <Banner /> */}
+        {/* <Banner /> */}
 
-      {!isEmpty(productData) &&
-        productData.map((element,index) => {
-          console.log(element)
-          return (
-            <div
-              id="prodetails-suggestion"
-              style={{ marginBotto: "10px!impotant" }}
-              key={index}>
-              <center>
-                <h2>{element.cat_type}</h2>
-                <Link
-                  to={`/shop/${element.cat_type}`}
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "15px",
-                    color: "black",
-                    // marginLeft:"1200px"
-                  }}>
-                  view more..
-                </Link>
-              </center>
+        {!isEmpty(productData) &&
+          productData.map((element, index) => {
+            console.log(element);
+            return (
+              <div
+                id="prodetails-suggestion"
+                style={{ marginBotto: "10px!impotant" }}
+                key={index}>
+                <center>
+                  <h2>{element.cat_type}</h2>
+                  <Link
+                    to={`/shop/${element.cat_type}`}
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "15px",
+                      color: "black",
+                      // marginLeft:"1200px"
+                    }}>
+                    view more..
+                  </Link>
+                </center>
 
-              <RelatedProduct items={element.Product} />
-            </div>
-          );
-        })}
+                <RelatedProduct items={element.Product} />
+              </div>
+            );
+          })}
 
-      <Banner1 />
+        <Banner1 />
 
-      <Footer />
+        <Footer />
+      </div>
     </>
   );
 }

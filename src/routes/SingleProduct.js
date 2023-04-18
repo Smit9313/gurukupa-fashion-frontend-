@@ -34,6 +34,8 @@ function SingleProduct() {
   const [relatedProduct, setrelatedProduct] = useState("");
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
+  const [navClose, setNavClose] = useState(false);
+
 
   useEffect(() => {
     try {
@@ -144,218 +146,222 @@ function SingleProduct() {
 
   return (
     <>
-      <Navbar navrender={navrender} />
+      <Navbar navrender={navrender} closeNav={navClose} />
       {/* <Start cName="hero-singleproduct"/> */}
-      {loading ? (
-        <>
-          {!isEmpty(data) ? (
-            <>
-              <section id="prodetails" className="section-p1">
-                <div className="single-pro-image">
-                  <img
-                    src={url}
-                    width="100%"
-                    id="MainImg"
-                    alt=""
-                    className="animate__animated animate__zoomIn"
-                  />
+      <div onClick={() => setNavClose(!navClose)}>
+        {loading ? (
+          <>
+            {!isEmpty(data) ? (
+              <>
+                <div id="prodetails" className="section-p1">
+                  <div className="single-pro-image">
+                    <img
+                      src={url}
+                      width="100%"
+                      id="MainImg"
+                      alt=""
+                      className="animate__animated animate__zoomIn"
+                    />
 
-                  <div className="small-img-group">
-                    <div className="small-img-col">
-                      <img
-                        src={data.prod_image[0]}
-                        width="100%"
-                        className="small-img animate__animated animate__zoomIn"
-                        alt=""
-                        onClick={() => setUrl(data.prod_image[0])}
-                      />
-                    </div>
+                    <div className="small-img-group">
+                      <div className="small-img-col">
+                        <img
+                          src={data.prod_image[0]}
+                          width="100%"
+                          className="small-img animate__animated animate__zoomIn"
+                          alt=""
+                          onClick={() => setUrl(data.prod_image[0])}
+                        />
+                      </div>
 
-                    <div className="small-img-col">
-                      <img
-                        src={data.prod_image[1]}
-                        className="small-img animate__animated animate__zoomIn"
-                        alt=""
-                        onClick={() => setUrl(data.prod_image[1])}
-                      />
-                    </div>
+                      <div className="small-img-col">
+                        <img
+                          src={data.prod_image[1]}
+                          className="small-img animate__animated animate__zoomIn"
+                          alt=""
+                          onClick={() => setUrl(data.prod_image[1])}
+                        />
+                      </div>
 
-                    <div className="small-img-col">
-                      <img
-                        src={data.prod_image[2]}
-                        width="100%"
-                        className="small-img animate__animated animate__zoomIn"
-                        alt=""
-                        onClick={() => setUrl(data.prod_image[2])}
-                      />
+                      <div className="small-img-col">
+                        <img
+                          src={data.prod_image[2]}
+                          width="100%"
+                          className="small-img animate__animated animate__zoomIn"
+                          alt=""
+                          onClick={() => setUrl(data.prod_image[2])}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="single-pro-details">
-                  <Breadcrumb>
-                    <Breadcrumb.Item>
-                      <Link to={`/shop`}>
-                        <ShopOutlined /> Shop
-                      </Link>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>
-                      <Link to={`/shop/${data.cat_type}`}>{data.cat_type}</Link>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>
-                      <Link to={`/shop/${data.cat_type}/${data.cat_title}`}>
-                        {data.cat_title}
-                      </Link>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>{data.prod_name}</Breadcrumb.Item>
-                  </Breadcrumb>
-                  <br />
-                  <h1>{data.prod_name}</h1>
-                  <Rate
-                    disabled
-                    defaultValue={data.rating}
-                    value={data.rating}
-                  />
-                  <p>({data.user_count})</p>
-                  <h2>{data.prod_price} ₹</h2>
-                  <div className="size-container">
-                    <ConfigProvider
-                      theme={{
-                        components: {
-                          Radio: {
-                            colorPrimary: "#000",
-                            colorPrimaryHover: "#000",
+                  <div className="single-pro-details">
+                    <Breadcrumb>
+                      <Breadcrumb.Item>
+                        <Link to={`/shop`}>
+                          <ShopOutlined /> Shop
+                        </Link>
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item>
+                        <Link to={`/shop/${data.cat_type}`}>
+                          {data.cat_type}
+                        </Link>
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item>
+                        <Link to={`/shop/${data.cat_type}/${data.cat_title}`}>
+                          {data.cat_title}
+                        </Link>
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item>{data.prod_name}</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <br />
+                    <h1>{data.prod_name}</h1>
+                    <Rate
+                      disabled
+                      defaultValue={data.rating}
+                      value={data.rating}
+                    />
+                    <p>({data.user_count})</p>
+                    <h2>{data.prod_price} ₹</h2>
+                    <div className="size-container">
+                      <ConfigProvider
+                        theme={{
+                          components: {
+                            Radio: {
+                              colorPrimary: "#000",
+                              colorPrimaryHover: "#000",
+                            },
                           },
-                        },
-                      }}>
-                      <Radio.Group
-                        buttonStyle="solid"
-                        onChange={(value) => {
-                          setProd_size(value.target.value);
-                          if (value.target.value === "") {
-                            setSelectSize(true);
-                          } else {
-                            setSelectSize(false);
-                          }
                         }}>
-                        {!isEmpty(data.prod_qty) &&
-                          Object.keys(data.prod_qty).map((qty, index) => {
-                            return (
-                              <>
-                                <Radio.Button key={index} value={qty}>
-                                  {qty}
-                                </Radio.Button>
-                              </>
-                            );
-                          })}
-                      </Radio.Group>
-                    </ConfigProvider>
-                    {isEmpty(data.prod_qty) &&
-                      Object.keys(data.prod_qty).length === 0 &&
-                      data.prod_qty.constructor === Object && (
-                        <p className="out-stock">
-                          This item is currently out of stock
-                        </p>
+                        <Radio.Group
+                          buttonStyle="solid"
+                          onChange={(value) => {
+                            setProd_size(value.target.value);
+                            if (value.target.value === "") {
+                              setSelectSize(true);
+                            } else {
+                              setSelectSize(false);
+                            }
+                          }}>
+                          {!isEmpty(data.prod_qty) &&
+                            Object.keys(data.prod_qty).map((qty, index) => {
+                              return (
+                                <>
+                                  <Radio.Button key={index} value={qty}>
+                                    {qty}
+                                  </Radio.Button>
+                                </>
+                              );
+                            })}
+                        </Radio.Group>
+                      </ConfigProvider>
+                      {isEmpty(data.prod_qty) &&
+                        Object.keys(data.prod_qty).length === 0 &&
+                        data.prod_qty.constructor === Object && (
+                          <p className="out-stock">
+                            This item is currently out of stock
+                          </p>
+                        )}
+                      {selectSize && !isEmpty(data.prod_qty) && (
+                        <p className="out-stock">Please select a size</p>
                       )}
-                    {selectSize && !isEmpty(data.prod_qty) && (
-                      <p className="out-stock">Please select a size</p>
-                    )}
-                  </div>
-                  <input
-                    type="number"
-                    className="quantity"
-                    min={1}
-                    max={10}
-                    step="1"
-                    value={prod_qty}
-                    onChange={(event) => handleQty(event)}
-                  />
-                  {/* <button
+                    </div>
+                    <input
+                      type="number"
+                      className="quantity"
+                      min={1}
+                      max={10}
+                      step="1"
+                      value={prod_qty}
+                      onChange={(event) => handleQty(event)}
+                    />
+                    {/* <button
                     type="submit"
                     className="normal"
                     onClick={handleMegicClick}>
                     ABC
                   </button> */}
 
-                  {isEmpty(role) ||
-                    (role === "customer" && (
+                    {isEmpty(role) ||
+                      (role === "customer" && (
+                        <button
+                          type="submit"
+                          className="normal"
+                          onClick={handleAddToCart}>
+                          Add to cart
+                        </button>
+                      ))}
+
+                    {isEmpty(role) && (
                       <button
                         type="submit"
                         className="normal"
                         onClick={handleAddToCart}>
                         Add to cart
                       </button>
-                    ))}
+                    )}
 
-                  {isEmpty(role) && (
-                    <button
-                      type="submit"
-                      className="normal"
-                      onClick={handleAddToCart}>
-                      Add to cart
-                    </button>
-                  )}
-
-                  <h4>Product details</h4>
-                  <span>{data.prod_desc}</span>
-                  <br />
-                  <br />
-                  <br />
-                  <span style={{ fontSize: "12px" }}>
-                    No Return, No Refund Policy *
-                  </span>
+                    <h4>Product details</h4>
+                    <span>{data.prod_desc}</span>
+                    <br />
+                    <br />
+                    <br />
+                    <span style={{ fontSize: "12px" }}>
+                      No Return, No Refund Policy *
+                    </span>
+                  </div>
                 </div>
-              </section>
 
-              {!isEmpty(relatedProduct) && (
-                <div id="prodetails-suggestion">
-                  <center>
-                    <h2>YOU MAY ALSO LIKE</h2>
-                  </center>
-                  <RelatedProduct items={relatedProduct} />
+                {!isEmpty(relatedProduct) && (
+                  <div id="prodetails-suggestion">
+                    <center>
+                      <h2>YOU MAY ALSO LIKE</h2>
+                    </center>
+                    <RelatedProduct items={relatedProduct} />
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="not-found">
+                  <ConfigProvider
+                    theme={{
+                      components: {
+                        Button: {
+                          colorPrimary: "#000",
+                          colorPrimaryHover: "#000",
+                          colorPrimaryClick: "#000",
+                          colorPrimaryActive: "#000",
+                        },
+                        Icon: {
+                          colorPrimary: "#000",
+                        },
+                      },
+                    }}>
+                    <Result
+                      icon={<FrownOutlined style={{ color: "#000" }} />}
+                      title="No products found!"
+                      extra={
+                        <Button
+                          type="primary"
+                          onClick={() => window.location.reload(true)}>
+                          Refresh
+                        </Button>
+                      }
+                    />
+                  </ConfigProvider>
                 </div>
-              )}
-            </>
-          ) : (
-            <>
-              <div className="not-found">
-                <ConfigProvider
-                  theme={{
-                    components: {
-                      Button: {
-                        colorPrimary: "#000",
-                        colorPrimaryHover: "#000",
-                        colorPrimaryClick: "#000",
-                        colorPrimaryActive: "#000",
-                      },
-                      Icon: {
-                        colorPrimary: "#000",
-                      },
-                    },
-                  }}>
-                  <Result
-                    icon={<FrownOutlined style={{ color: "#000" }} />}
-                    title="No products found!"
-                    extra={
-                      <Button
-                        type="primary"
-                        onClick={() => window.location.reload(true)}>
-                        Refresh
-                      </Button>
-                    }
-                  />
-                </ConfigProvider>
-              </div>
-            </>
-          )}
-        </>
-      ) : (
-        <div className="loader-spin">
-          <ClipLoader color="#000" />
-        </div>
-      )}
+              </>
+            )}
+          </>
+        ) : (
+          <div className="loader-spin">
+            <ClipLoader color="#000" />
+          </div>
+        )}
 
-      <Footer />
+        <Footer />
+      </div>
 
       <Toaster
         position="top-center"

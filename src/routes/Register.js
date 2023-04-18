@@ -28,6 +28,9 @@ function Register() {
   const [error, setError] = useState("");
   const [errorFlag, setErrorFlag] = useState(false);
 
+  const [navClose, setNavClose] = useState(false);
+
+
   let history = useHistory();
 
     const token = localStorage.getItem("token");
@@ -199,77 +202,81 @@ function Register() {
 
   return (
     <>
-      <Navbar />
+      <Navbar closeNav={navClose} />
       {/* <div className="extra"></div> */}
-      <div className="container1 animate__animated animate__zoomIn">
-        <div className="title">Registration</div>
-        <div className="content">
-          <form onSubmit={validateRegister}>
-            <div className="user-details">
-              <div className="input-box">
-                <span className="details">Name</span>
-                <input
-                  id="inputText"
-                  type="text"
-                  placeholder="Enter your name"
-                  onChange={(e) => setUname(e.target.value)}
-                />
-                {!nameFlag && <p className="error-color">{unameError}</p>}
+      <div onClick={() => setNavClose(!navClose)}>
+        <div className="container1 animate__animated animate__zoomIn">
+          <div className="title">Registration</div>
+          <div className="content">
+            <form onSubmit={validateRegister}>
+              <div className="user-details">
+                <div className="input-box">
+                  <span className="details">Name</span>
+                  <input
+                    id="inputText"
+                    type="text"
+                    placeholder="Enter your name"
+                    onChange={(e) => setUname(e.target.value)}
+                  />
+                  {!nameFlag && <p className="error-color">{unameError}</p>}
+                </div>
+                <div className="input-box">
+                  <span className="details">Email</span>
+                  <input
+                    id="inputText"
+                    type="text"
+                    placeholder="Enter your email"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  {!emailFlag && <p className="error-color">{emailError}</p>}
+                  {errorFlag && <p className="error-color">{error}</p>}
+                </div>
+                <div style={{ marginTop: "30px" }}>
+                  <span className="details">Password</span>
+                  <Input.Password
+                    type="password"
+                    id="font-style"
+                    style={{
+                      height: "45px",
+                      fontSize: "16px",
+                      borderBottomWidth: "2px",
+                      borderColor: "#000000",
+                    }}
+                    onChange={(e) => setPass(e.target.value)}
+                    placeholder="Enter your password"
+                  />
+                  {!passFlag && <p className="error-color">{passError}</p>}
+                </div>
+                <div style={{ marginTop: "30px" }}>
+                  <span style={{ marginTop: "30px" }} className="details">
+                    Confirm Password
+                  </span>
+                  <Input.Password
+                    type="password"
+                    id="font-style"
+                    style={{
+                      height: "45px",
+                      fontSize: "16px",
+                      borderBottomWidth: "2px",
+                      borderColor: "#000000",
+                    }}
+                    onChange={(e) => setPassCon(e.target.value)}
+                    placeholder="Confirm your password"
+                  />
+                  {!passConFlag && (
+                    <p className="error-color">{passConError}</p>
+                  )}
+                </div>
               </div>
-              <div className="input-box">
-                <span className="details">Email</span>
-                <input
-                  id="inputText"
-                  type="text"
-                  placeholder="Enter your email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                {!emailFlag && <p className="error-color">{emailError}</p>}
-                {errorFlag && <p className="error-color">{error}</p>}
-              </div>
-              <div style={{ marginTop: "30px" }}>
-                <span className="details">Password</span>
-                <Input.Password
-                  type="password"
-                  id="font-style"
-                  style={{
-                    height: "45px",
-                    fontSize: "16px",
-                    borderBottomWidth: "2px",
-                    borderColor: "#000000",
-                  }}
-                  onChange={(e) => setPass(e.target.value)}
-                  placeholder="Enter your password"
-                />
-                {!passFlag && <p className="error-color">{passError}</p>}
-              </div>
-              <div style={{ marginTop: "30px" }}>
-                <span style={{ marginTop: "30px" }} className="details">
-                  Confirm Password
-                </span>
-                <Input.Password
-                  type="password"
-                  id="font-style"
-                  style={{
-                    height: "45px",
-                    fontSize: "16px",
-                    borderBottomWidth: "2px",
-                    borderColor: "#000000",
-                  }}
-                  onChange={(e) => setPassCon(e.target.value)}
-                  placeholder="Confirm your password"
-                />
-                {!passConFlag && <p className="error-color">{passConError}</p>}
-              </div>
-            </div>
-            <button style={{ marginTop: "30px" }} type="submit">
-              Register
-            </button>
-          </form>
+              <button style={{ marginTop: "30px" }} type="submit">
+                Register
+              </button>
+            </form>
+          </div>
         </div>
+        <div className="extra"></div>
+        <Footer />
       </div>
-      <div className="extra"></div>
-      <Footer />
       <Toaster
         position="top-center"
         containerStyle={{

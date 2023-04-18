@@ -241,6 +241,7 @@
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .paginationBttns a {
@@ -275,7 +276,8 @@
     list-style: none;
     display: flex;
     margin: 0;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+    margin-top: 25px;
   }
 
   .paginationBttns a {

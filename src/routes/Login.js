@@ -21,6 +21,8 @@ function Login() {
   const [error, setError] = useState("");
   const [errorFlag, setErrorFlag] = useState(false);
 
+  const [navClose, setNavClose] = useState(false);
+
   const history = useHistory();
 
   // useEffect(() => {
@@ -121,71 +123,72 @@ function Login() {
 
   return (
     <>
-      <Navbar />
-      <div className="extra-space-login"></div>
-      {/* {
+      <Navbar closeNav={navClose} />
+      <div onClick={() => setNavClose(!navClose)}>
+        <div className="extra-space-login"></div>
+        {/* {
         data.map((item, index)=>{
           return <div key={index}>{item.title}
           </div>
         })
       } */}
-      <div className="container1 animate__animated animate__zoomIn">
-        <div className="title">Login</div>
-        <div className="content">
-          <form onSubmit={validateRegister}>
-            <div className="user-details">
-              <div className="input-box">
-                <span className="details">Email</span>
-                <input
-                  type="text"
-                  id="inputText"
-                  placeholder="Enter your email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                {!emailFlag && <p>{emailError}</p>}
-                {errorFlag && <p className="error-color">{error}</p>}
-              </div>
+        <div className="container1 animate__animated animate__zoomIn">
+          <div className="title">Login</div>
+          <div className="content">
+            <form onSubmit={validateRegister}>
+              <div className="user-details">
+                <div className="input-box">
+                  <span className="details">Email</span>
+                  <input
+                    type="text"
+                    id="inputText"
+                    placeholder="Enter your email"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  {!emailFlag && <p>{emailError}</p>}
+                  {errorFlag && <p className="error-color">{error}</p>}
+                </div>
 
-              <div className="">
-                <span className="details">Password</span>
-                <Input.Password
-                  type="password"
-                  id="font-style"
-                  style={{
-                    height: "45px",
-                    fontSize:"16px",
-                    borderBottomWidth: "2px",
-                    borderColor: "#000000",
-                    color: "black",
-                  }}
-                  placeholder="Enter your password"
-                  onChange={(e) => setPass(e.target.value)}
-                />
-                {!passFlag && <p className="error-color">{passError}</p>}
+                <div className="">
+                  <span className="details">Password</span>
+                  <Input.Password
+                    type="password"
+                    id="font-style"
+                    style={{
+                      height: "45px",
+                      fontSize: "16px",
+                      borderBottomWidth: "2px",
+                      borderColor: "#000000",
+                      color: "black",
+                    }}
+                    placeholder="Enter your password"
+                    onChange={(e) => setPass(e.target.value)}
+                  />
+                  {!passFlag && <p className="error-color">{passError}</p>}
+                </div>
               </div>
-            </div>
-            <button style={{ marginTop: "30px" }} type="submit">
-              Login
-            </button>
-            <div className="footer-f">
-              <p>
-                Don't have an account ?{" "}
-                <Link className="" to="./register">
-                  Register Now
-                </Link>
-              </p>
-              <p>
-                Forgotten your password?{" "}
-                <Link className="" to="./forgotpassword">
-                  Click here
-                </Link>
-              </p>
-            </div>
-          </form>
+              <button style={{ marginTop: "30px" }} type="submit">
+                Login
+              </button>
+              <div className="footer-f">
+                <p>
+                  Don't have an account ?{" "}
+                  <Link className="" to="./register">
+                    Register Now
+                  </Link>
+                </p>
+                <p>
+                  Forgotten your password?{" "}
+                  <Link className="" to="./forgotpassword">
+                    Click here
+                  </Link>
+                </p>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-      <div className="extra-space-login"></div>
-      {/* <Dna
+        <div className="extra-space-login"></div>
+        {/* <Dna
         visible={true}
         height="80"
         width="80"
@@ -193,7 +196,8 @@ function Login() {
         wrapperStyle={{}}
         wrapperClass="dna-wrapper"
       /> */}
-      <Footer />
+        <Footer />
+      </div>
     </>
   );
 }

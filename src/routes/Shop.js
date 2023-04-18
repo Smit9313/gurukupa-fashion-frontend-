@@ -32,6 +32,8 @@ function Shop() {
   const [searchTerm, setsearchTerm] = useState("");
   const [data, setData] = useState([]);
   const [product_data, setProductData] = useState(data);
+  const [navClose, setNavClose] = useState(false);
+
 
   const [value, setValue] = useState([]);
 
@@ -149,19 +151,20 @@ function Shop() {
   };
   return (
     <>
-      <Navbar />
-      <div className="extra-space-home"></div>
+      <Navbar closeNav={navClose} />
+      <div onClick={() => setNavClose(!navClose)}>
+        <div className="extra-space-home"></div>
 
-      {loading ? (
-        <>
-          <div className="filters">
-            <div className="filter-product">
-              <h3>Price</h3>
-              <div className="price-range">
-                <p>{minPrice}</p>
-                <p>{maxPrice}</p>
-              </div>
-              {/* <input
+        {loading ? (
+          <>
+            <div className="filters">
+              <div className="filter-product">
+                <h3>Price</h3>
+                <div className="price-range">
+                  <p>{minPrice}</p>
+                  <p>{maxPrice}</p>
+                </div>
+                {/* <input
                 type="range"
                 min={minPrice}
                 name="price"
@@ -169,132 +172,134 @@ function Shop() {
                 value={priceDisplay}
                 onChange={(e) => setPrice(e.target.value)}
               /> */}
-              <ConfigProvider
-                theme={{
-                  components: {
-                    Slider: {
-                      colorPrimary: "#000",
-                      colorPrimaryHover: "#000",
-                      colorPrimaryBorder: "#000",
-                      colorPrimaryBorderHover: "#000",
-                    },
-                    InputNumber: {
-                      colorPrimary: "#000",
-                      colorPrimaryHover: "#000",
-                      colorPrimaryBorder: "#000",
-                      colorPrimaryBorderHover: "#000",
-                    },
-                  },
-                }}>
-                <Slider
-                  range
-                  min={minPrice}
-                  max={maxPrice}
-                  step={10}
-                  style={{ width: "310px" }}
-                  // defaultValue={[minPrice, maxPrice]}
-                  value={value}
-                  onChange={onChange}
-                  onAfterChange={onAfterChange}
-                />
-              </ConfigProvider>
-              <br />
-              <p>
-                Range: [ {value["0"]} - {value["1"]} ]
-              </p>
-            </div>
-
-            <div className="search-product">
-              <input
-                type="text"
-                className="search-field"
-                placeholder="Search product"
-                value={searchTerm}
-                onChange={searchProductHandler}
-              />
-            </div>
-          </div>
-
-          {
-            <div className="url-path">
-              {/* <p>{location.pathname.substring(1)}</p> */}
-              <Breadcrumb>
-                <Breadcrumb.Item>
-                  <Link to={`/${array_of_elements[0]}`}>
-                    <ShopOutlined /> Shop
-                  </Link>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                  <Link to={`/${array_of_elements[0]}/${array_of_elements[1]}`}>
-                    {array_of_elements[1]}
-                  </Link>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>{array_of_elements[2]}</Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
-          }
-
-          {!isEmpty(product_data) ? (
-            <FeaturedProduct
-              items={product_data.filter((val) => {
-                return (
-                  val.prod_price <= value["1"] &&
-                  val.prod_price >= value["0"] &&
-                  (val.prod_name
-                    .toLowerCase()
-                    .includes(searchTerm.toLocaleLowerCase()) ||
-                    val.prod_desc
-                      .toLowerCase()
-                      .includes(searchTerm.toLocaleLowerCase()) ||
-                    val.cat_title
-                      .toLowerCase()
-                      .includes(searchTerm.toLocaleLowerCase()) ||
-                    val.cat_type
-                      .toLowerCase()
-                      .includes(searchTerm.toLocaleLowerCase()))
-                );
-              })}
-            />
-          ) : (
-            <>
-              <div className="not-found">
                 <ConfigProvider
                   theme={{
                     components: {
-                      Button: {
+                      Slider: {
                         colorPrimary: "#000",
                         colorPrimaryHover: "#000",
-                        colorPrimaryClick: "#000",
-                        colorPrimaryActive: "#000",
+                        colorPrimaryBorder: "#000",
+                        colorPrimaryBorderHover: "#000",
                       },
-                      Icon: {
+                      InputNumber: {
                         colorPrimary: "#000",
+                        colorPrimaryHover: "#000",
+                        colorPrimaryBorder: "#000",
+                        colorPrimaryBorderHover: "#000",
                       },
                     },
                   }}>
-                  <Result
-                    icon={<FrownOutlined style={{ color: "#000" }} />}
-                    title="No products found!"
-                    extra={
-                      <Button
-                        type="primary"
-                        onClick={() => window.location.reload(true)}>
-                        Refresh
-                      </Button>
-                    }
+                  <Slider
+                    range
+                    min={minPrice}
+                    max={maxPrice}
+                    step={10}
+                    style={{ width: "310px" }}
+                    // defaultValue={[minPrice, maxPrice]}
+                    value={value}
+                    onChange={onChange}
+                    onAfterChange={onAfterChange}
                   />
                 </ConfigProvider>
+                <br />
+                <p>
+                  Range: [ {value["0"]} - {value["1"]} ]
+                </p>
               </div>
-            </>
-          )}
-        </>
-      ) : (
-        <div className="loader-spin">
-          <ClipLoader color="#000" />
-        </div>
-      )}
 
-      <Footer />
+              <div className="search-product">
+                <input
+                  type="text"
+                  className="search-field"
+                  placeholder="Search product"
+                  value={searchTerm}
+                  onChange={searchProductHandler}
+                />
+              </div>
+            </div>
+
+            {
+              <div className="url-path">
+                {/* <p>{location.pathname.substring(1)}</p> */}
+                <Breadcrumb>
+                  <Breadcrumb.Item>
+                    <Link to={`/${array_of_elements[0]}`}>
+                      <ShopOutlined /> Shop
+                    </Link>
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item>
+                    <Link
+                      to={`/${array_of_elements[0]}/${array_of_elements[1]}`}>
+                      {array_of_elements[1]}
+                    </Link>
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item>{array_of_elements[2]}</Breadcrumb.Item>
+                </Breadcrumb>
+              </div>
+            }
+
+            {!isEmpty(product_data) ? (
+              <FeaturedProduct
+                items={product_data.filter((val) => {
+                  return (
+                    val.prod_price <= value["1"] &&
+                    val.prod_price >= value["0"] &&
+                    (val.prod_name
+                      .toLowerCase()
+                      .includes(searchTerm.toLocaleLowerCase()) ||
+                      val.prod_desc
+                        .toLowerCase()
+                        .includes(searchTerm.toLocaleLowerCase()) ||
+                      val.cat_title
+                        .toLowerCase()
+                        .includes(searchTerm.toLocaleLowerCase()) ||
+                      val.cat_type
+                        .toLowerCase()
+                        .includes(searchTerm.toLocaleLowerCase()))
+                  );
+                })}
+              />
+            ) : (
+              <>
+                <div className="not-found">
+                  <ConfigProvider
+                    theme={{
+                      components: {
+                        Button: {
+                          colorPrimary: "#000",
+                          colorPrimaryHover: "#000",
+                          colorPrimaryClick: "#000",
+                          colorPrimaryActive: "#000",
+                        },
+                        Icon: {
+                          colorPrimary: "#000",
+                        },
+                      },
+                    }}>
+                    <Result
+                      icon={<FrownOutlined style={{ color: "#000" }} />}
+                      title="No products found!"
+                      extra={
+                        <Button
+                          type="primary"
+                          onClick={() => window.location.reload(true)}>
+                          Refresh
+                        </Button>
+                      }
+                    />
+                  </ConfigProvider>
+                </div>
+              </>
+            )}
+          </>
+        ) : (
+          <div className="loader-spin">
+            <ClipLoader color="#000" />
+          </div>
+        )}
+
+        <Footer />
+      </div>
       {/* <Outlet /> */}
     </>
   );

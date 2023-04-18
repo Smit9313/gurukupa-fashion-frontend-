@@ -14,6 +14,9 @@ function CartPage() {
   const [promoCode, setPromoCode] = useState("");
   const [discountPercent, setDiscountPercent] = React.useState(0);
   const [navrender, setNavRender] = useState(true);
+
+  const [navClose, setNavClose] = useState(false);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -175,45 +178,47 @@ function CartPage() {
   const TAX = 5;
 
   return (
-    <div>
-      <Navbar navrender={navrender} />
-      {isEmpty(products) ? (
-        <>
-          <div className="empty-product">
-            <h3>There are no products in your cart.</h3>
-            <button
-              onClick={() => {
-                // setProducts(ProductsData)
-                history.push("/shop");
-              }}>
-              Shopping now
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          <div>
-            <Header itemCount={itemCount} />
+    <>
+      <Navbar navrender={navrender} closeNav={navClose} />
+      <div onClick={() => setNavClose(!navClose)}>
+        {isEmpty(products) ? (
+          <>
+            <div className="empty-product">
+              <h3>There are no products in your cart.</h3>
+              <button
+                onClick={() => {
+                  // setProducts(ProductsData)
+                  history.push("/shop");
+                }}>
+                Shopping now
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <Header itemCount={itemCount} />
 
-            <ProductList
-              products={products}
-              onChangeProductQuantity={onChangeProductQuantity}
-              onRemoveProduct={onRemoveProduct}
-              onAddQty={onAddQty}
-              onRemoveQty={onRemoveQty}
-            />
+              <ProductList
+                products={products}
+                onChangeProductQuantity={onChangeProductQuantity}
+                onRemoveProduct={onRemoveProduct}
+                onAddQty={onAddQty}
+                onRemoveQty={onRemoveQty}
+              />
 
-            <Summary
-              subTotal={subTotal}
-              discount={discount}
-              tax={TAX}
-              onEnterPromoCode={onEnterPromoCode}
-              checkPromoCode={checkPromoCode}
-            />
-          </div>
-        </>
-      )}
-    </div>
+              <Summary
+                subTotal={subTotal}
+                discount={discount}
+                tax={TAX}
+                onEnterPromoCode={onEnterPromoCode}
+                checkPromoCode={checkPromoCode}
+              />
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
