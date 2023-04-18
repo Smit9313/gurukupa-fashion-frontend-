@@ -142,8 +142,8 @@ function FeaturedProduct({items,title,des}) {
 
       {!isEmpty(items) && (
         <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
+          previousLabel={"<<"}
+          nextLabel={">>"}
           pageCount={pageCount}
           onPageChange={changePage}
           containerClassName={"paginationBttns"}
