@@ -50,9 +50,9 @@ function AddProduct() {
   const [loading, setLoading] = useState(false);
 
   const theme = createTheme({
-    // typography: {
-    //   fontFamily: "futura",
-    // },
+    typography: {
+      fontFamily: "Raleway",
+    },
     components: {
       MuiCssBaseline: {
         styleOverrides: `

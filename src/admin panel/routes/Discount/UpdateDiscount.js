@@ -50,9 +50,9 @@ function UpdateDiscount() {
   const width = true;
 
   const theme = createTheme({
-    // typography: {
-    //   fontFamily: "futura",
-    // },
+    typography: {
+      fontFamily: "Raleway",
+    },
     components: {
       MuiCssBaseline: {
         styleOverrides: `

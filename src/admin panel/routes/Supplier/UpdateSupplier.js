@@ -57,7 +57,7 @@ function UpdateSupplier() {
 
   const theme = createTheme({
     // typography: {
-    //   fontFamily: "futura",
+    //   fontFamily: "Raleway",
     // },
     components: {
       MuiCssBaseline: {

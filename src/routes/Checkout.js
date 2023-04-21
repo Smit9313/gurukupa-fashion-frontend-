@@ -99,7 +99,7 @@ function Checkout() {
 
   const theme = createTheme({
     // typography: {
-    //   fontFamily: "futura",
+    //   fontFamily: "Raleway",
     // },
 
     palette: {
