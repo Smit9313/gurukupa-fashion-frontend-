@@ -23,6 +23,10 @@ import Megic from "./routes/Megic";
 import Model from "./routes/Model";
 import { Mode } from "@mui/icons-material";
 import { CookiesProvider } from "react-cookie";
+import StockReportPdf from "./admin panel/routes/Reports/StockReportPdf";
+import SupplierReportPdf from "./admin panel/routes/Reports/SupplierReportPdf";
+import SalesReportPdf from "./admin panel/routes/Reports/SalesReportPdf";
+import PurchaseReportPdf from "./admin panel/routes/Reports/PurchaseReportPdf";
 
 
 
@@ -30,7 +34,6 @@ function App() {
 
   const user = localStorage.getItem("token");
   const [role, setRole] = useState("");
-
 
   
   useEffect(() => {
@@ -76,6 +79,26 @@ function App() {
           {user && role === "admin" && (
             <>
               <Switch>
+                <Route
+                  exact
+                  path="/admin/stockReportPdf/:id"
+                  component={StockReportPdf}
+                />
+                <Route
+                  exact
+                  path="/admin/supplierReportPdf/:id"
+                  component={SupplierReportPdf}
+                />
+                <Route
+                  exact
+                  path="/admin/salesReportPdf/:id"
+                  component={SalesReportPdf}
+                />
+                <Route
+                  exact
+                  path="/admin/purchaseReportPdf/:id"
+                  component={PurchaseReportPdf}
+                />
                 <Route path="/admin" component={Admin} />
                 <Route exact path="/checkout" component={Checkout} />
                 <Route path="/profile" component={Profile} />
