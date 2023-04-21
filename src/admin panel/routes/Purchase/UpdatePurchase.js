@@ -53,9 +53,9 @@ function UpdatePurchase() {
   ]);
 
   const theme = createTheme({
-    typography: {
-      fontFamily: "futura",
-    },
+    // typography: {
+    //   fontFamily: "futura",
+    // },
     components: {
       MuiCssBaseline: {
         styleOverrides: `

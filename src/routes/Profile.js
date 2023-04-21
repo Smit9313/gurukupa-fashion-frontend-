@@ -67,9 +67,9 @@ function Profile() {
   let newfield = { prod_id: "", rating: 0 };
 
   const theme = createTheme({
-    typography: {
-      fontFamily: "futura",
-    },
+    // typography: {
+    //   fontFamily: "futura",
+    // },
 
     palette: {
       primary: {

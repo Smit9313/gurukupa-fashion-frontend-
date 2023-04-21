@@ -87,9 +87,9 @@
   width: 100%;
 }
 
-.button-311:hover,
-.button-311:focus {
-  opacity: .75;
+.button-311:hover {
+  opacity: 1.2;
+  background-color: rgb(41, 29, 98);
 }
 
 @media screen and (max-width: 500px) {

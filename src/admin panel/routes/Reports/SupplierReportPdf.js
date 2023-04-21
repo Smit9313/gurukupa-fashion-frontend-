@@ -24,22 +24,7 @@ function SupplierReportPdf() {
           // responseType: "blob",
         })
         .then((response) => {
-          console.log(response);
           setData(response.data.data);
-          //  console.log(response.headers);
-          const contentDisposition = response.headers["content-disposition"];
-          //  console.log(contentDisposition);
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          //  console.log(url);
-          const link = document.createElement("a");
-          //  console.log(link);
-          link.href = url;
-          link.setAttribute(
-            "download",
-            contentDisposition.split(";")[1].split("=")[1].replaceAll('"', "")
-          );
-          document.body.appendChild(link);
-          link.click();
         })
         .catch((error) => {
           console.log(error);
@@ -102,15 +87,15 @@ function SupplierReportPdf() {
                             <th className="th-style tm_width_4 tm_semi_bold tm_primary_color tm_gray_bg">
                               Mobile no
                             </th>
-                            <th className="th-style tm_width_2 tm_semi_bold tm_primary_color tm_gray_bg">
+                            {/* <th className="th-style tm_width_2 tm_semi_bold tm_primary_color tm_gray_bg">
                               Email
+                            </th> */}
+                            <th className="th-style tm_width_1 tm_semi_bold tm_primary_color tm_gray_bg">
+                              Shop No
                             </th>
-                            {/* <th className="th-style tm_width_1 tm_semi_bold tm_primary_color tm_gray_bg">
-                                Shop No
-                              </th> */}
-                            {/* <th className="th-style tm_width_2 tm_semi_bold tm_primary_color tm_gray_bg tm_text_right">
-                                Area/Street
-                              </th> */}
+                            <th className="th-style tm_width_2 tm_semi_bold tm_primary_color tm_gray_bg tm_text_right">
+                              Area/Street
+                            </th>
                             <th className="th-style tm_width_2 tm_semi_bold tm_primary_color tm_gray_bg tm_text_right">
                               City
                             </th>
@@ -133,16 +118,16 @@ function SupplierReportPdf() {
                                   <td className="td-style tm_width_4">
                                     {val["Mobile No"]}
                                   </td>
-                                  <td className="td-style tm_width_2">
+                                  {/* <td className="td-style tm_width_2">
                                     {val.Email}
-                                  </td>
-                                  {/* <td className="td-style tm_width_1">
+                                  </td> */}
+                                  <td className="td-style tm_width_1">
                                       {val["Shop No"]}
-                                    </td> */}
-                                  {/* <td className="td-style tm_width_2 tm_text_right">
-                                      {val["Area/Street"]}
-                                    </td> */}
+                                    </td>
                                   <td className="td-style tm_width_2 tm_text_right">
+                                      {val["Area/Street"]}
+                                    </td>
+                                <td className="td-style tm_width_2 tm_text_right">
                                     {val["City"]}
                                   </td>
                                   <td className="td-style tm_width_2 tm_text_right">
