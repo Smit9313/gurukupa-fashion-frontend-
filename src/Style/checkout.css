@@ -150,6 +150,11 @@ span.price {
   border-radius: 3px;
 }
 
+.Mui-disabled {
+  color: black !important;
+  -webkit-text-fill-color:rgba(0, 0, 0, 1)!important;
+}
+
 .container-checkout-cart p {
   padding: 3px;
 }

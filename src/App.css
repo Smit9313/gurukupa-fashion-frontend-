@@ -45,3 +45,7 @@ font-weight: 600;
     /* background-color: #F8F9FA; */
     background-color: white;
 }
+
+input:disabled {
+  color: black !important;
+}

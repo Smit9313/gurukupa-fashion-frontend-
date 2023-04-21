@@ -98,9 +98,9 @@ function Checkout() {
   }, [pincode]);
 
   const theme = createTheme({
-    // typography: {
-    //   fontFamily: "Raleway",
-    // },
+    typography: {
+      fontFamily: "Raleway",
+    },
 
     palette: {
       primary: {
@@ -114,16 +114,16 @@ function Checkout() {
     },
     components: {
       MuiCssBaseline: {
-      //   styleOverrides: `
-      //   @font-face {
-      //     font-family: 'futura';
-      //     font-style: normal;
-      //     font-display: swap;
-      //     font-weight: 400;
-      //     src: local('Raleway'), local('Raleway-Regular'), url('public\fonts\futura\futura light bt.ttf') format('woff2');
-      //     unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
-      //   }
-      // `,
+        styleOverrides: `
+        @font-face {
+          font-family: 'futura';
+          font-style: normal;
+          font-display: swap;
+          font-weight: 400;
+          src: local('Raleway'), local('Raleway-Regular'), url('public\fonts\futura\futura light bt.ttf') format('woff2');
+          unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
+        }
+      `,
       },
     },
   });
@@ -140,6 +140,7 @@ function Checkout() {
           // console.log(response.data.data["Ship-add"]);
           console.log(response);
           setUserData(response.data.data);
+          setMobile(response.data.data.mobile_no);
           if (response.data.data["Ship-add"].length === 0) {
             setDefaultAddress("");
             setHouseNo1("");
@@ -293,8 +294,8 @@ function Checkout() {
   const handlePayment = (e) => {
     e.preventDefault();
 
-    if (isEmpty(mobile)) {
-      toast.error("mobile no should not blank!", {
+    if (isEmpty(mobile) || mobile.length < 10 || mobile.length > 10) {
+      toast.error("Invalid mobile no.!", {
         duration: 3000,
       });
     }
@@ -471,10 +472,14 @@ function Checkout() {
                         <TextField
                           label="name"
                           size="small"
+                          style={{ color: "black" }}
                           value={userData.name}
                           disabled={true}
                           fullWidth={true}
                           inputProps={{ readOnly: true }}
+                          InputProps={{
+                            style: { color: "black" },
+                          }}
                         />
                         {/* {flag1 && <p className="error-color">{nameError}</p>} */}
                       </div>
@@ -731,16 +736,17 @@ function Checkout() {
                     </tfoot>
                   </table>
 
-                  {!isEmpty(eData) && (
-                    eData.map((evalue,index)=>{
+                  {!isEmpty(eData) &&
+                    eData.map((evalue, index) => {
                       return (
                         <div key={index} className="echeckout">
-                          <p>Item: {evalue.prod_name}, Size: {evalue.size} </p>
-                          <p style={{color:"red"}}>*{evalue.message}</p>
+                          <p>
+                            Item: {evalue.prod_name}, Size: {evalue.size}{" "}
+                          </p>
+                          <p style={{ color: "red" }}>*{evalue.message}</p>
                         </div>
                       );
-                    })
-                  )}
+                    })}
 
                   <div className="promotion">
                     <label htmlFor="promo-code">Have A Promo Code?</label>
