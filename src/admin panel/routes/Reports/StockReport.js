@@ -115,7 +115,7 @@ try {
   axios
     .get(`${process.env.REACT_APP_API_HOST}/stock-report-export/`, {
       headers,
-      // responseType: "blob",
+      responseType: "blob",
     })
     .then((response) => {
       console.log(response);
