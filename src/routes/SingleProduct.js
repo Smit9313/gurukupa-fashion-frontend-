@@ -36,17 +36,16 @@ function SingleProduct() {
   const [loading, setLoading] = useState(false);
   const [navClose, setNavClose] = useState(false);
 
-
   useEffect(() => {
     try {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/customer-product/${product_id}`)
         .then((response) => {
-          setLoading(false)
+          setLoading(false);
           console.log(response);
           if (response.data.message === "Success!") {
             setData(response.data.data);
-            
+
             setUrl(response.data.data.prod_image[0]);
             console.log(response.data.data);
 
@@ -66,11 +65,10 @@ function SingleProduct() {
                   console.log(error);
                 });
             } catch (err) {}
-          }else if (response.data.message === "Product not fetched.") {
+          } else if (response.data.message === "Product not fetched.") {
             setData();
             setLoading(true);
-          }else{
-
+          } else {
           }
         })
         .catch((error) => {
@@ -282,24 +280,12 @@ function SingleProduct() {
                     ABC
                   </button> */}
 
-                    {isEmpty(role) ||
-                      (role === "customer" && (
-                        <button
-                          type="submit"
-                          className="normal"
-                          onClick={handleAddToCart}>
-                          Add to cart
-                        </button>
-                      ))}
-
-                    {isEmpty(role) && (
-                      <button
-                        type="submit"
-                        className="normal"
-                        onClick={handleAddToCart}>
-                        Add to cart
-                      </button>
-                    )}
+                    <button
+                      type="submit"
+                      className="normal"
+                      onClick={handleAddToCart}>
+                      Add to cart
+                    </button>
 
                     <h4>Product details</h4>
                     <span>{data.prod_desc}</span>

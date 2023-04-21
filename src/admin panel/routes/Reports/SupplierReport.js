@@ -5,6 +5,8 @@ import { isEmpty } from "lodash";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import ClipLoader from "react-spinners/ClipLoader";
+import { FrownOutlined } from "@ant-design/icons";
+import { Result, ConfigProvider, Button } from "antd";
 
 function SupplierReport() {
   const [data, setData] = useState("");
@@ -31,9 +33,34 @@ function SupplierReport() {
           // responseType: "blob",
         })
         .then((response) => {
+          if (response.data.message === "Success!") {
+            setData(response.data.data);
+          } else if (response.data.message === "Records not found.") {
+            setData(response.data.message);
+          } else {
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log("Error");
+    }
+  };
+
+  const handleExcelClick = () => {
+    const token = localStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+
+    try {
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/supplier-report-export/`, {
+          headers,
+          responseType: "blob",
+        })
+        .then((response) => {
           console.log(response);
-          setData(response.data.data);
-          setLoader(false);
+          // setData(response.data.data);
           //  console.log(response.headers);
           const contentDisposition = response.headers["content-disposition"];
           //  console.log(contentDisposition);
@@ -100,7 +127,6 @@ function SupplierReport() {
     },
   ];
 
-
   return (
     <>
       <Header name="Supplier Report" path="admin / supplierReport" />
@@ -114,7 +140,7 @@ function SupplierReport() {
       </div>
       {/* </div> */}
       <div className="suplier-list">
-        {!isEmpty(data) && (
+        {!isEmpty(data) && data !== "Records not found." && (
           <DataTable
             columns={columns}
             data={data}
@@ -122,14 +148,21 @@ function SupplierReport() {
             pagination
             highlightOnHover
             actions={
-              <button
-                className="supplier-add-btn"
-                onClick={() => 
-                // history.push("/admin/addCategory")
-                window.open(`/admin/supplierReportPdf/${date}`, "_blank")
-                }>
-                pdf
-              </button>
+              <div>
+                <button
+                  className="supplier-add-btn"
+                  onClick={() =>
+                    // history.push("/admin/addCategory")
+                    window.open(`/admin/supplierReportPdf/${date}`, "_blank")
+                  }>
+                  Export as PDF
+                </button>
+                <button
+                  className="supplier-add-btn"
+                  onClick={() => handleExcelClick()}>
+                  Export as Excel
+                </button>
+              </div>
             }
             subHeader
             // subHeaderComponent={
@@ -150,6 +183,29 @@ function SupplierReport() {
           </div>
         )}
       </div>
+      {data === "Records not found." && (
+        <div className="not-found">
+          <ConfigProvider
+            theme={{
+              components: {
+                Button: {
+                  colorPrimary: "#000",
+                  colorPrimaryHover: "#000",
+                  colorPrimaryClick: "#000",
+                  colorPrimaryActive: "#000",
+                },
+                Icon: {
+                  colorPrimary: "#000",
+                },
+              },
+            }}>
+            <Result
+              icon={<FrownOutlined style={{ color: "#000" }} />}
+              title="No record found!!"
+            />
+          </ConfigProvider>
+        </div>
+      )}
     </>
   );
 }

@@ -7,6 +7,8 @@ import { useHistory } from "react-router-dom";
 import Error from "./Error";
 import { Input } from "antd";
 import { Toaster, toast } from "react-hot-toast";
+import { FrownOutlined } from "@ant-design/icons";
+import { Result, ConfigProvider } from "antd";
 
 function ChangePassword() {
   let { key } = useParams();
@@ -21,8 +23,37 @@ function ChangePassword() {
   const [passConFlag, setPassConFlag] = useState(false);
 
   const [isValid, setIsValid] = useState(false);
+  const [message, setMessage] = useState("");
 
-  
+  useEffect(() => {
+    const headers = { Authorization: `Bearer ${key}` };
+    
+
+    try {
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/reset-password/`, { headers })
+        .then((response) => {
+          console.log(response);
+          if (response.data.message === "Token corrupted.") {
+            setIsValid(false);
+            setMessage("Something wrong with url!")
+          }else if (response.data.message === "Password reset link expired.") {
+            setIsValid(false);
+            setMessage(response.data.message);
+          } else if (response.data.message === "User exists.") {
+            setIsValid(true);
+          } else {
+            // console.log(response);
+            setMessage("Somthing wrong!")
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [key]);
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -70,7 +101,12 @@ function ChangePassword() {
       setPassConError("password and confirm password must be same.");
     }
 
-    if(!passConNull && !minPassConLength && !maxPassConLength && pass === passCon){
+    if (
+      !passConNull &&
+      !minPassConLength &&
+      !maxPassConLength &&
+      pass === passCon
+    ) {
       setPassConFlag(true);
       setPassConError("");
     }
@@ -84,7 +120,6 @@ function ChangePassword() {
       setPassConFlag(true);
     }
 
-    
     if (
       !passNull &&
       !minPassLength &&
@@ -127,36 +162,10 @@ function ChangePassword() {
         console.log(err);
       }
     }
-
-
   };
-
-  useEffect(() => {
-    const headers = { Authorization: `Bearer ${key}` };
-
-    try {
-      axios
-        .get(`${process.env.REACT_APP_API_HOST}/reset-password/`, { headers })
-        .then((response) => {
-          if (response.data.message === "Token corrupted.") {
-            setIsValid(false);
-          }else if (response.data.message === "User exists.") {
-            setIsValid(true);
-          }else{
-
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
 
   if (passFlag === true && passConFlag === true) {
     console.log(key);
-    
   }
 
   return (
@@ -218,7 +227,28 @@ function ChangePassword() {
         </>
       ) : (
         <>
-          <Error />
+          {/* <Error /> */}
+          <div className="not-found" style={{marginTop:"30vh"}}>
+            <ConfigProvider
+              theme={{
+                components: {
+                  Button: {
+                    colorPrimary: "#000",
+                    colorPrimaryHover: "#000",
+                    colorPrimaryClick: "#000",
+                    colorPrimaryActive: "#000",
+                  },
+                  Icon: {
+                    colorPrimary: "#000",
+                  },
+                },
+              }}>
+              <Result
+                icon={<FrownOutlined style={{ color: "#000" }} />}
+                title={message}
+              />
+            </ConfigProvider>
+          </div>
         </>
       )}
       <Toaster

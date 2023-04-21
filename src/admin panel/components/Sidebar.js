@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory} from "react-router-dom";
 import "../Style/sidebar.css";
 
 function Sidebar({ url }) {
+  const history = useHistory();
   const [sidebar, setSidebar] = useState(true);
   const [supplier, setSupplier] = useState(true);
   const [purchase, setPurchase] = useState(true);
@@ -566,6 +567,8 @@ function Sidebar({ url }) {
                 to="/"
                 onClick={() => {
                   localStorage.removeItem("token");
+                  history.push("/home");
+                  window.location.reload(true);
                 }}>
                 <i className="bx bx-log-out icon"></i>
                 <span className="text nav-text">Logout</span>

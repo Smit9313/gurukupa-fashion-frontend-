@@ -8,6 +8,8 @@ import { Toaster, toast } from "react-hot-toast";
 import dayjs from "dayjs";
 import moment from "moment";
 import DataTable from "react-data-table-component";
+import { FrownOutlined } from "@ant-design/icons";
+import { Result, ConfigProvider } from "antd";
 
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
@@ -17,15 +19,17 @@ function PurchaseReport() {
   const [data, setData] = useState("");
   const [date, setDate] = useState();
 
+  const token = localStorage.getItem("token");
+  const headers = { Authorization: `Bearer ${token}` };
+
+
   function handleDateChange(dates) {
     setSelectedDates(dates);
   }
 
   const handleClick = async () => {
     if (!isEmpty(selectedDates)) {
-      const token = localStorage.getItem("token");
-      const headers = { Authorization: `Bearer ${token}` };
-
+      
       var date1 = new Date(selectedDates[0].$d);
       var day1 = ("0" + date1.getDate()).slice(-2);
       var month1 = ("0" + (date1.getMonth() + 1)).slice(-2);
@@ -53,21 +57,12 @@ function PurchaseReport() {
           })
           .then((response) => {
             console.log(response);
-            setData(response.data.data);
-            //  console.log(response.headers);
-            const contentDisposition = response.headers["content-disposition"];
-            //  console.log(contentDisposition);
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            //  console.log(url);
-            const link = document.createElement("a");
-            //  console.log(link);
-            link.href = url;
-            link.setAttribute(
-              "download",
-              contentDisposition.split(";")[1].split("=")[1].replaceAll('"', "")
-            );
-            document.body.appendChild(link);
-            link.click();
+            if (response.data.message === "Success!") {
+              setData(response.data.data);
+            } else if (response.data.message === "Records not found.") {
+              setData(response.data.message);
+            } else {
+            }
           })
           .catch((error) => {
             console.log(error);
@@ -130,6 +125,48 @@ function PurchaseReport() {
     },
   ];
 
+  const handleExcelClick = () =>{
+
+    const jsonData = {
+      from_date: selectedDates[0].$d,
+      until_date: selectedDates[1].$d,
+    };
+
+      try {
+        axios
+          .post(
+            `${process.env.REACT_APP_API_HOST}/purchase-report-export/`,
+            jsonData,
+            {
+              headers: headers,
+              responseType: "blob",
+            }
+          )
+          .then((response) => {
+            console.log(response);
+            //  console.log(response.headers);
+            const contentDisposition = response.headers["content-disposition"];
+            //  console.log(contentDisposition);
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            //  console.log(url);
+            const link = document.createElement("a");
+            //  console.log(link);
+            link.href = url;
+            link.setAttribute(
+              "download",
+              contentDisposition.split(";")[1].split("=")[1].replaceAll('"', "")
+            );
+            document.body.appendChild(link);
+            link.click();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err) {
+        console.log("Error");
+      }
+  }
+
 
   return (
     <>
@@ -162,7 +199,7 @@ function PurchaseReport() {
       </div>
       {/* </div> */}
       <div className="suplier-list">
-        {!isEmpty(data) && (
+        {!isEmpty(data) && data !== "Records not found." && (
           <DataTable
             columns={columns}
             data={data}
@@ -170,14 +207,21 @@ function PurchaseReport() {
             pagination
             highlightOnHover
             actions={
-              <button
-                className="supplier-add-btn"
-                onClick={() => 
-                // history.push("/admin/addCategory")
-                window.open(`/admin/purchaseReportPdf/${date}`, "_blank")
-                }>
-                pdf
-              </button>
+              <div>
+                <button
+                  className="supplier-add-btn"
+                  onClick={() =>
+                    // history.push("/admin/addCategory")
+                    window.open(`/admin/purchaseReportPdf/${date}`, "_blank")
+                  }>
+                  Export as PDF
+                </button>
+                <button
+                  className="supplier-add-btn"
+                  onClick={() => handleExcelClick()}>
+                  Export as Excel
+                </button>
+              </div>
             }
             subHeader
             // subHeaderComponent={
@@ -193,6 +237,29 @@ function PurchaseReport() {
           />
         )}
       </div>
+      {data === "Records not found." && (
+        <div className="not-found">
+          <ConfigProvider
+            theme={{
+              components: {
+                Button: {
+                  colorPrimary: "#000",
+                  colorPrimaryHover: "#000",
+                  colorPrimaryClick: "#000",
+                  colorPrimaryActive: "#000",
+                },
+                Icon: {
+                  colorPrimary: "#000",
+                },
+              },
+            }}>
+            <Result
+              icon={<FrownOutlined style={{ color: "#000" }} />}
+              title="No record found!!"
+            />
+          </ConfigProvider>
+        </div>
+      )}
 
       <Toaster
         position="top-center"

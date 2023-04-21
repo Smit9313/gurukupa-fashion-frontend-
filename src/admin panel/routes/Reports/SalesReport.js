@@ -8,6 +8,8 @@ import { Toaster, toast } from "react-hot-toast";
 import dayjs from "dayjs";
 import moment from "moment";
 import DataTable from "react-data-table-component";
+import { FrownOutlined } from "@ant-design/icons";
+import { Result, ConfigProvider } from "antd";
 
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
@@ -17,15 +19,15 @@ function SalesReport() {
   const [data, setData] = useState("");
   const [date, setDate] = useState();
 
+  const token = localStorage.getItem("token");
+  const headers = { Authorization: `Bearer ${token}` };
+
   function handleDateChange(dates) {
     setSelectedDates(dates);
   }
 
   const handleClick = async () => {
     if (!isEmpty(selectedDates)) {
-      const token = localStorage.getItem("token");
-      const headers = { Authorization: `Bearer ${token}` };
-
       var date1 = new Date(selectedDates[0].$d);
       var day1 = ("0" + date1.getDate()).slice(-2);
       var month1 = ("0" + (date1.getMonth() + 1)).slice(-2);
@@ -37,8 +39,8 @@ function SalesReport() {
       var month2 = ("0" + (date2.getMonth() + 1)).slice(-2);
       var year2 = date1.getFullYear();
       var formattedDate2 = month2 + "-" + day2 + "-" + year2;
-      
-      setDate(`${formattedDate1}-to-${formattedDate2}`)
+
+      setDate(`${formattedDate1}-to-${formattedDate2}`);
 
       console.log(selectedDates[0].$d);
       const jsonData = {
@@ -47,7 +49,7 @@ function SalesReport() {
       };
 
       // setDate(jsonData)
-      
+
       try {
         axios
           .post(`${process.env.REACT_APP_API_HOST}/sales-report/`, jsonData, {
@@ -55,22 +57,14 @@ function SalesReport() {
             // responseType: "blob",
           })
           .then((response) => {
-            console.log(response);
-            setData(response.data.data);
-            //  console.log(response.headers);
-            const contentDisposition = response.headers["content-disposition"];
-            //  console.log(contentDisposition);
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            //  console.log(url);
-            const link = document.createElement("a");
-            //  console.log(link);
-            link.href = url;
-            link.setAttribute(
-              "download",
-              contentDisposition.split(";")[1].split("=")[1].replaceAll('"', "")
-            );
-            document.body.appendChild(link);
-            link.click();
+            console.log(response)
+            if (response.data.message === "Success!") {
+              setData(response.data.data);
+            }else if(response.data.message === "Records not found."){
+              setData(response.data.message);
+            }else{
+              
+            }
           })
           .catch((error) => {
             console.log(error);
@@ -108,17 +102,46 @@ function SalesReport() {
     },
   ];
 
-  const printClass = (className) => {
-    var elements = document.getElementsByClassName(className);
-    var container = document.createElement("div");
-    for (var i = 0; i < elements.length; i++) {
-      container.appendChild(elements[i].cloneNode(true));
+  const handleExcelClick = () => {
+    const jsonData = {
+      from_date: selectedDates[0].$d,
+      until_date: selectedDates[1].$d,
+    };
+    // console.log(token)
+
+    try {
+      axios
+        .post(
+          `${process.env.REACT_APP_API_HOST}/sales-report-export/`,
+          jsonData,
+          {
+            headers: headers,
+            responseType: "blob",
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          //  console.log(response.headers);
+          const contentDisposition = response.headers["content-disposition"];
+          //  console.log(contentDisposition);
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          //  console.log(url);
+          const link = document.createElement("a");
+          //  console.log(link);
+          link.href = url;
+          link.setAttribute(
+            "download",
+            contentDisposition.split(";")[1].split("=")[1].replaceAll('"', "")
+          );
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log("Error");
     }
-    var printContents = container.innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
   };
 
   return (
@@ -146,13 +169,13 @@ function SalesReport() {
         />
         <button
           className="button-311 supplier-report-button"
-          onClick={handleClick}>
+          onClick={() => handleClick()}>
           Generate report
         </button>
       </div>
       {/* </div> */}
       <div className="suplier-list">
-        {!isEmpty(data) && (
+        {!isEmpty(data) && data !== "Records not found." && (
           <DataTable
             columns={columns}
             data={data}
@@ -160,14 +183,21 @@ function SalesReport() {
             pagination
             highlightOnHover
             actions={
-              <button
-                className="supplier-add-btn"
-                onClick={() =>
-                  // history.push("/admin/addCategory")
-                  window.open(`/admin/salesReportPdf/${date}`, "_blank")
-                }>
-                pdf
-              </button>
+              <div>
+                <button
+                  className="supplier-add-btn"
+                  onClick={() =>
+                    // history.push("/admin/addCategory")
+                    window.open(`/admin/salesReportPdf/${date}`, "_blank")
+                  }>
+                  Export as PDF
+                </button>
+                <button
+                  className="supplier-add-btn"
+                  onClick={() => handleExcelClick()}>
+                  Export as Excel
+                </button>
+              </div>
             }
             subHeader
             // subHeaderComponent={
@@ -183,9 +213,29 @@ function SalesReport() {
           />
         )}
       </div>
-      <div className="suplier-list">
-        
-      </div>
+      {data === "Records not found." && (
+        <div className="not-found">
+          <ConfigProvider
+            theme={{
+              components: {
+                Button: {
+                  colorPrimary: "#000",
+                  colorPrimaryHover: "#000",
+                  colorPrimaryClick: "#000",
+                  colorPrimaryActive: "#000",
+                },
+                Icon: {
+                  colorPrimary: "#000",
+                },
+              },
+            }}>
+            <Result
+              icon={<FrownOutlined style={{ color: "#000" }} />}
+              title="No record found!!"
+            />
+          </ConfigProvider>
+        </div>
+      )}
       <Toaster
         position="top-center"
         containerStyle={{
