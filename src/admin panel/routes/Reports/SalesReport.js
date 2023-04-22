@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Header from "../../components/Header";
 import "../../Style/supplierreport.css";
 import { DatePicker } from "antd";
-import { isEmpty } from "lodash";
+import { isEmpty, escapeRegExp } from "lodash";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import dayjs from "dayjs";
@@ -85,7 +86,13 @@ function SalesReport() {
   const columns = [
     {
       name: <h4>Product Name</h4>,
-      selector: (row) => row["Product name"],
+      selector: (row) => (
+        <Link
+          to={`/single-product/${row["prod_id"]}`}
+          className="remove-line-link" target="_blank">
+          {row["Product name"]}
+        </Link>
+      ),
       sortable: true,
     },
     {
@@ -147,17 +154,33 @@ function SalesReport() {
     }
   };
 
-  useEffect(() => {
+  // useEffect(() => {
    
-    if(!isEmpty(data)){
-      const result = data.filter((val)=>{
-        return val["Product name"].toLowerCase().match(search.toLowerCase());
-      });
-      setFilteredProduct(result);
-    }
+  //   if(!isEmpty(data)){
+  //     const result = data.filter((val)=>{
+  //       return val["Product name"].toLowerCase().match(search.toLowerCase());
+  //     });
+  //     setFilteredProduct(result);
+  //   }
 
-  }, [search])
+  // }, [search])
+
   
+  useEffect(() => {
+     if (!isEmpty(data)) {
+       const escapedSearch = escapeRegExp(search);
+       const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+       const result = data.filter((val) => {
+         return (
+           val["Product name"].match(regex) ||
+           val["Product price"].toString().match(regex) ||
+           val["Product size"].match(regex) ||
+           val["Total quantity"].toString().match(regex) 
+         );
+       });
+       setFilteredProduct(result);
+     }
+   }, [data, search]);
 
   return (
     <>

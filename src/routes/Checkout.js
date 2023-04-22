@@ -624,7 +624,7 @@ function Checkout() {
                           <Radio.Group
                             defaultValue={addtype1}
                             buttonStyle="solid"
-                            // value={addtype1}
+                            value={addtype1}
                             disabled={true}>
                             <Radio.Button value="Home">Home</Radio.Button>
                             <Radio.Button value="Office">Office</Radio.Button>

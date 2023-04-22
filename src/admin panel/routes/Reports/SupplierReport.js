@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import "../../Style/supplierreport.css";
-import { isEmpty } from "lodash";
+import { isEmpty, escapeRegExp } from "lodash";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import ClipLoader from "react-spinners/ClipLoader";
 import { FrownOutlined } from "@ant-design/icons";
-import { Result, ConfigProvider, Button } from "antd";
+import { Result, ConfigProvider } from "antd";
 
 function SupplierReport() {
   const [data, setData] = useState("");
   const [loader, setLoader] = useState(false);
   const [date, setDate] = useState();
+  const [search, setSearch] = useState("");
+  const [filteredProduct, setFilteredProduct] = useState([]);
 
   const handleClick = async () => {
     setLoader(true);
@@ -35,6 +37,8 @@ function SupplierReport() {
         .then((response) => {
           if (response.data.message === "Success!") {
             setData(response.data.data);
+            setFilteredProduct(response.data.data);
+            console.log(response)
           } else if (response.data.message === "Records not found.") {
             setData(response.data.message);
           } else {
@@ -127,6 +131,29 @@ function SupplierReport() {
     },
   ];
 
+
+   useEffect(() => {
+     if (!isEmpty(data)) {
+       const escapedSearch = escapeRegExp(search);
+       const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+       const result = data.filter((val) => {
+         return (
+           val["Name"].match(regex) ||
+           val["Email"].match(regex) ||
+           val["Mobile No"].toString().match(regex) ||
+           val["Shop No"].toString().match(regex) ||
+           val["Area/Street"].toString().match(regex) ||
+           val["Pincode"].toString().match(regex) ||
+           val["City"].toString().match(regex) ||
+           val["State"].match(regex)
+         );
+       });
+       setFilteredProduct(result);
+     }
+   }, [data, search]);
+  
+
+
   return (
     <>
       <Header name="Supplier Report" path="admin / supplierReport" />
@@ -143,8 +170,8 @@ function SupplierReport() {
         {!isEmpty(data) && data !== "Records not found." && (
           <DataTable
             columns={columns}
-            data={data}
-            // title="Manage Category_type"
+            data={filteredProduct}
+            title={date}
             pagination
             highlightOnHover
             actions={
@@ -165,15 +192,15 @@ function SupplierReport() {
               </div>
             }
             subHeader
-            // subHeaderComponent={
-            //   <input
-            //     type="text"
-            //     className="search-supplier"
-            //     value={search}
-            //     onChange={(e) => setSearch(e.target.value)}
-            //     placeholder="Search here"
-            //   />
-            // }
+            subHeaderComponent={
+              <input
+                type="text"
+                className="search-supplier"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search here"
+              />
+            }
             subHeaderAlign="left"
           />
         )}

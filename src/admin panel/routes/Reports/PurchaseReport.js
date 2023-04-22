@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Header from "../../components/Header";
 import "../../Style/supplierreport.css";
 import { DatePicker } from "antd";
-import { isEmpty } from "lodash";
+import { isEmpty, escapeRegExp } from "lodash";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import dayjs from "dayjs";
@@ -93,7 +94,14 @@ function PurchaseReport() {
     },
     {
       name: <h4>Product name</h4>,
-      selector: (row) => row["Product name"],
+      selector: (row) => (
+        <Link
+          to={`/single-product/${row["prod_id"]}`}
+          className="remove-line-link"
+          target="_blank">
+          {row["Product name"]}
+        </Link>
+      ),
       sortable: true,
     },
     {
@@ -170,45 +178,42 @@ function PurchaseReport() {
       }
   }
 
-    useEffect(() => {
-      if (!isEmpty(data)) {
-        const result = data.filter((val) => {
-          return (
-            val["Product name"].toLowerCase().match(search.toLowerCase()) ||
-            val["Supplier name"].toLowerCase().match(search.toLowerCase()) ||
-            val["Purchase date"].toLowerCase().match(search.toLowerCase()) ||
-            // val["Category-type"].toLowerCase().match(search.toLowerCase()) ||
-            val["Category"].toLowerCase().match(search.toLowerCase())
-          );
-        });
-        setFilteredProduct(result);
-      }
-    }, [search]);
-
     // useEffect(() => {
     //   if (!isEmpty(data)) {
-    //     const escapedSearch = RegExp.escape(search);
     //     const result = data.filter((val) => {
     //       return (
-    //         val["Product name"]
-    //           .toLowerCase()
-    //           .match(new RegExp(escapedSearch, "i")) ||
-    //         val["Supplier name"]
-    //           .toLowerCase()
-    //           .match(new RegExp(escapedSearch, "i")) ||
-    //         val["Purchase date"]
-    //           .toLowerCase()
-    //           .match(new RegExp(escapedSearch, "i")) ||
-    //         val["Category-type"]
-    //           .toLowerCase()
-    //           .match(new RegExp(escapedSearch, "i")) ||
-    //         val["Category"].toLowerCase().match(new RegExp(escapedSearch, "i"))
+    //         val["Product name"].toLowerCase().match(search.toLowerCase()) ||
+    //         val["Supplier name"].toLowerCase().match(search.toLowerCase()) ||
+    //         val["Purchase date"].toLowerCase().match(search.toLowerCase()) ||
+    //         val["Category-type"].toString().match(search.toString()) ||
+    //         val["Category"].toLowerCase().match(search.toLowerCase())
     //       );
     //     });
     //     setFilteredProduct(result);
     //   }
     // }, [search]);
 
+    
+ useEffect(() => {
+   if (!isEmpty(data)) {
+     const escapedSearch = escapeRegExp(search);
+     const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+     const result = data.filter((val) => {
+       return (
+         val["Category"].match(regex) ||
+         val["Category-type"].match(regex) ||
+         val["Product name"].match(regex) ||
+         val["Purchase date"].match(regex) ||
+         val["Purchase price"].toString().match(regex) ||
+         val["Quantity"].toString().match(regex) ||
+         val["Size"].match(regex) ||
+         val["Sub total"].toString().match(regex) ||
+         val["Supplier name"].match(regex) 
+       );
+     });
+     setFilteredProduct(result);
+   }
+ }, [data, search]);
 
   return (
     <>

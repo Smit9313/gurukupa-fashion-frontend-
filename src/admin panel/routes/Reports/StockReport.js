@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import Header from "../../components/Header";
 import "../../Style/supplierreport.css";
 import { DatePicker } from "antd";
-import { isEmpty } from "lodash";
+import { isEmpty, escapeRegExp } from "lodash";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import { Toaster, toast } from "react-hot-toast";
@@ -24,13 +24,13 @@ function StockReport() {
 
   const [data, setData] = useState("");
   const [date, setDate] = useState();
+  const [search, setSearch] = useState("");
+  const [filteredProduct, setFilteredProduct] = useState([]);
 
   const token = localStorage.getItem("token");
   const headers = { Authorization: `Bearer ${token}` };
 
-
   const handleClick = async () => {
-    
     // const jsonData = {
     //   from_date: selectedDates[0].$d,
     //   until_date: selectedDates[1].$d,
@@ -43,7 +43,6 @@ function StockReport() {
     var formattedDate = day + "-" + month + "-" + year;
     setDate(formattedDate);
 
-
     try {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/stock-report/`, {
@@ -51,13 +50,14 @@ function StockReport() {
           // responseType: "blob",
         })
         .then((response) => {
-         console.log(response);
-         if (response.data.message === "Success!") {
-           setData(response.data.data);
-         } else if (response.data.message === "Records not found.") {
-           setData(response.data.message);
-         } else {
-         }
+          console.log(response);
+          if (response.data.message === "Success!") {
+            setData(response.data.data);
+            setFilteredProduct(response.data.data);
+          } else if (response.data.message === "Records not found.") {
+            setData(response.data.message);
+          } else {
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -70,7 +70,13 @@ function StockReport() {
   const columns = [
     {
       name: <h4>Product Name</h4>,
-      selector: (row) => row["Product name"],
+      selector: (row) => (
+        <Link
+          to={`/single-product/${row["prod_id"]}`}
+          className="remove-line-link" target="_blank">
+          {row["Product name"]}
+        </Link>
+      ),
       sortable: true,
     },
     {
@@ -110,39 +116,58 @@ function StockReport() {
     },
   ];
 
-  const handleExcelClick = () =>{
-try {
-  axios
-    .get(`${process.env.REACT_APP_API_HOST}/stock-report-export/`, {
-      headers,
-      responseType: "blob",
-    })
-    .then((response) => {
-      console.log(response);
-      // setData(response.data.data);
-      //  console.log(response.headers);
-      const contentDisposition = response.headers["content-disposition"];
-      //  console.log(contentDisposition);
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      //  console.log(url);
-      const link = document.createElement("a");
-      //  console.log(link);
-      link.href = url;
-      link.setAttribute(
-        "download",
-        contentDisposition.split(";")[1].split("=")[1].replaceAll('"', "")
-      );
-      document.body.appendChild(link);
-      link.click();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-} catch (err) {
-  console.log("Error");
-}
-  }
+  const handleExcelClick = () => {
+    try {
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/stock-report-export/`, {
+          headers,
+          responseType: "blob",
+        })
+        .then((response) => {
+          console.log(response);
+          // setData(response.data.data);
+          //  console.log(response.headers);
+          const contentDisposition = response.headers["content-disposition"];
+          //  console.log(contentDisposition);
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          //  console.log(url);
+          const link = document.createElement("a");
+          //  console.log(link);
+          link.href = url;
+          link.setAttribute(
+            "download",
+            contentDisposition.split(";")[1].split("=")[1].replaceAll('"', "")
+          );
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log("Error");
+    }
+  };
 
+    useEffect(() => {
+      if (!isEmpty(data)) {
+        const escapedSearch = escapeRegExp(search);
+        const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+        const result = data.filter((val) => {
+          return (
+            val["Category"].match(regex) ||
+            val["Category-type"].match(regex) ||
+            val["Product description"].match(regex) ||
+            val["Product name"].match(regex) ||
+            val["Product price"].toString().match(regex) ||
+            val["Quantity"].toString().match(regex) ||
+            val["Size"].match(regex) ||
+            val["Sub total"].toString().match(regex)
+          );
+        });
+        setFilteredProduct(result);
+      }
+    }, [data, search]);
 
   return (
     <>
@@ -164,8 +189,8 @@ try {
         {!isEmpty(data) && (
           <DataTable
             columns={columns}
-            data={data}
-            // title="Manage Category_type"
+            data={filteredProduct}
+            title={date}
             pagination
             highlightOnHover
             actions={
@@ -186,15 +211,15 @@ try {
               </div>
             }
             subHeader
-            // subHeaderComponent={
-            //   <input
-            //     type="text"
-            //     className="search-supplier"
-            //     value={search}
-            //     onChange={(e) => setSearch(e.target.value)}
-            //     placeholder="Search here"
-            //   />
-            // }
+            subHeaderComponent={
+              <input
+                type="text"
+                className="search-supplier"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search here"
+              />
+            }
             subHeaderAlign="left"
           />
         )}

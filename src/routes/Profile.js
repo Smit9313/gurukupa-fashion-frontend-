@@ -975,6 +975,7 @@ function Profile() {
                             marginLeft: "50px",
                             borderBottomWidth: "2px",
                             borderColor: "#000000",
+                            fontFamily:"Montserrat",  
                             marginBottom: "0px",
                           }}
                           onChange={(e) => setOldPassword(e.target.value)}
