@@ -99,7 +99,7 @@ function Checkout() {
 
   const theme = createTheme({
     typography: {
-      fontFamily: "Raleway",
+      fontFamily: "Montserrat",
     },
 
     palette: {
@@ -116,7 +116,7 @@ function Checkout() {
       MuiCssBaseline: {
         styleOverrides: `
         @font-face {
-          font-family: 'futura';
+          font-family: 'Montserrat';
           font-style: normal;
           font-display: swap;
           font-weight: 400;

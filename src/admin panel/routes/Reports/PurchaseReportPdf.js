@@ -62,6 +62,7 @@ function PurchaseReportPdf() {
         <div className="gamme-te tm_container">
           <div className="gamme-te tm_invoice_wrap">
             <div
+              style={{padding:"0"}}
               className="gamme-te tm_invoice tm_style1"
               id="tm_download_section">
               <div className="gamme-te tm_invoice_in">

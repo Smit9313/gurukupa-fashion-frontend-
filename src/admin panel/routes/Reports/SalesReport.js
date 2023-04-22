@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import "../../Style/supplierreport.css";
 import { DatePicker } from "antd";
@@ -18,6 +18,8 @@ function SalesReport() {
   const [selectedDates, setSelectedDates] = useState([]);
   const [data, setData] = useState("");
   const [date, setDate] = useState();
+  const [search, setSearch] = useState("");
+  const [filteredProduct, setFilteredProduct] = useState([]);
 
   const token = localStorage.getItem("token");
   const headers = { Authorization: `Bearer ${token}` };
@@ -60,6 +62,7 @@ function SalesReport() {
             console.log(response)
             if (response.data.message === "Success!") {
               setData(response.data.data);
+              setFilteredProduct(response.data.data);
             }else if(response.data.message === "Records not found."){
               setData(response.data.message);
             }else{
@@ -144,6 +147,18 @@ function SalesReport() {
     }
   };
 
+  useEffect(() => {
+   
+    if(!isEmpty(data)){
+      const result = data.filter((val)=>{
+        return val["Product name"].toLowerCase().match(search.toLowerCase());
+      });
+      setFilteredProduct(result);
+    }
+
+  }, [search])
+  
+
   return (
     <>
       <Header name="Sales Report" path="admin / salesReport" />
@@ -178,8 +193,8 @@ function SalesReport() {
         {!isEmpty(data) && data !== "Records not found." && (
           <DataTable
             columns={columns}
-            data={data}
-            // title="Manage Category_type"
+            data={filteredProduct}
+            title={date}
             pagination
             highlightOnHover
             actions={
@@ -200,15 +215,15 @@ function SalesReport() {
               </div>
             }
             subHeader
-            // subHeaderComponent={
-            //   <input
-            //     type="text"
-            //     className="search-supplier"
-            //     value={search}
-            //     onChange={(e) => setSearch(e.target.value)}
-            //     placeholder="Search here"
-            //   />
-            // }
+            subHeaderComponent={
+              <input
+                type="text"
+                className="search-supplier"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search here"
+              />
+            }
             subHeaderAlign="left"
           />
         )}

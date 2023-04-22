@@ -67,9 +67,9 @@ function Profile() {
   let newfield = { prod_id: "", rating: 0 };
 
   const theme = createTheme({
-    // typography: {
-    //   fontFamily: "Raleway",
-    // },
+    typography: {
+      fontFamily: "Montserrat",
+    },
 
     palette: {
       primary: {
@@ -85,7 +85,7 @@ function Profile() {
       MuiCssBaseline: {
         styleOverrides: `
         @font-face {
-          font-family: 'futura';
+          font-family: 'Montserrat';
           font-style: normal;
           font-display: swap;
           font-weight: 400;

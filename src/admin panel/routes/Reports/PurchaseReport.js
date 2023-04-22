@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import "../../Style/supplierreport.css";
 import { DatePicker } from "antd";
@@ -18,6 +18,8 @@ function PurchaseReport() {
   const [selectedDates, setSelectedDates] = useState([]);
   const [data, setData] = useState("");
   const [date, setDate] = useState();
+  const [search, setSearch] = useState("");
+  const [filteredProduct, setFilteredProduct] = useState([]);
 
   const token = localStorage.getItem("token");
   const headers = { Authorization: `Bearer ${token}` };
@@ -59,6 +61,7 @@ function PurchaseReport() {
             console.log(response);
             if (response.data.message === "Success!") {
               setData(response.data.data);
+              setFilteredProduct(response.data.data);
             } else if (response.data.message === "Records not found.") {
               setData(response.data.message);
             } else {
@@ -167,6 +170,45 @@ function PurchaseReport() {
       }
   }
 
+    useEffect(() => {
+      if (!isEmpty(data)) {
+        const result = data.filter((val) => {
+          return (
+            val["Product name"].toLowerCase().match(search.toLowerCase()) ||
+            val["Supplier name"].toLowerCase().match(search.toLowerCase()) ||
+            val["Purchase date"].toLowerCase().match(search.toLowerCase()) ||
+            // val["Category-type"].toLowerCase().match(search.toLowerCase()) ||
+            val["Category"].toLowerCase().match(search.toLowerCase())
+          );
+        });
+        setFilteredProduct(result);
+      }
+    }, [search]);
+
+    // useEffect(() => {
+    //   if (!isEmpty(data)) {
+    //     const escapedSearch = RegExp.escape(search);
+    //     const result = data.filter((val) => {
+    //       return (
+    //         val["Product name"]
+    //           .toLowerCase()
+    //           .match(new RegExp(escapedSearch, "i")) ||
+    //         val["Supplier name"]
+    //           .toLowerCase()
+    //           .match(new RegExp(escapedSearch, "i")) ||
+    //         val["Purchase date"]
+    //           .toLowerCase()
+    //           .match(new RegExp(escapedSearch, "i")) ||
+    //         val["Category-type"]
+    //           .toLowerCase()
+    //           .match(new RegExp(escapedSearch, "i")) ||
+    //         val["Category"].toLowerCase().match(new RegExp(escapedSearch, "i"))
+    //       );
+    //     });
+    //     setFilteredProduct(result);
+    //   }
+    // }, [search]);
+
 
   return (
     <>
@@ -202,8 +244,8 @@ function PurchaseReport() {
         {!isEmpty(data) && data !== "Records not found." && (
           <DataTable
             columns={columns}
-            data={data}
-            // title="Manage Category_type"
+            data={filteredProduct}
+            title={date}
             pagination
             highlightOnHover
             actions={
@@ -224,15 +266,15 @@ function PurchaseReport() {
               </div>
             }
             subHeader
-            // subHeaderComponent={
-            //   <input
-            //     type="text"
-            //     className="search-supplier"
-            //     value={search}
-            //     onChange={(e) => setSearch(e.target.value)}
-            //     placeholder="Search here"
-            //   />
-            // }
+            subHeaderComponent={
+              <input
+                type="text"
+                className="search-supplier"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search here"
+              />
+            }
             subHeaderAlign="left"
           />
         )}

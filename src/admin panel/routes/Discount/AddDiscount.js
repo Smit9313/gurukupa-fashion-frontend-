@@ -44,13 +44,13 @@ function AddDiscount() {
 
   const theme = createTheme({
     typography: {
-      fontFamily: "Raleway",
+      fontFamily: "Montserrat",
     },
     components: {
       MuiCssBaseline: {
         styleOverrides: `
         @font-face {
-          font-family: 'futura';
+          font-family: 'Montserrat';
           font-style: normal;
           font-display: swap;
           font-weight: 400;
