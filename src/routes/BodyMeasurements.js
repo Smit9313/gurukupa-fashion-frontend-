@@ -245,14 +245,14 @@ useEffect(() => {
             <div id="video_overlay"></div>
           </div>
           <div id="gui_controls">
-            {cameraCount > 1 && (
+            {/* {cameraCount > 1 && (
               <button
                 id="switchCameraButton"
                 name="switch Camera"
                 type="button"
                 onClick={handleSwitch}
                 aria-pressed={cameraMode === "user" ? true : false}></button>
-            )}
+            )} */}
             <button
               id="takePhotoButton"
               className="button_megic"
