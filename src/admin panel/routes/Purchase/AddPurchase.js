@@ -708,10 +708,14 @@ function AddPurchase() {
                   <div className="box">
                     Price:
                     <br />
+                    <br />
                     <TextField
                       label="price"
                       name="purch_price"
                       size="small"
+                      InputProps={{
+                        inputProps: { min: 1 },
+                      }}
                       type="number"
                       sx={{ width: 200 }}
                       style={{ backgroundColor: "White", borderRadius: "6px" }}

@@ -77,7 +77,7 @@ function App() {
           {/* Measurement URL  */}
           <Route exact path="/measurement-form/:pid" component={Megic} />
           <Route exact path="/camera/:pid/:gender/:height/:weight" component={BodyMeasurements} />
-          <Route exact path="/measurement-result/:pid/:chest/:hip/:waist" component={MeasurementResult} />
+          <Route exact path="/measurement-result/:pid/:gender/:chest/:hip/:waist" component={MeasurementResult} />
           {/* <Route exact path="/model" component={Model} /> */}
 
           <Route exact path="/forgotpassword" component={ForgotPassword} />

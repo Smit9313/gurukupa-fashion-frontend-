@@ -1,107 +1,70 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import socketIOClient from "socket.io-client";
 import html2canvas from "html2canvas";
-import { isEmpty } from "lodash";
 import "../Style/bodymeasurements.css";
-import Navbar from "../components/navbar/Navbar";
 import { Toaster, toast } from "react-hot-toast";
-import ReactCanvasConfetti from "react-canvas-confetti";
 import axios from "axios";
-import GLBLoader from "../components/GLBLoader";
 import ClipLoader from "react-spinners/ClipLoader";
-
-const ENDPOINT = "http://localhost:8000"; // change to your Socket.io server URL
-const canvasStyles = {
-  position: "fixed",
-  pointerEvents: "none",
-  width: "100%",
-  height: "100%",
-  top: 0,
-  left: 0,
-};
+import { Howl } from "howler";
+import { ReactSVG } from "react-svg";
 
 function BodyMeasurements() {
   const history = useHistory();
   const { pid, gender, height, weight } = useParams();
 
-  const [stream, setStream] = useState(null);
-  const [socket, setSocket] = useState(null);
-  const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [isDetecting, setIsDetecting] = useState(false);
   const [ss, setSs] = useState([]);
-  const [isExploding, setIsExploding] = useState(false);
   const videoRef = useRef(null);
-  const canvasRef = useRef();
-  const refAnimationInstance = useRef(null);
   const [loading, setLoading] = useState(true);
   const [bdata, setBdata] = useState();
   const [tmp, setTmp] = useState(true);
   const [cameraOn, setCameraOn] = useState(true);
 
   const [cameraMode, setCameraMode] = useState("environment");
-  const [cameraCount, setCameraCount] = useState(null);
 
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [svgFlag, setSvgFlag] = useState(false);
+  
+  useEffect(() => {
+    // check if mediaDevices is supported
+    if (
+      navigator.mediaDevices &&
+      navigator.mediaDevices.getUserMedia &&
+      navigator.mediaDevices.enumerateDevices
+    ) {
+      // first we call getUserMedia to trigger permissions
+      // we need this before deviceCount, otherwise Safari doesn't return all the cameras
+      // we need to have the number in order to display the switch front/back button
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: false,
+          video: { facingMode: cameraMode },
+        })
+        .then((stream) => {
+          if (window.stream) {
+            window.stream.getTracks().forEach(function (track) {
+              console.log(track);
+              track.stop();
+            });
+          }
 
+          videoRef.current.srcObject = stream;
+          videoRef.current.facingMode = cameraMode;
+          videoRef.current.play();
+        })
+        .catch((error) => {
+          //https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+          if (error === "PermissionDeniedError") {
+            alert("Permission denied. Please refresh and give permission.");
+          }
 
-
-
-useEffect(() => {
-  // check if mediaDevices is supported
-  if (
-    navigator.mediaDevices &&
-    navigator.mediaDevices.getUserMedia &&
-    navigator.mediaDevices.enumerateDevices
-  ) {
-    // first we call getUserMedia to trigger permissions
-    // we need this before deviceCount, otherwise Safari doesn't return all the cameras
-    // we need to have the number in order to display the switch front/back button
-    navigator.mediaDevices
-      .getUserMedia({
-        audio: false,
-        video: { facingMode: cameraMode },
-      })
-      .then((stream) => {
-        if (window.stream) {
-          window.stream.getTracks().forEach(function (track) {
-            console.log(track);
-            track.stop();
-          });
-        }
-
-        videoRef.current.srcObject = stream;
-        videoRef.current.facingMode = cameraMode;
-        videoRef.current.play();
-      })
-      .catch((error) => {
-        //https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-        if (error === "PermissionDeniedError") {
-          alert("Permission denied. Please refresh and give permission.");
-        }
-
-        console.error("getUserMedia() error: ", error);
-      });
-  } else {
-    alert(
-      "Mobile camera is not supported by browser, or there is no camera detected/connected"
-    );
-  }
-
-  async function getCameraCount() {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const cameraDevices = devices.filter(
-      (device) => device.kind === "videoinput"
-    );
-    setCameraCount(cameraDevices.length);
-  }
-
-  getCameraCount();
-}, [cameraMode]);
-
-
-
-
+          console.error("getUserMedia() error: ", error);
+        });
+    } else {
+      alert(
+        "Mobile camera is not supported by browser, or there is no camera detected/connected"
+      );
+    }
+  }, [cameraMode]);
 
   function dataURItoBlob(dataURI, fileName) {
     // Convert the data URI to a binary buffer
@@ -143,7 +106,11 @@ useEffect(() => {
   };
 
   const handleScreenshot = async () => {
+    var sndClick = new Howl({ src: ["snd/click.mp3"] });
+    sndClick.play();
+    setSvgFlag(true);
     const canvas = document.createElement("canvas");
+    // const video = videoRef.current;
     canvas.width = 512;
     canvas.height = 512;
     const context = canvas.getContext("2d");
@@ -161,7 +128,6 @@ useEffect(() => {
       toast.success("Clicked", {
         duration: 3000,
       });
-      setIsExploding(true);
     } else {
       toast.error("Something wrong!", {
         duration: 3000,
@@ -170,7 +136,6 @@ useEffect(() => {
     console.log(ss);
 
     if (ss.length === 1) {
-
       const video = document.getElementById("video");
 
       const stream = video.srcObject;
@@ -179,7 +144,6 @@ useEffect(() => {
         tracks.forEach((track) => track.stop());
         video.srcObject = null;
       }
-
 
       setLoading(true);
       setTmp(false);
@@ -218,7 +182,7 @@ useEffect(() => {
               setBdata(response.data.data);
               setLoading(false);
               history.push(
-                `/measurement-result/${pid}/${response.data.data.measurement_results[
+                `/measurement-result/${pid}/${gender}/${response.data.data.measurement_results[
                   "chest"
                 ].toFixed(2)}/${response.data.data.measurement_results[
                   "hip"
@@ -243,16 +207,72 @@ useEffect(() => {
           <div id="vid_container">
             <video id="video" ref={videoRef} autoPlay playsInline></video>
             <div id="video_overlay"></div>
+            {gender === "male" && loading && !svgFlag && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}>
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/camera-files%2Fman-front.svg?alt=media&token=1691acac-2285-4fd5-a492-cdee3a8fb187"
+                  alt="SVG"
+                  height="420px"
+                  width="420px"
+                />
+              </div>
+            )}
+            {gender === "male" && loading && svgFlag && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}>
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/camera-files%2Fman-side.svg?alt=media&token=1691acac-2285-4fd5-a492-cdee3a8fb187"
+                  alt="SVG"
+                  height="450px"
+                  width="450px"
+                />
+              </div>
+            )}
+            {gender === "female" && loading && !svgFlag && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}>
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/camera-files%2Fwoman-front.svg?alt=media&token=1691acac-2285-4fd5-a492-cdee3a8fb187"
+                  alt="SVG"
+                  height="420px"
+                  width="420px"
+                />
+              </div>
+            )}
+            {gender === "female" && loading && svgFlag && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}>
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/camera-files%2Fwoman-side.svg?alt=media&token=1691acac-2285-4fd5-a492-cdee3a8fb187"
+                  alt="SVG"
+                  height="450px"
+                  width="450px"
+                />
+              </div>
+            )}
           </div>
           <div id="gui_controls">
-            {/* {cameraCount > 1 && (
-              <button
-                id="switchCameraButton"
-                name="switch Camera"
-                type="button"
-                onClick={handleSwitch}
-                aria-pressed={cameraMode === "user" ? true : false}></button>
-            )} */}
             <button
               id="takePhotoButton"
               className="button_megic"
@@ -270,6 +290,7 @@ useEffect(() => {
           </div>
         </>
       )}
+
       {loading && !tmp && (
         <>
           <div className="loader-spin">
@@ -278,7 +299,6 @@ useEffect(() => {
         </>
       )}
 
-      {/* <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} /> */}
       <Toaster
         position="top-center"
         containerStyle={{

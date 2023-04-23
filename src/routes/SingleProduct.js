@@ -193,7 +193,8 @@ function SingleProduct() {
                     </div>
                   </div>
 
-                  <div className="single-pro-details">
+                  <div
+                    className="single-pro-details">
                     <Breadcrumb>
                       <Breadcrumb.Item>
                         <Link to={`/shop`}>
@@ -274,11 +275,11 @@ function SingleProduct() {
                       onChange={(event) => handleQty(event)}
                     />
                     <button
-                    type="submit"
-                    className="normal"
-                    onClick={handleMegicClick}>
-                    ABC
-                  </button>
+                      type="submit"
+                      className="normal"
+                      onClick={handleMegicClick}>
+                      ABC
+                    </button>
 
                     <button
                       type="submit"
