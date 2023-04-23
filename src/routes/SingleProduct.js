@@ -139,7 +139,7 @@ function SingleProduct() {
 
   const handleMegicClick = () => {
     // const token = localStorage.getItem("token");
-    history.push(`/megic`);
+    history.push(`/measurement-form/${product_id}`);
   };
 
   return (
@@ -273,12 +273,12 @@ function SingleProduct() {
                       value={prod_qty}
                       onChange={(event) => handleQty(event)}
                     />
-                    {/* <button
+                    <button
                     type="submit"
                     className="normal"
                     onClick={handleMegicClick}>
                     ABC
-                  </button> */}
+                  </button>
 
                     <button
                       type="submit"

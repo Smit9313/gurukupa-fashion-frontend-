@@ -1,4 +1,5 @@
 import React,{ useState } from 'react';
+import { useHistory } from "react-router-dom";
 import '../Style/featuredproduct.css';
 import { FrownOutlined } from "@ant-design/icons";
 import { Result } from "antd";
@@ -16,6 +17,7 @@ function FeaturedProduct({items,title,des}) {
     // const [searchTerm, setsearchTerm] = useState("");
     // const [productItems, setProductItems] = useState(items);
     const [pageNumber, setPageNumber] = useState(0);
+    const history = useHistory();
     
 
     const usersPerPage = 20;
@@ -41,7 +43,10 @@ function FeaturedProduct({items,title,des}) {
                 onMouseOver={(e) => (e.currentTarget.src = item.prod_image[1])}
               />
             </Link>
-            <div className="des">
+            <div
+              className="des"
+              style={{cursor:"pointer"}}
+              onClick={() => history.push(`/single-product/${item._id}`)}>
               <h5>{item.prod_name}</h5>
               <span className="des-text">{item.prod_desc}</span>
               <div className="star">

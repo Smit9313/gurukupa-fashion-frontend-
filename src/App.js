@@ -27,6 +27,8 @@ import StockReportPdf from "./admin panel/routes/Reports/StockReportPdf";
 import SupplierReportPdf from "./admin panel/routes/Reports/SupplierReportPdf";
 import SalesReportPdf from "./admin panel/routes/Reports/SalesReportPdf";
 import PurchaseReportPdf from "./admin panel/routes/Reports/PurchaseReportPdf";
+import BodyMeasurements from "./routes/BodyMeasurements";
+import MeasurementResult from "./routes/MeasurementResult";
 
 
 
@@ -72,8 +74,12 @@ function App() {
           <Route exact path="/footer" component={Footer} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/cart-products" component={CartProducts} />
-          <Route exact path="/megic" component={Megic} />
-          <Route exact path="/model" component={Model} />
+          {/* Measurement URL  */}
+          <Route exact path="/measurement-form/:pid" component={Megic} />
+          <Route exact path="/camera/:pid/:gender/:height/:weight" component={BodyMeasurements} />
+          <Route exact path="/measurement-result/:pid/:chest/:hip/:waist" component={MeasurementResult} />
+          {/* <Route exact path="/model" component={Model} /> */}
+
           <Route exact path="/forgotpassword" component={ForgotPassword} />
           <Route exact path="/resetpassword/:key" component={ChangePassword} />
           {user && role === "admin" && (
