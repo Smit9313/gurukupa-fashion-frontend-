@@ -763,6 +763,7 @@ function Checkout() {
                     <label htmlFor="promo-code">Have A Promo Code?</label>
                     <input
                       type="text"
+                      style={{textTransform: "uppercase"}}
                       onChange={(e) => setCoupenCode(e.target.value)}
                     />
 

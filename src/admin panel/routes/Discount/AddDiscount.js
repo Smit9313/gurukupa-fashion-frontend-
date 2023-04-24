@@ -320,7 +320,7 @@ function AddDiscount() {
               <p>Coupon code:</p>
               <TextField
                 label="coupen code"
-                value={coupen}
+                value={coupen.toUpperCase()}
                 onChange={(e) => setCoupen(e.target.value)}
                 size="small"
                 fullWidth={width}

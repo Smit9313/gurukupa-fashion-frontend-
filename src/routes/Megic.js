@@ -3,15 +3,14 @@ import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { Input, Radio, ConfigProvider } from "antd";
 import { Toaster, toast } from "react-hot-toast";
-import BodyMeasurements from "./BodyMeasurements";
 import Navbar from "../components/navbar/Navbar";
 import "../Style/megic.css";
+import Footer from "./Footer";
 
 function Megic() {
   const token = localStorage.getItem("token");
   const { pid } = useParams();
   const history = useHistory();
-  // console.log(pro_id.id);
 
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
@@ -52,6 +51,7 @@ function Megic() {
                   <p>Enter weight :</p>
                   <Input
                     type="number"
+                    min={1}
                     InputProps={{
                       inputProps: { min: 1 },
                     }}
@@ -63,6 +63,7 @@ function Megic() {
                   <p>Enter height :</p>
                   <Input
                     type="number"
+                    min={1}
                     InputProps={{
                       inputProps: { min: 1 },
                     }}
@@ -86,6 +87,36 @@ function Megic() {
                 <button onClick={(e) => handleNextForm(e)}>Next</button>
               </form>
             </div>
+            <div className="container1" style={{ marginTop: "20px", marginBottom:"50px" }}>
+              <div className="title">Instructions</div>
+              <br />
+              <p>
+                1. Find a well-lit area in your home with good lighting. This
+                will help ensure that the measurement is accurate.
+              </p>
+              <br />
+              <p>
+                2. Choose a clean background like a wall or door. Avoid patterns
+                or textures in the background as they can interfere with the
+                measurement.
+              </p>
+              <br />
+              <p>
+                3. Wear form-fitting or minimal clothing to ensure that the
+                measurement is as precise as possible.
+              </p>
+              <br />
+              <p>
+                4. Stand in front of the camera and follow the on-screen guide
+                to position yourself correctly.
+              </p>
+              <br />
+              <p>
+                5. Once the measurement is complete, select from the suggested
+                sizes to find the best fit.
+              </p>
+            </div>
+            <Footer />
           </ConfigProvider>
         </>
       ) : (
