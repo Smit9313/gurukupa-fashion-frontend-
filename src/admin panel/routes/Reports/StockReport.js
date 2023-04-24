@@ -163,7 +163,8 @@ function StockReport() {
           val["Product price"].toString().match(regex) ||
           val["Quantity"].toString().match(regex) ||
           val["Size"].match(regex) ||
-          val["Sub total"].toString().match(regex)
+          val["Sub total"].toString().match(regex) ||
+          val["prod_id"].match(regex)
         );
       });
       setFilteredProduct(result);

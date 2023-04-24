@@ -108,7 +108,20 @@
   padding: 12px;
   border-radius: 3px;
 }
+.normal{
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  /* margin-left: 80%; */
+  padding: 12px;
+  border-radius: 3px;
+}
 
+.normal:hover{
+   background-color: black;
+  color: white;
+}
 .single-pro-details > input {
   display: inline-block;
   width: 50px;

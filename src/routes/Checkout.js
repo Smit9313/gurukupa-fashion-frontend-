@@ -293,7 +293,8 @@ function Checkout() {
 
   const handlePayment = (e) => {
     e.preventDefault();
-
+    
+    console.log(mobile, isEmpty(mobile))
     if (isEmpty(mobile) || mobile.length < 10 || mobile.length > 10) {
       toast.error("Invalid mobile no.!", {
         duration: 3000,
@@ -326,10 +327,10 @@ function Checkout() {
             {
               add_id: addData._id,
               mobile_no: parseInt(mobile),
-              "Order-details": products.map((val, index) => ({
+            "Order-details": products.map((val, index) => ({
                 prod_id: val.prod_id,
                 prod_qty: {
-                  [val.size]: val.qty,
+                  [val.size.toUpperCase()]: val.qty,
                 },
               })),
               disc_id: discountData._id,
@@ -491,6 +492,7 @@ function Checkout() {
                           type="number"
                           size="small"
                           value={mobile}
+
                           onChange={(e) => setMobile(e.target.value)}
                           fullWidth={true}
                           // inputProps={{ readOnly: true }}

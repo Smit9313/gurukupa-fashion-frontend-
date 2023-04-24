@@ -87,12 +87,16 @@ function Home() {
           productData.map((element, index) => {
             console.log(element);
             return (
-              <div
-                id="prodetails-suggestion"
-                style={{ marginBotto: "10px!impotant" }}
-                key={index}>
-                <center>
-                  <h2>{element.cat_type}</h2>
+              <>
+                <div
+                  id="prodetails-suggestion"
+                  style={{ marginBottom: "20px!impotant" }}
+                  key={index}>
+                  <center>
+                    <h2>{element.cat_type}</h2>
+                  </center>
+
+                  <RelatedProduct items={element.Product} />
                   <Link
                     to={`/shop/${element.cat_type}`}
                     style={{
@@ -101,12 +105,15 @@ function Home() {
                       color: "black",
                       // marginLeft:"1200px"
                     }}>
-                    view more..
+                    {/* view more.. */}
+                    <center>
+                      <button className="normal">view more..</button>
+                    </center>
                   </Link>
-                </center>
-
-                <RelatedProduct items={element.Product} />
-              </div>
+                </div>
+                <br/>
+                <hr />
+              </>
             );
           })}
 

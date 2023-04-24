@@ -25,14 +25,12 @@ function PurchaseReport() {
   const token = localStorage.getItem("token");
   const headers = { Authorization: `Bearer ${token}` };
 
-
   function handleDateChange(dates) {
     setSelectedDates(dates);
   }
 
   const handleClick = async () => {
     if (!isEmpty(selectedDates)) {
-      
       var date1 = new Date(selectedDates[0].$d);
       var day1 = ("0" + date1.getDate()).slice(-2);
       var month1 = ("0" + (date1.getMonth() + 1)).slice(-2);
@@ -54,10 +52,14 @@ function PurchaseReport() {
 
       try {
         axios
-          .post(`${process.env.REACT_APP_API_HOST}/purchase-report/`, jsonData, {
-            headers,
-            // responseType: "blob",
-          })
+          .post(
+            `${process.env.REACT_APP_API_HOST}/purchase-report/`,
+            jsonData,
+            {
+              headers,
+              // responseType: "blob",
+            }
+          )
           .then((response) => {
             console.log(response);
             if (response.data.message === "Success!") {
@@ -136,84 +138,68 @@ function PurchaseReport() {
     },
   ];
 
-  const handleExcelClick = () =>{
-
+  const handleExcelClick = () => {
     const jsonData = {
       from_date: selectedDates[0].$d,
       until_date: selectedDates[1].$d,
     };
 
-      try {
-        axios
-          .post(
-            `${process.env.REACT_APP_API_HOST}/purchase-report-export/`,
-            jsonData,
-            {
-              headers: headers,
-              responseType: "blob",
-            }
-          )
-          .then((response) => {
-            console.log(response);
-            //  console.log(response.headers);
-            const contentDisposition = response.headers["content-disposition"];
-            //  console.log(contentDisposition);
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            //  console.log(url);
-            const link = document.createElement("a");
-            //  console.log(link);
-            link.href = url;
-            link.setAttribute(
-              "download",
-              contentDisposition.split(";")[1].split("=")[1].replaceAll('"', "")
-            );
-            document.body.appendChild(link);
-            link.click();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } catch (err) {
-        console.log("Error");
-      }
-  }
+    try {
+      axios
+        .post(
+          `${process.env.REACT_APP_API_HOST}/purchase-report-export/`,
+          jsonData,
+          {
+            headers: headers,
+            responseType: "blob",
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          //  console.log(response.headers);
+          const contentDisposition = response.headers["content-disposition"];
+          //  console.log(contentDisposition);
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          //  console.log(url);
+          const link = document.createElement("a");
+          //  console.log(link);
+          link.href = url;
+          link.setAttribute(
+            "download",
+            contentDisposition.split(";")[1].split("=")[1].replaceAll('"', "")
+          );
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log("Error");
+    }
+  };
 
-    // useEffect(() => {
-    //   if (!isEmpty(data)) {
-    //     const result = data.filter((val) => {
-    //       return (
-    //         val["Product name"].toLowerCase().match(search.toLowerCase()) ||
-    //         val["Supplier name"].toLowerCase().match(search.toLowerCase()) ||
-    //         val["Purchase date"].toLowerCase().match(search.toLowerCase()) ||
-    //         val["Category-type"].toString().match(search.toString()) ||
-    //         val["Category"].toLowerCase().match(search.toLowerCase())
-    //       );
-    //     });
-    //     setFilteredProduct(result);
-    //   }
-    // }, [search]);
-
-    
- useEffect(() => {
-   if (!isEmpty(data)) {
-     const escapedSearch = escapeRegExp(search);
-     const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
-     const result = data.filter((val) => {
-       return (
-         val["Category"].match(regex) ||
-         val["Category-type"].match(regex) ||
-         val["Product name"].match(regex) ||
-         val["Purchase date"].match(regex) ||
-         val["Purchase price"].toString().match(regex) ||
-         val["Quantity"].toString().match(regex) ||
-         val["Size"].match(regex) ||
-         val["Sub total"].toString().match(regex) ||
-         val["Supplier name"].match(regex) 
-       );
-     });
-     setFilteredProduct(result);
-   }
- }, [data, search]);
+  useEffect(() => {
+    if (!isEmpty(data)) {
+      const escapedSearch = escapeRegExp(search);
+      const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+      const result = data.filter((val) => {
+        return (
+          val["Category"].match(regex) ||
+          val["Category-type"].match(regex) ||
+          val["Product name"].match(regex) ||
+          val["Purchase date"].match(regex) ||
+          val["Purchase price"].toString().match(regex) ||
+          val["Quantity"].toString().match(regex) ||
+          val["Size"].match(regex) ||
+          val["Sub total"].toString().match(regex) ||
+          val["Supplier name"].match(regex) ||
+          val["prod_id"].match(regex)
+        );
+      });
+      setFilteredProduct(result);
+    }
+  }, [data, search]);
 
   return (
     <>

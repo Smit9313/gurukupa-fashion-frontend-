@@ -175,7 +175,8 @@ function SalesReport() {
            val["Product name"].match(regex) ||
            val["Product price"].toString().match(regex) ||
            val["Product size"].match(regex) ||
-           val["Total quantity"].toString().match(regex) 
+           val["Total quantity"].toString().match(regex) ||
+           val["prod_id"].match(regex)
          );
        });
        setFilteredProduct(result);
