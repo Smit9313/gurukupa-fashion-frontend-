@@ -764,7 +764,7 @@ function Profile() {
                   })}
               </div>
 
-              {!isEmpty(orderData) && (
+              {/* {!isEmpty(orderData) && (
                 <div className="profile-user-order">
                   <center>
                     <h4>Order details:</h4>
@@ -902,7 +902,7 @@ function Profile() {
                                       open={modalsVisible[index]}
                                       onOk={() => handleOk(index, value._id)}
                                       onCancel={handleCancel}>
-                                      {/* {console.log(rateValue)} */}
+                                      {/* {console.log(rateValue)} 
                                       {rateData.map((rate) => {
                                         return (
                                           <div className="rate-div">
@@ -914,7 +914,7 @@ function Profile() {
                                               />
                                               <p>{rate.prod_name}</p>
                                             </div>
-                                            {/* {console.log(rate)} */}
+                                            {/* {console.log(rate)} 
 
                                             {isEmpty(rate.date) && (
                                               <div className="rate-div-sub2">
@@ -955,9 +955,9 @@ function Profile() {
                   })}
                   <div className="space-order-product"></div>
                 </div>
-              )}
+              )} */}
 
-              <div className="profile-user-changePassword">
+              {/* <div className="profile-user-changePassword">
                 <center>
                   <h4>Change password:</h4>
                 </center>
@@ -1041,7 +1041,7 @@ function Profile() {
                     </div>
                   </form>
                 </div>
-              </div>
+              </div> */}
             </div>
           </ThemeProvider>
         </>

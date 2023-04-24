@@ -73,7 +73,8 @@ function StockReport() {
       selector: (row) => (
         <Link
           to={`/single-product/${row["prod_id"]}`}
-          className="remove-line-link" target="_blank">
+          className="remove-line-link"
+          target="_blank">
           {row["Product name"]}
         </Link>
       ),
@@ -149,25 +150,25 @@ function StockReport() {
     }
   };
 
-    useEffect(() => {
-      if (!isEmpty(data)) {
-        const escapedSearch = escapeRegExp(search);
-        const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
-        const result = data.filter((val) => {
-          return (
-            val["Category"].match(regex) ||
-            val["Category-type"].match(regex) ||
-            val["Product description"].match(regex) ||
-            val["Product name"].match(regex) ||
-            val["Product price"].toString().match(regex) ||
-            val["Quantity"].toString().match(regex) ||
-            val["Size"].match(regex) ||
-            val["Sub total"].toString().match(regex)
-          );
-        });
-        setFilteredProduct(result);
-      }
-    }, [data, search]);
+  useEffect(() => {
+    if (!isEmpty(data)) {
+      const escapedSearch = escapeRegExp(search);
+      const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+      const result = data.filter((val) => {
+        return (
+          val["Category"].match(regex) ||
+          val["Category-type"].match(regex) ||
+          val["Product description"].match(regex) ||
+          val["Product name"].match(regex) ||
+          val["Product price"].toString().match(regex) ||
+          val["Quantity"].toString().match(regex) ||
+          val["Size"].match(regex) ||
+          val["Sub total"].toString().match(regex)
+        );
+      });
+      setFilteredProduct(result);
+    }
+  }, [data, search]);
 
   return (
     <>

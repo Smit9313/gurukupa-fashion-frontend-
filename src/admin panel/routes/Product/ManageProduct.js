@@ -9,7 +9,7 @@ import { ConfigProvider } from "antd";
 import { message, Popconfirm } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import { isEmpty } from "lodash";
+import { isEmpty, escapeRegExp } from "lodash";
 import ClipLoader from "react-spinners/ClipLoader";
 
 function ManageProduct() {
@@ -223,12 +223,26 @@ function ManageProduct() {
     },
   ];
 
+
   useEffect(() => {
-    const result = product.filter((supp) => {
-      return supp.prod_name.toLowerCase().match(search.toLowerCase());
-    });
-    setFilteredProduct(result);
-  }, [search]);
+    if (!isEmpty(product)) {
+      const escapedSearch = escapeRegExp(search);
+      const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+      const result = product.filter((val) => {
+        return (
+          val["active"].toString().match(regex) ||
+          val["cat_title"].match(regex) ||
+          val["created_at"].match(regex) ||
+          val["prod_desc"].match(regex) ||
+          val["prod_name"].match(regex) ||
+          val["prod_price"].toString().match(regex)
+        );
+      });
+      setFilteredProduct(result);
+    }
+  }, [product, search]);
+
+
 
   return (
     <>

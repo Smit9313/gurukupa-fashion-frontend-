@@ -1,10 +1,8 @@
 import "./App.css";
 import React,{useState, useEffect } from "react";
-import Navbar from "./components/navbar/Navbar";
 import Home from "./routes/Home";
 import Shop from "./routes/Shop";
 import Contact from "./routes/Contact";
-import About from "./routes/About";
 import Login from "./routes/Login";
 import Footer from "./routes/Footer";
 import Register from "./routes/Register"
@@ -20,8 +18,6 @@ import ChangePassword from "./routes/ChangePassword";
 import jwtDecode from "jwt-decode";
 import Invoice from "./routes/Invoice";
 import Megic from "./routes/Megic";
-import Model from "./routes/Model";
-import { Mode } from "@mui/icons-material";
 import { CookiesProvider } from "react-cookie";
 import StockReportPdf from "./admin panel/routes/Reports/StockReportPdf";
 import SupplierReportPdf from "./admin panel/routes/Reports/SupplierReportPdf";
@@ -29,7 +25,8 @@ import SalesReportPdf from "./admin panel/routes/Reports/SalesReportPdf";
 import PurchaseReportPdf from "./admin panel/routes/Reports/PurchaseReportPdf";
 import BodyMeasurements from "./routes/BodyMeasurements";
 import MeasurementResult from "./routes/MeasurementResult";
-
+import ChangePasswordProfile from "./routes/ChangePasswordProfile";
+import MyOrder from "./routes/MyOrder";
 
 
 function App() {
@@ -69,7 +66,7 @@ function App() {
           />
           {/* <Route exact path="/about" component={About} /> */}
           <Route exact path="/contact" component={Contact} />
-          <Route exact path="/signup" component={Home} />
+          {/* <Route exact path="/signup" component={Home} /> */}
           <Route exact path="/login" component={Login} />
           <Route exact path="/footer" component={Footer} />
           <Route exact path="/register" component={Register} />
@@ -116,6 +113,8 @@ function App() {
             <>
               <Switch>
                 <Route path="/profile" component={Profile} />
+                <Route path="/change-password" component={ChangePasswordProfile} />
+                <Route path="/my-order" component={MyOrder} />
                 <Route exact path="/checkout" component={Checkout} />
                 <Route exact path="/invoice/:order_id" component={Invoice} />
                 <Route path="/*" component={Error} />

@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import { isEmpty, escapeRegExp } from "lodash";
 import { ConfigProvider } from "antd";
 import { message, Popconfirm } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,7 +33,7 @@ function ManageCategory() {
           headers,
         })
         .then((response) => {
-          // console.log(response)
+          // console.log(response);
           setLoading(false);
           setCatType(response.data.data);
           setFilteredCatType(response.data.data);
@@ -47,7 +48,7 @@ function ManageCategory() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/admin-category/`, { headers })
         .then((response) => {
-          //  console.log(response)
+          console.log(response);
           setLoading(false);
           setCategory(response.data.data);
           setFilteredCategory(response.data.data);
@@ -265,18 +266,33 @@ function ManageCategory() {
   ];
 
   useEffect(() => {
-    const result = catType.filter((type) => {
-      return type.cat_type.toLowerCase().match(search.toLowerCase());
-    });
-    setFilteredCatType(result);
-  }, [search]);
+    if (!isEmpty(catType)) {
+      const escapedSearch = escapeRegExp(search);
+      const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+      const result = catType.filter((val) => {
+        return (
+          val["cat_type"].match(regex) || val["active"].toString().match(regex)
+        );
+      });
+      setFilteredCatType(result);
+    }
+  }, [catType, search]);
 
   useEffect(() => {
-    const result = category.filter((type) => {
-      return type.cat_type.toLowerCase().match(searchCategory.toLowerCase());
-    });
-    setFilteredCategory(result);
-  }, [searchCategory]);
+    if (!isEmpty(category)) {
+      const escapedSearch = escapeRegExp(searchCategory);
+      const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+      const result = category.filter((val) => {
+        return (
+          val["cat_type"].match(regex) ||
+          val["active"].toString().match(regex) ||
+          val["cat_desc"].match(regex) ||
+          val["cat_title"].match(regex)
+        );
+      });
+      setFilteredCategory(result);
+    }
+  }, [category, searchCategory]);
 
   return (
     <>

@@ -190,8 +190,7 @@
   touch-action: manipulation;
 }
 
-.button-31:hover,
-.button-31:focus {
+.button-31:hover {
   opacity: 0.75;
 }
 

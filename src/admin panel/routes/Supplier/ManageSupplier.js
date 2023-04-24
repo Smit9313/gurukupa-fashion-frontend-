@@ -13,7 +13,6 @@ import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import ClipLoader from "react-spinners/ClipLoader";
 import { isEmpty, escapeRegExp } from "lodash";
 
-
 function ManageSuplier() {
   const history = useHistory();
   const [supplier, setSupplier] = useState([]);
@@ -31,7 +30,7 @@ function ManageSuplier() {
         .then((response) => {
           setLoading(false);
           setSupplier(response.data.data);
-          console.log(response.data.data)
+          console.log(response.data.data);
           setFilteredSupplier(response.data.data);
           setLoading(true);
         })
@@ -49,7 +48,9 @@ function ManageSuplier() {
 
     try {
       axios
-        .delete(`${process.env.REACT_APP_API_HOST}/admin-supplier/${supid}`, { headers })
+        .delete(`${process.env.REACT_APP_API_HOST}/admin-supplier/${supid}`, {
+          headers,
+        })
         .then((response) => {
           console.log(response);
           if (response.data.message === "Success!") {
@@ -176,21 +177,21 @@ function ManageSuplier() {
     },
   ];
 
-  // useEffect(() => {
-  //   const result = supplier.filter((supp) => {
-  //     return supp.name.toLowerCase().match(search.toLowerCase());
-  //   });
-  //   setFilteredSupplier(result);
-  // }, [search]);
-
   useEffect(() => {
     if (!isEmpty(supplier)) {
       const escapedSearch = escapeRegExp(search);
       const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
       const result = supplier.filter((val) => {
         return (
-          val["name"].match(regex)
-          
+          val["name"].match(regex) ||
+          val["area_street"].match(regex) ||
+          val["city"].match(regex) ||
+          val["email"].match(regex) ||
+          val["landmark"].match(regex) ||
+          val["mobile_no"].toString().match(regex) ||
+          val["pincode"].toString().match(regex) ||
+          val["shop_no"].match(regex) ||
+          val["state"].match(regex)
         );
       });
       setFilteredSupplier(result);

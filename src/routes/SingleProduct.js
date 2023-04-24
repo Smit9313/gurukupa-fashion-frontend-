@@ -17,6 +17,7 @@ import RelatedProduct from "../components/RelatedProduct";
 import { ShopOutlined } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Badge } from "antd";
 
 function SingleProduct() {
   // const [val,setVal] = useState(1);
@@ -193,8 +194,7 @@ function SingleProduct() {
                     </div>
                   </div>
 
-                  <div
-                    className="single-pro-details">
+                  <div className="single-pro-details">
                     <Breadcrumb>
                       <Breadcrumb.Item>
                         <Link to={`/shop`}>
@@ -274,13 +274,21 @@ function SingleProduct() {
                       value={prod_qty}
                       onChange={(event) => handleQty(event)}
                     />
-                    <button
-                      type="submit"
-                      className="normal"
-                      onClick={handleMegicClick}>
-                      ABC
-                    </button>
-
+                    <Badge
+                      count={"New"}
+                      offset={[-15, 0]}
+                      style={{
+                        color: "white",
+                        background: "black",
+                        borderRadius:"2px"
+                      }}>
+                      <button
+                        type="submit"
+                        className="normal"
+                        onClick={handleMegicClick}>
+                        Size Me Up
+                      </button>
+                    </Badge>
                     <button
                       type="submit"
                       className="normal"

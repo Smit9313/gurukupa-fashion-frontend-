@@ -4,13 +4,18 @@ import "./NavbarStyle.css";
 import jwtDecode from "jwt-decode";
 import { ConfigProvider, Badge } from "antd";
 import axios from "axios";
-import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Dropdown, message, Space, Tooltip } from "antd";
+import {
+  LogoutOutlined,
+  UserOutlined,
+  FormOutlined,
+  ShopOutlined,
+} from "@ant-design/icons";
+import { Dropdown, Space } from "antd";
 import { isEmpty } from "lodash";
 
 const UserContext = createContext();
 
-function Navbar({ navrender , closeNav }) {
+function Navbar({ navrender, closeNav }) {
   const history = useHistory();
   const [icon, setIcon] = useState(false);
   const [arrow, setArrow] = useState(true);
@@ -33,8 +38,18 @@ function Navbar({ navrender , closeNav }) {
       icon: <UserOutlined />,
     },
     {
-      label: "logout",
+      label: "My Order",
       key: "2",
+      icon: <ShopOutlined />,
+    },
+    {
+      label: "Change Password",
+      key: "3",
+      icon: <FormOutlined />,
+    },
+    {
+      label: "Logout",
+      key: "4",
       icon: <LogoutOutlined />,
     },
   ];
@@ -43,7 +58,13 @@ function Navbar({ navrender , closeNav }) {
     if (e.key === "1") {
       history.push("/profile");
     }
-    if (e.key === "2") {
+    if(e.key === "2"){
+      history.push("/my-order");
+    }
+    if (e.key === "3") {
+      history.push("/change-password");
+    }
+    if (e.key === "4") {
       localStorage.removeItem("token");
       history.push("/home");
       window.location.reload(true);
@@ -158,7 +179,6 @@ function Navbar({ navrender , closeNav }) {
     } catch (err) {}
 
     setIcon(false);
-    
   }, [navrender, closeNav]);
 
   return (
@@ -173,12 +193,7 @@ function Navbar({ navrender , closeNav }) {
               width="130px"
             />
           </Link>
-          <ul
-            className={
-              icon
-                ? "nav-menu active-mb"
-                : "nav-menu"
-            }>
+          <ul className={icon ? "nav-menu active-mb" : "nav-menu"}>
             <li>
               <NavLink
                 to="/home"

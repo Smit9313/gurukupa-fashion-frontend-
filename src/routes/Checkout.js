@@ -378,7 +378,7 @@ function Checkout() {
                           });
                           setNavChange(!navchange);
 
-                          history.push("/profile");
+                          history.push("/my-order");
                         }
                         console.log(dt);
                       });

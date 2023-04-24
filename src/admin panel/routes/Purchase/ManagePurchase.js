@@ -4,12 +4,10 @@ import Header from "../../components/Header";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import DataTable from "react-data-table-component";
-import { Toaster, toast } from "react-hot-toast";
-import { ConfigProvider } from "antd";
-import { message, Popconfirm } from "antd";
+import { isEmpty, escapeRegExp } from "lodash";
 import "../../Style/managepurchase.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import ClipLoader from "react-spinners/ClipLoader";
 
 function ManagePurchase() {
@@ -120,11 +118,18 @@ function ManagePurchase() {
   ];
 
    useEffect(() => {
-     const result = purchaseData.filter((supp) => {
-       return supp.supp_name.toLowerCase().match(search.toLowerCase());
-     });
-     setFilteredData(result);
-   }, [search]);
+     if (!isEmpty(purchaseData)) {
+       const escapedSearch = escapeRegExp(search);
+       const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+       const result = purchaseData.filter((val) => {
+         return (
+           val["date"].match(regex) ||
+           val["supp_name"].match(regex) 
+         );
+       });
+       setFilteredData(result);
+     }
+   }, [purchaseData, search]);
 
   return (
     <>
