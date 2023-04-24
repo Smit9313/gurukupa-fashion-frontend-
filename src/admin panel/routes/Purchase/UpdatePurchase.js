@@ -695,6 +695,9 @@ function UpdatePurchase() {
                                   size="small"
                                   name="qty"
                                   type="number"
+                                  InputProps={{
+                                    inputProps: { min: 1 },
+                                  }}
                                   sx={{ width: 100 }}
                                   style={{
                                     backgroundColor: "White",
@@ -726,6 +729,9 @@ function UpdatePurchase() {
                           name="purch_price"
                           size="small"
                           type="number"
+                          InputProps={{
+                            inputProps: { min: 1 },
+                          }}
                           sx={{ width: 200 }}
                           style={{
                             backgroundColor: "White",

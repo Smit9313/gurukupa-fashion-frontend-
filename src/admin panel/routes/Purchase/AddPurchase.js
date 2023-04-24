@@ -682,6 +682,9 @@ function AddPurchase() {
                             label="qty"
                             size="small"
                             name="qty"
+                            InputProps={{
+                              inputProps: { min: 1 },
+                            }}
                             type="number"
                             sx={{ width: 100 }}
                             style={{

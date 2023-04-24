@@ -95,25 +95,18 @@ function BodyMeasurements() {
     }
   };
 
-  const handleSwitch = () => {
-    if (cameraMode === "environment") {
-      setCameraMode("user");
-      console.log(cameraMode);
-    } else {
-      setCameraMode("environment");
-      console.log(cameraMode);
-    }
-  };
 
   const handleScreenshot = async () => {
     var sndClick = new Howl({ src: ["snd/click.mp3"] });
     sndClick.play();
     setSvgFlag(true);
+    const video = videoRef.current;
     const canvas = document.createElement("canvas");
-    // const video = videoRef.current;
-    canvas.width = 512;
-    canvas.height = 512;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
     const context = canvas.getContext("2d");
+
+
 
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
     const screenshot = await html2canvas(videoRef.current);
@@ -218,7 +211,7 @@ function BodyMeasurements() {
                 <img
                   src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/camera-files%2Fman-front.svg?alt=media&token=1691acac-2285-4fd5-a492-cdee3a8fb187"
                   alt="SVG"
-                  height="420px"
+                  height="500px"
                   width="420px"
                 />
               </div>
@@ -234,7 +227,7 @@ function BodyMeasurements() {
                 <img
                   src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/camera-files%2Fman-side.svg?alt=media&token=1691acac-2285-4fd5-a492-cdee3a8fb187"
                   alt="SVG"
-                  height="450px"
+                  height="500px"
                   width="450px"
                 />
               </div>
@@ -250,7 +243,7 @@ function BodyMeasurements() {
                 <img
                   src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/camera-files%2Fwoman-front.svg?alt=media&token=1691acac-2285-4fd5-a492-cdee3a8fb187"
                   alt="SVG"
-                  height="420px"
+                  height="500px"
                   width="420px"
                 />
               </div>
@@ -266,7 +259,7 @@ function BodyMeasurements() {
                 <img
                   src="https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/camera-files%2Fwoman-side.svg?alt=media&token=1691acac-2285-4fd5-a492-cdee3a8fb187"
                   alt="SVG"
-                  height="450px"
+                  height="500px"
                   width="450px"
                 />
               </div>

@@ -368,6 +368,9 @@ function UpdateDiscount() {
                     label="min order value"
                     type="number"
                     value={minValue}
+                    InputProps={{
+                      inputProps: { min: 1 },
+                    }}
                     onChange={(e) => setminValue(e.target.value)}
                     size="small"
                     fullWidth={width}
@@ -381,6 +384,9 @@ function UpdateDiscount() {
                     label="max discount amount"
                     size="small"
                     value={maxValue}
+                    InputProps={{
+                      inputProps: { min: 1 },
+                    }}
                     onChange={(e) => setmaxValue(e.target.value)}
                     type="number"
                     fullWidth={width}

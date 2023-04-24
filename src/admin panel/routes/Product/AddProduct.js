@@ -395,6 +395,9 @@ function AddProduct() {
                 label="price"
                 value={price}
                 type="number"
+                InputProps={{
+                  inputProps: { min: 1 },
+                }}
                 onChange={(e) => setPrice(e.target.value)}
                 size="small"
                 fullWidth={width}
@@ -405,19 +408,19 @@ function AddProduct() {
 
           <div className="add-suplier-sub1">
             {loading && (
-              <div style={{marginLeft:"40px"}}>
-              <LineWave
-                height="100"
-                width="100"
-                color="#000"
-                ariaLabel="line-wave"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-                firstLineColor=""
-                middleLineColor=""
-                lastLineColor=""
-              />
+              <div style={{ marginLeft: "40px" }}>
+                <LineWave
+                  height="100"
+                  width="100"
+                  color="#000"
+                  ariaLabel="line-wave"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                  firstLineColor=""
+                  middleLineColor=""
+                  lastLineColor=""
+                />
               </div>
             )}
             <div className="box box-qty ds-flex">

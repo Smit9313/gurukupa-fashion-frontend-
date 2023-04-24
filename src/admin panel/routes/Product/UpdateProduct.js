@@ -607,6 +607,9 @@ function UpdateProduct() {
                     label="price"
                     value={price}
                     type="number"
+                    InputProps={{
+                      inputProps: { min: 1 },
+                    }}
                     onChange={(e) => setPrice(e.target.value)}
                     size="small"
                     fullWidth={width}
