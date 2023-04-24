@@ -294,15 +294,24 @@ function Checkout() {
   const handlePayment = (e) => {
     e.preventDefault();
     
-    console.log(mobile, isEmpty(mobile))
-    if (isEmpty(mobile) || mobile.length < 10 || mobile.length > 10) {
+    console.log(
+      mobile,
+      isEmpty(mobile),
+      mobile.toString().length === 10,
+      addData._id !== ""
+    );
+    if (
+      mobile.toString().length === "" ||
+      mobile.length < 10 ||
+      mobile.length > 10
+    ) {
       toast.error("Invalid mobile no.!", {
         duration: 3000,
       });
     }
 
     if (
-      !isEmpty(mobile) &&
+      mobile.toString().length !== "" &&
       mobile.toString().length === 10 &&
       addData._id !== ""
     ) {
