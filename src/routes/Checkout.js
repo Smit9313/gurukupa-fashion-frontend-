@@ -235,7 +235,8 @@ function Checkout() {
               setPincode("");
               setState("");
               setCity("");
-              setUpdateDrop(true);
+              setUpdateDrop(!updateDrop);
+              setMobile(mobile);
 
               toast.success("Address added!");
 
@@ -297,7 +298,7 @@ function Checkout() {
   const handlePayment = (e) => {
     e.preventDefault();
 
-    console.log(mobile === "");
+    console.log(mobile);
     console.log(
       mobile,
       isEmpty(mobile),
@@ -305,7 +306,7 @@ function Checkout() {
       // addData._id !== ""
     );
 
-    if (mobile.toString().length !== "" && mobile.toString().length === 10) {
+    if ( mobile.toString().length !== "" && mobile.toString().length === 10) {
       setMobileFlag(false);
     } else {
       toast.error("Invalid mobile no.!", {

@@ -27,6 +27,13 @@ function Megic() {
         duration: 3000,
       });
     }
+
+  };
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 189 || e.keyCode === 109) {
+      // keyCode for '-' and '_'
+      e.preventDefault();
+    }
   };
 
   return (
@@ -55,7 +62,15 @@ function Megic() {
                     InputProps={{
                       inputProps: { min: 1 },
                     }}
-                    onChange={(e) => setWeight(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onChange={(e) => {
+                      if (
+                        e.target.value === "" ||
+                        parseFloat(e.target.value) >= 0
+                      ) {
+                        setWeight(e.target.value);
+                      }
+                    }}
                   />
                   <label>Kgs</label>
                 </div>
@@ -64,10 +79,18 @@ function Megic() {
                   <Input
                     type="number"
                     min={1}
+                    onKeyDown={handleKeyDown}
                     InputProps={{
                       inputProps: { min: 1 },
                     }}
-                    onChange={(e) => setHeight(e.target.value)}
+                    onChange={(e) => {
+                      if (
+                        e.target.value === "" ||
+                        parseFloat(e.target.value) >= 0
+                      ) {
+                        setHeight(e.target.value);
+                      }
+                    }}
                   />
                   <label>Cm</label>
                 </div>
@@ -87,7 +110,13 @@ function Megic() {
                 <button onClick={(e) => handleNextForm(e)}>Next</button>
               </form>
             </div>
-            <div className="container1" style={{ marginTop: "20px", marginBottom:"50px", padding:"23px" }}>
+            <div
+              className="container1"
+              style={{
+                marginTop: "20px",
+                marginBottom: "50px",
+                padding: "23px",
+              }}>
               <div className="title">Instructions</div>
               <br />
               <p>
