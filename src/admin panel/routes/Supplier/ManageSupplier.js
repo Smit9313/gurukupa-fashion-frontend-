@@ -11,6 +11,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import ClipLoader from "react-spinners/ClipLoader";
+import { isEmpty, escapeRegExp } from "lodash";
 
 
 function ManageSuplier() {
@@ -30,6 +31,7 @@ function ManageSuplier() {
         .then((response) => {
           setLoading(false);
           setSupplier(response.data.data);
+          console.log(response.data.data)
           setFilteredSupplier(response.data.data);
           setLoading(true);
         })
@@ -174,12 +176,26 @@ function ManageSuplier() {
     },
   ];
 
+  // useEffect(() => {
+  //   const result = supplier.filter((supp) => {
+  //     return supp.name.toLowerCase().match(search.toLowerCase());
+  //   });
+  //   setFilteredSupplier(result);
+  // }, [search]);
+
   useEffect(() => {
-    const result = supplier.filter((supp) => {
-      return supp.name.toLowerCase().match(search.toLowerCase());
-    });
-    setFilteredSupplier(result);
-  }, [search]);
+    if (!isEmpty(supplier)) {
+      const escapedSearch = escapeRegExp(search);
+      const regex = new RegExp(escapedSearch, "i"); // "i" flag for case-insensitive matching
+      const result = supplier.filter((val) => {
+        return (
+          val["name"].match(regex)
+          
+        );
+      });
+      setFilteredSupplier(result);
+    }
+  }, [supplier, search]);
 
   return (
     <>

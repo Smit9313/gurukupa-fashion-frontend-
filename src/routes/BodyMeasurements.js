@@ -6,7 +6,7 @@ import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Howl } from "howler";
-import { ReactSVG } from "react-svg";
+import { Button, Result } from 'antd';
 
 function BodyMeasurements() {
   const history = useHistory();
@@ -18,6 +18,7 @@ function BodyMeasurements() {
   const [bdata, setBdata] = useState();
   const [tmp, setTmp] = useState(true);
   const [cameraOn, setCameraOn] = useState(true);
+  const [fail, setFail] = useState(false);
 
   const [cameraMode, setCameraMode] = useState("environment");
 
@@ -100,16 +101,17 @@ function BodyMeasurements() {
     var sndClick = new Howl({ src: ["snd/click.mp3"] });
     sndClick.play();
     setSvgFlag(true);
-    const video = videoRef.current;
+    // const video = videoRef.current;
+    // video.height = 800;
+    // video.height = 600;
     const canvas = document.createElement("canvas");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = 512;
+    canvas.height = 512; 
     console.log(canvas.width,canvas.height);
     const context = canvas.getContext("2d");
 
 
-
-    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.width);
     const screenshot = await html2canvas(videoRef.current);
     console.log(screenshot);
     const dataURL = canvas.toDataURL("image/png");
@@ -184,6 +186,9 @@ function BodyMeasurements() {
                   "waist"
                 ].toFixed(2)}`
               );
+            }else{
+              setLoading(false);
+              setFail(true);
             }
           })
           .catch((error) => {
@@ -291,6 +296,18 @@ function BodyMeasurements() {
             <ClipLoader color="#000" />
           </div>
         </>
+      )}
+
+      {fail && (
+        <Result
+          status="warning"
+          title="There are some problems with your operation."
+          extra={
+            <Button type="primary" key="console">
+              Go Console
+            </Button>
+          }
+        />
       )}
 
       <Toaster

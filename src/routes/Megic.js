@@ -52,6 +52,9 @@ function Megic() {
                   <p>Enter weight :</p>
                   <Input
                     type="number"
+                    InputProps={{
+                      inputProps: { min: 1 },
+                    }}
                     onChange={(e) => setWeight(e.target.value)}
                   />
                   <label>Kgs</label>
@@ -60,6 +63,9 @@ function Megic() {
                   <p>Enter height :</p>
                   <Input
                     type="number"
+                    InputProps={{
+                      inputProps: { min: 1 },
+                    }}
                     onChange={(e) => setHeight(e.target.value)}
                   />
                   <label>Cm</label>
