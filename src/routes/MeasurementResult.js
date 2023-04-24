@@ -78,13 +78,13 @@ function MeasurementResult() {
             {waistSize >= 32 && waistSize <= 33 && <p>XL</p>}
             {waistSize >= 34 && waistSize <= 35 && <p>XXL</p>}
             <br />
-            <button
-              className="size-btn"
-              onClick={() => history.push(`/single-product/${pid}`)}>
-              Back to product page
-            </button>
           </>
         )}
+        <button
+          className="size-btn"
+          onClick={() => history.push(`/single-product/${pid}`)}>
+          Back to product page
+        </button>
       </div>
     </>
   );

@@ -4,16 +4,19 @@ import Footer from './Footer';
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { isEmpty } from "lodash";
-import { Drawer, Radio, Space, ConfigProvider } from "antd";
+import {  ConfigProvider } from "antd";
 import { Rate, Modal } from "antd";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Toaster, toast } from "react-hot-toast";
+import { Button, Result } from "antd";
+import { useHistory } from "react-router-dom";
 
 
 function MyOrder() {
 const [orderData, setOrderData] = useState();
 const [test, setTest] = useState();
 const [rateData, setrateData] = useState([]);
+const history = useHistory();
 
 const [modalsVisible, setModalsVisible] = useState();
 
@@ -154,9 +157,9 @@ const [modalsVisible, setModalsVisible] = useState();
   return (
     <>
       <Navbar />
-      {!isEmpty(orderData) && (
+      {!isEmpty(orderData) ? (
         <ThemeProvider theme={theme}>
-          <div className="profile-user-order" style={{marginTop:"100px"}}>
+          <div className="profile-user-order" style={{ marginTop: "100px" }}>
             <center>
               <h2>My Order</h2>
             </center>
@@ -343,6 +346,15 @@ const [modalsVisible, setModalsVisible] = useState();
             <div className="space-order-product"></div>
           </div>
         </ThemeProvider>
+      ) : (
+        <div style={{marginTop:"80px"}}>
+          <Result
+            status="404"
+            // title="404"
+            subTitle="No order found!"
+            extra={<Button type="primary" style={{color:"white",background:"black"}} onClick={()=> history.push("/home")}>Back Home</Button>}
+          />
+        </div>
       )}
       <Footer />
       <Toaster

@@ -87,7 +87,7 @@ function Megic() {
                 <button onClick={(e) => handleNextForm(e)}>Next</button>
               </form>
             </div>
-            <div className="container1" style={{ marginTop: "20px", marginBottom:"50px" }}>
+            <div className="container1" style={{ marginTop: "20px", marginBottom:"50px", padding:"23px" }}>
               <div className="title">Instructions</div>
               <br />
               <p>

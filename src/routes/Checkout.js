@@ -23,7 +23,7 @@ function Checkout() {
   const [pincode, setPincode] = useState("");
   const [pincodeError, setPincodeError] = useState(false);
   const [products, setProducts] = useState(undefined);
-  const [mobile, setMobile] = useState();
+  const [mobile, setMobile] = useState("");
   const [mobileFlag, setMobileFlag] = useState(false);
   const token = localStorage.getItem("token");
 
@@ -50,7 +50,7 @@ function Checkout() {
   const [discountData, setDiscountData] = useState("");
 
   const [coupenCode, setCoupenCode] = useState("");
-  const [eData,setEData] = useState();
+  const [eData, setEData] = useState();
 
   const showDrawer = (e) => {
     e.preventDefault();
@@ -137,27 +137,30 @@ function Checkout() {
           headers,
         })
         .then((response) => {
-          // console.log(response.data.data["Ship-add"]);
           console.log(response);
-          setUserData(response.data.data);
-          setMobile(response.data.data.mobile_no);
-          if (response.data.data["Ship-add"].length === 0) {
-            setDefaultAddress("");
-            setHouseNo1("");
-            setArea1("");
-            setAddtype1("");
-            setPincode1("");
-            setState1("");
-            setCity1("");
-          } else {
-            setDefaultAddress(response.data.data["Ship-add"][0]._id);
-            setAddData(response.data.data["Ship-add"][0]);
-            setHouseNo1(response.data.data["Ship-add"][0].house_no);
-            setArea1(response.data.data["Ship-add"][0].area_street);
-            setAddtype1(response.data.data["Ship-add"][0].add_type);
-            setPincode1(response.data.data["Ship-add"][0].pincode);
-            setState1(response.data.data["Ship-add"][0].state);
-            setCity1(response.data.data["Ship-add"][0].city);
+          if (response.data.message === "Success!") {
+            setUserData(response.data.data);
+
+            if (response.data.data["Ship-add"].length === 0) {
+              setMobile("");
+              setDefaultAddress("");
+              setHouseNo1("");
+              setArea1("");
+              setAddtype1("");
+              setPincode1("");
+              setState1("");
+              setCity1("");
+            } else {
+              setMobile(response.data.data.mobile_no);
+              setDefaultAddress(response.data.data["Ship-add"][0]._id);
+              setAddData(response.data.data["Ship-add"][0]);
+              setHouseNo1(response.data.data["Ship-add"][0].house_no);
+              setArea1(response.data.data["Ship-add"][0].area_street);
+              setAddtype1(response.data.data["Ship-add"][0].add_type);
+              setPincode1(response.data.data["Ship-add"][0].pincode);
+              setState1(response.data.data["Ship-add"][0].state);
+              setCity1(response.data.data["Ship-add"][0].city);
+            }
           }
         })
         .catch((error) => {
@@ -245,7 +248,7 @@ function Checkout() {
       } catch (err) {
         console.log("Error");
       }
-    }else{
+    } else {
       toast.error("Fill all details!", {
         duration: 3000,
       });
@@ -293,24 +296,34 @@ function Checkout() {
 
   const handlePayment = (e) => {
     e.preventDefault();
-    
+
+    console.log(mobile === "");
     console.log(
       mobile,
       isEmpty(mobile),
-      mobile.toString().length === 10,
-      addData._id !== ""
+      mobile.toString().length === 10
+      // addData._id !== ""
     );
-    if (
-      mobile.toString().length === "" ||
-      mobile.length < 10 ||
-      mobile.length > 10
-    ) {
+
+    if (mobile.toString().length !== "" && mobile.toString().length === 10) {
+      setMobileFlag(false);
+    } else {
       toast.error("Invalid mobile no.!", {
+        duration: 3000,
+      });
+      setMobileFlag(true);
+    }
+
+    if (!isEmpty(addData) && addData._id !== "") {
+    } else {
+      toast.error("Add address details.!", {
         duration: 3000,
       });
     }
 
+
     if (
+      !isEmpty(addData) &&
       mobile.toString().length !== "" &&
       mobile.toString().length === 10 &&
       addData._id !== ""
@@ -336,7 +349,7 @@ function Checkout() {
             {
               add_id: addData._id,
               mobile_no: parseInt(mobile),
-            "Order-details": products.map((val, index) => ({
+              "Order-details": products.map((val, index) => ({
                 prod_id: val.prod_id,
                 prod_qty: {
                   [val.size.toUpperCase()]: val.qty,
@@ -429,25 +442,8 @@ function Checkout() {
             } else if (
               response.data.message === "Something wrong with order."
             ) {
-              // let qty_flag = false;
-              // let name404 = "";
-              // let qty404 = "";
-
-              // products.forEach((element) => {
-              //   if (response.data.data.prod_id === element.prod_id) {
-              //     name404 = element.prod_name;
-              //     qty404 = response.data.data.available_qty;
-              //   }
-              // });
-              // // if (qty_flag === true) {
-              // toast.error(
-              //   `Availabel Quantity for product ${name404} is ${qty404}.`
-              // );
-              // // }
-
               console.log(response.data.data);
               setEData(response.data.data);
-
             } else {
               toast.error(response.data.message);
             }
@@ -458,8 +454,6 @@ function Checkout() {
       } catch (err) {
         console.log("Error");
       }
-    } else {
-      setMobileFlag(true);
     }
   };
 
@@ -501,7 +495,9 @@ function Checkout() {
                           type="number"
                           size="small"
                           value={mobile}
-
+                          InputProps={{
+                            inputProps: { min: 1 },
+                          }}
                           onChange={(e) => setMobile(e.target.value)}
                           fullWidth={true}
                           // inputProps={{ readOnly: true }}
@@ -763,7 +759,7 @@ function Checkout() {
                     <label htmlFor="promo-code">Have A Promo Code?</label>
                     <input
                       type="text"
-                      style={{textTransform: "uppercase"}}
+                      style={{ textTransform: "uppercase" }}
                       onChange={(e) => setCoupenCode(e.target.value)}
                     />
 
