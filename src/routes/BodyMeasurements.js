@@ -104,6 +104,7 @@ function BodyMeasurements() {
     const canvas = document.createElement("canvas");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
+    console.log(canvas.width,canvas.height);
     const context = canvas.getContext("2d");
 
 
