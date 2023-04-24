@@ -146,6 +146,15 @@
   background-color: black;
   color: white;
 }
+.normal_1{
+  display: none;
+}
+/* .ant-badge{
+  display: none;
+} */
+.ant-scroll-number{
+  display: none;
+}
 
 #prodetails .single-pro-details input:focus {
   outline: none;
@@ -249,10 +258,20 @@
   #product1 {
     padding: 0;
   }
-
+/* 
+  .ant-badge{
+  display: block;
+} */
+.ant-scroll-number{
+  display: block;
+}
   #prodetails{
     width: 90%;
     padding: 30px;
+  }
+
+  .normal_1{
+    display: block;
   }
 
   #MainImg {

@@ -274,21 +274,24 @@ function SingleProduct() {
                       value={prod_qty}
                       onChange={(event) => handleQty(event)}
                     />
-                    <Badge
-                      count={"New"}
-                      offset={[-15, 0]}
-                      style={{
-                        color: "white",
-                        background: "black",
-                        borderRadius:"2px"
-                      }}>
-                      <button
-                        type="submit"
-                        className="normal"
-                        onClick={handleMegicClick}>
-                        Size Me Up
-                      </button>
-                    </Badge>
+                    {(data.cat_type === "Men" || data.cat_type === "Women") && (
+                      <Badge
+                        count={"New"}
+                        offset={[-15, 0]}
+                        style={{
+                          color: "white",
+                          background: "black",
+                          borderRadius: "2px",
+                        }}>
+                        <button
+                          type="submit"
+                          className="normal normal_1"
+                          onClick={handleMegicClick}>
+                          Size Me Up
+                        </button>
+                      </Badge>
+                    )}
+
                     <button
                       type="submit"
                       className="normal"
