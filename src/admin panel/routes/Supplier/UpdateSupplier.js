@@ -338,6 +338,13 @@ function UpdateSupplier() {
               toast.error(" User not admin.!", {
                 duration: 3000,
               });
+            } else if (
+              response.data["message"] === "Supplier already exists."
+            ) {
+              setValid(false);
+              toast.error(response.data["message"], {
+                duration: 3000,
+              });
             } else {
               toast.error("Something wrong!", {
                 duration: 3000,
