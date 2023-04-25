@@ -142,7 +142,7 @@ function Checkout() {
             setUserData(response.data.data);
 
             if (response.data.data["Ship-add"].length === 0) {
-              setMobile("");
+              // setMobile("");
               setDefaultAddress("");
               setHouseNo1("");
               setArea1("");
@@ -151,7 +151,12 @@ function Checkout() {
               setState1("");
               setCity1("");
             } else {
-              setMobile(response.data.data.mobile_no);
+              // setMobile(response.data.data.mobile_no);
+              if (response.data.data.hasOwnProperty("mobile_no")) {
+                setMobile(response.data.data["mobile_no"]);
+              } else {
+                setMobile(mobile);
+              }
               setDefaultAddress(response.data.data["Ship-add"][0]._id);
               setAddData(response.data.data["Ship-add"][0]);
               setHouseNo1(response.data.data["Ship-add"][0].house_no);
@@ -236,7 +241,7 @@ function Checkout() {
               setState("");
               setCity("");
               setUpdateDrop(!updateDrop);
-              setMobile(mobile);
+              // setMobile(mobile);
 
               toast.success("Address added!");
 
@@ -306,7 +311,7 @@ function Checkout() {
       // addData._id !== ""
     );
 
-    if ( mobile.toString().length !== "" && mobile.toString().length === 10) {
+    if (mobile.toString().length !== "" && mobile.toString().length === 10) {
       setMobileFlag(false);
     } else {
       toast.error("Invalid mobile no.!", {
@@ -321,7 +326,6 @@ function Checkout() {
         duration: 3000,
       });
     }
-
 
     if (
       !isEmpty(addData) &&

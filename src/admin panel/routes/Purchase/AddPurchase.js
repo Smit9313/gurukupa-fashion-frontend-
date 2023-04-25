@@ -142,7 +142,7 @@ function AddPurchase() {
   const handleFormChangeSize = (event, index1, index) => {
     let data = [...productDetails];
     // console.log(event.target.name)
-    data[index].purch_qty[index1][event.target.name] = event.target.value;
+    data[index].purch_qty[index1][event.target.name] = event.target.value.toUpperCase();
     setProductDetails(data);
   };
 
@@ -752,7 +752,7 @@ function AddPurchase() {
       <Toaster
         position="top-center"
         containerStyle={{
-          top: 10,
+          top: 65,
         }}
         reverseOrder={true}
       />

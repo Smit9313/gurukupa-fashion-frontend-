@@ -216,7 +216,7 @@ function ManageDiscount() {
       <Toaster
         position="top-center"
         containerStyle={{
-          top: 10,
+          top: 65,
         }}
         reverseOrder={true}
         toastOptions={{

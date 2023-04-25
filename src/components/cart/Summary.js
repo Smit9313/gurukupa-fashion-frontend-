@@ -88,7 +88,7 @@ function Summary({
       <Toaster
         position="top-center"
         containerStyle={{
-          top: 70,
+          top: 65,
         }}
         reverseOrder={true}
       />
