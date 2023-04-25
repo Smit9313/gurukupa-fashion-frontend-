@@ -30,7 +30,7 @@ function Megic() {
 
   };
   const handleKeyDown = (e) => {
-    if (e.keyCode === 189 || e.keyCode === 109) {
+    if (e.keyCode === 189 || e.keyCode === 109 || e.key === '-' || e.key === '_') {
       // keyCode for '-' and '_'
       e.preventDefault();
     }
