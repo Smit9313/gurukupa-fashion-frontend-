@@ -264,7 +264,8 @@
   .ant-badge{
   display: block;
 } */
-.ant-scroll-number{
+
+.single-pro-details .ant-scroll-number{
   display: block;
 }
   #prodetails{
