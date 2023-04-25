@@ -149,10 +149,12 @@
 .normal_1{
   display: none;
 }
+
 /* .ant-badge{
   display: none;
 } */
-.ant-scroll-number{
+
+.single-pro-details .ant-scroll-number{
   display: none;
 }
 
