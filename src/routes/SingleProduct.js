@@ -29,7 +29,7 @@ function SingleProduct() {
   const [data, setData] = useState("");
   const [prod_qty, setProd_qty] = useState(1);
   const [prod_size, setProd_size] = useState();
-  const [isUser, setisUser] = useState("");
+  // const [isUser, setisUser] = useState("");
   const [selectSize, setSelectSize] = useState(false);
   const [navrender, setNavRender] = useState(true);
   const [relatedProduct, setrelatedProduct] = useState("");

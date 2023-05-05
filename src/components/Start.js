@@ -5,8 +5,7 @@ import {Link} from 'react-router-dom';
 
 function Start(props) {
   return (
-    <>
-          
+    <>    
     <div className={props.cName}>
           <div className='hero-text'>
             <h1>

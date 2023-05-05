@@ -37,6 +37,7 @@ font-weight: 600;
     font-family: 'Montserrat';
     /* font-family: 'Futura'; */
     /* letter-spacing: 0.1px; */
+    
 
 }
 
@@ -47,6 +48,7 @@ font-weight: 600;
     /* background-color: #f5f6fa; */
     /* background-color: #F8F9FA; */
     background-color: white;
+    cursor: url('https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/site_images%2Fcursor.svg?alt=media&token=6dc9fae2-1c33-4454-b1bf-fedc9690761d'), auto;
 }
 
 input:disabled {
@@ -56,4 +58,18 @@ input:disabled {
 .remove-line-link{
   /* text-decoration: none; */
   color: rgb(28, 20, 57);
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #9191917a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  /* border-radius: 5px; */
 }
