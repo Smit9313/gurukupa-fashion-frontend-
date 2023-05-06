@@ -18,6 +18,8 @@ import { ShopOutlined } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Badge } from "antd";
+import 'lightbox.js-react/dist/index.css'
+import {SlideshowLightbox, initLightboxJS} from 'lightbox.js-react'
 
 function SingleProduct() {
   // const [val,setVal] = useState(1);
@@ -159,30 +161,31 @@ function SingleProduct() {
                       width="100%"
                       id="MainImg"
                       alt=""
-                      className="animate__animated animate__zoomIn"
+                      className="animate__animated animate__zoomIn w-full rounded"
                     />
 
                     <div className="small-img-group">
-                      <div className="small-img-col">
+                    <SlideshowLightbox theme="lightbox" className="small-img-group">
+                      {/* <div className="small-img-col"> */}
                         <img
                           src={data.prod_image[0]}
                           width="100%"
-                          className="small-img animate__animated animate__zoomIn"
+                          className="small-img animate__animated animate__zoomIn w-full rounded"
                           alt=""
                           onClick={() => setUrl(data.prod_image[0])}
                         />
-                      </div>
+                      {/* </div> */}
 
-                      <div className="small-img-col">
+                      {/* <div className="small-img-col"> */}
                         <img
                           src={data.prod_image[1]}
-                          className="small-img animate__animated animate__zoomIn"
+                          className="small-img animate__animated animate__zoomIn w-full rounded"
                           alt=""
                           onClick={() => setUrl(data.prod_image[1])}
                         />
-                      </div>
+                      {/* </div> */}
 
-                      <div className="small-img-col">
+                      {/* <div className="small-img-col"> */}
                         <img
                           src={data.prod_image[2]}
                           width="100%"
@@ -190,7 +193,8 @@ function SingleProduct() {
                           alt=""
                           onClick={() => setUrl(data.prod_image[2])}
                         />
-                      </div>
+                      {/* </div> */}
+                      </SlideshowLightbox> 
                     </div>
                   </div>
 
