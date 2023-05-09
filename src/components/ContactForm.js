@@ -24,10 +24,6 @@ function ContactForm() {
   const [messageFlag, setMessageFlag] = useState(false);
 
 
-  const [error, setError] = useState("");
-  const [errorFlag, setErrorFlag] = useState(false);
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
 

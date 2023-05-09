@@ -1,14 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Bigelow+Rules&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,600&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Sono:wght@200&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@1,300&family=Sono:wght@200&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100&family=Roboto+Condensed:ital,wght@1,300&family=Sono:wght@200&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Slabo+27px&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Roboto:wght@500&family=Slabo+27px&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Raleway:wght@500&family=Roboto:wght@500&family=Slabo+27px&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap');
 
 
 
@@ -31,22 +21,11 @@ font-weight: 600;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* font-family: 'Roboto', sans-serif;  */
-    /* font-family: 'Bigelow Rules', cursive; */
-    /* font-family: 'Sono', sans-serif;  */
     font-family: 'Montserrat';
-    /* font-family: 'Futura'; */
-    /* letter-spacing: 0.1px; */
-    
-
 }
 
 .App {
-    /* font-family: sans-serif; */
-    /* text-align: center; */
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-    /* background-color: #f5f6fa; */
-    /* background-color: #F8F9FA; */
     background-color: white;
     cursor: url('https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/site_images%2Fcursor.svg?alt=media&token=6dc9fae2-1c33-4454-b1bf-fedc9690761d'), auto;
 }
@@ -56,7 +35,6 @@ input:disabled {
 }
 
 .remove-line-link{
-  /* text-decoration: none; */
   color: rgb(28, 20, 57);
 }
 

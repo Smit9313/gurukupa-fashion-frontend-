@@ -37,20 +37,14 @@
 }
 
 #MainImg {
-  /* border-radius: 10px; */
   height: 450px;
   width: 335px;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
-#MainImg:hover {
-  /* border: 0.001rem solid black; */
-  /* box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; */
-}
 
 .small-img {
   height: 130px;
-  /* border-radius: 10px; */
   width: 105px;
   margin-right: 10px;
 }
@@ -86,9 +80,7 @@
 #prodetails .single-pro-details input {
   width: 50px;
   height: 44px;
-  /* padding-left: 10px; */
   font-size: 16px;
-  /* margin-right: 10px; */
 }
 
 #prodetails .single-pro-details h1 {
@@ -114,7 +106,6 @@
   font-size: 15px;
   border: none;
   cursor: pointer;
-  /* margin-left: 80%; */
   padding: 12px;
   border-radius: 3px;
 }
@@ -130,7 +121,6 @@
   margin-right: 10px;
   margin-left: 10px;
   position: relative;
-  /* left: calc(50% - 30px); */
   background: #fff;
   border: 2px solid #5c5b5b;
   color: #595959;
@@ -150,10 +140,6 @@
 .normal_1{
   display: none;
 }
-
-/* .ant-badge{
-  display: none;
-} */
 
 .single-pro-details .ant-scroll-number{
   display: none;
@@ -181,8 +167,6 @@
   color: #333333;
   cursor: pointer;
   display: inline-block;
-  /* font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
-    sans-serif; */
   font-size: 14px;
   font-weight: 520;
   line-height: 20px;
@@ -213,8 +197,6 @@
   color: #333333;
   cursor: pointer;
   display: inline-block;
-  /* font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
-    sans-serif; */
   font-size: 14px;
   font-weight: 520;
   line-height: 20px;
@@ -280,7 +262,6 @@
 
   #MainImg {
     height: 450px;
-    /* margin-left: 22px; */
   }
 
   #prodetails {
@@ -293,19 +274,14 @@
 
   #prodetails .single-pro-image {
     width: 370px;
-    /* margin-right: 0; */
   }
 
   #prodetails .single-pro-details {
     width: 350px;
-    /* margin-left: 10px; */
   }
 
   .small-img {
     height: 120px;
-  }
-  .small-img-group {
-    /* margin-left: 23px; */
   }
   .small-img-col img {
     margin-right: 10px;

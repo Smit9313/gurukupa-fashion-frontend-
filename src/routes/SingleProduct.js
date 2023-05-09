@@ -6,23 +6,25 @@ import Footer from "./Footer";
 import Navbar from "../components/navbar/Navbar";
 import axios from "axios";
 import { FrownOutlined } from "@ant-design/icons";
-import { Result } from "antd";
-import { Button } from "antd";
-import { ConfigProvider, Radio } from "antd";
+import {
+  Result,
+  Button,
+  ConfigProvider,
+  Radio,
+  Rate,
+  Badge,
+  Breadcrumb,
+} from "antd";
 import { Toaster, toast } from "react-hot-toast";
 import { isEmpty } from "lodash";
-import { Rate } from "antd";
 import jwtDecode from "jwt-decode";
 import RelatedProduct from "../components/RelatedProduct";
 import { ShopOutlined } from "@ant-design/icons";
-import { Breadcrumb } from "antd";
 import ClipLoader from "react-spinners/ClipLoader";
-import { Badge } from "antd";
-import 'lightbox.js-react/dist/index.css'
-import {SlideshowLightbox, initLightboxJS} from 'lightbox.js-react'
+import "lightbox.js-react/dist/index.css";
+import { SlideshowLightbox } from "lightbox.js-react";
 
 function SingleProduct() {
-  // const [val,setVal] = useState(1);
   const [url, setUrl] = useState("cloths/1.jpg");
   let { product_id } = useParams();
   const history = useHistory();
@@ -31,7 +33,6 @@ function SingleProduct() {
   const [data, setData] = useState("");
   const [prod_qty, setProd_qty] = useState(1);
   const [prod_size, setProd_size] = useState();
-  // const [isUser, setisUser] = useState("");
   const [selectSize, setSelectSize] = useState(false);
   const [navrender, setNavRender] = useState(true);
   const [relatedProduct, setrelatedProduct] = useState("");
@@ -148,7 +149,6 @@ function SingleProduct() {
   return (
     <>
       <Navbar navrender={navrender} closeNav={navClose} />
-      {/* <Start cName="hero-singleproduct"/> */}
       <div onClick={() => setNavClose(!navClose)}>
         {loading ? (
           <>
@@ -165,8 +165,11 @@ function SingleProduct() {
                     />
 
                     <div className="small-img-group">
-                    <SlideshowLightbox theme="lightbox" className="small-img-group">
-                      {/* <div className="small-img-col"> */}
+                      <SlideshowLightbox
+                        theme="lightbox"
+                        className="small-img-group"
+                      >
+                        {/* <div className="small-img-col"> */}
                         <img
                           src={data.prod_image[0]}
                           width="100%"
@@ -174,18 +177,18 @@ function SingleProduct() {
                           alt=""
                           onClick={() => setUrl(data.prod_image[0])}
                         />
-                      {/* </div> */}
+                        {/* </div> */}
 
-                      {/* <div className="small-img-col"> */}
+                        {/* <div className="small-img-col"> */}
                         <img
                           src={data.prod_image[1]}
                           className="small-img animate__animated animate__zoomIn w-full rounded"
                           alt=""
                           onClick={() => setUrl(data.prod_image[1])}
                         />
-                      {/* </div> */}
+                        {/* </div> */}
 
-                      {/* <div className="small-img-col"> */}
+                        {/* <div className="small-img-col"> */}
                         <img
                           src={data.prod_image[2]}
                           width="100%"
@@ -193,8 +196,8 @@ function SingleProduct() {
                           alt=""
                           onClick={() => setUrl(data.prod_image[2])}
                         />
-                      {/* </div> */}
-                      </SlideshowLightbox> 
+                        {/* </div> */}
+                      </SlideshowLightbox>
                     </div>
                   </div>
 
@@ -235,7 +238,8 @@ function SingleProduct() {
                               colorPrimaryHover: "#000",
                             },
                           },
-                        }}>
+                        }}
+                      >
                         <Radio.Group
                           buttonStyle="solid"
                           onChange={(value) => {
@@ -245,7 +249,8 @@ function SingleProduct() {
                             } else {
                               setSelectSize(false);
                             }
-                          }}>
+                          }}
+                        >
                           {!isEmpty(data.prod_qty) &&
                             Object.keys(data.prod_qty).map((qty, index) => {
                               return (
@@ -286,11 +291,13 @@ function SingleProduct() {
                           color: "white",
                           background: "black",
                           borderRadius: "2px",
-                        }}>
+                        }}
+                      >
                         <button
                           type="submit"
                           className="normal normal_1"
-                          onClick={handleMegicClick}>
+                          onClick={handleMegicClick}
+                        >
                           Size Me Up
                         </button>
                       </Badge>
@@ -299,7 +306,8 @@ function SingleProduct() {
                     <button
                       type="submit"
                       className="normal"
-                      onClick={handleAddToCart}>
+                      onClick={handleAddToCart}
+                    >
                       Add to cart
                     </button>
 
@@ -339,14 +347,16 @@ function SingleProduct() {
                           colorPrimary: "#000",
                         },
                       },
-                    }}>
+                    }}
+                  >
                     <Result
                       icon={<FrownOutlined style={{ color: "#000" }} />}
                       title="No products found!"
                       extra={
                         <Button
                           type="primary"
-                          onClick={() => window.location.reload(true)}>
+                          onClick={() => window.location.reload(true)}
+                        >
                           Refresh
                         </Button>
                       }
