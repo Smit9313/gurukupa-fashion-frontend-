@@ -61,7 +61,7 @@ function PurchaseReport() {
             }
           )
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             if (response.data.message === "Success!") {
               setData(response.data.data);
               setFilteredProduct(response.data.data);
@@ -71,10 +71,10 @@ function PurchaseReport() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {
-        console.log("Error");
+        // console.log("Error");
       }
     } else {
       toast.error("Select date!", {
@@ -155,14 +155,14 @@ function PurchaseReport() {
           }
         )
         .then((response) => {
-          console.log(response);
-          //  console.log(response.headers);
+          // console.log(response);
+          //  // console.log(response.headers);
           const contentDisposition = response.headers["content-disposition"];
-          //  console.log(contentDisposition);
+          //  // console.log(contentDisposition);
           const url = window.URL.createObjectURL(new Blob([response.data]));
-          //  console.log(url);
+          //  // console.log(url);
           const link = document.createElement("a");
-          //  console.log(link);
+          //  // console.log(link);
           link.href = url;
           link.setAttribute(
             "download",
@@ -172,10 +172,10 @@ function PurchaseReport() {
           link.click();
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
 

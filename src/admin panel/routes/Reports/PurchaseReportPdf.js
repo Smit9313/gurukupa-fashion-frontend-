@@ -31,15 +31,15 @@ function PurchaseReportPdf() {
           // responseType: "blob",
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           setData(response.data.data);
-          //  console.log(response.headers);
+          //  // console.log(response.headers);
           const contentDisposition = response.headers["content-disposition"];
-          //  console.log(contentDisposition);
+          //  // console.log(contentDisposition);
           const url = window.URL.createObjectURL(new Blob([response.data]));
-          //  console.log(url);
+          //  // console.log(url);
           const link = document.createElement("a");
-          //  console.log(link);
+          //  // console.log(link);
           link.href = url;
           link.setAttribute(
             "download",
@@ -49,10 +49,10 @@ function PurchaseReportPdf() {
           link.click();
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }, [id]);
 
@@ -91,7 +91,7 @@ function PurchaseReportPdf() {
                     <p className="tm_invoice_date tm_m0 mar-b">
                       <b className="tm_primary_color">
                         {/* {data.order_date.substring(0, 10)} */}
-                        {console.log(date)}
+                    
                         {/* Sales Report : */}
                         {date}
                       </b>

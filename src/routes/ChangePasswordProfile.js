@@ -27,7 +27,7 @@ function ChangePasswordProfile() {
      const handleChangePassword = (e) => {
        e.preventDefault();
 
-       console.log(oldpassword, password, conPassword);
+       // console.log(oldpassword, password, conPassword);
 
        /****** Old password *******/
 
@@ -122,7 +122,7 @@ function ChangePasswordProfile() {
                }
              )
              .then((response) => {
-               console.log(response.data.message);
+               // console.log(response.data.message);
                if (response.data.message === "Success!") {
                  toast.success("password changed successfully!", {
                    duration: 3000,
@@ -140,10 +140,10 @@ function ChangePasswordProfile() {
                }
              })
              .catch((error) => {
-               console.log(error);
+               // console.log(error);
              });
          } catch (err) {
-           console.log("Error");
+           // console.log("Error");
          }
        }
      };

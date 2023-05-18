@@ -161,7 +161,7 @@ function AddAdmin() {
       !minPassLength &&
       !maxPassLength
     ) {
-      console.log("Valid");
+      // console.log("Valid");
       axios
         .post(`${process.env.REACT_APP_API_HOST}/signup/`, {
           name: name,

@@ -30,18 +30,18 @@ function ManageSuplier() {
         .then((response) => {
           setLoading(false);
           setSupplier(response.data.data);
-          console.log(response.data.data);
+          // console.log(response.data.data);
           setFilteredSupplier(response.data.data);
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [deleteFlag]);
 
   const confirm = (supid) => {
-    console.log(supid);
+    // console.log(supid);
 
     const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
@@ -52,7 +52,7 @@ function ManageSuplier() {
           headers,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             message.success("deleted successfully!");
             setDeleteFlag(!deleteFlag);
@@ -63,14 +63,14 @@ function ManageSuplier() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
   const cancel = (e) => {
-    console.log(e);
+    // console.log(e);
     message.error("Click on No");
   };
 

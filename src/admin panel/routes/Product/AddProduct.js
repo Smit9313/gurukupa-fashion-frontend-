@@ -90,7 +90,7 @@ function AddProduct() {
           { headers }
         )
         .then((response) => {
-          //  console.log(response.data.data);
+          //  // console.log(response.data.data);
           setCat_Data(
             response.data.data.map(({ cat_type, _id }) => ({
               label: cat_type,
@@ -99,7 +99,7 @@ function AddProduct() {
           );
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [cat_typeflag]);
@@ -124,12 +124,12 @@ function AddProduct() {
       return !isJpgOrPng && !isLt2M;
     },
   };
-  //  console.log(images)
+  //  // console.log(images)
 
   const handleProduct = async (e) => {
     e.preventDefault();
 
-    console.log(images)
+    // console.log(images)
     const formData = new FormData();
     images.map(async (file, index) => {
       formData.append(index, file.originFileObj, file?.name);
@@ -245,7 +245,7 @@ function AddProduct() {
             },
           })
           .then((response) => {
-            console.log(response.data.message);
+            // console.log(response.data.message);
             if (response.data.message === "Success!") {
               
               toast.success("Product added!", {
@@ -264,7 +264,7 @@ function AddProduct() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
     }
@@ -296,7 +296,7 @@ function AddProduct() {
                 placeholder="Search to Select"
                 // value={}
                 onChange={(value1) => {
-                  // console.log(value1);
+                  // // console.log(value1);
                   setCatType(value1);
 
                   const token = localStorage.getItem("token");
@@ -310,7 +310,7 @@ function AddProduct() {
                         { headers }
                       )
                       .then((response) => {
-                        console.log(response.data.data.Category);
+                        // console.log(response.data.data.Category);
                         setSub_Data(
                           response.data.data.Category.map(
                             ({ cat_title, cat_id }) => ({
@@ -321,7 +321,7 @@ function AddProduct() {
                         );
                       })
                       .catch((error) => {
-                        console.log(error);
+                        // console.log(error);
                       });
                   } catch (err) {}
                 }}
@@ -369,7 +369,7 @@ function AddProduct() {
                 defaultChecked
                 // checked={true}
                 onChange={(e) => {
-                  console.log(e.target.checked);
+                  // console.log(e.target.checked);
                   setActive(e.target.checked);
                 }}
               />

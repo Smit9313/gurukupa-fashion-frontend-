@@ -28,7 +28,7 @@ function CartPage() {
         .then((response) => {
           if (response.data.message === "Success!") {
             setProducts(response.data.data);
-            console.log(response.data);
+            // console.log(response.data);
           } else if (
             response.data.message === "Token corrupted." ||
             response.data.message === "Cart is empty." ||
@@ -39,7 +39,7 @@ function CartPage() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -94,10 +94,10 @@ function CartPage() {
           { headers }
         )
         .then((response) => {
-          //  console.log(response);
+          //  // console.log(response);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   };
@@ -124,10 +124,10 @@ function CartPage() {
           { headers }
         )
         .then((response) => {
-          //  console.log(response);
+          //  // console.log(response);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   };
@@ -157,7 +157,7 @@ function CartPage() {
           setNavRender(!navrender);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   };

@@ -137,7 +137,7 @@ function Checkout() {
           headers,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setUserData(response.data.data);
 
@@ -169,7 +169,7 @@ function Checkout() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [updateDrop]);
@@ -183,7 +183,7 @@ function Checkout() {
         .then((response) => {
           if (response.data.message === "Success!") {
             setProducts(response.data.data);
-            // console.log(response.data);
+            // // console.log(response.data);
           } else if (
             response.data.message === "Token corrupted." ||
             response.data.message === "Cart is empty." ||
@@ -194,7 +194,7 @@ function Checkout() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [navchange]);
@@ -204,7 +204,7 @@ function Checkout() {
   const handleNewAddress = (e) => {
     e.preventDefault();
 
-    // console.log(houseno,area,addtype,pincode,state,city)
+    // // console.log(houseno,area,addtype,pincode,state,city)
     if (
       houseno !== "" &&
       area !== "" &&
@@ -231,7 +231,7 @@ function Checkout() {
             { headers }
           )
           .then((response) => {
-            console.log(response.data.message);
+            // console.log(response.data.message);
 
             if (response.data.message === "Success!") {
               setHouseNo("");
@@ -249,10 +249,10 @@ function Checkout() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {
-        console.log("Error");
+        // console.log("Error");
       }
     } else {
       toast.error("Fill all details!", {
@@ -280,7 +280,7 @@ function Checkout() {
           }
         )
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setDiscountData(response.data.data);
             toast.success("Coupen code applied!", {
@@ -293,23 +293,18 @@ function Checkout() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
 
   const handlePayment = (e) => {
     e.preventDefault();
 
-    console.log(mobile);
-    console.log(
-      mobile,
-      isEmpty(mobile),
-      mobile.toString().length === 10
-      // addData._id !== ""
-    );
+    // console.log(mobile);
+   
 
     if (mobile.toString().length !== "" && mobile.toString().length === 10) {
       setMobileFlag(false);
@@ -369,7 +364,7 @@ function Checkout() {
             }
           )
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             if (response.data.message === "Success!") {
               var options = {
                 key: "rzp_test_Cl1G7wgRpRqdBD",
@@ -386,7 +381,7 @@ function Checkout() {
                   contact: response.data.data.mobile_no,
                 },
                 handler: async function (response1) {
-                  console.log(response1);
+                  // console.log(response1);
                   // response1.push({"order_id":response.data.data.order_id})
                   response1.order_id = response.data.data.order_id;
 
@@ -408,10 +403,10 @@ function Checkout() {
 
                           history.push("/my-order");
                         }
-                        console.log(dt);
+                        // console.log(dt);
                       });
                   } catch (error) {
-                    console.log(error);
+                    // console.log(error);
                   }
                 },
                 theme: {
@@ -420,7 +415,7 @@ function Checkout() {
               };
               const rzpay = new Razorpay(options);
               rzpay.on("payment.failed", function (response2) {
-                console.log(response2);
+                // console.log(response2);
                 response2.error.metadata.ord_id = response.data.data.order_id;
                 let dataError = response2.error.metadata;
                 try {
@@ -440,24 +435,24 @@ function Checkout() {
                       }
                     });
                 } catch (error) {
-                  console.log(error);
+                  // console.log(error);
                 }
               });
               rzpay.open();
             } else if (
               response.data.message === "Something wrong with order."
             ) {
-              console.log(response.data.data);
+              // console.log(response.data.data);
               setEData(response.data.data);
             } else {
               toast.error(response.data.message);
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {
-        console.log("Error");
+        // console.log("Error");
       }
     }
   };

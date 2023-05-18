@@ -28,7 +28,7 @@ function ContactForm() {
     e.preventDefault();
 
     /*************** Name *************/
-    // console.log(name);
+    // // console.log(name);
     let nameNull = name.trim() === "";
     // let nameNotNull = name.trim() !== "";
     // let minNameLength = name.trim().length < 6;
@@ -49,7 +49,7 @@ function ContactForm() {
     }
 
     /*************** Email *************/
-    // console.log(email);
+    // // console.log(email);
     const email_pattern =
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     let emailNull = email.trim() === "";
@@ -70,7 +70,7 @@ function ContactForm() {
     }
 
     /*************** Subject *************/
-    // console.log(subject);
+    // // console.log(subject);
     if (subject === "") {
       setSubjectFlag(false);
       setSubjectError("Subject should not be blank!.");
@@ -114,7 +114,7 @@ function ContactForm() {
             { headers }
           )
           .then((response) => {
-            console.log(response)
+            // console.log(response)
             if (response.data.message === "Success!") {
               setName("");
               setEmail("");
@@ -131,7 +131,7 @@ function ContactForm() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
 

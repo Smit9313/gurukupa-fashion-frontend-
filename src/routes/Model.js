@@ -21,10 +21,10 @@ function MyComponent() {
     const loader = new OBJLoader();
 
     // Load the OBJ file
-    console.log(loader)
+    // console.log(loader)
     loader.load("`C:\Users\PRANAV\Downloads\cow-nonormals.obj`", function (obj) {
       // Check if the object contains any children
-      console.log(obj)
+      // console.log(obj)
       if (obj.children.length > 0) {
         // Create a new Mesh with the geometry of the first child object
         const mesh = new THREE.Mesh(obj.children[0].geometry);

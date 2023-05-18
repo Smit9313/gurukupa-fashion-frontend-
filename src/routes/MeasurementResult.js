@@ -15,7 +15,7 @@ function MeasurementResult() {
   const hipSize = metersToInches(hip).toFixed(2);
   const waistSize = metersToInches(waist).toFixed();
 
-  console.log(typeof chestSize);
+  // console.log(typeof chestSize);
 
   return (
     <>

@@ -149,7 +149,7 @@ function Sidebar({ url }) {
               <i className="bx bx-search icon"></i>
               <input type="text" placeholder="Search..." />
             </li> */}
-            {/* {console.log(url)} */}
+            {/* {// console.log(url)} */}
             <ul className="menu-links">
               <li className="nav-link">
                 <NavLink

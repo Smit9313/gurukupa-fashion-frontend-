@@ -43,7 +43,7 @@ function BodyMeasurements() {
         .then((stream) => {
           if (window.stream) {
             window.stream.getTracks().forEach(function (track) {
-              console.log(track);
+              // console.log(track);
               track.stop();
             });
           }
@@ -107,18 +107,18 @@ function BodyMeasurements() {
     const canvas = document.createElement("canvas");
     canvas.width = 512;
     canvas.height = 512; 
-    console.log(canvas.width,canvas.height);
+    // console.log(canvas.width,canvas.height);
     const context = canvas.getContext("2d");
 
 
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.width);
     const screenshot = await html2canvas(videoRef.current);
-    console.log(screenshot);
+    // console.log(screenshot);
     const dataURL = canvas.toDataURL("image/png");
-    console.log(dataURL);
+    // console.log(dataURL);
     const img = new Image();
     img.src = dataURL;
-    console.log(ss.length);
+    // console.log(ss.length);
     if (ss.length < 2) {
       setSs([...ss, dataURL]);
       toast.success("Clicked", {
@@ -129,7 +129,7 @@ function BodyMeasurements() {
         duration: 3000,
       });
     }
-    console.log(ss);
+    // console.log(ss);
 
     if (ss.length === 1) {
       const video = document.getElementById("video");
@@ -145,9 +145,9 @@ function BodyMeasurements() {
       setTmp(false);
       setCameraOn(false);
       // fire();
-      console.log("valid");
-      console.log(height, weight, gender);
-      console.log(ss);
+      // console.log("valid");
+      // console.log(height, weight, gender);
+      // console.log(ss);
 
       const formData = new FormData();
 
@@ -155,7 +155,7 @@ function BodyMeasurements() {
       const fileName1 = "my-image1.png";
       const file0 = dataURItoBlob(ss[0], fileName0);
       const file1 = dataURItoBlob(dataURL, fileName1);
-      console.log(file0);
+      // console.log(file0);
 
       formData.append(fileName0, file0.originFileObj, file0?.name);
       formData.append(fileName1, file1.originFileObj, file1?.name);
@@ -172,7 +172,7 @@ function BodyMeasurements() {
             headers,
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
 
             if (response.data.message === "Success!") {
               setBdata(response.data.data);
@@ -192,7 +192,7 @@ function BodyMeasurements() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
     }

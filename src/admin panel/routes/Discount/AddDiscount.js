@@ -133,15 +133,7 @@ function AddDiscount() {
       setError6("");
     }
 
-    console.log(
-      inputValue !== "",
-      !isEmpty(validFrom),
-      !isEmpty(validUntil),
-      validFrom < validUntil,
-      coupen !== "",
-      minValue !== "",
-      maxValue !== ""
-    );
+
 
     if (
       inputValue !== "" &&
@@ -173,7 +165,7 @@ function AddDiscount() {
             { headers }
           )
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             if (response.data["message"] === "Success!") {
               toast.success("Discount added!", {
                 duration: 3000,
@@ -192,12 +184,12 @@ function AddDiscount() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
         //  setMessage("Supplier Added.");
       } catch (err) {
         // setError(err);
-        console.log("Error");
+        // console.log("Error");
       }
     } else {
       toast.error("Something wrong!", {

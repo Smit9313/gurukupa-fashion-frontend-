@@ -23,7 +23,7 @@ function FeaturedProduct({items,title,des}) {
     const usersPerPage = 20;
     const pagesVisited = pageNumber * usersPerPage;
 
-    // console.log(items);
+    // // console.log(items);
 
     const displayUsers = items
       .slice(pagesVisited, pagesVisited + usersPerPage)
@@ -105,7 +105,6 @@ function FeaturedProduct({items,title,des}) {
         activeClassName={"paginationActive"}
         onClick={scrollToTop}
       /> */}
-      {console.log(items)}
       {isEmpty(items) ? (
         <div className="not-found">
           <ConfigProvider

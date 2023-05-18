@@ -28,20 +28,20 @@ function ManageProduct() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/admin-product/`, { headers })
         .then((response) => {
-          console.log(response.data.data);
+          // console.log(response.data.data);
           setLoading(false);
           setProduct(response.data.data);
           setFilteredProduct(response.data.data);
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [deleteFlag]);
 
   const confirm = (prodid) => {
-    console.log(prodid);
+    // console.log(prodid);
 
     const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
@@ -52,7 +52,7 @@ function ManageProduct() {
           headers,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             message.success("deleted successfully!");
             setDeleteFlag(!deleteFlag);
@@ -63,14 +63,14 @@ function ManageProduct() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
   const cancel = (e) => {
-    console.log(e);
+    // console.log(e);
     message.error("Click on No");
   };
 
@@ -91,7 +91,7 @@ function ManageProduct() {
               </thead>
               <tbody>
                 {row.prod_qty.map((val1, index1) => {
-                  // console.log(val)
+                  // // console.log(val)
                   return (
                     <tr key={index1}>
                       <td>{val1.size}</td>

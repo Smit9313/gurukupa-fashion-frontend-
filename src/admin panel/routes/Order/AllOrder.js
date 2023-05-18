@@ -28,7 +28,7 @@ function AllOrder() {
         )
         .then((response) => {
           setLoading(false);
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setDeliveredOrderData(response.data.data);
           }
@@ -36,10 +36,10 @@ function AllOrder() {
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("dshbhj");
+      // console.log("dshbhj");
     }
   }, [deliveredFlag]);
 

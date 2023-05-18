@@ -16,8 +16,8 @@ function SalesReportPdf() {
     const dateComponents = id.split("-to-");
     const startDate = new Date(dateComponents[0]);
     const endDate = new Date(dateComponents[1]);
-    console.log(startDate);
-    console.log(endDate);
+    // console.log(startDate);
+    // console.log(endDate);
 
     setDate(`${dateComponents[0]} to ${dateComponents[1]}`);
 
@@ -33,15 +33,15 @@ function SalesReportPdf() {
           // responseType: "blob",
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           setData(response.data.data);
-          //  console.log(response.headers);
+          //  // console.log(response.headers);
           const contentDisposition = response.headers["content-disposition"];
-          //  console.log(contentDisposition);
+          //  // console.log(contentDisposition);
           const url = window.URL.createObjectURL(new Blob([response.data]));
-          //  console.log(url);
+          //  // console.log(url);
           const link = document.createElement("a");
-          //  console.log(link);
+          //  // console.log(link);
           link.href = url;
           link.setAttribute(
             "download",
@@ -51,14 +51,14 @@ function SalesReportPdf() {
           link.click();
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }, [id]);
 
-  // console.log(id);
+  // // console.log(id);
   return (
     <div>
       {!isEmpty(data) && (
@@ -93,7 +93,6 @@ function SalesReportPdf() {
                     <p className="tm_invoice_date tm_m0 mar-b">
                       <b className="tm_primary_color">
                         {/* {data.order_date.substring(0, 10)} */}
-                        {console.log(date)}
                         {/* Sales Report : */}
                         {date}
                       </b>

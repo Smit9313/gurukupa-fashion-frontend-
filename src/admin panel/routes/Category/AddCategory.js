@@ -83,7 +83,7 @@ function AddCategory() {
           { headers }
         )
         .then((response) => {
-          //  console.log(response.data.data);
+          //  // console.log(response.data.data);
           setCat_Data(
             response.data.data.map(({ cat_type, _id }) => ({
               label: cat_type,
@@ -92,7 +92,7 @@ function AddCategory() {
           );
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [cat_typeflag]);
@@ -117,7 +117,7 @@ function AddCategory() {
 
    
     if (cattype.trim().length !== 0 && re.test(cattype)) {
-      console.log("valid");
+      // console.log("valid");
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       try {
@@ -162,7 +162,7 @@ function AddCategory() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
     }
@@ -231,7 +231,7 @@ function AddCategory() {
     ) {
       setCategotyDesFlag(true);
       setCat4(false);
-      // console.log("des valid")
+      // // console.log("des valid")
     }
 
     if (
@@ -256,7 +256,7 @@ function AddCategory() {
       category_description.trim().length > 10 
       // re.test(category_description)
     ) {
-      console.log("valid");
+      // console.log("valid");
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       try {
@@ -272,7 +272,7 @@ function AddCategory() {
             { headers }
           )
           .then((response) => {
-            // console.log(response.data);
+            // // console.log(response.data);
             if (response.data.message === "Success!") {
               toast.success(response.data.message, {
                 duration: 3000,
@@ -294,7 +294,7 @@ function AddCategory() {
               toast.error(response.data.message, {
                 duration: 3000,
               });
-              console.log("hello");
+              // console.log("hello");
             } else if (response.data.message === "User not admin.") {
               toast.error(response.data.message, {
                 duration: 3000,
@@ -303,7 +303,7 @@ function AddCategory() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
     }

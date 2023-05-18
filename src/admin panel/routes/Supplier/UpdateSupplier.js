@@ -94,7 +94,7 @@ function UpdateSupplier() {
           headers,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setName(response.data.data.name);
             setMobile(response.data.data.mobile_no);
@@ -108,10 +108,10 @@ function UpdateSupplier() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }, [id]);
 
@@ -278,7 +278,7 @@ function UpdateSupplier() {
       state !== "" &&
       city !== ""
     ) {
-      console.log("valid");
+      // console.log("valid");
 
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
@@ -300,7 +300,7 @@ function UpdateSupplier() {
             { headers }
           )
           .then(async (response) => {
-            console.log(response);
+            // console.log(response);
             if (response.data["message"] === "Success!") {
               setValid(true);
               toast.success("Supplier updated!", {
@@ -352,16 +352,16 @@ function UpdateSupplier() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
         //  setMessage("Supplier Added.");
       } catch (err) {
         // setError(err);
-        console.log("Error");
+        // console.log("Error");
         setMessage("");
       }
       // setMessage("Supplier Added.");
-      console.log();
+      // console.log();
     }
   };
 

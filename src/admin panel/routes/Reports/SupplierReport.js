@@ -38,17 +38,17 @@ function SupplierReport() {
           if (response.data.message === "Success!") {
             setData(response.data.data);
             setFilteredProduct(response.data.data);
-            console.log(response)
+            // console.log(response)
           } else if (response.data.message === "Records not found.") {
             setData(response.data.message);
           } else {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
 
@@ -63,15 +63,15 @@ function SupplierReport() {
           responseType: "blob",
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           // setData(response.data.data);
-          //  console.log(response.headers);
+          //  // console.log(response.headers);
           const contentDisposition = response.headers["content-disposition"];
-          //  console.log(contentDisposition);
+          //  // console.log(contentDisposition);
           const url = window.URL.createObjectURL(new Blob([response.data]));
-          //  console.log(url);
+          //  // console.log(url);
           const link = document.createElement("a");
-          //  console.log(link);
+          //  // console.log(link);
           link.href = url;
           link.setAttribute(
             "download",
@@ -81,10 +81,10 @@ function SupplierReport() {
           link.click();
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
 

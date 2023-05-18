@@ -55,7 +55,7 @@ function ForgotPassword() {
             email: email,
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
 
             if (response.data.message === "User doesn't exist.") {
               setEmailError("User doesn't exist.");
@@ -78,7 +78,7 @@ function ForgotPassword() {
             setEmailFlag(false);
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
 

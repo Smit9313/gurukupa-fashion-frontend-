@@ -17,7 +17,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 function UpdateDiscount() {
   let { id } = useParams();
   const history = useHistory();
-  // console.log(id)
+  // // console.log(id)
   // valid from
   const [validFrom, setvalidFrom] = useState(dayjs());
   const [error2, setError2] = useState("");
@@ -89,7 +89,7 @@ function UpdateDiscount() {
           headers,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setshowForm(true);
             setInputValue(response.data.data.disc_percent);
@@ -104,10 +104,10 @@ function UpdateDiscount() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }, [id]);
 
@@ -176,23 +176,23 @@ function UpdateDiscount() {
       setError6("");
     }
 
-    console.log(
-      inputValue !== "",
-      !isEmpty(validFrom),
-      !isEmpty(validUntil),
-      validFrom < validUntil,
-      coupen !== "",
-      minValue !== "",
-      maxValue !== ""
-    );
-    console.log(
-      inputValue,
-      validFrom.$d,
-      validUntil.$d,
-      coupen,
-      minValue,
-      maxValue
-    );
+    // // console.log(
+    //   inputValue !== "",
+    //   !isEmpty(validFrom),
+    //   !isEmpty(validUntil),
+    //   validFrom < validUntil,
+    //   coupen !== "",
+    //   minValue !== "",
+    //   maxValue !== ""
+    // );
+    // // console.log(
+    //   inputValue,
+    //   validFrom.$d,
+    //   validUntil.$d,
+    //   coupen,
+    //   minValue,
+    //   maxValue
+    // );
 
     if (
       inputValue !== "" &&
@@ -223,7 +223,7 @@ function UpdateDiscount() {
             { headers }
           )
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             if (response.data["message"] === "Success!") {
               toast.success("Discount updated!", {
                 duration: 3000,
@@ -242,12 +242,12 @@ function UpdateDiscount() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
         //  setMessage("Supplier Added.");
       } catch (err) {
         // setError(err);
-        console.log("Error");
+        // console.log("Error");
       }
     } else {
       toast.error("Something wrong!", {

@@ -27,10 +27,10 @@ function SupplierReportPdf() {
           setData(response.data.data);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }, []);
 

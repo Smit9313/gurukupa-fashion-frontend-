@@ -81,14 +81,14 @@ function Navbar({ navrender, closeNav }) {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/navbar-shop-category/`)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           setNavData(response.data.data);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }, []);
 
@@ -100,15 +100,15 @@ function Navbar({ navrender, closeNav }) {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/user-profile/`, { headers })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           //  setNavData(response.data.data);
           setUserData(response.data.data);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }, []);
 
@@ -151,7 +151,7 @@ function Navbar({ navrender, closeNav }) {
     setToken(null);
   };
 
-  //  console.log(token);
+  //  // console.log(token);
 
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
@@ -174,7 +174,7 @@ function Navbar({ navrender, closeNav }) {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
 

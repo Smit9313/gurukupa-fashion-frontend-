@@ -46,12 +46,12 @@ function SingleProduct() {
         .get(`${process.env.REACT_APP_API_HOST}/customer-product/${product_id}`)
         .then((response) => {
           setLoading(false);
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setData(response.data.data);
 
             setUrl(response.data.data.prod_image[0]);
-            console.log(response.data.data);
+            // console.log(response.data.data);
 
             try {
               axios
@@ -59,14 +59,14 @@ function SingleProduct() {
                   `${process.env.REACT_APP_API_HOST}/suggested-product/${response.data.data.cat_id}`
                 )
                 .then((response) => {
-                  console.log(response);
+                  // console.log(response);
                   if (response.data.message === "Success!") {
                     setrelatedProduct(response.data.data);
                     setLoading(true);
                   }
                 })
                 .catch((error) => {
-                  console.log(error);
+                  // console.log(error);
                 });
             } catch (err) {}
           } else if (response.data.message === "Product not fetched.") {
@@ -76,7 +76,7 @@ function SingleProduct() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [product_id]);
@@ -98,7 +98,7 @@ function SingleProduct() {
   };
 
   const handleAddToCart = () => {
-    console.log(prod_size);
+    // console.log(prod_size);
     if (product_id !== "" && prod_qty !== "" && prod_size !== undefined) {
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
@@ -115,7 +115,7 @@ function SingleProduct() {
             { headers }
           )
           .then((response) => {
-            console.log(response.data.message);
+            // console.log(response.data.message);
 
             if (response.data.message === "Success!") {
               toast.success("Product added!", {
@@ -133,7 +133,7 @@ function SingleProduct() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
     } else {

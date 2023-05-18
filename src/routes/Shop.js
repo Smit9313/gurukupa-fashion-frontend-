@@ -38,7 +38,7 @@ function Shop() {
   const [value, setValue] = useState([]);
 
   // let pricewise  = items.map((data)=>data.price);
-  // console.log(pricewise);
+  // // console.log(pricewise);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -48,13 +48,13 @@ function Shop() {
         .get(`${process.env.REACT_APP_API_HOST}/customer-product/`, { headers })
         .then((response) => {
           setLoading(false);
-          console.log(response.data);
+          // console.log(response.data);
           setData(response.data.data);
-          // console.log(response.data.data);
+          // // console.log(response.data.data);
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -80,10 +80,10 @@ function Shop() {
           response.data.data.forEach((element) => {
             if (id === element.cat_type) {
               const updatedItem = data.filter((curEle) => {
-                //  console.log(curEle.cat_type === catItem);
+                //  // console.log(curEle.cat_type === catItem);
                 return curEle.cat_type === element.cat_type;
               });
-              //  console.log(updatedItem);
+              //  // console.log(updatedItem);
               setProductData(updatedItem);
               setMinPrice(
                 Math.min(...updatedItem.map((data) => data.prod_price))
@@ -99,16 +99,16 @@ function Shop() {
             }
 
             element.Category.forEach((element1) => {
-              // console.log(element1)
+              // // console.log(element1)
               if (cat === element.cat_type && subcat === element1.cat_title) {
                 const updatedItem = data.filter((curEle) => {
-                  //  console.log(curEle.cat_type === catItem);
+                  //  // console.log(curEle.cat_type === catItem);
                   return (
                     curEle.cat_type === element.cat_type &&
                     curEle.cat_title === element1.cat_title
                   );
                 });
-                //  console.log(updatedItem);
+                //  // console.log(updatedItem);
                 setProductData(updatedItem);
                 setMinPrice(
                   Math.min(...updatedItem.map((data) => data.prod_price))
@@ -126,10 +126,10 @@ function Shop() {
           });
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }, [data, id, cat, subcat, kid, kidcat, kidsubcat]);
 
@@ -139,15 +139,15 @@ function Shop() {
 
   let string_with_slashes = location.pathname.substring(1);
   let array_of_elements = string_with_slashes.split("/");
-  // console.log(array_of_elements);
+  // // console.log(array_of_elements);
 
   const onChange = (value) => {
-    console.log("onChange: ", value);
-    console.log(value["0"], value["1"]);
+    // console.log("onChange: ", value);
+    // console.log(value["0"], value["1"]);
     setValue(value);
   };
   const onAfterChange = (value) => {
-    console.log("onAfterChange: ", value);
+    // console.log("onAfterChange: ", value);
   };
   return (
     <>

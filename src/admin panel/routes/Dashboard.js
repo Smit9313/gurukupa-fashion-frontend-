@@ -52,13 +52,13 @@ function Dashboard() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/admin-user-count/`, { headers })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if(response.data.message === "Success!"){
             setUserCount(response.data.data.user_count)
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -70,13 +70,13 @@ function Dashboard() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/admin-order-count/`, { headers })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setOrderCount(response.data.data.user_count);
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -89,13 +89,13 @@ function Dashboard() {
         .get(`${process.env.REACT_APP_API_HOST}/admin-contact-us/`, { headers })
         .then((response) => {
           setLoading(false);
-          console.log(response);
+          // console.log(response);
           // setCatType(response.data.data);
           setData(response.data.data);
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
 
@@ -106,7 +106,7 @@ function Dashboard() {
           setCount(response.data.data["message_count"]);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [update]);
@@ -166,7 +166,7 @@ function Dashboard() {
                       { headers }
                     )
                     .then(async (response) => {
-                      console.log(response);
+                      // console.log(response);
                      
                       if (response.data.message === "Success!") {
                         setUpdate(!update);
@@ -176,10 +176,10 @@ function Dashboard() {
                       }
                     })
                     .catch((error) => {
-                      console.log(error);
+                      // console.log(error);
                     });
                 } catch (err) {
-                  console.log("dshbhj");
+                  // console.log("dshbhj");
                 }
               }}
             />

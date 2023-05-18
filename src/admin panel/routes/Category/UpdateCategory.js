@@ -88,10 +88,10 @@ function UpdateCategory() {
           { headers }
         )
         .then((response) => {
-          console.log(response.data.data);
+          // console.log(response.data.data);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -107,7 +107,7 @@ function UpdateCategory() {
           { headers }
         )
         .then((response) => {
-          //  console.log(response.data.data);
+          //  // console.log(response.data.data);
           setCat_Data(
             response.data.data.map(({ cat_type, _id }) => ({
               label: cat_type,
@@ -116,7 +116,7 @@ function UpdateCategory() {
           );
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [cat_typeflag]);
@@ -130,7 +130,7 @@ function UpdateCategory() {
           headers,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setCat_type(response.data.data.cat_type);
             setCat_status(response.data.data.active);
@@ -138,10 +138,10 @@ function UpdateCategory() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
 
     try {
@@ -150,7 +150,7 @@ function UpdateCategory() {
           headers,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             // setCat_type(response.data.data.cat_type);
             setCatid(response.data.data.cat_type_id);
@@ -161,10 +161,10 @@ function UpdateCategory() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }, [id]);
 
@@ -187,7 +187,7 @@ function UpdateCategory() {
     }
 
     if (cattype.trim().length !== 0) {
-      console.log("valid");
+      // console.log("valid");
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       try {
@@ -233,7 +233,7 @@ function UpdateCategory() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
     }
@@ -298,7 +298,7 @@ function UpdateCategory() {
     ) {
       setCategotyDesFlag(true);
       setCat4(false);
-      // console.log("des valid")
+      // // console.log("des valid")
     }
 
     if (
@@ -313,13 +313,7 @@ function UpdateCategory() {
       });
     }
 
-    console.log(
-      catid !== "",
-        cat_title.toString().length !== 0,
-        re.test(cat_title) ,
-        category_description.trim().length !== 0 ,
-        category_description.trim().length > 5
-    );
+
 
     if (
       catid !== "" &&
@@ -328,7 +322,7 @@ function UpdateCategory() {
       category_description.trim().length > 5
       // re.test(category_description)
     ) {
-      console.log("valid");
+      // console.log("valid");
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       try {
@@ -344,7 +338,7 @@ function UpdateCategory() {
             { headers }
           )
           .then((response) => {
-            // console.log(response.data);
+            // // console.log(response.data);
             if (response.data.message === "Success!") {
               toast.success("Category updated!", {
                 duration: 3000,
@@ -367,7 +361,7 @@ function UpdateCategory() {
               toast.error(response.data.message, {
                 duration: 3000,
               });
-              console.log("hello");
+              // console.log("hello");
             } else if (response.data.message === "User not admin.") {
               toast.error(response.data.message, {
                 duration: 3000,
@@ -376,7 +370,7 @@ function UpdateCategory() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
     }

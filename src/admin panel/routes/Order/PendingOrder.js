@@ -28,7 +28,7 @@ function PendingOrder() {
         )
         .then((response) => {
           setLoading(false);
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setDeliveredOrderData(response.data.data);
           }else{
@@ -38,10 +38,10 @@ function PendingOrder() {
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("dshbhj");
+      // console.log("dshbhj");
     }
   }, [deliveredFlag]);
 
@@ -135,10 +135,10 @@ function PendingOrder() {
                       }
                     })
                     .catch((error) => {
-                      console.log(error);
+                      // console.log(error);
                     });
                 } catch (err) {
-                  console.log("dshbhj");
+                  // console.log("dshbhj");
                 }
               }}
             />

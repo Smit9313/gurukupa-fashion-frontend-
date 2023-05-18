@@ -22,7 +22,7 @@ function Megic() {
     if (!isEmpty(height) && !isEmpty(weight) && !isEmpty(gender)) {
       history.push(`/camera/${pid}/${gender}/${height}/${weight}`);
     } else {
-      console.log("invalid");
+      // console.log("invalid");
       toast.error("Fill all details!", {
         duration: 3000,
       });

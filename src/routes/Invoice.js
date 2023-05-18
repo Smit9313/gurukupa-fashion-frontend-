@@ -24,13 +24,13 @@ function Invoice() {
               { headers }
             )
             .then((response) => {
-              console.log(response.data)
+              // console.log(response.data)
               if (response.data.message === "Success!") {
                 setData(response.data.data);
               }
             })
             .catch((error) => {
-              console.log(error);
+              // console.log(error);
             });
         } catch (err) {}
 

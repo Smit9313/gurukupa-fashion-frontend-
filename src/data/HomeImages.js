@@ -1,4 +1,4 @@
-export const HomeImages = [
+  export const HomeImages = [
   {
     id: 1,
     url: "https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/site_images%2F8131928.jpg?alt=media&token=a335dff3-c2b6-45ea-b179-c8e6bac75bbb",

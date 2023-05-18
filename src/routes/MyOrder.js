@@ -59,7 +59,7 @@ const [modalsVisible, setModalsVisible] = useState();
         axios
           .get(`${process.env.REACT_APP_API_HOST}/customer-order/`, { headers })
           .then((response) => {
-            console.log(response.data.data);
+            // console.log(response.data.data);
             if (response.data.message === "Success!") {
               setOrderData(response.data.data);
               setTest(Array(response.data.data.length).fill(false));
@@ -67,14 +67,14 @@ const [modalsVisible, setModalsVisible] = useState();
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
     }, []);
 
       const showModal = (index, oid) => {
         // setIsModalOpen(true);
-        console.log(index, oid);
+        // console.log(index, oid);
         const newModalsVisible = [...modalsVisible];
         newModalsVisible[index] = true;
         setModalsVisible(newModalsVisible);
@@ -87,7 +87,7 @@ const [modalsVisible, setModalsVisible] = useState();
               headers,
             })
             .then((response) => {
-              console.log(response);
+              // console.log(response);
               if (
                 response.data.message === "Rating not found." ||
                 response.data.message === "Success!"
@@ -96,7 +96,7 @@ const [modalsVisible, setModalsVisible] = useState();
               }
             })
             .catch((error) => {
-              console.log(error);
+              // console.log(error);
             });
         } catch (err) {}
       };
@@ -123,7 +123,7 @@ const [modalsVisible, setModalsVisible] = useState();
      Authorization: `Bearer ${token}`,
      "Content-type": "application/json",
    };
-   console.log(oid);
+   // console.log(oid);
    try {
      axios
        .post(
@@ -149,7 +149,7 @@ const [modalsVisible, setModalsVisible] = useState();
          }
        })
        .catch((error) => {
-         console.log(error);
+         // console.log(error);
        });
    } catch (err) {}
  };
@@ -294,7 +294,7 @@ const [modalsVisible, setModalsVisible] = useState();
                                 open={modalsVisible[index]}
                                 onOk={() => handleOk(index, value._id)}
                                 onCancel={handleCancel}>
-                                {/* {console.log(rateValue)} */}
+                                {/* {// console.log(rateValue)} */}
                                 {rateData.map((rate) => {
                                   return (
                                     <div className="rate-div">
@@ -306,7 +306,7 @@ const [modalsVisible, setModalsVisible] = useState();
                                         />
                                         <p>{rate.prod_name}</p>
                                       </div>
-                                      {/* {console.log(rate)} */}
+                                      {/* {// console.log(rate)} */}
 
                                       {isEmpty(rate.date) && (
                                         <div className="rate-div-sub2">

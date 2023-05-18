@@ -29,7 +29,7 @@ function DeliverdOrder() {
         )
         .then((response) => {
           setLoading(false);
-          console.log(response)
+          // console.log(response)
           if (response.data.message === "Success!") {
             setDeliveredOrderData(response.data.data);
           }
@@ -37,10 +37,10 @@ function DeliverdOrder() {
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("dshbhj");
+      // console.log("dshbhj");
     }
   }, []);
 
@@ -113,13 +113,13 @@ function DeliverdOrder() {
                     { headers }
                   )
                   .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                   })
                   .catch((error) => {
-                    console.log(error);
+                    // console.log(error);
                   });
               } catch (err) {
-                console.log("dshbhj");
+                // console.log("dshbhj");
               }
             }}
           />

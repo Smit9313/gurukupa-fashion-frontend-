@@ -45,7 +45,7 @@ function SalesReport() {
 
       setDate(`${formattedDate1}-to-${formattedDate2}`);
 
-      console.log(selectedDates[0].$d);
+      // console.log(selectedDates[0].$d);
       const jsonData = {
         from_date: selectedDates[0].$d,
         until_date: selectedDates[1].$d,
@@ -60,7 +60,7 @@ function SalesReport() {
             // responseType: "blob",
           })
           .then((response) => {
-            console.log(response)
+            // console.log(response)
             if (response.data.message === "Success!") {
               setData(response.data.data);
               setFilteredProduct(response.data.data);
@@ -71,10 +71,10 @@ function SalesReport() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {
-        console.log("Error");
+        // console.log("Error");
       }
     } else {
       toast.error("Select date!", {
@@ -117,7 +117,7 @@ function SalesReport() {
       from_date: selectedDates[0].$d,
       until_date: selectedDates[1].$d,
     };
-    // console.log(token)
+    // // console.log(token)
 
     try {
       axios
@@ -130,14 +130,14 @@ function SalesReport() {
           }
         )
         .then((response) => {
-          console.log(response);
-          //  console.log(response.headers);
+          // console.log(response);
+          //  // console.log(response.headers);
           const contentDisposition = response.headers["content-disposition"];
-          //  console.log(contentDisposition);
+          //  // console.log(contentDisposition);
           const url = window.URL.createObjectURL(new Blob([response.data]));
-          //  console.log(url);
+          //  // console.log(url);
           const link = document.createElement("a");
-          //  console.log(link);
+          //  // console.log(link);
           link.href = url;
           link.setAttribute(
             "download",
@@ -147,10 +147,10 @@ function SalesReport() {
           link.click();
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
 

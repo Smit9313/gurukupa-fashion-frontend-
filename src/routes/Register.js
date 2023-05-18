@@ -151,7 +151,7 @@ function Register() {
           role: "customer",
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             axios
               .post(`${process.env.REACT_APP_API_HOST}/login/`, {
@@ -180,7 +180,7 @@ function Register() {
               })
               .catch(
                 (error) =>
-                  // console.log(error)
+                  // // console.log(error)
                   pass
               );
           }else if(response.data.message === "User already exists."){
@@ -194,7 +194,7 @@ function Register() {
         .catch((error) => {
           setError(error.response.data.data["error_msg"]);
           setErrorFlag(true);
-          console.log(error.response.data.data["error_msg"]);
+          // console.log(error.response.data.data["error_msg"]);
           setEmailFlag(false);
         });
     }

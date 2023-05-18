@@ -13,7 +13,7 @@ import "./custom.less";
 import { isEmpty } from "lodash";
 
 function RelatedProduct({ items }) {
-  console.log(items);
+  // console.log(items);
   const history = useHistory();
 
   const displayUsers = items.map((item, index) => {
@@ -77,7 +77,6 @@ function RelatedProduct({ items }) {
         activeClassName={"paginationActive"}
         onClick={scrollToTop}
       /> */}
-      {console.log(items)}
       {isEmpty(items) ? (
         <div className="not-found">
           <ConfigProvider

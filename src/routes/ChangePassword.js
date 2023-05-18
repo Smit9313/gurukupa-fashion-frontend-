@@ -33,7 +33,7 @@ function ChangePassword() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/reset-password/`, { headers })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Token corrupted.") {
             setIsValid(false);
             setMessage("Something wrong with url!")
@@ -43,15 +43,15 @@ function ChangePassword() {
           } else if (response.data.message === "User exists.") {
             setIsValid(true);
           } else {
-            // console.log(response);
+            // // console.log(response);
             setMessage("Somthing wrong!")
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }, [key]);
 
@@ -130,7 +130,7 @@ function ChangePassword() {
       pass === passCon
     ) {
       const headers = { Authorization: `Bearer "${key}` };
-      console.log(headers);
+      // console.log(headers);
       try {
         axios
           .post(
@@ -141,7 +141,7 @@ function ChangePassword() {
             { headers }
           )
           .then((response) => {
-            console.log(response.data.message);
+            // console.log(response.data.message);
 
             if (response.data.message === "Success!") {
               setPassFlag(false);
@@ -156,16 +156,16 @@ function ChangePassword() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
   };
 
   if (passFlag === true && passConFlag === true) {
-    console.log(key);
+    // console.log(key);
   }
 
   return (

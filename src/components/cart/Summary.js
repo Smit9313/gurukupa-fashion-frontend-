@@ -19,18 +19,18 @@ function Summary({
     const [noreturn,setNoReturn] = useState();
 
     const onChange = (e) => {
-      console.log(`checked = ${e.target.checked}`);
+      // console.log(`checked = ${e.target.checked}`);
       setNoReturn(e.target.checked)
     };
 
     const handleCheckout = (e) =>{
       e.preventDefault();
-      console.log("hshb")
+      // console.log("hshb")
 
       if(noreturn === true){
         history.push("/checkout")
       }else{
-        console.log("not valid")
+        // console.log("not valid")
         toast.error("Accept return policy!", {
           duration: 3000,
         });

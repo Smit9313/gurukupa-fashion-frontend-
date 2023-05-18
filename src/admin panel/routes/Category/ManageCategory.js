@@ -33,14 +33,14 @@ function ManageCategory() {
           headers,
         })
         .then((response) => {
-          // console.log(response);
+          // // console.log(response);
           setLoading(false);
           setCatType(response.data.data);
           setFilteredCatType(response.data.data);
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
 
@@ -48,20 +48,20 @@ function ManageCategory() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/admin-category/`, { headers })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           setLoading(false);
           setCategory(response.data.data);
           setFilteredCategory(response.data.data);
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [deleteFlag]);
 
   const confirm = (typeid) => {
-    console.log(typeid);
+    // console.log(typeid);
 
     const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
@@ -75,7 +75,7 @@ function ManageCategory() {
           }
         )
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             message.success("deleted successfully!");
             setDeleteFlag(!deleteFlag);
@@ -86,19 +86,19 @@ function ManageCategory() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
   const cancel = (e) => {
-    console.log(e);
+    // console.log(e);
     message.error("Click on No");
   };
 
   const confirm1 = (catid) => {
-    console.log(catid);
+    // console.log(catid);
 
     const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
@@ -109,7 +109,7 @@ function ManageCategory() {
           headers,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             message.success("deleted successfully!");
             setDeleteFlag(!deleteFlag);
@@ -120,10 +120,10 @@ function ManageCategory() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
 

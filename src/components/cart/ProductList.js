@@ -6,7 +6,7 @@ import './productlist.css';
 function ProductList({ products, onChangeProductQuantity, onRemoveProduct ,onAddQty, onRemoveQty }) {
 
     const onChange = (value) => {
-      console.log("changed", value);
+      // console.log("changed", value);
     };
     
 

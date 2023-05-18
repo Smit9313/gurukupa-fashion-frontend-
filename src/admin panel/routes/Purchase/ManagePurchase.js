@@ -25,13 +25,13 @@ function ManagePurchase() {
         .get(`${process.env.REACT_APP_API_HOST}/admin-purchase/`, { headers })
         .then((response) => {
           setLoading(false);
-          console.log(response);
+          // console.log(response);
           setpurchaseData(response.data.data);
           setFilteredData(response.data.data);
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);

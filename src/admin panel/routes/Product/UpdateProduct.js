@@ -88,14 +88,14 @@ function UpdateProduct() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
-    console.log(id);
+    // console.log(id);
     try {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/admin-product/${id}/`, {
           headers,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setshowForm(true);
             setName(response.data.data.prod_name);
@@ -124,10 +124,10 @@ function UpdateProduct() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }, [id]);
 
@@ -142,7 +142,7 @@ function UpdateProduct() {
           { headers }
         )
         .then((response) => {
-          //  console.log(response.data.data);
+          //  // console.log(response.data.data);
           setCat_Data(
             response.data.data.map(({ cat_type, _id }) => ({
               label: cat_type,
@@ -151,7 +151,7 @@ function UpdateProduct() {
           );
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [cat_typeflag, id]);
@@ -183,7 +183,7 @@ function UpdateProduct() {
       return !isJpgOrPng && !isLt2M;
     },
   };
-  //  console.log(images)
+  //  // console.log(images)
 
   // const handleProduct = async (e) => {
   //   e.preventDefault();
@@ -300,7 +300,7 @@ function UpdateProduct() {
   //           },
   //         })
   //         .then((response) => {
-  //           console.log(response.data.message);
+  //           // console.log(response.data.message);
   //           if (response.data.message === "Success!") {
   //             toast.success("Product added!", {
   //               duration: 3000,
@@ -317,7 +317,7 @@ function UpdateProduct() {
   //           }
   //         })
   //         .catch((error) => {
-  //           console.log(error);
+  //           // console.log(error);
   //         });
   //     } catch (err) {}
   //   }
@@ -325,13 +325,13 @@ function UpdateProduct() {
 
   const handleProduct1 = (e) => {
     e.preventDefault();
-    console.log(name, cattype, catid, subcatid1, active, description, price);
+    // console.log(name, cattype, catid, subcatid1, active, description, price);
 
-    console.log(
-      fileList.map((value) => {
-        return value.url;
-      })
-    );
+    // // console.log(
+    //   fileList.map((value) => {
+    //     return value.url;
+    //   })
+    // );
 
     const formData = new FormData();
     if (!isEmpty(images)) {
@@ -422,7 +422,7 @@ function UpdateProduct() {
       description !== "" &&
       price !== ""
     ) {
-      console.log("valid");
+      // console.log("valid");
       
       const token = localStorage.getItem("token");
 
@@ -447,7 +447,7 @@ function UpdateProduct() {
             },
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             if (response.data.message === "Success!") {
               toast.success("Product added!", {
                 duration: 3000,
@@ -466,7 +466,7 @@ function UpdateProduct() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {}
     }
@@ -502,7 +502,7 @@ function UpdateProduct() {
                     value={cattype}
                     // label={cattype}
                     onChange={(value1) => {
-                      // console.log(value1);
+                      // // console.log(value1);
                       setCatid(value1);
                       setCatType(value1);
                       setSubCatid("");
@@ -518,7 +518,7 @@ function UpdateProduct() {
                             { headers }
                           )
                           .then((response) => {
-                            console.log(response.data.data.Category);
+                            // console.log(response.data.data.Category);
                             setSub_Data(
                               response.data.data.Category.map(
                                 ({ cat_title, cat_id }) => ({
@@ -529,7 +529,7 @@ function UpdateProduct() {
                             );
                           })
                           .catch((error) => {
-                            console.log(error);
+                            // console.log(error);
                           });
                       } catch (err) {}
                     }}
@@ -581,7 +581,7 @@ function UpdateProduct() {
                   <Switch
                     checked={active}
                     onChange={(e) => {
-                      console.log(e.target.checked);
+                      // console.log(e.target.checked);
                       setActive(e.target.checked);
                     }}
                   />

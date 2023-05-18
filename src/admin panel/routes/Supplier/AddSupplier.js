@@ -241,7 +241,7 @@ function AddSuplier() {
       state !== "" &&
       city !== ""
     ) {
-      console.log("valid");
+      // console.log("valid");
 
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
@@ -263,7 +263,7 @@ function AddSuplier() {
             { headers }
           )
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             if (response.data["message"] === "Success!") {
               setValid(true);
               toast.success("Supplier Added!", {
@@ -312,16 +312,16 @@ function AddSuplier() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
         //  setMessage("Supplier Added.");
       } catch (err) {
         // setError(err);
-        console.log("Error");
+        // console.log("Error");
         setMessage("");
       }
       // setMessage("Supplier Added.");
-      console.log();
+      // console.log();
     }
   };
 

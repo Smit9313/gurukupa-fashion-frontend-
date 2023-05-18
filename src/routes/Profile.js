@@ -100,7 +100,7 @@ function Profile() {
 
   const showModal = (index, oid) => {
     // setIsModalOpen(true);
-    console.log(index, oid);
+    // console.log(index, oid);
     const newModalsVisible = [...modalsVisible];
     newModalsVisible[index] = true;
     setModalsVisible(newModalsVisible);
@@ -111,7 +111,7 @@ function Profile() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/customer-rating/${oid}/`, { headers })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (
             response.data.message === "Rating not found." ||
             response.data.message === "Success!"
@@ -120,7 +120,7 @@ function Profile() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   };
@@ -134,7 +134,7 @@ function Profile() {
   };
 
   const confirm = (addid) => {
-    // console.log(e);
+    // // console.log(e);
     const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
@@ -142,7 +142,7 @@ function Profile() {
       axios
         .delete(`${process.env.REACT_APP_API_HOST}/customer-address/${addid}`, { headers })
         .then((response) => {
-          // console.log(response);
+          // // console.log(response);
           if (response.data.message === "Success!") {
             setUpdateDrop(!updateDrop);
             message.success("deleted successfully!");
@@ -153,14 +153,14 @@ function Profile() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
   const cancel = (e) => {
-    // console.log(e);
+    // // console.log(e);
     // message.error("Click on No");
   };
 
@@ -196,13 +196,13 @@ function Profile() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/user-profile/`, { headers })
         .then((response) => {
-          // console.log(response)
+          // // console.log(response)
           if (response.data.message === "Success!") {
             setUserData(response.data.data);
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
 
@@ -211,13 +211,13 @@ function Profile() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/customer-address/`, { headers })
         .then((response) => {
-          // console.log(response);
+          // // console.log(response);
           if (response.data.message === "Success!") {
             setAddressData(response.data.data);
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
 
@@ -226,7 +226,7 @@ function Profile() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/customer-order/`, { headers })
         .then((response) => {
-          console.log(response.data.data);
+          // console.log(response.data.data);
           if (response.data.message === "Success!") {
             setOrderData(response.data.data);
             setTest(Array(response.data.data.length).fill(false));
@@ -234,7 +234,7 @@ function Profile() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [updateDrop, updateAddress]);
@@ -242,7 +242,7 @@ function Profile() {
   const handleChangePassword = (e) => {
     e.preventDefault();
 
-    console.log(oldpassword, password, conPassword);
+    // console.log(oldpassword, password, conPassword);
 
     /****** Old password *******/
 
@@ -337,7 +337,7 @@ function Profile() {
             }
           )
           .then((response) => {
-            console.log(response.data.message);
+            // console.log(response.data.message);
             if (response.data.message === "Success!") {
               toast.success("password changed successfully!", {
                 duration: 3000,
@@ -355,10 +355,10 @@ function Profile() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {
-        console.log("Error");
+        // console.log("Error");
       }
     }
   };
@@ -397,7 +397,7 @@ function Profile() {
   const handleNewAddress = (e) => {
     e.preventDefault();
 
-    // console.log(houseno,area,addtype,pincode,state,city)
+    // // console.log(houseno,area,addtype,pincode,state,city)
 
     if (
       houseno !== "" &&
@@ -426,7 +426,7 @@ function Profile() {
             { headers }
           )
           .then((response) => {
-            console.log(response.data.message);
+            // console.log(response.data.message);
 
             if (response.data.message === "Success!") {
               setHouseNo("");
@@ -443,10 +443,10 @@ function Profile() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
       } catch (err) {
-        console.log("Error");
+        // console.log("Error");
       }
     }else{
       toast.error("Fill all details!", {
@@ -502,7 +502,7 @@ function Profile() {
   };
 
   const handleAddressUpdate = () => {
-    console.log(houseno, area, addtype, pincode, state, city);
+    // console.log(houseno, area, addtype, pincode, state, city);
 
     const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
@@ -531,7 +531,7 @@ function Profile() {
           { headers }
         )
         .then((response) => {
-          console.log(response);
+          // console.log(response);
 
           if (response.data.message === "Success!") {
             setOpen(false);
@@ -549,10 +549,10 @@ function Profile() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }else{
     toast.error("Fill all details!", {
@@ -580,7 +580,7 @@ function Profile() {
       Authorization: `Bearer ${token}`,
       "Content-type": "application/json",
     };
-    console.log(oid);
+    // console.log(oid);
     try {
       axios
         .post(`${process.env.REACT_APP_API_HOST}/customer-rating/${oid}/`, rateData, {
@@ -602,7 +602,7 @@ function Profile() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   };
@@ -902,7 +902,7 @@ function Profile() {
                                       open={modalsVisible[index]}
                                       onOk={() => handleOk(index, value._id)}
                                       onCancel={handleCancel}>
-                                      {/* {console.log(rateValue)} 
+                                      {/* {// console.log(rateValue)} 
                                       {rateData.map((rate) => {
                                         return (
                                           <div className="rate-div">
@@ -914,7 +914,7 @@ function Profile() {
                                               />
                                               <p>{rate.prod_name}</p>
                                             </div>
-                                            {/* {console.log(rate)} 
+                                            {/* {// console.log(rate)} 
 
                                             {isEmpty(rate.date) && (
                                               <div className="rate-div-sub2">

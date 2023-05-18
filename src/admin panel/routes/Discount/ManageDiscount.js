@@ -28,19 +28,19 @@ function ManageDiscount() {
         .get(`${process.env.REACT_APP_API_HOST}/product-discount/`, { headers })
         .then((response) => {
           setLoading(false);
-          console.log(response)
+          // console.log(response)
           setDiscount(response.data.data);
           setFilteredSupplier(response.data.data);
           setLoading(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, [deleteFlag]);
 
   const confirm = (discid) => {
-    console.log(discid);
+    // console.log(discid);
 
     const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
@@ -54,7 +54,7 @@ function ManageDiscount() {
           }
         )
         .then((response) => {
-          //  console.log(response);
+          //  // console.log(response);
           if (response.data.message === "Success!") {
             message.success("deleted successfully!");
             setDeleteFlag(!deleteFlag);
@@ -65,14 +65,14 @@ function ManageDiscount() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   };
   const cancel = (e) => {
-    console.log(e);
+    // console.log(e);
     message.error("Click on No");
   };
 

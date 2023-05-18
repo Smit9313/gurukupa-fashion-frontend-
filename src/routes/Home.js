@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import Footer from "./Footer.js";
 import { Link } from "react-router-dom";
 import "../Style/home.css";
-// import FeaturedProduct from '../components/FeaturedProduct.js';
-// import Start from '../components/Start.js';
-// import ProductData from '../data/ProductData.js';
 import Banner from "../components/Banner.js";
 import Banner1 from "../components/Banner1.js";
 import Navbar from "../components/navbar/Navbar";
@@ -24,11 +21,11 @@ function Home() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/homepage-product/`)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           setProductData(response.data.data);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -44,7 +41,7 @@ function Home() {
     arrows: false,
   };
 
-  // console.log(user);
+  // // console.log(user);
 
   return (
     <>
@@ -85,7 +82,7 @@ function Home() {
 
         {!isEmpty(productData) &&
           productData.map((element, index) => {
-            console.log(element);
+            // console.log(element);
             return (
               <>
                 <div

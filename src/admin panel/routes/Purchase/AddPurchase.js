@@ -96,7 +96,7 @@ function AddPurchase() {
           );
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -111,7 +111,7 @@ function AddPurchase() {
           { headers }
         )
         .then((response) => {
-          //  console.log(response.data.data);
+          //  // console.log(response.data.data);
           setCat_Data(
             response.data.data.map(({ cat_type, _id }) => ({
               label: cat_type,
@@ -120,7 +120,7 @@ function AddPurchase() {
           );
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -133,22 +133,22 @@ function AddPurchase() {
 
   const handleFormChangeprice = (event, index) => {
     let data = [...productDetails];
-    // console.log(index)
+    // // console.log(index)
     data[index][event.target.name] = parseFloat(event.target.value);
-    console.log(data)
+    // console.log(data)
     setProductDetails(data);
   };
 
   const handleFormChangeSize = (event, index1, index) => {
     let data = [...productDetails];
-    // console.log(event.target.name)
+    // // console.log(event.target.name)
     data[index].purch_qty[index1][event.target.name] = event.target.value.toUpperCase();
     setProductDetails(data);
   };
 
   const handleFormChangeSize1 = (event, index1, index) => {
     let data = [...productDetails];
-    // console.log(event.target.name)
+    // // console.log(event.target.name)
     data[index].purch_qty[index1][event.target.name] = parseInt(
       event.target.value
     );
@@ -228,10 +228,10 @@ function AddPurchase() {
   };
 
   const handleAddClick = () => {
-    // console.log(date)
-    // console.log(supId);
-    // console.log(date);
-    // console.log(productDetails)
+    // // console.log(date)
+    // // console.log(supId);
+    // // console.log(date);
+    // // console.log(productDetails)
 
     // Supplier Id
     if (supId === "") {
@@ -293,7 +293,7 @@ function AddPurchase() {
     
      for (let i = 0; i < item.length; i++) {
        if (item.indexOf(item[i]) !== i) {
-         console.log("Item repeated:", item[i]);
+         // console.log("Item repeated:", item[i]);
         flagg1 = false
         	toast.error("Product must be different!", {
             duration: 3000,
@@ -304,14 +304,14 @@ function AddPurchase() {
 
 
     if (!flagg && flagg1) {
-      // console.log("Hello")
+      // // console.log("Hello")
       const token = localStorage.getItem("token");
-      console.log(token);
+      // console.log(token);
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/jsonn",
       };
-      console.log(headers);
+      // console.log(headers);
       try {
         axios
           .post(
@@ -324,7 +324,7 @@ function AddPurchase() {
             { headers }
           )
           .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             if (response.data.message === "Success!") {
               setSupId("");
               flagg = false;
@@ -355,7 +355,7 @@ function AddPurchase() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
             setSuccess(false);
           });
       } catch (err) {}
@@ -376,12 +376,12 @@ function AddPurchase() {
     //       prod.prod_qty !== []
     //     ) {
     //       const token = localStorage.getItem("token");
-    //       console.log(token);
+    //       // console.log(token);
     //       const headers = {
     //         Authorization: `Bearer ${token}`,
     //         "Content-Type": "application/jsonn",
     //       };
-    //       console.log(headers);
+    //       // console.log(headers);
     //       try {
     //         axios
     //           .post(
@@ -394,11 +394,11 @@ function AddPurchase() {
     //             { headers }
     //           )
     //           .then((response) => {
-    //             //  console.log(response.data.data);
-    //             console.log(response);
+    //             //  // console.log(response.data.data);
+    //             // console.log(response);
     //           })
     //           .catch((error) => {
-    //             console.log(error);
+    //             // console.log(error);
     //           });
     //       } catch (err) {}
     //     }
@@ -406,9 +406,9 @@ function AddPurchase() {
     // }
 
     // const token = localStorage.getItem("token");
-    // console.log(token)
+    // // console.log(token)
     // const headers = { Authorization: `Bearer ${token}` , 'Content-Type': 'application/jsonn'};
-    // console.log(headers)
+    // // console.log(headers)
     //  try {
     //    axios
     //      .post(
@@ -421,11 +421,11 @@ function AddPurchase() {
     //        { headers }
     //      )
     //      .then((response) => {
-    //        //  console.log(response.data.data);
-    //        console.log(response);
+    //        //  // console.log(response.data.data);
+    //        // console.log(response);
     //      })
     //      .catch((error) => {
-    //        console.log(error);
+    //        // console.log(error);
     //      });
     //  } catch (err) {}
   };
@@ -494,7 +494,7 @@ function AddPurchase() {
                   value={date}
                   onChange={(value) => {
                     setDate(value);
-                    console.log(value);
+                    // console.log(value);
                   }}
                 />
               </ConfigProvider>
@@ -507,7 +507,7 @@ function AddPurchase() {
                 size="small"
                 type="number"
                 fullWidth={width}
-                onChange={(e) => console.log(e.target.value)}
+                onChange={(e) => // console.log(e.target.value)}
               />
             </div> */}
           </div>
@@ -532,7 +532,7 @@ function AddPurchase() {
                         handleCategoryType(value, index);
                         setSubCatId("");
                         setProductId("");
-                        console.log(value);
+                        // console.log(value);
                         const token = localStorage.getItem("token");
                         const headers = { Authorization: `Bearer ${token}` };
 
@@ -544,7 +544,7 @@ function AddPurchase() {
                               { headers }
                             )
                             .then((response) => {
-                              console.log(response.data.data.Category);
+                              // console.log(response.data.data.Category);
                               setSubCat_Data(
                                 response.data.data.Category.map(
                                   ({ cat_title, cat_id }) => ({
@@ -555,7 +555,7 @@ function AddPurchase() {
                               );
                             })
                             .catch((error) => {
-                              console.log(error);
+                              // console.log(error);
                             });
                         } catch (err) {}
                       }}
@@ -583,7 +583,7 @@ function AddPurchase() {
                       onChange={(value) => {
                         setProductId("");
                         handleCategory(value, index);
-                        console.log(value);
+                        // console.log(value);
 
                         const token = localStorage.getItem("token");
                         const headers = { Authorization: `Bearer ${token}` };
@@ -596,7 +596,7 @@ function AddPurchase() {
                               { headers }
                             )
                             .then((response) => {
-                              console.log(response.data.data);
+                              // console.log(response.data.data);
                               setProd_Data(
                                 response.data.data.Product.map(
                                   ({ prod_name, prod_id }) => ({
@@ -607,7 +607,7 @@ function AddPurchase() {
                               );
                             })
                             .catch((error) => {
-                              console.log(error);
+                              // console.log(error);
                             });
                         } catch (err) {}
                       }}

@@ -89,7 +89,7 @@ function UpdatePurchase() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/admin-purchase/${id}/`, { headers })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.message === "Success!") {
             setProductDetails(response.data.data.Purchase_details);
             setSupId(response.data.data.supp_id);
@@ -99,7 +99,7 @@ function UpdatePurchase() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -119,7 +119,7 @@ function UpdatePurchase() {
           );
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -131,7 +131,7 @@ function UpdatePurchase() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/admin-category-type/`, { headers })
         .then((response) => {
-          //  console.log(response.data.data);
+          //  // console.log(response.data.data);
           setCat_Data(
             response.data.data.map(({ cat_type, _id }) => ({
               label: cat_type,
@@ -140,7 +140,7 @@ function UpdatePurchase() {
           );
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {}
   }, []);
@@ -153,22 +153,22 @@ function UpdatePurchase() {
 
   const handleFormChangeprice = (event, index) => {
     let data = [...productDetails];
-    // console.log(index)
+    // // console.log(index)
     data[index][event.target.name] = parseFloat(event.target.value);
-    console.log(data);
+    // console.log(data);
     setProductDetails(data);
   };
 
   const handleFormChangeSize = (event, index1, index) => {
     let data = [...productDetails];
-    // console.log(event.target.name)
+    // // console.log(event.target.name)
     data[index].purch_qty[index1][event.target.name] = event.target.value.toUpperCase();
     setProductDetails(data);
   };
 
   const handleFormChangeSize1 = (event, index1, index) => {
     let data = [...productDetails];
-    // console.log(event.target.name)
+    // // console.log(event.target.name)
     data[index].purch_qty[index1][event.target.name] = parseInt(
       event.target.value
     );
@@ -247,10 +247,10 @@ function UpdatePurchase() {
   };
 
   const handleAddClick = () => {
-    // console.log(date)
-    // console.log(supId);
-    // console.log(date);
-    // console.log(productDetails)
+    // // console.log(date)
+    // // console.log(supId);
+    // // console.log(date);
+    // // console.log(productDetails)
 
     // Supplier Id
     if (supId === "") {
@@ -304,19 +304,19 @@ function UpdatePurchase() {
     });
 
     if (flagg === false) {
-      // console.log("Hello")
+      // // console.log("Hello")
       const token = localStorage.getItem("token");
-      console.log(token);
+      // console.log(token);
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/jsonn",
       };
-      // console.log(headers);
-      console.log({
-               supp_id: supId,
-               date: date,
-               "Purchase-details": productDetails,
-          })
+      // // console.log(headers);
+      // // console.log({
+      //          supp_id: supId,
+      //          date: date,
+      //          "Purchase-details": productDetails,
+      //     })
       try { 
         axios
           .patch(
@@ -329,7 +329,7 @@ function UpdatePurchase() {
             { headers }
           )
           .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             if (response.data.message === "Success!") {
               setSupId("");
               flagg = false;
@@ -361,7 +361,7 @@ function UpdatePurchase() {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
             setSuccess(false);
           });
       } catch (err) {}
@@ -379,12 +379,12 @@ function UpdatePurchase() {
     //       prod.prod_qty !== []
     //     ) {
     //       const token = localStorage.getItem("token");
-    //       console.log(token);
+    //       // console.log(token);
     //       const headers = {
     //         Authorization: `Bearer ${token}`,
     //         "Content-Type": "application/jsonn",
     //       };
-    //       console.log(headers);
+    //       // console.log(headers);
     //       try {
     //         axios
     //           .post(
@@ -397,11 +397,11 @@ function UpdatePurchase() {
     //             { headers }
     //           )
     //           .then((response) => {
-    //             //  console.log(response.data.data);
-    //             console.log(response);
+    //             //  // console.log(response.data.data);
+    //             // console.log(response);
     //           })
     //           .catch((error) => {
-    //             console.log(error);
+    //             // console.log(error);
     //           });
     //       } catch (err) {}
     //     }
@@ -409,9 +409,9 @@ function UpdatePurchase() {
     // }
 
     // const token = localStorage.getItem("token");
-    // console.log(token)
+    // // console.log(token)
     // const headers = { Authorization: `Bearer ${token}` , 'Content-Type': 'application/jsonn'};
-    // console.log(headers)
+    // // console.log(headers)
     //  try {
     //    axios
     //      .post(
@@ -424,11 +424,11 @@ function UpdatePurchase() {
     //        { headers }
     //      )
     //      .then((response) => {
-    //        //  console.log(response.data.data);
-    //        console.log(response);
+    //        //  // console.log(response.data.data);
+    //        // console.log(response);
     //      })
     //      .catch((error) => {
-    //        console.log(error);
+    //        // console.log(error);
     //      });
     //  } catch (err) {}
   };
@@ -505,7 +505,7 @@ function UpdatePurchase() {
                 size="small"
                 type="number"
                 fullWidth={width}
-                onChange={(e) => console.log(e.target.value)}
+                onChange={(e) => // console.log(e.target.value)}
               />
             </div> */}
               </div>
@@ -531,7 +531,7 @@ function UpdatePurchase() {
                             handleCategoryType(value, index);
                             setSubCatId("");
                             setProductId("");
-                            console.log(value);
+                            // console.log(value);
                             const token = localStorage.getItem("token");
                             const headers = {
                               Authorization: `Bearer ${token}`,
@@ -545,7 +545,7 @@ function UpdatePurchase() {
                                   { headers }
                                 )
                                 .then((response) => {
-                                  console.log(response.data.data.Category);
+                                  // console.log(response.data.data.Category);
                                   setSubCat_Data(
                                     response.data.data.Category.map(
                                       ({ cat_title, cat_id }) => ({
@@ -556,7 +556,7 @@ function UpdatePurchase() {
                                   );
                                 })
                                 .catch((error) => {
-                                  console.log(error);
+                                  // console.log(error);
                                 });
                             } catch (err) {}
                           }}
@@ -586,9 +586,9 @@ function UpdatePurchase() {
                           value={form.cat_title}
                           onChange={(value, label) => {
                             setProductId("");
-                            console.log(label);
+                            // console.log(label);
                             handleCategory(value, index);
-                            console.log(value);
+                            // console.log(value);
 
                             const token = localStorage.getItem("token");
                             const headers = {
@@ -603,7 +603,7 @@ function UpdatePurchase() {
                                   { headers }
                                 )
                                 .then((response) => {
-                                  console.log(response.data.data);
+                                  // console.log(response.data.data);
                                   setProd_Data(
                                     response.data.data.Product.map(
                                       ({ prod_name, prod_id }) => ({
@@ -614,7 +614,7 @@ function UpdatePurchase() {
                                   );
                                 })
                                 .catch((error) => {
-                                  console.log(error);
+                                  // console.log(error);
                                 });
                             } catch (err) {}
                           }}

@@ -27,7 +27,7 @@ function Login() {
 
   // useEffect(() => {
   //   localStorage.setItem("role", role);
-  //   console.log(role)
+  //   // console.log(role)
   // }, [role]);
 
   const token = localStorage.getItem("token");
