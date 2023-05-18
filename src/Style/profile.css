@@ -162,8 +162,10 @@
 }
 
 .button-31 {
+
+  margin: auto;
   margin-top: 40px;
-  margin-left: 250px;
+  /* margin-left: 20px; */
   width: 150px;
   background-color: #222;
   border-radius: 4px;
