@@ -13,6 +13,7 @@ import { Result, ConfigProvider } from "antd";
 function ChangePassword() {
   let { key } = useParams();
   let history = useHistory();
+  console.log(key)
 
   const [pass, setPass] = useState("");
   const [passError, setPassError] = useState("");
@@ -33,7 +34,7 @@ function ChangePassword() {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/reset-password/`, { headers })
         .then((response) => {
-          // console.log(response);
+          console.log(response);
           if (response.data.message === "Token corrupted.") {
             setIsValid(false);
             setMessage("Something wrong with url!")
